@@ -1,0 +1,12 @@
+.wp-tabs,
+.wp-accordion,
+.wp-spoiler {
+	font-size: 14px;
+}
+
+.ui-accordion-header {
+	margin-bottom: 0px !important;
+	font-size: 12px;
+	padding: 5px !important;
+	padding-left: 30px !important;
+}

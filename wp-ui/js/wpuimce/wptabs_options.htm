@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Choose your WPTabs options</title>
+	<script type="text/javascript" src="../../../../../wp-includes/js/tinymce/tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="wptabs.js"></script>
+	<link type="text/css" rel="stylesheet" href="wptabs_options.css">
+	<style type="text/css">
+	body { height: 380px; overflow: hidden;}
+	</style>
+</head>
+<body>
+<h3>WP-Present - Tabs options</h3>
+<form onsubmit="wptabsDialog.insert(); return false;" action="#">
+	<table class="form-table">
+		<tbody>
+	<tr valign="top">
+		<th scope="row">
+		<label for="tabType">Choose type</label>
+		</th>
+		<td>
+			<select id="tabType" name="tabType">
+			<option value="">Tabs</option>
+			<option value="accordion">Accordion</option>
+			</select>				
+		</td>
+	</tr>
+	<tr valign="top">
+		<th scope="row">
+		<label for="colorScheme">Choose the color scheme</label>
+		</th>
+		<td>
+			<select id="colorScheme" name="colorScheme">
+			<option value="gray">Gray</option>	
+			<option value="red">Red</option>
+			<option value="green">Green</option>
+			<option value="blue">Blue</option>
+			</select>			
+		</td>
+	</tr>
+	<tr valign="top" class="lasttr">
+			<th scope="row">
+			<label for="effectType">Choose the tab switch effect<br /> and speed</label>
+			</th>
+			<td>
+				<select id="effectType" name="effectType">
+				<option value="fade">fadeIn</option>	
+				<option value="slide">slideIn</option>
+				</select>&nbsp; &nbsp;
+				<input type="text" id="effectSpeed" name="effectSpeed" />				
+			</td>
+		</tr>
+		
+		</tbody>
+	</table>
+	<hr style="background: #DDD; height:1px">
+	<h3 class="toggler">Advanced Options</h3>
+	<table id="adv" class="form-table">
+	<tr valign="top">
+			<th scope="row">
+			<label for="rotateDuration">Auto rotate tabs? if yes, duration?</label>
+			</th>
+			<td>
+				<input type="checkbox" id="rotateTabs" name="rotateTabs" />Auto rotate the tabs?&nbsp;&nbsp;
+				<input size="10" type="text" name="rotateDuration" id="rotateDuration" />
+				<br>
+				<small>Enter the interval between tabs. For e.g. <strong>6000</strong> or <strong>6s</strong> for 6 seconds. <u>Leave blank to disable</u></small>		
+			</td>
+		</tr>
+		
+		</tbody>
+	</table>	
+
+	
+	<div class="mceActionPanel">
+		<input type="button" id="insert" name="insert" value="{#insert}" onclick="wptabsDialog.insert();" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+	</div>
+</form>
+
+	
+</body>
+</html>

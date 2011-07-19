@@ -1,0 +1,39 @@
+
+.wpui-quark ul.ui-tabs-nav li,
+.wpui-quark h3.ui-accordion-header {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DBC6A4', endColorstr='#C7A777');
+	border-radius: 0;
+}
+
+
+.wpui-quark .ui-tabs-panel .tab-top-nav a,
+.wpui-quark .ui-tabs-panel .tab-bottom-nav a {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8F675B', endColorstr='#6E4A40');
+	border-radius: 0;
+	color: #EBD4B0;
+	border: 1px solid #4A2F35;
+}
+
+.wpui-quark ul.ui-tabs-nav {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#222222');
+	
+}
+.wpui-quark ul.ui-tabs-nav li a {
+	color: #000;
+}
+
+.wpui-quark ul.ui-tabs-nav li.ui-state-active,
+.wpui-quark h3.ui-accordion-header.ui-state-active,
+.wpui-quark .ui-tabs-panel .tab-top-nav a:hover,
+.wpui-quark .ui-tabs-panel .tab-bottom-nav a:hover {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8F675B', endColorstr='#6E4A40');
+	border-radius: 0;
+}
+
+.wpui-quark h3.ui-accordion-header.ui-state-active {
+	color: #EBD4B0 !important;
+	
+}
+.wpui-quark .ui-tabs-panel {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6E4A40', endColorstr='#4A2F35');
+}
