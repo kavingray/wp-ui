@@ -4,7 +4,7 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in
 Description: Improvise the articles with the power of jQuery and stability of WordPress. 
 Author:	Kavin Amuthan
-Version: 0.1
+Version: 0.5
 Author URI: http://kav.in
 */
 
