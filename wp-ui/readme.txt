@@ -2,7 +2,7 @@
 Contributors: kavingray
 Donate link: http://kav.in/
 Plugin URI: http://kav.in
-Tags: tabs, accordion, sliders, spoilers, posts, jquery, ui, capability
+Tags: posts, tabs, accordion, sliders, spoilers, posts, jquery, ui, capability
 Requires at least: 2.9
 Tested up to: 3.2.1
 Stable tag: 0.5
