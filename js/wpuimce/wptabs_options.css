@@ -1,0 +1,96 @@
+body {
+	background: #C9D0DE;
+	background-image: -moz-linear-gradient(top, #c9D0DE, #7AA6D2);
+	font: 12px 'Arial', verdana, sans-serif;
+	height: 475px;
+}
+
+table.form-table {
+	background: rgba(255, 255, 255, 0.2);
+	width: 100%;
+	border-radius: 4px;
+}
+
+table.form-table tbody tr {
+	border-bottom: 1px solid red;
+	border-collapse: no-collapse;
+	width:95%;
+	margin:10px;
+	
+}
+table.form-table th {
+	height: 40px;
+	text-align:left !important;
+	color: #002F4A;
+	text-shadow: 0 1px 0 #D5EFFF;
+	width: 40%;
+}
+
+table.form-table tbody tr td input {
+	background: #A8D3FF;
+	border-radius: 2px;
+	border: 1px solid #7A8FA4;
+	padding: 2px;
+	color: #002f4a;
+	text-shadow: 0 1px 0 #FFF;
+}
+
+td, th {
+	padding:10px;
+	border-collapse: collapse;
+	border: 0px;
+	border-bottom: 1px solid #C9DDDD;
+}
+
+tr.lasttr th,
+tr.lasttr td {
+	border:0px;
+}
+
+.mceActionPanel {
+	padding:10px;
+	text-align:center;
+	
+}
+
+h3 {
+	color: #00354A;
+	text-shadow: 0 1px 0 #D5EAFF;
+	text-align:center;	
+}
+
+code {
+	font-family: 'consolas', 'monaco', 'Monospace', 'Courier New', courier, serif;
+}
+.mceActionPanel input {
+	padding:4px 15px;
+	margin: 5px 20px;
+	font-size: 1.2em;
+	font-weight: bold;
+	border: 1px solid #004B77;
+	color: #002A4A;
+	border-radius: 6px;
+	text-shadow: 0 1px 0 #A8DDFF;
+	box-shadow: 0 2px 5px #666;
+	background-color: #7194BA;
+	background: -moz-linear-gradient(top, #81AAD3, #5c799B);
+	background: -webkit-gradient( linear, left top, left bottom, from(#81AAD3), to(#5c799B));
+	background: -webkit-linear-gradient(top, #81AAD3, #5c799B);
+	background: -linear-linear-gradient(top, #81AAD3, #5c799B);
+	font: bold 14px 'Myriad Pro', 'Segoe UI', 'Lucida Grande', 'Arial', verdana, sans-serif;
+	
+}
+
+.mceActionPanel input:hover {
+	background: -moz-linear-gradient(top, #2F5595, #00354A);
+	background: -moz-linear-gradient(top, #81AAD3, #5c799B);
+	background: -webkit-gradient( linear, left top, left bottom, from(#2F5595), to(#00354A));
+	background: -webkit-linear-gradient(top, #2F5595, #00354A);
+	background: -linear-linear-gradient(top, #2F5595, #00354A);
+	color: #A8DDFF;
+	text-shadow: 0 1px 0 #002A4A;
+}
+
+.mceActionPanel input:active {
+	box-shadow: inset 0 1px 6px #002A4A;
+}
