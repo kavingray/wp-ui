@@ -2,10 +2,10 @@
 Contributors: kavingray
 Donate link: http://kav.in/
 Plugin URI: http://kav.in
-Tags: posts, tabs, accordion, sliders, spoilers, posts, jquery, ui, capability
+Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, capability
 Requires at least: 2.9
 Tested up to: 3.2.1
-Stable tag: 0.5
+Stable tag: 0.5.1
 
 Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique *CSS3* styles. 
 
@@ -13,7 +13,7 @@ Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique *CS
 
 WP UI is an advanced interface widgets plugin that channels the power of jQuery UI widgets into Wordpress posts. 
 
-The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets opens your content for greater user interactivity. And Do remember, Great content deserves great presentation too!
+The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And please do remember, Great content deserves great presentation too!
 
 == Installation ==
 
@@ -57,7 +57,7 @@ Shortcodes should be entered into the wordpress post editor's HTML mode. WP Visu
 
 = Why can't i see the text in my tabs? =
 
-Style inconsistencies. Probably because the background color of the CSS3 style and your wordpress theme's text color are near same. Please try switching to some other tab style or jQuery UI theme.
+Styling inconsistencies. Probably because the background color of the CSS3 style and your wordpress theme's text color are near same. Please try switching to some other tab style or jQuery UI theme.
 
 = Why does the widgets behave strangely sometimes? =
 
@@ -69,7 +69,7 @@ Okay, drop me a note with the code you used. I'll be glad to help.
 
 = Why can't i select the other option tabs after using "Visualize and select" in the options panel? =
 
-This is because another copy of jQuery UI was loaded in the stylechooser. Please save changes and try again. It should work now. So does, after page refresh.
+This is because another copy of jQuery UI was loaded for the stylechooser. Please save changes and try again. It should work now. So will it, after page reload.
 
 = Where can i get help about this plugin? =
 
@@ -101,7 +101,8 @@ You can start off by recommending this plugin! You could start with the social n
 
 = 0.5.1 =
 * Fixed "Unable to attach Media - Images to the post with the plugin activated" problem. 
-* License copy added and some cleanup.
+* Fixed the options page contextual help and other documentation.
+* License copy added.
 
 = 0.5 =
 * The First public release.
@@ -117,7 +118,7 @@ You can start off by recommending this plugin! You could start with the social n
 == Upgrade Notice ==
 
 = 0.5.1 =
-**Fixed** the problem, which unable to attach images to the post with plugin enabled. Important.
+**Fixed** the problem, where unable to attach images to a post with the plugin enabled. Important fix.
 
 = 0.5 =
 This is the first stable version to be released.

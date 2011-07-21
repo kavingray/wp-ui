@@ -281,10 +281,10 @@ $options_list = array(
 	'jquery_include'	=>	array(
 		'id'		=>	'jquery_disabled',
 		'title'		=>	__('Donot load the jQuery copy', WPPTD),
-		'desc'		=>	__('Check this box to prevent loading jQuery & UI libs from Google CDN. <br /> <br /><span style="color: maroon">Please note: WP UI makes heavy use of the jQuery and jQuery UI javascript library. If jQuery( & UI) is not loaded, or the jQuery(& UI) version is lesser than 1.5.1/1.8, widgets might stop working altogether.</span>', WPPTD),
+		'desc'		=>	__('Check this box to prevent loading jQuery & UI libs from Google CDN. <br /> <br /><span style="color: maroon">Please note: Recent versions of jQuery and jQuery UI javascript libraries are required for the functionality of WP UI. This Plugin\'s components might work as expected with the older versions of jQuery and UI. </span>', WPPTD),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
-	),	
+	)
 
 );
 

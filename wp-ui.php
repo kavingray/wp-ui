@@ -80,7 +80,7 @@ class wpUI {
 		add_shortcode( 'tabs', array(&$this, 'sc_wptabs'));
 		add_shortcode( 'tabname', array(&$this, 'sc_wptabtitle'));
 		add_shortcode( 'tabcont', array(&$this, 'sc_wptabcontent'));
-		add_shortcode( 'slider', array(&$this, 'sc_wpspoiler'));
+		add_shortcode( 'wslider', array(&$this, 'sc_wpspoiler'));
 
 	
 		/**
