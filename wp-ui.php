@@ -2,20 +2,38 @@
 /*
 Plugin Name: WP UI - Tabs, accordions and more. 
 Plugin URI: http://kav.in
-Description: Improvise the articles with the power of jQuery and stability of WordPress. 
-Author:	Kavin Amuthan
-Version: 0.5
+Description: Improvise the articles with the power of jQuery UI and stability of WordPress. 
+Author:	Kavin
+Version: 0.5.1
 Author URI: http://kav.in
+
+Copyright 2011 Kavin ( email: pixelcreator@gmail.com )
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 
 
 if ( function_exists( 'shortcode_unautop' ) ) {
-add_filter( 'the_editor_content', 'shortcode_unautop' );
-add_filter( 'the_content', 'shortcode_unautop' );
+	add_filter( 'the_editor_content', 'shortcode_unautop' );
+	add_filter( 'the_content', 'shortcode_unautop' );
 }
+
 add_filter( 'widget_text', 'do_shortcode');
 
+// Textdomain constant 
 define( 'WPPTD' , 'wp-ui');
 
 
@@ -216,33 +234,36 @@ class wpUI {
 		// Use the bundled jQuery.
 		wp_enqueue_script( 'jquery' );
 
-		// If you are using a old version of WordPress or the options page buttons/tabs doesnot work,
-		// Uncomment the below lines and use JQuery from the Google CDN.
-		if ( ( isset($_GET['page']) && $_GET['page'] == 'wpUI-options' )
-			|| version_compare( $wp_version, '3.0', '<')) {
-				
-			wp_deregister_script( 'jquery' );
-	 		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js');
 
-			wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js');
-		}
-		
-		wp_enqueue_script( 'admin_wp_ui' , $plugin_url . 'js/admin.js');
-		wp_localize_script('admin_wp_ui' , 'initOpts', array(
-			'wpUrl'				=>	get_bloginfo('url'),
-			'pluginUrl' 		=>	plugins_url('/wp-ui/'),
-			'queryVars1'	=>	add_query_arg( array(
-				 	'action' => 'WPUIstyles',
-				 	'height' => '200',
-				 	'width' => '300'
-				 ), 'admin-ajax.php' )		
-		));
-		
+		if ( ( isset($_GET['page']) && $_GET['page'] == 'wpUI-options' )) {
+				
+			// Load newer jQuery for older versions. Will be removed in WP UI 1.0. 
+			if ( version_compare( $wp_version, '3.0', '<' ) ) {	
+				wp_deregister_script( 'jquery' );
+			 		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js');
+					wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js');
+			}
+			
+
+			wp_enqueue_script( 'admin_wp_ui' , $plugin_url . 'js/admin.js');
+			wp_localize_script('admin_wp_ui' , 'initOpts', array(
+				'wpUrl'				=>	get_bloginfo('url'),
+				'pluginUrl' 		=>	plugins_url('/wp-ui/'),
+				'queryVars1'	=>	add_query_arg( array(
+					 	'action' => 'WPUIstyles',
+					 	'height' => '200',
+					 	'width' => '300'
+					 ), 'admin-ajax.php' )		
+			));
+
+	} // end the $_GET page conditional.
+
+		// Load the thickbox scripts, styles and media-upload.
 		wp_enqueue_script('thickbox');
 		wp_enqueue_style('thickbox');
 		wp_print_scripts('media-upload');
 
-		// Editor buttons.
+		// Editor buttons and JS vars.
 		wp_enqueue_script('editor');
 		wp_localize_script( 'editor', 'pluginVars', array(
 			'wpUrl'		=>	get_bloginfo('url'),
@@ -296,13 +317,7 @@ class wpUI {
 			"spoiler_hide_text"			=>	"Click to hide",
 			"custom_css"				=>	"",
 		);
-		
-		// foreach( $defaults as $key=>$value ) {
 			update_option( 'wpUI_options', $defaults);
-			
-		// } // END foreach
-		
-		
 		} // End if ( !this->options )
 	}
 	

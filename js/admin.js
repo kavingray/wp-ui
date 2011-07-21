@@ -10,23 +10,21 @@ jQuery(document).ready(function() {
 		});
 
 
-		jQuery('#tab_scheme_trigger').click(function() {
 
+		jQuery('#tab_scheme_trigger').click(function() {
 			chooseTabStyles = initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles&TB_iframe=true';
 			tb_show('Choose a WP UI style!', chooseTabStyles);
 			return false;
 		});
-
-
+		
 		window.send_to_editor = function(skin_name) {
-
 			jQuery('#tab_scheme option').each(function() {
 				if ( jQuery(this).attr("value") == skin_name )
 					jQuery(this).attr( 'selected', 'selected' );
 			});
 			tb_remove();
-			
 		}
+
 
 		var context = new Array;
 
@@ -50,24 +48,6 @@ jQuery(document).ready(function() {
 		}
 
 		}	
-
-
-		// 
-		// 
-		// jQuery('a#contextual-help-link').hover(function() {
-		// 	if ( jQuery('#contextual-help-wrap').css('display') == 'none' ) {
-		// 	jQuery('div.click-for-help').stop(true, true).animate({
-		// 		height: 'toggle'
-		// 	}, 200);
-		// 	}
-		// }, function() {
-		// 
-		// 	jQuery('div.click-for-help').stop(true, true).animate({
-		// 		height: 'toggle'
-		// 	}, 200);
-		// 
-		// });
-
 
 
 });

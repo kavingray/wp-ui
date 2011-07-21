@@ -338,13 +338,13 @@ function plugin_info_above() {
 	
 	<div class="wpui-desc">
 		<p>
-			WP UI for WordPress is a plugin that lets you add smart, beautiful responsive Interface widgets, such as tabs, Accordions, Collapsibles, Sliders to spice up your blog posts.  This plugin is built on top of the jQuery UI and bundled with rich documentation and extended browser support.
+			WP UI for WordPress is a plugin that lets you add smart, beautiful responsive User interface widgets, such as tabs, Accordions, Collapsibles, Sliders to spice up your blog posts.  This plugin is built on top of the jQuery UI and bundled with rich documentation and extended browser support.
 		</p>	
 		<p>
-			Not sure of something? Refer the contextual help with the "Help" button on the top right corner of this page. Plugin documentation can be accessed with the "Help &amp; Documentation" link located below the options, or at the <a href="http://kav.in/plugins/wpui/">plugin site</a>.
+			Not sure of something? Refer the contextual help with the "Help" button on the top right corner of this page. Plugin documentation can be accessed at the <a href="http://kav.in/projects/blog/tag/wp-ui/">projects site</a>.
 		</p>
 		<p>
-			Bugs? Suggestions? Ideas? <a href="http://kav.in/contact">Let me know!</a>.
+			Bugs? Suggestions? Ideas? <a href="http://kav.in/wp-ui-for-wordpress">Let me know!</a>  Want to support this plugin? Thanks! You can do so with <a href="http://www.facebook.com/pages/Capability/136970409692187" target="_blank">likes on Facebook</a> or <a href="http://twitter.com/cpblty" target="_blank">follows on Twitter</a>. 
 		</p>
 	</div><!-- end div.wpui-desc -->	
 </div><!-- end div.info-above -->

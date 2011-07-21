@@ -13,7 +13,7 @@ Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique *CS
 
 WP UI is an advanced interface widgets plugin that channels the power of jQuery UI widgets into Wordpress posts. 
 
-The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can maximize the potential for greater user interactivity. Please remember, Great content deserves great presentation too!
+The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets opens your content for greater user interactivity. And Do remember, Great content deserves great presentation too!
 
 == Installation ==
 
@@ -63,7 +63,7 @@ Style inconsistencies. Probably because the background color of the CSS3 style a
 
 This can be related to lot of white space between the shortcodes, which are converted by wordpress into empty space enclosed within `<p>` tags. Remove the unwanted space between the shortcodes.
 
-= I have tried everything, but why these still doesnot work? =
+= I have tried everything, but why these still doesn't work? =
 
 Okay, drop me a note with the code you used. I'll be glad to help.
 
@@ -74,10 +74,11 @@ This is because another copy of jQuery UI was loaded in the stylechooser. Please
 = Where can i get help about this plugin? =
 
 Documentation is available right within the wordpress admin. It is present in the 
-* Post editor - look for the menu button in Visual mode and "?" icon in the HTML mode. This covers the common usage of the plugin shortcodes and their arguments.
-* Contextual Help - you can access this on the options page, if you are unsure about one of the options. Click the tab and click the help button on the topright corner of the page, below your username.
 
-Documentation & Demos can be found at [my projects site](http://kav.in/projects/).
+* Post editor - look for the menu button in Visual mode and "?" icon in the HTML mode. This opens a document with common usage of the plugin shortcodes and their arguments.
+* Contextual Help - Available on the options page on the top right corner, below the username. Click each tab and information related to that tab will appear.
+
+Detailed Documentation & Demos can be found at [my projects site](http://kav.in/projects/).
 
 You can contact me if you need any help or use the wordpress support forums.
 
@@ -85,13 +86,9 @@ You can contact me if you need any help or use the wordpress support forums.
 
 I would love to hear about it. Please contact me [here](http://kav.in/contact)
 
-= I need exclusive skins for my site dedicated to open source! =
-
-Long live the Open Source! Contact me [here](http://kav.in/contact) straight away.
-
 = How can i support this plugin? =
 
-You can start off by recommending this plugin! Feel free to distribute the plugin or atleast an word about it. You could start with the social networks [here](http://kav.in/donation), maybe. 
+You can start off by recommending this plugin! You could start with the social networks [here](http://kav.in/donation), maybe.
 
 == Screenshots ==
 
@@ -101,6 +98,10 @@ You can start off by recommending this plugin! Feel free to distribute the plugi
 4. Style chooser available from within the post editor.
 
 == Changelog ==
+
+= 0.5.1 =
+* Fixed "Unable to attach Media - Images to the post with the plugin activated" problem. 
+* License copy added and some cleanup.
 
 = 0.5 =
 * The First public release.
@@ -115,6 +116,9 @@ You can start off by recommending this plugin! Feel free to distribute the plugi
 
 == Upgrade Notice ==
 
+= 0.5.1 =
+**Fixed** the problem, which unable to attach images to the post with plugin enabled. Important.
+
 = 0.5 =
 This is the first stable version to be released.
 
@@ -122,3 +126,5 @@ This is the first stable version to be released.
 == Demos ==
 
 It is recommended that you check out the [complete demo](http://kav.in/projects/blog/wp-ui-tabs-accordion-sliders-demo/) here. Please do check out the CSS3 styles, along with [style switcher here](http://kav.in/projects/blog/wp-ui-css3-styles-demo/).
+
+Please rate the plugin if you find it useful.
