@@ -11,7 +11,7 @@ Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS
 
 == Description ==
 
-WP UI is an advanced interface widgets plugin that channels the power of jQuery UI widgets into Wordpress posts. 
+WP UI is an advanced interface widgets plugin that combines the power of jQuery UI widgets into Wordpress posts. 
 
 The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And please do remember, Great content deserves great presentation too!
 
