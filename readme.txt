@@ -7,7 +7,7 @@ Requires at least: 2.9
 Tested up to: 3.2.1
 Stable tag: 0.5.2
 
-Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles.
+Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh & Unique CSS3 styles.
 
 == Description ==
 
