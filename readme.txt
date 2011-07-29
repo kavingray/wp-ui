@@ -1,13 +1,13 @@
 === WP UI - Tabs, Accordions, Sliders ===
 Contributors: kavingray
 Donate link: http://kav.in/
-Plugin URI: http://kav.in
+Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, capability
 Requires at least: 2.9
 Tested up to: 3.2.1
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 
-Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique *CSS3* styles. 
+Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles.
 
 == Description ==
 
@@ -99,6 +99,11 @@ You can start off by recommending this plugin! You could start with the social n
 
 == Changelog ==
 
+= 0.5.2 =
+* Accordion easing effects added.
+* Many other options were added to the options page.
+* Tab name special characters fix.
+
 = 0.5.1 =
 * Fixed "Unable to attach Media - Images to the post with the plugin activated" problem. 
 * Fixed the options page contextual help and other documentation.
@@ -117,6 +122,9 @@ You can start off by recommending this plugin! You could start with the social n
 
 == Upgrade Notice ==
 
+= 0.5.2 =
+A lot of Accordion effects/options added. You can now use special characters in Tab titles. Please update and re save the options.
+
 = 0.5.1 =
 **Fixed** the problem, where unable to attach images to a post with the plugin enabled. Important fix.
 
@@ -128,4 +136,4 @@ This is the first stable version to be released.
 
 It is recommended that you check out the [complete demo](http://kav.in/projects/blog/wp-ui-tabs-accordion-sliders-demo/) here. Please do check out the CSS3 styles, along with [style switcher here](http://kav.in/projects/blog/wp-ui-css3-styles-demo/).
 
-Please rate the plugin if you find it useful.
+Please **rate** the plugin if you find it useful.

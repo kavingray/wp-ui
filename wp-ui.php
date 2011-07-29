@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: WP UI - Tabs, accordions and more. 
-Plugin URI: http://kav.in
-Description: Improvise the articles with the power of jQuery UI and stability of WordPress. 
+Plugin URI: http://kav.in/wp-ui-for-wordpress
+Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles.
 Author:	Kavin
-Version: 0.5.1
+Version: 0.5.2
 Author URI: http://kav.in
 
 Copyright 2011 Kavin ( email: pixelcreator@gmail.com )
@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 
-
 if ( function_exists( 'shortcode_unautop' ) ) {
 	add_filter( 'the_editor_content', 'shortcode_unautop' );
 	add_filter( 'the_content', 'shortcode_unautop' );
@@ -36,6 +35,10 @@ add_filter( 'widget_text', 'do_shortcode');
 // Textdomain constant 
 define( 'WPPTD' , 'wp-ui');
 
+// $opts = get_option( 'wpUI_options');
+// echo '<pre>';
+// print_r($opts);
+// echo '</pre>';
 
 $wp_ui = new wpUI;
 
@@ -131,11 +134,15 @@ class wpUI {
 			'accordEffect'    =>	isset($this->options['tabsfx']) ? $this->options['tabsfx'] : '',
 			'alwaysRotate'    =>	isset($this->options['tabs_rotate']) ? $this->options['tabs_rotate'] : '',
 			'topNav'          =>	isset($this->options['topnav']) ? $this->options['topnav'] : '',
+			'accordAutoHeight'=>	isset($this->options['accord_autoheight']) ? $this->options['accord_autoheight'] : '',
+			'accordCollapsible'=>	isset($this->options['accord_collapsible']) ? $this->options['accord_collapsible'] : '',
+			'accordEasing'		=>	isset( $this->options['accord_easing'] ) ? $this->options['accord_easing'] : '',
 			'bottomNav'       =>	isset($this->options['bottomnav']) ? $this->options['bottomnav'] : '',
 			'tabPrevText'     =>	isset($this->options['tab_nav_prev_text']) ? $this->options['tab_nav_prev_text'] : '',
 			'tabNextText'     =>	isset($this->options['tab_nav_next_text']) ? $this->options['tab_nav_next_text'] : '',
 			'spoilerShowText' =>	isset($this->options['spoiler_show_text']) ? $this->options['spoiler_show_text'] : '',
 			'spoilerHideText' =>	isset($this->options['spoiler_hide_text']) ? $this->options['spoiler_hide_text'] : '',
+			"cookies"			=>	isset( $this->options['use_cookies'] ) ? $this->options['use_cookies'] : ''
 		));
 
 
@@ -233,6 +240,7 @@ class wpUI {
 		
 		// Use the bundled jQuery.
 		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery-ui-tabs' );
 
 
 		if ( ( isset($_GET['page']) && $_GET['page'] == 'wpUI-options' )) {
@@ -240,6 +248,7 @@ class wpUI {
 			// Load newer jQuery for older versions. Will be removed in WP UI 1.0. 
 			if ( version_compare( $wp_version, '3.0', '<' ) ) {	
 				wp_deregister_script( 'jquery' );
+				wp_deregister_script( 'jquery-ui-tabs' );
 			 		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js');
 					wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js');
 			}
@@ -296,30 +305,19 @@ class wpUI {
 	 * 	Set the defaults on plugin activation.
 	 */
 	function set_defaults() {
+		// First install.
 		if ( ! $this->options ) {
-		$defaults = array(
-		    "enable_tabs" 				=>	"on",
-		    "enable_accordion"			=>	"on",
-		    "enable_tinymce_menu"		=>	"on",
-		    "enable_quicktags_buttons"	=>	"on",
-			"topnav"					=>	"",
-		    "bottomnav"					=>	"on",
-			"enable_spoilers"			=>	"on",
-			"load_all_styles"			=>	"on",
-			"enable_ie_grad"			=>	"on",
-		    "tab_scheme" 				=>	"wpui-light",
-		    "tabsfx"					=>	"slide",
-			"fx_speed"					=>	"400",
-			"tabs_rotate"				=>	"stop",
-			"tab_nav_prev_text"			=>	'&laquo; Prev',
-			"tab_nav_next_text"			=>	"Next &raquo;",
-			"spoiler_show_text"			=>	"Click to show",
-			"spoiler_hide_text"			=>	"Click to hide",
-			"custom_css"				=>	"",
-		);
-			update_option( 'wpUI_options', $defaults);
+			$defaults = get_wpui_default_options();
+			update_option( 'wpUI_options', $defaults );
+		} else {
+			// Append the new options.
+			$oldopts = get_option( 'wpUI_options' );
+			$newdefs = get_wpui_default_options();
+			$updateopts = array_merge( $newdefs , $oldopts );
+			update_option( 'wpUI_options', $updateopts );
 		} // End if ( !this->options )
 	}
+	
 	
 
 	// =======================
@@ -364,7 +362,7 @@ class wpUI {
 			'load'	=>	''
 		), $atts));
 		
-		// Check if the content is to be loaded thro AJAX.
+		// Check if the tab's content is to be loaded thro AJAX.
 		if ( $load != '' ) {
 			$output  = '<' . $header . ' class="wp-tab-title">';
 			$output .= '<a class="wp-tab-load" href="' . $load . '">';
@@ -372,7 +370,10 @@ class wpUI {
 			$output .= '</a>';
 			$output .= '</' . $header . '>';
 		} else {
-			$output = '<' . $header . ' class="wp-tab-title">' . do_shortcode($content) . '</' . $header . '>';
+			
+			
+			
+			$output = '<' . $header . ' class="wp-tab-title">' . do_shortcode( __( $content ) ) . '</' . $header . '>';
 		}
 		
 		return $output;
@@ -403,8 +404,8 @@ class wpUI {
 				'fade'		=>	'true',
 				'slide'		=>	'true',
 				'speed'		=>	false,
-				'showText'	=>	'Click to shine!',
-				'hideText'	=>	'Clickety click close!'
+				'showText'	=>	'Click to show',
+				'hideText'	=>	'Click to hide'
 				
 			), $atts));
 			
