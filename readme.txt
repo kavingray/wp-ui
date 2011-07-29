@@ -23,21 +23,21 @@ The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widg
 
 == Frequently Asked Questions ==
 
-= Up-to-date FAQ =
+= Where can i find recent & up-to-date FAQ? =
 
 Can be found [here](http://kav.in/projects/plugins/blog/wp-ui-faq).
 
-= Where can i check out the custom CSS3 styles? =
+= Where can i demo the custom CSS3 styles? =
 
 Demo with the *style switcher* can be found [here](http://kav.in/projects/plugins/wp-ui).
 
 = What if i have Javascript disabled? =
 
-All the code will degrade gracefully when javascript is disabled. Try disabling the Javascript in your browser to take look.
+All the code will **degrade gracefully** when javascript is disabled. Try disabling the Javascript in your browser to take look.
 
 = Can i use all the available jQuery UI themes? =
 
-Yes. Just enter the name of jQuery UI theme as value to the wptabs style argument. 
+Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. 
 
 = Why aren't my tabs working? / Why are some of my shortcodes not getting parsed? =
 
@@ -88,7 +88,10 @@ I would love to hear about it. Please contact me [here](http://kav.in/contact)
 
 = How can i support this plugin? =
 
-You can start off by recommending this plugin! You could start with the social networks [here](http://kav.in/donation), maybe.
+* Give this plugin a nice rating - Stars on the right!
+* Tell others that it works with the compatibility box on the right >>
+* Better, if you [link](http://kav.in/wp-ui-for-wordpress) to the plugin site or share.
+* Maybe, you can like us on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) or follow us on [twitter](http://twitter.com/cpblty), so we can make even more awesome plugins with greater support!
 
 == Screenshots ==
 

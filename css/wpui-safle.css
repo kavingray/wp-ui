@@ -1,0 +1,164 @@
+/*
+ *	Light weight UI CSS3 additions.
+ */
+.ui-tabs {
+	border: 0px !important;
+}
+
+.ui-tabs {
+	background: #080808;
+	box-shadow: 0 3px 6px #CDCDCD;
+	-moz-box-shadow: 0 3px 6px #CDCDCD;
+	-webkit-box-shadow: 0 3px 6px #CDCDCD;
+	-o-box-shadow: 0 3px 6px #CDCDCD;
+	border-radius          : 8px 8px 0 0;
+	-moz-border-radius     : 8px 8px 0 0;
+	-webkit-border-radius  : 8px 8px 0 0;
+	-o-border-radius       : 8px 8px 0 0;
+	
+}
+
+.ui-tabs .ui-tabs-panel .wp-tab-content > .wp-tabs .ui-tabs {
+	box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	-o-box-shadow: none !important;
+}
+
+.ui-tabs-panel {
+	background: #F7F7F7;
+	color: #444;
+	border-bottom: 0px;
+	font-family: 'Arial', sans-serif;
+}
+
+ul.ui-tabs-nav {
+	background: #030B1F;
+	border-radius          :  8px 8px 0 0;
+	-moz-border-radius     :  8px 8px 0 0;
+	-webkit-border-radius  :  8px 8px 0 0;
+	-o-border-radius       :  8px 8px 0 0;
+	border-bottom: 0px;
+	margin: 0 auto;
+	text-align:center;
+	padding: 0 !important;
+	padding-top: 15px !important;
+	padding-bottom: 15px !important;
+}
+
+ul.ui-tabs-nav li {
+	background: none;
+	border: none;
+	height: 14px;
+	margin-right: 3px;
+}
+
+ul.ui-tabs-nav li a {
+	color: #737880;
+	text-shadow: none !important;
+	
+}
+
+ul.ui-tabs-nav li.ui-state-active {
+	background: none;
+	border: none !important;
+	background: -moz-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -webkit-gradient(top, from(#31364C), to(#304760), color-stop(0.48, #31364C), color-stop(0.49, #272B3E));
+	background: -webkit-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -o-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	border-radius          :  5px !important;
+	-moz-border-radius     :  5px !important;
+	-webkit-border-radius  :  5px !important;
+	-o-border-radius       :  5px !important;
+	border: 1px solid #2E9AE8 !important;
+
+}
+
+ul.ui-tabs-nav li.ui-state-active a {
+	text-shadow: none !important;
+	color: #E5E2E5;
+}
+
+.ui-tabs-panel .tab-top-nav a,
+.ui-tabs-panel .tab-bottom-nav a {
+	background: #030B1F;
+	text-shadow: 0 -1px 0 #000;
+	color: #737880;
+	padding: 4px 7px;
+	
+}
+.ui-tabs-panel .tab-top-nav a:hover,
+.ui-tabs-panel .tab-bottom-nav a:hover {
+	background: #030B1F;
+	background: -moz-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -webkit-gradient(top, from(#31364C), to(#304760), color-stop(0.48, #31364C), color-stop(0.49, #272B3E));
+	background: -webkit-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -o-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	text-shadow: 0 -1px 0 #000;
+	color: #737880;
+}
+
+.wp-tabs {
+	position:relative;
+}
+.cap-icon-link {
+	position: absolute;
+	top:2px;
+	right: 5px;
+	opacity: 0.4;
+}
+
+.cap-icon-link:hover {
+	opacity: 1;
+}
+
+.ui-collapsible-header,
+.ui-accordion h3.ui-accordion-header {
+	font: bold 14px 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;
+	background: #030B1F;
+	padding: 4px 10px;
+	color: #737880 !important;
+	border: 1px solid #A2A2A2;
+	text-shadow: none;
+	border-radius          :  0px !important;
+	-moz-border-radius     :  0px !important;
+	-webkit-border-radius  :  0px !important;
+	-o-border-radius       :  0px !important;
+	box-shadow         : 0 1px 4px #999;
+	-moz-box-shadow    : 0 1px 4px #999;
+	-webkit-box-shadow : 0 1px 4px #999;
+	-o-box-shadow : 0 1px 4px #999;
+	border: 1px solid #000603;
+}
+
+.ui-collapsible-header:hover,
+.ui-accordion h3.ui-accordion-header:hover {
+	color: #E5E2E5 !important;
+	text-shadow: none;
+	border: 1px solid #2E9AE8;
+}
+
+h3.ui-collapsible-header.ui-state-active,
+.ui-accordion h3.ui-accordion-header.ui-state-active {
+	background: -moz-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -webkit-gradient(top, from(#31364C), to(#304760), color-stop(0.48, #31364C), color-stop(0.49, #272B3E));
+	background: -webkit-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -o-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	color: #E5E2E5 !important;
+	border: 1px solid #000;
+	border-bottom: 0px;
+
+}
+
+.ui-collapsible-content,
+.ui-accordion .ui-accordion-content {
+	color: #444;
+	background: #F2F2F2;
+	padding: 10px;
+	border: 1px solid #000613;
+	box-shadow         : 0 1px 4px #999;
+	-moz-box-shadow    : 0 1px 4px #999;
+	-webkit-box-shadow : 0 1px 4px #999;
+	-o-box-shadow : 0 1px 4px #999;
+}
+

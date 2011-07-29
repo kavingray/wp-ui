@@ -1,0 +1,27 @@
+
+.wpui-cyaat9 ul.ui-tabs-nav li,
+.wpui-cyaat9 h3.ui-accordion-header {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#D5DCEB', endColorstr='#C9D0DE');
+	border-radius: 0;
+}
+
+
+.wpui-cyaat9 .ui-tabs-panel .tab-top-nav a,
+.wpui-cyaat9 .ui-tabs-panel .tab-bottom-nav a {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#D5DCEB', endColorstr='#C9D0DE');
+	border-radius: 0;
+	color: #000;
+	border: 1px solid #000;
+}
+
+.wpui-cyaat9 ul.ui-tabs-nav li a {
+	color: #000;
+}
+
+.wpui-cyaat9 ul.ui-tabs-nav li.ui-state-active,
+.wpui-cyaat9 h3.ui-accordion-header.ui-state-active,
+.wpui-cyaat9 .ui-tabs-panel .tab-top-nav a:hover,
+.wpui-cyaat9 .ui-tabs-panel .tab-bottom-nav a:hover {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9EA4AD', endColorstr='#C9D0DE');
+	border-radius: 0;
+}
