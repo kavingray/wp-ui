@@ -12,7 +12,7 @@ tinymce.create( 'tinymce.plugins.wptabcontent', {
 		
 		ed.addButton( 'wptabcontent', {
 			title: 'wptabcontent',
-			image: 'http://192.168.1.105/wpmu/wp-content/plugins/wp-present/images/resize-se.gif',
+			image: 'resize-se.gif',
 			cmd: 'mcewptabcontent'
 		});
 		// ed.addShortCut( 'alt+ctrl+shift+w', ed.getLang('wptabs_mce.php'), 'mcewptabs');
