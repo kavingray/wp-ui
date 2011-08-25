@@ -2,18 +2,22 @@
 Contributors: kavingray
 Donate link: http://kav.in/
 Plugin URI: http://kav.in/wp-ui-for-wordpress
-Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, capability
+Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, capability
 Requires at least: 2.9
 Tested up to: 3.2.1
-Stable tag: 0.5.2
+Stable tag: 0.5.5
 
-Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh & Unique CSS3 styles.
+Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh & Unique CSS3 styles and Support for multiple jQuery UI custom themes.
 
 == Description ==
 
-WP UI is an advanced interface widgets plugin that combines the power of jQuery UI widgets into Wordpress posts. 
+WP UI is an advanced interface widgets plugin that combines the power of jQuery UI widgets into Wordpress posts. Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And please do remember, Great content deserves great presentation too! 
 
-The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And please do remember, Great content deserves great presentation too!
+[Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
+
+[Plugin page](http://kav.in/wp-ui-for-wordpress)
+
+[Plugin Support](http://kav.in/discuss)
 
 == Installation ==
 
@@ -27,21 +31,24 @@ The plugin is named after WordPress(WP) and jQuery UI (UI). Tabs are common widg
 
 Can be found [here](http://kav.in/projects/plugins/blog/wp-ui-faq).
 
+= How do i use multiple jQuery UI themes? =
+It is possible from WP UI 0.5.5 to use multiple jQuery UI themes on the same page. Check out this [guide](http://kav.in/wp-ui-using-jquery-ui-custom-themes/).
+
 = Where can i demo the custom CSS3 styles? =
 
 Demo with the *style switcher* can be found [here](http://kav.in/projects/plugins/wp-ui).
 
-= What if i have Javascript disabled? =
+= What if the user does not have Javascript enabled? =
 
-All the code will **degrade gracefully** when javascript is disabled. Try disabling the Javascript in your browser to take look.
+All the code will **degrade gracefully** when javascript is disabled. Try disabling the Javascript in your browser to take a look yourselves.
 
 = Can i use all the available jQuery UI themes? =
 
-Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. 
+Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. From Version 0.5.5, you can use multiple UI themes.
 
 = Why aren't my tabs working? / Why are some of my shortcodes not getting parsed? =
 
-Make sure each one of your shortcodes is in the **separate line**. eg. 
+Make sure each one of your shortcodes is in the **separate line** and avoid empty lines. eg. 
 
     [wptabs]
     [wptabtitle]Tab 1[/wptabtitle]
@@ -84,14 +91,14 @@ You can contact me if you need any help or use the wordpress support forums.
 
 = I have some exciting idea/suggestion about this plugin! =
 
-I would love to hear about it. Please contact me [here](http://kav.in/contact)
+I would love to hear about it. Please share it [here](http://kav.in/discuss)
 
 = How can i support this plugin? =
 
 * Give this plugin a nice rating - Stars on the right!
-* Tell others that it works with the compatibility box on the right >>
-* Better, if you [link](http://kav.in/wp-ui-for-wordpress) to the plugin site or share.
-* Maybe, you can like us on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) or follow us on [twitter](http://twitter.com/cpblty), so we can make even more awesome plugins with greater support!
+* Tell others that it works, with the compatibility box on the right
+* We'd really appreciate, if you [link](http://kav.in/wp-ui-for-wordpress) to the plugin site or share.
+* Maybe, you can like us on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) or follow us on [twitter](http://twitter.com/cpblty), if you think we are doing a good job!
 
 == Screenshots ==
 
@@ -101,6 +108,15 @@ I would love to hear about it. Please contact me [here](http://kav.in/contact)
 4. Style chooser available from within the post editor.
 
 == Changelog ==
+
+= 0.5.5 =
+* jQuery UI custom themes, manageable through options page.
+* Tabs/accordion events choice - Mouseover/Click(default)
+* UI Dialog, some basic support.
+* Complete Linking and history.
+* Tabs/accordion custom styles were modified to cooperate with the jQuery UI themes.
+* Accordion/Tabs - contact form 7 related bug totally fixed - ( Missing submit button )
+* Additional fix for preventing thickbox from breaking jQuery UI functionality (originally unrelated to WP UI).
 
 = 0.5.2 =
 * Accordion easing effects added.
@@ -124,6 +140,9 @@ I would love to hear about it. Please contact me [here](http://kav.in/contact)
 
 
 == Upgrade Notice ==
+
+= 0.5.5 =
+Multiple jQuery UI custom themes, Linking and history for the tabs, tabs/accordion events. Fixed: Contact form 7 related bug/wpui custom themes - jQuery UI themes compatibility. Choose a jQuery UI theme as default for update.
 
 = 0.5.2 =
 A lot of Accordion effects/options added. You can now use special characters in Tab titles. Please update and re save the options.

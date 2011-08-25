@@ -254,12 +254,13 @@ class plugin_options
 			//////////////// Text areas ////////////////////
 			////////////////////////////////////////////////
 			case 'textarea':
-			$text_cols = ''; $text_rows = '';
+			$text_cols = ''; $text_rows = ''; $autocomplete = 'on';
 			if (!empty($textarea_size)) {
 				$text_cols = ' cols="' . $textarea_size['cols'] . '"';
 				$text_rows = ' rows="' . $textarea_size['rows'] . '"';
+				$autocomplete = $textarea_size['autocomplete'];
 			}	
-			echo '<textarea' . $field_class . $text_cols . $text_rows . ' id="' . $id . '" name="' . $this->db_prefix . '_options[' . $id . ']">' . $options[$id] . '</textarea>';
+			echo '<textarea' . $field_class . $text_cols . $text_rows . ' autocomplete="' . $autocomplete . '" id="' . $id . '" name="' . $this->db_prefix . '_options[' . $id . ']">' . $options[$id] . '</textarea>';
 			if( $desc != '' )
 				echo '<br /> ' . $desc;
 			break;

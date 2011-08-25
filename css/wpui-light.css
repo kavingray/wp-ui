@@ -237,3 +237,25 @@ h3.ui-collapsible-header.ui-state-active,
 	border: 1px solid #DDD;
 	
 }
+
+
+/*
+ *	Dialog styles
+ */
+.ui-dialog-titlebar {
+	-moz-border-radius     : 3px 3px 0 0;
+	-webkit-border-radius  : 3px 3px 0 0;
+	-o-border-radius       : 3px 3px 0 0;
+	border-radius          : 3px 3px 0 0;
+	font: bold 14px 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;
+    background: -moz-linear-gradient(top , #AAAAAA, #DADADA);
+    background: -webkit-gradient(linear, left top , left bottom , from(#AAAAAA), to(#DADADA));
+    background: -webkit-linear-gradient(top , #AAAAAA, #DADADA) !important;
+    background: -o-linear-gradient(top , #AAAAAA, #DADADA);
+	padding: 4px 10px;
+	color: #222;
+	border: 1px solid #A2A2A2;
+	text-shadow: 0 1px 0 #FFF;
+}
+
+

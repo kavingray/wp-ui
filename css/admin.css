@@ -232,8 +232,7 @@ div#wpui-cap {
 
 div#wpui-cap .cap-icon {
     float: left;
-    height: 100%;
-    padding: 40px 10px;
+    padding:10px;
     width: 100px;
 }
 
@@ -519,6 +518,340 @@ p.submit input:active {
 }
 
 
+.settings_page_wpUI-options #jqui_theme_list {
+	margin: 10px 0;
+}
+
+.settings_page_wpUI-options .ui-dialog {
+	background: url('../images/pattern.png') repeat #222;
+	background: -moz-linear-gradient(top , #444,  #222);
+	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#222));
+	background: -webkit-linear-gradient(top , #444, #222);
+	background: -o-linear-gradient(top , #444, #222);
+	background: rgba( 12, 12, 12, 0.8);
+	ms-filter : progid:DXImageTransform.Microsoft.gradient( startColorStr='#444444', endColorStr='#222222');
+	-moz-border-radius     : 10px;
+	-webkit-border-radius  : 10px;
+	-o-border-radius       : 10px;
+	border-radius          : 10px;
+	border:1px solid #000;
+	-moz-box-shadow    : 1px 1px 0 #777 inset, -1px -1px 0 #555 inset, 0px 5px 15px #666;
+	-webkit-box-shadow : 1px 1px 0 #777 inset, -1px -1px 0 #555 inset, 0px 5px 15px #666;
+	-o-box-shadow      : 1px 1px 0 #777 inset, -1px -1px 0 #555 inset, 0px 5px 15px #666;
+	box-shadow         : 1px 1px 0 #777 inset, -1px -1px 0 #555 inset, 0px 5px 15px #000;
+	color: #FFF !important;
+	text-shadow: 0 1px 0 #000;
+}
+
+.settings_page_wpUI-options .ui-dialog-titlebar {
+	color: #999999;
+	padding: 6px 10px;
+	text-shadow: 0pt 1px 0pt #000000;
+	text-transform : Uppercase;
+	text-align : center;
+}
+
+.settings_page_wpUI-options .ui-dialog-titlebar:hover {
+	cursor: move;
+}
+
+.settings_page_wpUI-options .ui-dialog-content {
+	padding: 10px 20px;
+}
+
+
+.settings_page_wpUI-options .ui-dialog-titlebar-close {
+	background: url("../images/modal-close.png") no-repeat;
+	width: 35px;
+	height: 35px;
+	display: block;
+	position: absolute;
+	top: -16px;
+	right: -15px;
+	text-indent: -99999em;
+
+}
+
+.settings_page_wpUI-options .ui-dialog-content input,
+.settings_page_wpUI-options .ui-dialog-content label {
+	display : block;
+	width: 100%;
+	padding: 5px 0;
+}
+
+.settings_page_wpUI-options .ui-dialog-content input[type="text"] {
+	opacity : 0.6;
+}
+.settings_page_wpUI-options .ui-dialog-content input[type="text"]:focus {
+	opacity : 1;
+	border: 1px solid #000;
+	-moz-box-shadow    : 0 1px 5px #000;
+	-webkit-box-shadow : 0 1px 5px #000;
+	-o-box-shadow      : 0 1px 5px #000;
+	box-shadow         : 0 1px 5px #000;
+}
 
 
 
+.settings_page_wpUI-options .ui-dialog-buttonset {
+	text-align: center;
+	margin: 0 0 5px 0;
+}
+	
+.settings_page_wpUI-options .ui-button {
+	background: -moz-linear-gradient(top , #F4F2F4,  #BBB);
+	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
+	background: -webkit-linear-gradient(top , #48D3FF, #3294B2);
+	background: -o-linear-gradient(top , #48D3FF, #3294B2);
+	-moz-border-radius     : 4px;
+	-webkit-border-radius  : 4px;
+	-o-border-radius       : 4px;
+	border-radius          : 4px;
+	padding: 4px 10px;
+	color: #777 !important;
+	text-shadow: 0 1px 0px #FFF;
+	-moz-box-shadow    : 0px 1px 0 #FFF inset, 0px -1px 0 #FFF inset;
+	-webkit-box-shadow : 0px 1px 0 #FFF inset, 0px -1px 0 #FFF inset;
+	-o-box-shadow      : 0px 1px 0 #FFF inset, 0px -1px 0 #FFF inset;
+	box-shadow         : 0px 1px 0 #FFF inset, 0px -1px 0 #FFF inset;
+	border: 1px solid #000;
+	margin: 10px;
+	text-transform: uppercase;
+	font-size: 12px;
+	width: 75px;
+}
+
+.settings_page_wpUI-options .save-button {
+	background: #48D3FF;
+	background: -moz-linear-gradient(top , #48D3FF,  #3294B2);
+	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
+	background: -webkit-linear-gradient(top , #48D3FF, #3294B2);
+	background: -o-linear-gradient(top , #48D3FF, #3294B2);
+	-moz-border-radius     : 4px;
+	-webkit-border-radius  : 4px;
+	-o-border-radius       : 4px;
+	border-radius          : 4px;
+	   padding: 6px 10px;
+	color: #FFF !important;
+	   text-shadow: 0 -1px 0px #003;
+	-moz-box-shadow    : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	-webkit-box-shadow : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	-o-box-shadow      : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	box-shadow         : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	border: 1px solid darkblue;
+	margin: 10px;
+	text-transform: uppercase;
+	font-family: 'Arial', sans-serif;
+}
+
+.settings_page_wpUI-options .cancel-button {
+	background: #C00;
+	background: -moz-linear-gradient(top , #C00,  #900);
+	background: -webkit-gradient(linear, left top, left bottom, from(#C00), to(#900));
+	background: -webkit-linear-gradient(top , #C00, #900);
+	background: -o-linear-gradient(top , #C00, #900);
+	-moz-border-radius     : 4px;
+	-webkit-border-radius  : 4px;
+	-o-border-radius       : 4px;
+	border-radius          : 4px;
+	   padding: 6px 10px;
+	color: #FFF !important;
+	   text-shadow: 0 -1px 0 #200;
+	-moz-box-shadow    : 0px 1px 0 #F00 inset, 0px -1px 0 #F00 inset;
+	-webkit-box-shadow : 0px 1px 0 #F00 inset, 0px -1px 0 #F00 inset;
+	-o-box-shadow      : 0px 1px 0 #F00 inset, 0px -1px 0 #F00 inset;
+	box-shadow         : 0px 1px 0 #F00 inset, 0px -1px 0 #F00 inset;
+	border: 1px solid #100;
+	margin: 10px;
+	text-transform: uppercase;
+	font-family: 'Arial', sans-serif;
+}
+
+.settings_page_wpUI-options .save-button:hover {
+	background: #41BEE5;
+	background: -moz-linear-gradient(top , #41BEE5,  #369EBF);
+	background: -webkit-gradient(linear, left top, left bottom, from(#41BEE5), to(#24697F));
+	background: -webkit-linear-gradient(top , #41BEE5, #24697F);
+	background: -o-linear-gradient(top , #41BEE5, #24697F);
+}
+
+.settings_page_wpUI-options .cancel-button:hover {
+	background: #A00;
+	background: -moz-linear-gradient(top , #A00,  #900);
+	background: -webkit-gradient(linear, left top, left bottom, from(#A00), to(#900));
+	background: -webkit-linear-gradient(top , #A00, #900);
+	background: -o-linear-gradient(top , #A00, #900);
+}
+
+
+.settings_page_wpUI-options .cancel-button:active {
+	background: #900;
+	-moz-box-shadow    : 0px 2px 5px #100 inset;
+	-webkit-box-shadow : 0px 2px 5px #100 inset;
+	-o-box-shadow      : 0px 2px 5px #100 inset;
+	box-shadow         : 0px 2px 5px #100 inset;	
+}
+
+.settings_page_wpUI-options .save-button:active {
+	background: #369EBF;
+	-moz-box-shadow    : 0px 2px 5px #123540 inset;
+	-webkit-box-shadow : 0px 2px 5px #123540 inset;
+	-o-box-shadow      : 0px 2px 5px #123540 inset;
+	box-shadow         : 0px 2px 5px #123540 inset;
+}
+
+
+#jqui_theme_list table tbody tr td {
+	background: #F4F2F4;
+	position: relative;
+	overflow : visible;
+
+}
+
+#jqui_theme_multiple, 
+label[for="jqui_theme_multiple"] {
+	margin: 10px 0;
+	display: inline !important;
+	width : auto !important;
+	margin-right: 10px;
+	text-align: center;
+}
+
+div.theme_add_notes ol {
+	padding: 5px;
+	background: #F00;
+	list-style-position: inside;
+	margin-left: 0px;
+	-moz-border-radius     : 4px;
+	-webkit-border-radius  : 4px;
+	-o-border-radius       : 4px;
+	border-radius          : 4px;
+	background: rgba( 255, 0, 0, 0.7);
+}
+
+
+.settings_page_wpUI-options .ui-dialog-content label span {
+	opacity: 0;
+}
+
+.settings_page_wpUI-options .ui-dialog-content label:hover span {
+	opacity: 0.6;
+}
+
+a.jqui_theme_delete {
+}
+
+.settings_page_wpUI-options .action-delete-confirm {
+    background: maroon;
+    color: #FFF;
+    text-transform: uppercase;
+	padding: 2px 4px;
+    font-size: 10px;
+	text-shadow: 0 -1px 0 #700;
+	background: -moz-linear-gradient(top , #F00,  #A00);
+	background: -webkit-gradient(linear, left top, left bottom, from(#F00), to(#A00));
+	background: -webkit-linear-gradient(top , #F00, #A00);
+	background: -o-linear-gradient(top , #F00, #A00);
+    border: 1px solid #800;
+	-moz-border-radius     : 5px;
+	-webkit-border-radius  : 5px;
+	-o-border-radius       : 5px;
+	border-radius          : 5px;
+	-moz-box-shadow    : 1px 1px 0 #F00 inset, -1px -1px 0 #F00 inset;
+	-webkit-box-shadow : 1px 1px 0 #F00 inset, -1px -1px 0 #F00 inset;
+	-o-box-shadow      : 1px 1px 0 #F00 inset, -1px -1px 0 #F00 inset;
+	box-shadow         : 1px 1px 0 #F00 inset, -1px -1px 0 #F00 inset;
+	font-family: 'Arial', sans-serif;
+	height: 18px;
+	text-align : center;
+}
+
+
+.settings_page_wpUI-options .action-delete-cancel {
+    background: blue;
+    color: #FFF;
+    text-transform: uppercase;
+    padding: 2px 4px;
+    font-size: 10px;
+	text-shadow: 0 -1px 0 #24697F;
+	background: -moz-linear-gradient(top , #48D3FF,  #3294B2);
+	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
+	background: -webkit-linear-gradient(top , #48D3FF, #3294B2);
+	background: -o-linear-gradient(top , #48D3FF, #3294B2);
+	-moz-border-radius     : 5px;
+	-webkit-border-radius  : 5px;
+	-o-border-radius       : 5px;
+	border-radius          : 5px;
+	color: #FFF !important;
+	  text-shadow: 0 -1px 0px #24697F;
+	-moz-box-shadow    : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	-webkit-box-shadow : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	-o-box-shadow      : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	box-shadow         : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
+	border: 1px solid #3294B2;
+/*	font-family: 'Arial', sans-serif;*/
+	height: 18px;
+	text-align: center;
+}
+
+div#style .form-table th {
+	width : 150px;
+}
+
+div#style table.widefat {
+	width: 100%;
+}
+div#style table .column-name {
+	width: 15%;
+}
+
+div#style table .column-manage {
+	width: 10%;
+}
+
+div.jqui_ajax_info {
+	margin : 10px 10px;
+}
+
+div.jqui_ajax_info span {
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+	-moz-box-shadow    : 1px 1px 0 #FFFFFF inset, -1px -1px 0 #FFFFFF inset;
+	-webkit-box-shadow : 1px 1px 0 #FFFFFF inset, -1px -1px 0 #FFFFFF inset;
+	-o-box-shadow      : 1px 1px 0 #FFFFFF inset, -1px -1px 0 #FFFFFF inset;
+	box-shadow         : 1px 1px 0 #FFFFFF inset, -1px -1px 0 #FFFFFF inset;
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+div.jqui_ajax_info span.ajax_error {
+	background-color: pink;
+    border: 1px solid #D16587;
+    color: maroon;
+}
+
+div.jqui_ajax_info span.ajax_success {
+	background-color: lightgreen;
+	color: darkgreen;
+	border: 1px solid #00CC66;
+/*	line-height: 31px;*/
+}
+
+div.jqui_ajax_info span.ajax_info {
+    background-color: #AAF0FF;
+    border: 1px solid #00529B;
+    color: #00529B;
+}
+
+div.jqui_ajax_info span.ajax_info img {
+	vertical-align:middle;
+	margin-right : 10px;
+}
+
+
+.settings_page_wpUI-options #jqui_add_theme {
+	float: right;
+}

@@ -78,25 +78,31 @@ $options_list = array(
 	'top_navigation'	=>	array(
 		'id'		=>	'topnav',
 		'title'		=>	__('Display <i>Top</i> next/previous links?', WPPTD),
-		'desc'		=>	__('Check the box to display the Next/previous tab navigation links at top of the panel.', WPPTD),
+		'desc'		=>	__('Check to display the Next/previous tab navigation at top of the panel.', WPPTD),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
 	'bottom_navigation'	=>	array(
 		'id'		=>	'bottomnav',
 		'title'		=>	__('Display <i>Bottom</i> next/previous links?', WPPTD),
-		'desc'		=>	__('Check the box to display the Next/previous tab navigation links at bottom of the panel.', WPPTD),
+		'desc'		=>	__('Check to display the Next/previous tab navigation at bottom of the panel.', WPPTD),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
 	'enableColl'	=>	array(
 		'id'		=>	'enable_spoilers',
 		'title'		=>	__('Enable Collapsibles (Sliders)', WPPTD),
-		'desc'		=>	__('Uncheck this option, if you want to disable Collapsible panels/sliders <i>aka</i> wp-spoiler.', WPPTD),
+		'desc'		=>	__('Uncheck this option to disable Collapsible panels/sliders.', WPPTD),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	
+	'enabledialog'	=>	array(
+		'id'		=>	'enable_dialogs',
+		'title'		=>	__('Enable Dialogs', WPPTD),
+		'desc'		=>	__('Uncheck to disable dialog support.', WPPTD),
+		'type'		=>	'checkbox',
+		'section'	=>	'general',
+	),	
 	
 
 	'load_all_styles'	=>	array(
@@ -110,30 +116,12 @@ $options_list = array(
 	'tabstyle'=>	array(
 		'id'		=>	'tab_scheme',
 		'title'		=>	__('Tabs styles', WPPTD),
-		'desc'		=>	__('Select a <u>default</u> style. With the previous option is enabled, use the shortcode attributes, ex. <code>[wptabs style="chosenstyle"]</code> to override.', WPPTD),
+		'desc'		=>	__('Select a <u>default</u> style. Use the shortcode attributes, ex. <code>[wptabs style="chosenstyle"]</code> to override.', WPPTD),
 		'type'		=>	'select',
 		'section'	=>	'style',
 		'choices'	=>	array(
-	
-			// __('Bundled - Quark', WPPTD),
-			'startoptgroup1'=>	__('WP UI CSS3 Themes', WPPTD),
-				'wpui-light'		=>	__('WPUI - light', WPPTD),
-				'wpui-blue'			=>	__('WPUI - Blue', WPPTD),
-				'wpui-red'			=>	__('WPUI - Red', WPPTD),
-				'wpui-green'		=>	__('WPUI - Green', WPPTD),
-				'wpui-dark'			=>	__('WPUI - Dark', WPPTD),	
-				'wpui-quark'		=>	__('WPUI - Quark', WPPTD),
-				'wpui-cyaat9'		=>	__('WPUI - See ya at 9', WPPTD),
-				'wpui-android'		=>	__('WPUI - Android', WPPTD),
-				'wpui-safle'		=>	__('WPUI - safle', WPPTD),
-				'wpui-alma'			=>	__('WPUI - Alma', WPPTD),
-				'wpui-macish'		=>	__('WPUI - Macish', WPPTD),
-				'wpui-achu'			=>	__('WPUI - Achu', WPPTD),
-				'wpui-redmond'		=>	__('WPUI - Redmond', WPPTD),
-				'wpui-sevin'		=>	__('WPUI - Sevin', WPPTD),
-			'endoptgroup1'	=>	'',
-			
-			'startoptgroup2'=>	__('jQuery UI Themes', WPPTD),
+
+			'startoptgroup1'=>	__('jQuery UI Themes', WPPTD),
 				'ui-lightness'	 =>	__('UI-Lightness', WPPTD),
 				'ui-darkness'	 =>	__('UI-Darkness', WPPTD),
 				'smoothness'	 =>	__('Smoothness', WPPTD),
@@ -148,8 +136,8 @@ $options_list = array(
 				'dark-hive'		 => __('Dark Hive', WPPTD),
 				'cupertino'		 => __('Cupertino', WPPTD),
 				'south-street'	 => __('South St', WPPTD),
-				'blitzer'		 => __('Blitzer Blitzer', WPPTD),
-				'humanity'		 => __('Humanity Humanity', WPPTD),
+				'blitzer'		 => __('Blitzer', WPPTD),
+				'humanity'		 => __('Humanity', WPPTD),
 				'hot-sneaks'	 => __('Hot Sneaks', WPPTD),
 				'excite-bike'	 => __('Excite Bike', WPPTD),
 				'vader'			 => __('Vader', WPPTD),
@@ -158,19 +146,53 @@ $options_list = array(
 				'black-tie'		 => __('Black Tie', WPPTD),
 				'trontastic'	 => __('Trontastic', WPPTD),
 				'swanky-purse'	 => __('Swanky Purse', WPPTD),
-			'endoptgroup2'	=>	''
+				'base'			 => __('Base', WPPTD),
+				'black-tie'		 => __('Black Tie', WPPTD),
+				
+			'endoptgroup2'	=>	'',
+				
+			// __('Bundled - Quark', WPPTD),
+			'startoptgroup2'=>	__('WP UI CSS3 Themes', WPPTD),
+				'wpui-light'		=>	__('WPUI - light', WPPTD),
+				'wpui-blue'			=>	__('WPUI - Blue', WPPTD),
+				'wpui-red'			=>	__('WPUI - Red', WPPTD),
+				'wpui-green'		=>	__('WPUI - Green', WPPTD),
+				'wpui-dark'			=>	__('WPUI - Dark', WPPTD),	
+				'wpui-quark'		=>	__('WPUI - Quark', WPPTD),
+				'wpui-cyaat9'		=>	__('WPUI - See ya at 9', WPPTD),
+				'wpui-android'		=>	__('WPUI - Android', WPPTD),
+				'wpui-safle'		=>	__('WPUI - safle', WPPTD),
+				'wpui-alma'			=>	__('WPUI - Alma', WPPTD),
+				'wpui-macish'		=>	__('WPUI - Macish', WPPTD),
+				'wpui-achu'			=>	__('WPUI - Achu', WPPTD),
+				'wpui-redmond'		=>	__('WPUI - Redmond', WPPTD),
+				'wpui-sevin'		=>	__('WPUI - Sevin', WPPTD),
+			'endoptgroup1'	=>	''
 
 		),
-		'extras'	=>	'&nbsp; <input id="tab_scheme_trigger" type="button" class="button-secondary" value="Visualize and Select!" />'
+		'extras'	=>	'&nbsp; choosing a <a target="_blank" href="http://jqueryui.com/themeroller/#themeGallery">jQuery UI theme</a> | <a id="tab_scheme_trigger" href="" class="">WP UI CSS3 Style</a>'
 	),	
 	
-	'iegrads'		=>	array(
-		'id'		=>	'enable_ie_grad',
-		'title'		=>	__('Enable gradients for IE?', WPPTD),
-		'desc'		=>	__('Check this box to enable gradients for IE ( using <code>IE filter:</code> ).', WPPTD),
-		'type'		=>	'checkbox',
-		'section'	=>	'style'
+	'jqui_custom'	=>	array(
+		'id'		=>	'jqui_custom_themes',
+		'title'		=>	__('Manage jQuery UI custom themes'),
+		'desc'		=>	__('') . '<div id="jqui_theme_list" ></div><a href="#" class="button-secondary" title="This will scan the directory wp-ui under uploads for themes." id="jqui_scan_uploads">Scan Uploads</a>&nbsp;<a href="#" class="button-secondary" id="jqui_add_theme">Add theme</a>',
+		'type'		=>	'textarea',
+		'section'	=> 'style',
+		'textarea_size'	=>	array(
+			'cols'	=>	'60',
+			'rows'	=>	'5',
+			'autocomplete'	=>	'off'
+		)
 	),
+	
+	// 'iegrads'		=>	array(
+	// 	'id'		=>	'enable_ie_grad',
+	// 	'title'		=>	__('Enable gradients for IE?', WPPTD),
+	// 	'desc'		=>	__('Check this box to enable gradients for IE ( using <code>IE filter:</code> ).', WPPTD),
+	// 	'type'		=>	'checkbox',
+	// 	'section'	=>	'style'
+	// ),
 	
 	
 	// =====================
@@ -212,8 +234,35 @@ $options_list = array(
 		)
 	),
 	
+
+	'tabz_event'	=>	array(
+		'id'	=>	'tabs_event',
+		'title'	=>	__('Tabs trigger event', WPPTD),
+		'desc'	=>	__('Open Tabs on click or mouseover.', WPPTD),
+		'type'	=>	'select',
+		'section'	=>	'effects',
+		'choices'	=>	array(
+			'click'		=>	__( 'Click', WPPTD ),			
+			'mouseover'	=>	__( 'Mouseover', WPPTD ),
+		)
+	),	
+	
+	
 	
 	// Accordion
+
+	'accord_event'	=>	array(
+		'id'	=>	'accord_event',
+		'title'	=>	__('Accordion trigger event', WPPTD),
+		'desc'	=>	__('Open accordion on click or mouseover.', WPPTD),
+		'type'	=>	'select',
+		'section'	=>	'effects',
+		'choices'	=>	array(
+			'click'		=>	__( 'Click', WPPTD ),			
+			'mouseover'	=>	__( 'Mouseover', WPPTD ),
+		)
+	),	
+	
 	'accordion_autoheight'	=>	array(
 		'id'		=>	'accord_autoheight',
 		'title'		=>	__('Accordion auto height', WPPTD),
@@ -280,7 +329,7 @@ $options_list = array(
 	'tab_nav_prev'	=>	array(
 		'id'		=>	'tab_nav_prev_text',
 		'title'		=>	__('Previous tab - button text<br /><small>Tabs Navigation</small>', WPPTD),
-		'desc'		=>	__('Enter the alternate text for the Tab navigation\'s (Switch to) Previous tab button. Default is <code> &laquo; Previous </code>.', WPPTD),
+		'desc'		=>	__('Enter the alternate text for the Tab navigation\'s (Switch to) Previous tab button. Default is <code> Previous </code>.', WPPTD),
 		'section'	=>	'text',
 		'type'		=>	'text'
 	),
@@ -288,7 +337,7 @@ $options_list = array(
 	'tab_nav_next'	=>	array(
 		'id'		=>	'tab_nav_next_text',
 		'title'		=>	__('Next tab - button text<br /><small>Tabs Navigation</small>', WPPTD),
-		'desc'		=>	__('Enter the alternate text for the Tab navigation\'s (Move to) Next tab button. Default is <code> Next &raquo; </code>.', WPPTD),
+		'desc'		=>	__('Enter the alternate text for the Tab navigation\'s (Move to) Next tab button. Default is <code> Next </code>.', WPPTD),
 		'section'	=>	'text',
 		'type'		=>	'text'
 	),
@@ -309,6 +358,12 @@ $options_list = array(
 		'type'		=>	'text'
 	),
 	
+	
+	
+	
+	/**
+	 * Advanced options
+	 */
 	'custom_styles'		=>	array(
 			'id'		=>	'custom_css',
 			'title'		=>	__('Custom CSS', WPPTD),
@@ -330,14 +385,22 @@ $options_list = array(
 	'jquery_include'	=>	array(
 		'id'		=>	'jquery_disabled',
 		'title'		=>	__('Donot load the jQuery copy', WPPTD),
-		'desc'		=>	__('Check this box to prevent loading jQuery & UI libs from Google CDN. <br /> <br /><span style="color: maroon">Please note: Recent versions of jQuery and jQuery UI javascript libraries are required for the functionality of WP UI. This Plugin\'s components might work as expected with the older versions of jQuery and UI. </span>', WPPTD),
+		'desc'		=>	__('Check this box to prevent loading jQuery & UI libs from Google CDN. <br /> <br /><span style="color: maroon">Please note: Recent versions of jQuery and jQuery UI javascript libraries are required for the functionality of WP UI. This Plugin\'s components might <b>not</b> work as expected with the older versions of jQuery and UI. </span>', WPPTD),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
 	"cookies"		=>	array(
 		'id'		=>	'use_cookies',
 		'title'		=>	__(	'Use cookies for tabs', WPPTD ),
-		'desc'		=>	__( 'WP UI makes use of cookies to remember the state of the selected tabs. Click here to disable the behavior.'),
+		'desc'		=>	__( 'WP UI makes use of cookies to remember the state of the selected tabs. Click here to disable the behavior. This uses jQuery cookie plugin by Klaus Hartl.'),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	
+	"link_hist"		=>	array(
+		'id'		=>	'linking_history',
+		'title'		=>	__(	'Linking and History', WPPTD ),
+		'desc'		=>	__( 'Uncheck here to disable history and linking. This uses jQuery hashchange plugin by Ben Alman.'),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
@@ -350,6 +413,7 @@ add_action('wp_ajax_WPUIstyles', 'choose_tab_style');
 
 function choose_tab_style() {
 	echo file_get_contents( plugins_url('/wp-ui/js/wpui-choosestyles.php'));
+	die();
 }
 
 
@@ -357,7 +421,32 @@ add_action('wp_ajax_editorButtonsHelp', 'editor_buttons_help');
 
 function editor_buttons_help() {
 	echo file_get_contents( plugins_url('/wp-ui/admin/doc/wpui-buttons.php'));
+	die();	
 }
+
+
+
+add_action('wp_ajax_jqui_css', 'wpui_search_for_stylesheets');
+/**
+ *	Documentation
+ */
+function wpui_search_for_stylesheets() 
+{
+	$upload_dir = wp_upload_dir();
+	$udir = preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir['path'] ) . 'wp-ui/';
+
+	$results = wpui_jqui_dirs( $udir );
+
+	if ( is_array( $results ) ) {
+		echo json_encode( $results );
+	} else {
+		echo $results;
+	}
+	
+	die();
+} // END wpui_search_for_stylesheets
+
+
 
 
 /**
@@ -384,25 +473,30 @@ function plugin_info_above() {
 	<div class="click-for-help"></div>
 	<div class="info-above">
 	<noscript>
-		<p style="background: pink; border:1px solid darkred; padding: 10px; color: #600">Please enable the javascript in your browser. This is needed for the contextual help and the demo.</p>
+		<p style="background: pink; border:1px solid darkred; padding: 10px; color: #600">Please enable the javascript in your browser.</p>
 	</noscript>
 	
 	<div id="wpui-cap">
 	<div class="cap-icon">
-		<img src="<?php echo plugins_url( '/wp-ui/images/cap-icon.png' ) ?>" />
+		<img width="80px" src="<?php echo plugins_url( '/wp-ui/images/cap-icon.png' ) ?>" />
 	</div><!-- end div.cap-icon -->
 	
 	<div class="wpui-desc">
-		<p>
-			WP UI for WordPress is a plugin that lets you add smart, beautiful responsive User interface widgets, such as tabs, Accordions, Collapsibles, Sliders to spice up your blog posts.  This plugin is built on top of the jQuery UI and bundled with rich documentation and extended browser support.
-		</p>	
-		<p>
-			Not sure of something? Refer the contextual help with the "Help" button on the top right corner of this page. Plugin documentation can be accessed at the <a href="http://kav.in/projects/blog/tag/wp-ui/">projects site</a>.
+
+			<p> Support this plugin : <a href="http://www.facebook.com/pages/Capability/136970409692187" title="Motivate and see us performing better!" target="_blank">Like us on Facebook</a> | <a title="Motivate and see us performing better!" href="http://twitter.com/cpblty" target="_blank">Follow us on Twitter</a>. 
 		</p>
 		<p>
-			Bugs? Suggestions? Ideas? <a href="http://kav.in/wp-ui-for-wordpress">Let me know!</a>  Want to support this plugin? Thanks! You can do so with <a href="http://www.facebook.com/pages/Capability/136970409692187" target="_blank">likes on Facebook</a> or <a href="http://twitter.com/cpblty" target="_blank">follows on Twitter</a>. 
+			Help - <a class="wpui_options_help" href="#">Options Help</a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/">Plugin documentation, demo @ projects</a>.
 		</p>
+		
+		<p>
+			Help improve this plugin : <a target="_blank" href="http://kav.in/discuss" title="Improve the plugin by sharing your thoughts">Suggestions? Ideas?</a> | Report - <a target="_blank" title="Report the issues you find, so it gets just better and better!" href="http://kav.in/discuss">Bugs / Issues / conflicts</a> on Support forums</p>
 	</div><!-- end div.wpui-desc -->	
+	
+	</div>
+	
+	
+	
 </div><!-- end div.info-above -->
 	
 	<?php
@@ -447,6 +541,9 @@ function plugin_info_below() {
 		</li>
 		<li>
 			<a target="_blank" href="http://kav.in/discuss/viewforum.php?f=5">Suggestions / Ideas</a>
+		</li>
+		<li>
+			<a href="http://kav.in/wp-ui-using-jquery-ui-custom-themes/">Multiple jQuery UI Custom themes</a>
 		</li>
 		<li class="last-li">
 			<a href="http://twitter.com/cpblty">Capability on Twitter</a>
@@ -495,21 +592,25 @@ function get_wpui_default_options( ) {
 		"topnav"					=>	"",
 	    "bottomnav"					=>	"on",
 		"enable_spoilers"			=>	"on",
+		"enable_dialogs"			=>	"on",
 		"load_all_styles"			=>	"on",
 		"enable_ie_grad"			=>	"on",
-	    "tab_scheme" 				=>	"wpui-light",
+	    "tab_scheme" 				=>	"ui-lightness",
 	    "tabsfx"					=>	"slide",
 		"fx_speed"					=>	"400",
 		"tabs_rotate"				=>	"stop",
+		"tabs_event"				=>	"click",
+		"accord_event"				=>	"click",
 		"accord_autoheight"			=>	"on",
 		"accord_collapsible"		=>	"off",
 		"accord_easing"				=>	'false',
-		"tab_nav_prev_text"			=>	'&laquo; Prev',
-		"tab_nav_next_text"			=>	"Next &raquo;",
+		"tab_nav_prev_text"			=>	'Prev',
+		"tab_nav_next_text"			=>	"Next",
 		"spoiler_show_text"			=>	"Click to show",
 		"spoiler_hide_text"			=>	"Click to hide",
 		"custom_css"				=>	"",
-		"use_cookies"				=>	"on"
+		"use_cookies"				=>	"on",
+		"linking_history"			=>	"on"
 	);
 	return $defaults;
 }

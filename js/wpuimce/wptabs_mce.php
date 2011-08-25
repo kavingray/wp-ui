@@ -81,5 +81,5 @@ add_action( 'init', 'wptabs_buttons' );
 function wptabs_buttons() {
 	global $wptabs_buttons;
 	$wptabs_buttons = new wptabs_editor_buttons();
+} // END wptabs_buttons
 
-}

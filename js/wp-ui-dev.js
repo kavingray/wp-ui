@@ -313,7 +313,7 @@ jQuery.fn.wpaccord = function( options ) {
 		
 		jQuery('.accordion h3.ui-accordion-header:last').addClass('last-child');
 		
-		$this.find('p#jqtemp').remove();
+		// $this.find('p#jqtemp').remove();
 		
 	});	
 	

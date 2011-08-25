@@ -1,12 +1,196 @@
 .wp-tabs,
 .wp-accordion,
 .wp-spoiler {
-	font-size: 14px;
+	font-size: 12px;
+	font-family: auto !important;
 }
 
-.ui-accordion-header {
+.ui-accordion-header,
+.ui-collapsible-header {
 	margin-bottom: 0px !important;
 	font-size: 12px;
 	padding: 5px !important;
 	padding-left: 30px !important;
 }
+
+.ui-collapsible-header {
+	margin-bottom: 10px;
+	padding-left: 10px !important;
+	font-size: 12px !important;
+}
+
+.ui-collapsible-content {
+	padding: 10px;
+	font-size: 12px;
+}
+
+.ui-collapsible-header span.ui-icon {
+	display: inline-block;
+}
+
+div.tab-top-nav,
+div.tab-bottom-nav {
+	clear: both;
+	overflow: hidden;
+}
+
+.jqui-styles a.next-tab {
+	padding: 4px 25px 4px 10px !important;
+	float : right;
+	position: relative;
+	display: inline-block;
+}
+
+.jqui-styles a.prev-tab {
+	padding: 4px 10px 4px 25px !important;
+	position: relative;
+	display : inline-block;
+}
+
+
+a.next-tab span {
+	position: absolute;
+	right : 5px;
+	top: 15%;
+}
+
+a.prev-tab span {
+	position: absolute;
+	left: 5px;
+	top: 15%;
+}
+
+
+.jqui-styles ul.ui-tabs-nav {
+	margin-bottom: 0px !important;
+}
+
+
+
+/* Fix for the custom styles */
+
+
+.wpui-styles .ui-tabs-nav {
+	border: 0px;
+	margin-bottom: 0px !important;
+	position: relative;
+	bottom: -1px;
+	border-top:0px !important;
+}
+
+.wpui-styles ul.ui-tabs-nav li {
+	padding: 0px !important;
+	height: 30px !important;
+	opacity: 0.7;
+	margin-bottom:0px !important;
+}
+
+.wpui-styles ul.ui-tabs-nav li.ui-state-active {
+	padding: 10px 0;
+/*	padding-top: 0px !important;*/
+/*	height: 28px !important;*/
+	opacity: 1;
+	height : 31px !important;
+/*	top:0px;
+	bottom: -1px;*/
+}
+
+.wpui-styles ul.ui-tabs-nav li a {
+	padding: 10px 0;
+}
+
+.wpui-styles div.tab-top-nav {
+	margin: 0 0 20px 0;
+}
+.wpui-styles div.tab-bottom-nav {
+	margin: 10px 0 0 0;
+}
+
+
+.wpui-styles a.next-tab,
+.wpui-styles a.prev-tab {
+	padding : 3px 10px !important;
+	text-decoration : none;
+	-moz-border-radius     : 3px !important;
+	-webkit-border-radius  : 3px !important;
+	-o-border-radius       : 3px !important;
+	border-radius          : 3px !important;
+}
+
+.wpui-styles a.next-tab:hover,
+.wpui-styles a.prev-tab:hover {
+	font-weight: normal;
+}
+
+.wpui-styles a.prev-tab {
+	float: left;
+}
+
+.wpui-styles a.next-tab {
+	float: right;
+}
+
+.wpui-alma ul.ui-tabs-nav li {
+	text-align: center !important;
+}
+
+.wpui-alma ul.ui-tabs-nav li {
+	-moz-border-radius     : 0px !important;
+	-webkit-border-radius  : 0px !important;
+	-o-border-radius       : 0px !important;
+	border-radius          : 0px !important;
+	text-align: center !important;
+}
+
+.wpui-alma ul.ui-tabs-nav .first-li {
+	-moz-border-radius     : 4px 0 0 4px !important;
+	-webkit-border-radius  : 4px 0 0 4px !important;
+	-o-border-radius       : 4px 0 0 4px !important;
+	border-radius          : 4px 0 0 4px !important;
+}
+
+.wpui-alma ul.ui-tabs-nav .last-li {
+	-moz-border-radius     : 0 4px 4px 0 !important;
+	-webkit-border-radius  : 0 4px 4px 0 !important;
+	-o-border-radius       : 0 4px 4px 0 !important;
+	border-radius          : 0 4px 4px 0 !important;
+}
+
+.wpui-dark ul.ui-tabs-nav li {
+	border-color: #222 !important;
+}
+
+.wpui-quark ul.ui-tabs-nav li {
+	border: 0px !important;
+}
+
+.wpui-alma ul.ui-tabs-nav {
+	text-align: center !important;
+}
+
+.wpui-alma ul.ui-tabs-nav li {
+	opacity: 1 !important;
+	float: none !important;
+	display : inline-block;
+
+}
+.wpui-alma ul.ui-tabs-nav li.ui-state-active {
+	height: 30px !important;
+}
+
+.wpui-alma ul.ui-tabs-nav li a {
+    padding: 7px 25px !important;
+}
+
+.wpui-safle ul.ui-tabs-nav li {
+	opacity: 1 !important;
+	float: none !important;
+	display : inline-block;
+	padding: 4px 8px !important;
+}
+
+.wpui-redmond ul.ui-tabs-nav li {
+	opacity : 1 !important;
+}
+
+

@@ -19,7 +19,6 @@ jQuery(document).ready(function($) {
 	
 	var i = 0;
 	classList = new Array;
-	classList[i++] = 'no-style';
 	classList[i++] = 'wpui-light';
 	classList[i++] = 'wpui-blue';
 	classList[i++] = 'wpui-red';
@@ -341,7 +340,6 @@ foreach( $skins as $skin ) {
 <input type="hidden" id="selected_skin" name="selected_skin" type="text" />		
 
 </form>
-<div class="zero-hider">
 </body>
 <script type="text/javascript">
 (function($) {

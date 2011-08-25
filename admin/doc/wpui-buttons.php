@@ -319,7 +319,7 @@ function get_plgn_url() {
 <p>This enables the use of nested tabs.</p>
 </div><!-- end #nested_tabs -->
 </div>
-<div id="zero-hider">
+
 </body>
 <script type="text/javascript">
 window.onload = synHilite();

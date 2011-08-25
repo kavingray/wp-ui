@@ -5,9 +5,9 @@ jQuery(document).ready(function() {
 	// jQuery('.wp-tab-content').css({ 'font-size' : '12px'});
 
 	
-	jQuery('div.wp-tabs p, div.wp-tabs br').filter(function() {
-		return jQuery.trim(jQuery(this).html()) === ''
-	}).remove();
+	// jQuery('div.wp-tabs p, div.wp-tabs br').filter(function() {
+	// 	return jQuery.trim(jQuery(this).html()) === ''
+	// }).remove();
 	
 	if ( wpUIOpts.enableTabs == 'on')
 		jQuery('div.wp-tabs').wptabs();
@@ -17,6 +17,9 @@ jQuery(document).ready(function() {
 	
 	if ( wpUIOpts.enableAccordion == 'on')
 		jQuery('.wp-accordion').wpaccord();
+	
+	if ( wpUIOpts.enableDialogs == 'on' )
+		jQuery('.wp-dialog').wpDialog();
 	
 	// jQuery('div.ui-tabs-panel pre').wpuipre();
 
@@ -77,9 +80,9 @@ jQuery.fn.tabsThemeSwitcher = function(classArr) {
 	} // END cookie value check.
 
 	
-	$this.children('.wp-tabs').attr('class', 'wp-tabs').addClass(currentVal, 500);
-	$this.children('.wp-accordion').attr('class', 'wp-accordion').addClass(currentVal, 500);
-	$this.children('.wp-spoiler').attr('class', 'wp-spoiler').addClass(currentVal, 500);
+	$this.children('.wp-tabs').attr('class', 'wp-tabs wpui-styles').addClass(currentVal, 500);
+	$this.children('.wp-accordion').attr('class', 'wp-accordion wpui-styles').addClass(currentVal, 500);
+	$this.children('.wp-spoiler').attr('class', 'wp-spoiler wpui-styles').addClass(currentVal, 500);
 
 	
 	jQuery('#tabs_theme_select').change(function(e) {
@@ -173,3 +176,24 @@ jQuery.fn.toolztip = function( options, data , title, image ) {
 	}); // END return this each.	
 	
 };
+
+
+var tb_remove = function() {
+	// console.log( "Thickbox close fix" );
+ 	jQuery("#TB_imageOff").unbind("click");
+	jQuery("#TB_closeWindowButton").unbind("click");
+	jQuery("#TB_window")
+		.fadeOut("fast",function(){
+				jQuery('#TB_window,#TB_overlay,#TB_HideSelect')
+					.unload("#TB_ajaxContent")
+					.unbind()
+					.remove();
+		});
+	jQuery("#TB_load").remove();
+	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
+		jQuery("body","html").css({height: "auto", width: "auto"});
+		jQuery("html").css("overflow","");
+	}
+	jQuery(document).unbind('.thickbox');
+	return false;
+} // END function tb_remove()
