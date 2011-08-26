@@ -377,9 +377,9 @@ class wpUI {
 		
 		$output  = '';
 
-		$jqui_cust = isset( $this->options[ 'jqui_custom_themes' ] ) ? json_decode( $this->options[ 'jqui_custom_themes' ] , true ) : array();
+		// $jqui_cust = isset( $this->options[ 'jqui_custom_themes' ] ) ? json_decode( $this->options[ 'jqui_custom_themes' ] , true ) : array();
 		
-		if ( stristr( $style, 'wpui-' )	&& ! array_key_exists( $style, $jqui_cust ) ) {
+		if ( stristr( $style, 'wpui-' ) ) {
 			$style .= ' wpui-styles';
 		} else {
 			$style .= ' jqui-styles';
