@@ -596,6 +596,7 @@ function get_wpui_default_options( ) {
 		"load_all_styles"			=>	"on",
 		"enable_ie_grad"			=>	"on",
 	    "tab_scheme" 				=>	"ui-lightness",
+		"jqui_custom_themes"		=>	"{}",
 	    "tabsfx"					=>	"slide",
 		"fx_speed"					=>	"400",
 		"tabs_rotate"				=>	"stop",

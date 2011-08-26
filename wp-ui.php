@@ -4,7 +4,7 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles and multiple jQuery UI custom themes.
 Author:	Kavin
-Version: 0.5.5
+Version: 0.5.6
 Author URI: http://kav.in
 
 Copyright 2011 Kavin (http://kav.in/contact)
@@ -32,15 +32,15 @@ if ( function_exists( 'shortcode_unautop' ) ) {
 
 add_filter( 'widget_text', 'do_shortcode');
 
+
 // Textdomain constant 
 define( 'WPPTD' , 'wp-ui');
 
 // $opts = get_option( 'wpUI_options');
 // echo '<pre>';
 // echo '</pre>';
-
-
-
+// 
+// echo $opts['jqui_custom_themes'];
 
 $wpuiver = '0.5.3';
 
@@ -221,10 +221,9 @@ class wpUI {
 			foreach( $jquithms as $key=>$val ) {
 				wp_enqueue_style( $key, $val );		
 			}
-			
 		}
 
-		
+	
 		/**
 		 *	Load the additional CSS, if any has been input on the options page.		
 		 */
@@ -325,7 +324,6 @@ class wpUI {
 			wp_enqueue_style('wp-tabs-admin-js', $plugin_url . '/css/admin.css');
 			// wp_enqueue_style('wp-admin-jqui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/smoothness/jquery.ui.all.css');
 		}		
-				
 	}
 
 
@@ -355,7 +353,7 @@ class wpUI {
 			$updateopts = array_merge( $newdefs , $oldopts );
 			update_option( 'wpUI_options', $updateopts );
 		} // End if ( !this->options )
-	}
+	} 
 	
 	
 
@@ -379,19 +377,18 @@ class wpUI {
 		
 		$output  = '';
 
-		$jqui_cust = json_decode( $this->options[ 'jqui_custom_themes' ] , true );
+		$jqui_cust = isset( $this->options[ 'jqui_custom_themes' ] ) ? json_decode( $this->options[ 'jqui_custom_themes' ] , true ) : array();
 		
-		if ( stristr( $style, 'wpui-' ) 
-			&& ! array_key_exists( $style, $jqui_cust )
-			) {
+		if ( stristr( $style, 'wpui-' )	&& ! array_key_exists( $style, $jqui_cust ) ) {
 			$style .= ' wpui-styles';
 		} else {
 			$style .= ' jqui-styles';
 		}
 		
-		if( array_key_exists( $style , $jqui_cust ) ) {
-			$style .= ' jqui-styles';
-		}
+		//  
+		// if( array_key_exists( $style , $jqui_cust ) ) {
+		// 	$style .= ' jqui-styles';
+		// }
 		
 		// Default : tabs. Change type for accordion.
 		$class  = ($type == 'accordion') ? 'wp-accordion' : 'wp-tabs';

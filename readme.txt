@@ -5,7 +5,7 @@ Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, capability
 Requires at least: 2.9
 Tested up to: 3.2.1
-Stable tag: 0.5.5
+Stable tag: 0.5.6
 
 Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh & Unique CSS3 styles and Support for multiple jQuery UI custom themes.
 
@@ -109,6 +109,9 @@ I would love to hear about it. Please share it [here](http://kav.in/discuss)
 
 == Changelog ==
 
+= 0.5.6 =
+* Fix: array_key_exists error when there are no custom themes listed.
+
 = 0.5.5 =
 * jQuery UI custom themes, manageable through options page.
 * Tabs/accordion events choice - Mouseover/Click(default)
@@ -140,6 +143,9 @@ I would love to hear about it. Please share it [here](http://kav.in/discuss)
 
 
 == Upgrade Notice ==
+
+= 0.5.6 =
+Fixed : array_key_exists error fixed. Please resave the options.
 
 = 0.5.5 =
 Multiple jQuery UI custom themes, Linking and history for the tabs, tabs/accordion events. Fixed: Contact form 7 related bug/wpui custom themes - jQuery UI themes compatibility. Choose a jQuery UI theme as default for update.
