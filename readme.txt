@@ -44,7 +44,7 @@ All the code will **degrade gracefully** when javascript is disabled. Try disabl
 
 = Can i use all the available jQuery UI themes? =
 
-Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. From Version 0.5.5, you can use multiple UI themes.
+Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. From Version 0.5.5, it is now possible to use multiple UI themes, with this [guide](http://kav.in/wp-ui-using-jquery-ui-custom-themes/).
 
 = Why aren't my tabs working? / Why are some of my shortcodes not getting parsed? =
 
