@@ -1,14 +1,21 @@
 body {
 	background: #C9D0DE;
-	background-image: -moz-linear-gradient(top, #c9D0DE, #7AA6D2);
+	background: -moz-linear-gradient(top , #C9D0DE,  #7AA6D2);
+	background: -webkit-gradient(linear, left top, left bottom, from(#C9D0DE), to(#7AA6D2));
+	background: -webkit-linear-gradient(top , #C9D0DE, #6B92B8);
+	background: -o-linear-gradient(top , #C9D0DE, #7AA6D2);
 	font: 12px 'Arial', verdana, sans-serif;
 	height: 475px;
 }
 
 table.form-table {
-	background: rgba(255, 255, 255, 0.2);
+	background: rgba(255, 255, 255, 0.6);
 	width: 100%;
 	border-radius: 4px;
+	-moz-box-shadow    : 0 1px 3px #304152;
+	-webkit-box-shadow : 0 1px 3px #304152;
+	-o-box-shadow      : 0 1px 3px #304152;
+	box-shadow         : 0 1px 3px #304152;
 }
 
 table.form-table tbody tr {
@@ -50,7 +57,6 @@ tr.lasttr td {
 .mceActionPanel {
 	padding:10px;
 	text-align:center;
-	
 }
 
 h3 {
@@ -62,6 +68,7 @@ h3 {
 code {
 	font-family: 'consolas', 'monaco', 'Monospace', 'Courier New', courier, serif;
 }
+
 .mceActionPanel input {
 	padding:4px 15px;
 	margin: 5px 20px;
@@ -69,7 +76,10 @@ code {
 	font-weight: bold;
 	border: 1px solid #004B77;
 	color: #002A4A;
-	border-radius: 6px;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
 	text-shadow: 0 1px 0 #A8DDFF;
 	box-shadow: 0 2px 5px #666;
 	background-color: #7194BA;

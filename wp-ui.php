@@ -4,10 +4,10 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles and multiple jQuery UI custom themes.
 Author:	Kavin
-Version: 0.5.6
+Version: 0.7
 Author URI: http://kav.in
 
-Copyright 2011 Kavin (http://kav.in/contact)
+Copyright (c) 2011 Kavin (http://kav.in/contact)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,17 +39,14 @@ define( 'WPPTD' , 'wp-ui');
 // $opts = get_option( 'wpUI_options');
 // echo '<pre>';
 // echo '</pre>';
-// 
-// echo $opts['jqui_custom_themes'];
 
-$wpuiver = '0.5.3';
+$wpuiver = '0.7';
 
 $wp_ui = new wpUI;
 
 class wpUI {
 
 	private $plugin_details, $options;
-
 	
 	public function __construct() {
 		$this->wpUI();
@@ -82,6 +79,7 @@ class wpUI {
 	
 		// Shortcodes.
 		add_shortcode('wptabs', array(&$this, 'sc_wptabs'));
+		add_shortcode('wptabposts', array(&$this, 'sc_wptabposts'));
 		add_shortcode( 'wptabtitle', array(&$this, 'sc_wptabtitle'));
 		add_shortcode( 'wptabcontent', array(&$this, 'sc_wptabcontent'));
 		add_shortcode( 'wpspoiler', array(&$this, 'sc_wpspoiler'));
@@ -92,7 +90,7 @@ class wpUI {
 		add_shortcode( 'tabname', array(&$this, 'sc_wptabtitle'));
 		add_shortcode( 'tabcont', array(&$this, 'sc_wptabcontent'));
 		add_shortcode( 'wslider', array(&$this, 'sc_wpspoiler'));
-		add_shortcode( 'wslider', array(&$this, 'sc_wpspoiler'));
+		add_shortcode( 'dialog', array(&$this, 'sc_wpspoiler'));
 
 	
 		/**
@@ -149,6 +147,7 @@ class wpUI {
 			'accordAutoHeight'=>	isset($this->options['accord_autoheight']) ? $this->options['accord_autoheight'] : '',
 			'accordCollapsible'=>	isset($this->options['accord_collapsible']) ? $this->options['accord_collapsible'] : '',
 			'accordEasing'		=>	isset( $this->options['accord_easing'] ) ? $this->options['accord_easing'] : '',
+			'mouseWheelTabs'	=>	isset( $this->options['mouse_wheel_tabs'] ) ? $this->options['mouse_wheel_tabs'] : '',
 			'bottomNav'       =>	isset($this->options['bottomnav']) ? $this->options['bottomnav'] : '',
 			'tabPrevText'     =>	isset($this->options['tab_nav_prev_text']) ? $this->options['tab_nav_prev_text'] : '',
 			'tabNextText'     =>	isset($this->options['tab_nav_next_text']) ? $this->options['tab_nav_next_text'] : '',
@@ -157,7 +156,6 @@ class wpUI {
 			"cookies"			=>	isset( $this->options['use_cookies'] ) ? $this->options['use_cookies'] : '',
 			"hashChange"		=> isset( $this->options['linking_history'] ) ? $this->options['linking_history'] : ''
 		));
-
 
 		if ( ! is_admin() ) {
 			wp_enqueue_script('wpui-init', $plugin_url . '/js/init.js');
@@ -190,7 +188,8 @@ class wpUI {
 		 			. 'css/' . $this->options['tab_scheme']  . '.css' )) {
 			
 			// Main tab, accordion, spoiler layout.
-			wp_enqueue_style('wp-tabs-css', $plugin_url . '/wp-ui.css');
+			wp_enqueue_style('wp-ui', $plugin_url . 'wp-ui.css');
+			// wp_enqueue_style('wp-ui-selected', $plugin_url . 'css/' . $this->options['tab_scheme'] .  '.css');
 			
 			if ( 
 				$is_IE &&
@@ -223,35 +222,37 @@ class wpUI {
 			}
 		}
 
+
+		
+		/**
+		 * 	Load all the styles default since 0.5.7
+		 */
+		// if ( $this->options['load_all_styles'] ) {
+			wp_enqueue_style( 'wp-ui-all' , $plugin_url . 'css/wpui-all.css');
+			
+			if ( $is_IE && $this->options['enable_ie_grad'] )
+			wp_enqueue_style( 'wp-tabs-css-bundled-all-IE' , $plugin_url . 'css/wpui-all-ie.css');
+		// }
+		
+		// Try a jQuery UI theme.
+		// wp_enqueue_style( 'jquery-ui-css-flick' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/flick/jquery.ui.all.css');
 	
+		
 		/**
 		 *	Load the additional CSS, if any has been input on the options page.		
 		 */
 		if ( $this->options['custom_css'] != '' )
 			wp_enqueue_style( 'wpui-custom-css', get_bloginfo( 'url' ) . '/?wpui-query=css');
-		
-		/**
-		 * 	Load all the styles 
-		 * 
-		 * 	This combines all the custom styles into a single file. For using multiple skins on 
-		 * 	the same page, and people who donot want to load gazillion separate stylesheets.
-		 * 
-		 */
-		if ( $this->options['load_all_styles'] ) {
-			wp_enqueue_style( 'wp-tabs-css-bundled-all' , $plugin_url . 'css/wpui-all.css');
-			if ( $is_IE && $this->options['enable_ie_grad'] )
-			wp_enqueue_style( 'wp-tabs-css-bundled-all-IE' , $plugin_url . 'css/wpui-all-ie.css');
-		}
-		
-		// Try a jQuery UI theme.
-		// wp_enqueue_style( 'jquery-ui-css-flick' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-darkness/jquery.ui.all.css');
+	
 		
 	} // END method plugin_viewer_styles()
 	
 	
-	
 	/**
-	 * 	Scripts and styles for the options page.
+	 * 	Load the scripts and styles for the admin.
+	 * 
+	 * 	@uses wp_enqueue_style and wp_enqueue_script.
+	 * 	@since 0.1
 	 */
 	public function admin_scripts_styles() {
 		global $wp_version;
@@ -342,6 +343,7 @@ class wpUI {
 	 * 	Set the defaults on plugin activation.
 	 */
 	function set_defaults() {
+		
 		// First install.
 		if ( ! $this->options ) {
 			$defaults = get_wpui_default_options();
@@ -353,8 +355,9 @@ class wpUI {
 			$updateopts = array_merge( $newdefs , $oldopts );
 			update_option( 'wpUI_options', $updateopts );
 		} // End if ( !this->options )
-	} 
-	
+
+	} // END set defaults.
+
 	
 
 	// =======================
@@ -372,24 +375,48 @@ class wpUI {
 			'speed'		=>	'600',
 			// Tabs only options below
 			'rotate'	=>	'', 
-			'position'	=>	'top'
+			'position'	=>	'top',
+			'cat'		=>	'',
+			'mode'		=>	'horizontal',
+			'listwidth'	=>	''
 		), $atts));
 		
 		$output  = '';
 
-		// $jqui_cust = isset( $this->options[ 'jqui_custom_themes' ] ) ? json_decode( $this->options[ 'jqui_custom_themes' ] , true ) : array();
+		$scheme = $style;
 		
-		if ( stristr( $style, 'wpui-' ) ) {
+		$jqui_cust = isset( $this->options[ 'jqui_custom_themes' ] ) ? json_decode( $this->options[ 'jqui_custom_themes' ] , true ) : array();	
+		
+					
+		if ( stristr( $style, 'wpui-' ) && ! isset( $jqui_cust[ $scheme ] ) ) {
 			$style .= ' wpui-styles';
 		} else {
 			$style .= ' jqui-styles';
 		}
 		
+		if ( $mode == 'vertical' ) {
+			$style .= ' wpui-tabs-vertical';
+		}
+		
+		if ( $listwidth != '' )
+			$style .= ' listwidth-' . $listwidth;
+
+		
+		// echo '<pre>';
+		// print_r($jqui_cust);
+		// echo isset($jqui_cust[ $scheme ]);
+		// echo '</pre>';
+		// 
+		// if ( isset( $jqui_cust[ $scheme ] ) ) {
+		// 	echo "<h1>FOUND A CUSTOMS!</h1>";
+		// 		$style .= ' jqui-styles';
+		// 	}	
+			
 		//  
 		// if( array_key_exists( $style , $jqui_cust ) ) {
 		// 	$style .= ' jqui-styles';
 		// }
-		
+	
 		// Default : tabs. Change type for accordion.
 		$class  = ($type == 'accordion') ? 'wp-accordion' : 'wp-tabs';
 		$class .= ' ' . $style;
@@ -400,6 +427,104 @@ class wpUI {
 		$output .= '<div class="' . $class . '">' . do_shortcode($content) . '</div><!-- end div.wp-tabs -->';
 		return $output;
 	} // END function sc_wptabs.
+
+
+	/**
+	 *	Output tab sets of posts.
+	 * 	[wptabposts]
+	 * 
+	 * @since 0.7
+	 * @param $atts, $content
+	 * @return shortcode handler.
+	 */
+	function sc_wptabposts( $atts, $content = null )
+	{
+		extract( shortcode_atts( array(
+			'style'				=>	$this->options[ 'tab_scheme' ],
+			'type'				=>	'tabs',
+			'mode'				=>	'',
+			'listwidth'			=>	'',
+			'tab_names'			=>	'numbers',
+			'effect'			=>	$this->options['tabsfx'],
+			'speed'				=>	'600',
+			'get'				=>	'',
+			'cat'				=>	'',
+			'tag'				=>	'',
+			'number'			=>	'4',
+			'exclude'			=>	'',
+			'elength'			=>	$this->options['excerpt_length'],
+			'before_post'		=>	'',
+			'after_post'		=>	''
+		), $atts ));
+		
+		
+		if ( $tab_names != 'numbers' ) {
+			$tab_names_arr = preg_split( '/(?<!\\\\),/sim', $tab_names );
+			if ( count( $tab_names_arr ) < 2 )
+				$tab_names = 'numbers';
+		}
+		
+		if ( ( ! $cat || $cat == '' ) && ( ! $tag || $tag == '' ) && ( ! $get || $get == '' ) )
+			return;
+		
+		if ( $cat != '' ) $tag = '';		
+
+		// $wquery . '&number=' . $number . '&length=' . $elength
+		$my_posts = $this->wpui_get_posts( array( 
+									'cat'		=>	$cat,
+									'tag'		=>	$tag,
+									'get'		=>	$get,
+									'number'	=>	$number,
+									'exclude'	=>	$exclude,
+									'length'	=>	$elength								
+								));
+
+		// echo '<pre>';
+		// print_r($my_posts);
+		// echo '</pre>';
+		
+		$output = ''; 
+		
+		$tabs_count = 1;
+		
+		$each_tabs = '';
+		
+		if ( ! $my_posts ) {
+			return "Please verify <code>[<span>wptabposts</span>]</code> arguments.";
+		}
+		
+		foreach( $my_posts as $index=>$item ) {
+			if ( $tab_names != 'numbers' )
+				$tab_name = $tab_names_arr[ $index ];
+			else
+				$tab_name = $tabs_count;
+			$tmpl = $this->replace_tags( $this->options[ 'post_template_1'], $item );
+			$tab_content = $before_post . $tmpl . $after_post;
+			$each_tabs .= do_shortcode( '[wptabtitle] ' . $tab_name . ' [/wptabtitle] [wptabcontent] ' . $tab_content  . ' [/wptabcontent]' );
+
+			$tabs_count++;
+		} // END foreach.
+		
+		$wptabsargs = '';
+		
+		if ( $type != '' )
+			$wptabsargs .= ' type="' . $type . '"';
+		if ( $mode != '' )
+			$wptabsargs .= ' mode="' . $mode . '"';
+		
+		if ( $listwidth != '' )
+			$style .= ' listwidth-' . $listwidth;
+		$wptabsargs .= ' style="' . $style . '"';
+		
+		
+		// if ( $listwidth != '' )
+			$style .= ' listwidth-' . $listwidth;
+		$output .= do_shortcode( '[wptabs' . $wptabsargs . ']' . $each_tabs . '[/wptabs]' );
+		
+		return $output;
+		
+	} // END function wptabposts
+
 	
 	
 	/**
@@ -409,20 +534,83 @@ class wpUI {
 		extract(shortcode_atts(array(
 			'header'	=>	'h3',
 			'tablabel'	=>	'',
-			'load'	=>	''
+			'load'		=>	'',
+			'post'		=>	'',
+			'page'		=>	'',
+			'cat'		=>	'',
+			'tag'		=>	'',
+			'number'	=>	'4',
+			'exclude'	=>	'',
+			'tag'		=>	'',
+			'elength'	=>	$this->options['excerpt_length'],
+			'before_post'	=>	'',
+			'after_post'	=>	''
 		), $atts));
 		
-		// Check if the tab's content is to be loaded thro AJAX.
-		if ( $load != '' ) {
+		if( $post != '' ) {
+			// No ajax load if a post is specified.
+			$load = '';	
+			$post_cont = $this->wpui_get_post( $post, $elength );
+			
+			if ( ! is_array( $post_cont ) ) :
+				$post_content = $post_cont;
+			else :
+			$tmpl = $this->options[ 'post_template_1' ];
+			$post_content = $before_post . $this->replace_tags( $tmpl, $post_cont ) . $after_post;
+			endif;
+			$output  = '<' . $header . ' class="wp-tab-title">';
+			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
+			$output .= do_shortcode( '[wptabcontent]' .  $post_content . '[/wptabcontent]');
+
+		} elseif( $page != '' ) { 
+			$load = '';
+			$post_cont = $this->wpui_get_post( $page, $elength, 'page' );
+			if ( ! is_array( $post_cont ) ) :
+				$post_content = $post_cont;
+			else :			
+			$post_cont[ 'excerpt' ] = $post_cont[ 'content' ];
+			$tmpl = $this->options[ 'post_template_1' ];
+			$post_content = $before_post . $this->replace_tags( $tmpl, $post_cont ) . $after_post;
+			$post_cont[ 'excerpt' ] = $post_cont[ 'content' ];
+			endif;
+			
+			$output  = '<' . $header . ' class="wp-tab-title">';
+			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
+			$output .= do_shortcode( '[wptabcontent]' .  $post_content . '[/wptabcontent]');			
+			
+		} elseif( $cat != '' || $tag != '' ) {
+			$load = '';
+			
+			$get_cat_posts = $this->wpui_get_posts( array( 
+									'cat'		=>	$cat,
+									'tag'		=>	$tag,
+									'number'	=>	$number,
+									'exclude'	=>	$exclude,
+									'length'	=>	$elength								
+									));
+			
+			// echo '<pre>';
+			// print_r($get_cat_posts);
+			// echo '</pre>';
+			
+			$posts_group = '';
+			
+			foreach( $get_cat_posts as $index=>$values ) {
+				$tmpl = $this->options[ 'post_template_1' ];
+				$posts_group .= $this->replace_tags( $tmpl, $values );	
+			}
+			
+			$output = '<' . $header . ' class="wp-tab-title">';
+			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
+			$output .= do_shortcode( '[wptabcontent]' . $posts_group . '[/wptabcontent]' );			
+			
+		} elseif ( $load != '' ) {
 			$output  = '<' . $header . ' class="wp-tab-title">';
 			$output .= '<a class="wp-tab-load" href="' . $load . '">';
 			$output .= do_shortcode($content);
 			$output .= '</a>';
 			$output .= '</' . $header . '>';
-		} else {
-			
-			
-			
+		} else {	
 			$output = '<' . $header . ' class="wp-tab-title">' . do_shortcode( __( $content ) ) . '</' . $header . '>';
 		}
 		
@@ -436,7 +624,6 @@ class wpUI {
 		extract( shortcode_atts( array( 
 				'class'	=>	''
 			), $atts));
-			
 			return '<div class="wp-tab-content">' . do_shortcode($content) . '</div><!-- end div.wp-tab-content -->';
 			
 	} // END function sc_wptabcontent
@@ -454,10 +641,14 @@ class wpUI {
 				'fade'		=>	'true',
 				'slide'		=>	'true',
 				'speed'		=>	false,
+				'closebtn'	=>	false,
 				'showText'	=>	'Click to show',
 				'hideText'	=>	'Click to hide',
-				'open'		=>	'false'
-				
+				'open'		=>	'false',
+				'post'		=>	'',
+				'elength'	=>	$this->options['excerpt_length'],
+				'before_post'	=>	'',
+				'after_post'	=>	''
 			), $atts));
 			
 			$h3class  = '';
@@ -467,7 +658,19 @@ class wpUI {
 			
 			$h3class .= ( $speed ) ? ' speed-' . $speed : '';
 			
-			return '<div class="wp-spoiler ' . $style . '"><h3 class="ui-collapsible-header' . $h3class . '"><span class="ui-icon"></span>' .$name . '</h3><div class="ui-collapsible-content">'  . do_shortcode($content) . '</div></div><!-- end div.wp-spoiler -->';
+			if ( $post != '' ) {
+				$content = '';
+				$post_content = $this->wpui_get_post( $post, $elength );
+				$tmpl = $this->options[ 'post_template_2' ];
+				$content = $before_post . $this->replace_tags( $tmpl, $post_content ) . $after_post;
+				$name = $post_content[ 'title' ];		
+			}
+			
+			$out_content = do_shortcode( $content );
+			if ( $closebtn )
+				$out_content .= '<a class="close-spoiler ui-button ui-corner-all" href="#">' . $closebtn . '</a>';
+			
+			return '<div class="wp-spoiler ' . $style . '"><h3 class="ui-collapsible-header' . $h3class . '"><span class="ui-icon"></span>' .$name . '</h3><div class="ui-collapsible-content">'  . $out_content . '</div></div><!-- end div.wp-spoiler -->';
 	} // END function sc_wptabcontent
 
 
@@ -478,28 +681,40 @@ class wpUI {
 	 */
 	function sc_wpdialog( $atts, $content = null ) {
 		extract( shortcode_atts( array(
-			'style'			=>	'',
-			'autoOpen'		=>	'true',
-			'openlabel'		=>	'Show Information',
+			'style'			=>	$this->options['tab_scheme'],
+			'auto_open'		=>	"true",
+			'openlabel'		=>	"Show Information",
 			'title'			=>	'Information',
 			'height'		=>	'auto',
-			'width'			=>	'300',
+			'width'			=>	$this->options[ 'dialog_width' ],
 			'show'			=>	'slide',
 			'hide'			=>	'fade',
 			'modal'			=>	'false',
-			'closeOnEscape'	=>	'1',
+			'closeOnEscape'	=>	'true',
 			'position'		=>	'center',
 			'zIndex'		=>	'1000',
-			'button'		=>	false
+			'button'		=>	false,
+			'post'			=>	'',
+			'elength'		=>	'more',
+			'before_post'	=>	'',
+			'after_post'	=>	''
 		), $atts ) );
 		
+		static $dia_inst = 0;
+		$dia_inst++;
+		
 		$args = '';
+		$scheme = $style;
+		
+		if ( stristr( $style, 'wpui-' ) ) {
+			$style .= '%wp-ui-styles%dialog-number-' . $dia_inst;
+		}
 
 		if ( $style ) $args .= ' wpui-dialogClass:' . $style . '-arg';
 		
 		if ( $width ) $args .= ' wpui-width:' . $width . '-arg';
 		if ( $height ) $args .= ' wpui-height:' . $height . '-arg';
-		$args .= ' wpui-autoOpen:' . $autoOpen . '-arg';
+		if ( $auto_open ) $args .= ' wpui-autoOpen:' . $auto_open . '-arg';
 		if ( $show ) $args .= ' wpui-show:' . $show . '-arg';
 		if ( $hide ) $args .= ' wpui-hide:' . $hide . '-arg';
 		if ( $modal ) $args .= ' wpui-modal:' . $modal . '-arg';
@@ -507,25 +722,34 @@ class wpUI {
 		if ( $position ) $args .= ' wpui-position:' . $position . '-arg';
 		if ( $zIndex ) $args .= ' wpui-zIndex:' . $zIndex . '-arg';
 		if ( $button ) {
-			$button = str_ireplace( ' ', '*_*', $button );
+			$button = str_ireplace( ' ', '%', $button );
 			$args .= ' wpui-button:' . $button . '-arg';
 		}
 
+
+		if ( $post != '' ) {
+			$get_post = $this->wpui_get_post( $post , $elength );
+			$title = $get_post[ 'title' ];
+			$tmpl = $this->options[ 'post_template_2' ];
+			$content = $before_post . $this->replace_tags( $tmpl, $get_post ) . $after_post;
+		}
+		
 		$output = '';
 
-		// if ( ! $autoOpen ) {
-		// 	$output .= '<a href="#" class="ui-button dialog-opener">' . $openlabel . '</a>';
-		// 	$output .= '<div class="wp-dialog" style="display: none;">';
-		// } else {		
+		if ( $auto_open == "false" ) {
+			
+			$output .= '<p class="' . $scheme . '"><a href="#" class="dialog-opener-' . $dia_inst . '">Show info</a></p>';
+			
+			// $output .= '<p class="' . $this->options[ 'tab_scheme' ] . '"><a href="#" class="ui-button ui-state-default ui-corner-all dialog-opener-' . $dia_inst . '"><span class="ui-icon ui-icon-newwin"></span><span class="ui-button-text">' . $openlabel . '</span></a></p>';
+			$output .= '<div class="wp-dialog wp-dialog-' . $dia_inst . ' ' . $style . '" title="' . $title . '">';
+		} else {
 			$output .= '<div class="wp-dialog ' . $style . '" title="' . $title . '">';
-		// }
+		}
 		$output .= '<h4 class="wp-dialog-title ' . $args . '"></h4>';
 		$output .= $content . '</div><!-- end .wp-dialog -->';
 		
 		
 		return $output;
-				
-		
 		
 	} // END method sc_wpdialog	
 
@@ -550,7 +774,10 @@ class wpUI {
 
 
 	/**
-	 * 	Output the custom css if any.
+	 * 	Queue the custom css.
+	 * 
+	 * 	@since 0.5
+	 * 	@uses get_query_var
 	 */
 	function wpui_custom_css()
 	{
@@ -568,9 +795,332 @@ class wpUI {
 		
 	} // END function wpui_custom_css
 
+
+	/**
+	 * 	Replace the tags on the template.
+	 * 	
+	 * @since 0.7
+	 * @return string $template HTML
+	 */
+	function replace_tags( $template, $needles ) {
+		
+		if ( ! $template ) return;
+		if ( ! is_array( $needles ) ) return;
+		
+		$template = str_ireplace( '{$title}' , $needles[ 'title' ], $template );
+		$template = str_ireplace( '{$thumbnail}' , $needles[ 'thumbnail' ], $template );
+		$template = str_ireplace( '{$excerpt}' , $needles[ 'excerpt' ], $template );
+		
+		$template = str_ireplace( '{$content}' , $needles[ 'content' ], $template );
+		if ( isset( $this->options[ 'relative_times' ] ) )
+			$template = str_ireplace( '{$date}' , $this->get_relative_time($needles[ 'date' ]), $template );
+		else
+			$template = str_ireplace( '{$date}' , $needles[ 'date' ], $template );
+		$template = str_ireplace( '{$url}' , $needles[ 'url' ], $template );		
+		$template = str_ireplace( '{$author}' , $needles[ 'author' ], $template );
+		$author_posts_link = '<a href="' . get_author_posts_url( $needles[ 'author' ] ) . '" target="_blank" />' . $needles[ 'author' ] . '</a>';
+		$template = str_ireplace( '{$author_posts_link}', $author_posts_link, $template );
+		$first_cat = explode( ', ', $needles[ 'meta' ]['cat'] );
+		$first_cat = $first_cat[ 0 ];
+		
+		$template = str_ireplace( '{$cats}', $needles[ 'meta' ][ 'cat' ], $template );
+		$template = str_ireplace( '{$cat}', $first_cat,  $template );
+		$template = str_ireplace( '{$tags}', $needles[ 'meta' ][ 'tag' ], $template );
+		$template = str_ireplace( '{$num_comments}', $needles[ 'meta' ][ 'comments' ], $template );
+	
+		return $template;		
+	} // END method replace_tags
+
+
+
+	
+	/**
+	 * Generate excerpt.
+	 * 
+	 * @since 0.7
+	 * 
+	 * @param string $text to be trimmed.
+	 * @param integer $length to trim.
+	 * @return string $text trimmed content
+	 */
+	function get_excerpt( $text, $length ) {
+		$text = apply_filters( 'the_content' , $text );
+		$text = str_replace( '\]\]\>', ']]&gt;', $text );
+		$text = preg_replace( '@<script[^>]*?>.*?</script>@si', '', $text );
+		$text = strip_tags( $text, '<p><ul><ol><li><img><h2><h3>' );
+		
+		if ( ! is_int( $length ) ) {
+			if ( isset( $this->options[ 'excerpt_length' ] ) )
+				$length = $this->options[ 'excerpt_length' ];
+			else 
+				$length = 55;
+		}
+				
+		$words = explode( ' ' , $text , $length + 1 );
+		
+		if ( count( $words ) > $length ) {
+			array_pop( $words );
+			// array_push( $words , $more_link );
+			$text = implode( ' ', $words );
+		}		
+		return $text;
+	} // END method wpui_generate_excerpt
+	
+
+	/**
+	 * Get individual posts.
+	 * 
+	 * @since 0.7
+	 * @uses get_post()
+	 * @param $ID , ID of the post
+	 * @param $args array.
+	 */
+	function wpui_get_post( $ID , $length , $type='post' ) {
+		if ( ! $ID ) return;
+		if ( ! $length  && isset( $this->options[ 'excerpt_length' ] ) )
+			$length = $this->option[ 'excerpt_length' ];
+			
+		if ( $type == 'page' )			
+			$length = 55;
+		
+		if ( $type == 'page' ) {
+			if ( is_numeric( $ID ) ) 
+				$wpui_post = get_page( $ID );
+			else
+				$wpui_post = get_page_by_title( $ID );
+				
+		} else {
+			$wpui_post = get_post( $ID );
+		}
+		
+		if ( ! $wpui_post ) {
+			return "Please verify the post/page ID. Check the spelling if using a name or title.";
+		}
+
+
+		$p_title = $wpui_post->post_title;
+		$p_thumb = get_the_post_thumbnail( $ID );				
+
+		$more_link = get_permalink( $ID );
+		$check_more = preg_match( '/<!--more-->/im', $wpui_post->post_content);
+		// die();
+
+		if ( $length == 'more' && $check_more ) {
+			$pos = stripos( $wpui_post->post_content , '<!--more-->' );
+			$post_exc = substr( $wpui_post->post_content, 0 , $pos);
+		} else {
+			$length = intval( $length );
+			$post_exc = $wpui_post->post_content;
+			$post_exc = $this->get_excerpt( $post_exc, $length );
+		}
+				
+		$post_date = mysql2date( get_option( 'date_format' ) , $wpui_post->post_date_gmt);
+		
+		if ( $type != 'page' ) {
+			$cats = get_the_category_list( ', ', '', $wpui_post->ID );
+			$tags = $this->wpui_get_post_tags( $wpui_post->ID );
+		} else {
+			$cats = $tags = '';
+		}
+			
+		
+		$output = array(
+			'title'		=>	$wpui_post->post_title,
+			'excerpt'	=>	$post_exc,
+			'content'	=>	$wpui_post->post_content,
+			'thumbnail'	=>	$p_thumb,
+			'date'		=>	$post_date,
+			'author'	=>	get_the_author_meta('display_name' ,$wpui_post->post_author),
+			'url'		=>	$more_link,
+			'meta'		=>	array(
+								'cat'		=>	$cats,
+								'tag'		=>	$tags,
+								'comments'	=>	$wpui_post->comment_count
+							)
+			);
+		
+		return $output;
+		
+	} // END method wpui_get_post.
+	
+	
+	
+	/**
+	 * 	Get multiple posts with custom query.
+	 * 
+	 * 	@since 0.7
+	 * 	@uses WP_Query, wp_reset_postdata()
+	 * 	@return array $posts 
+	 */
+	function wpui_get_posts( $args='' ) {
+		
+		$defaults = array(
+			'get'			=>	'',
+			'cat'			=>	'',
+			'tag'			=>	'',
+			'number'		=>	'4',
+			'exclude'		=>	'',
+			'length'		=>	'more',
+			'excerpt'		=>	true,
+			'thumbnail'		=>	true,
+			'meta'			=>	true
+		);
+		
+		$r = wp_parse_args( $args, $defaults );
+			
+		// if ( ! isset( $r[ 'cat' ] ) || $r[ 'cat' ] == '' ) 
+		// 	return false;
+
+		$qquery = array();
+		
+		if ( $r[ 'get' ] != '' ) {
+			// Get recent posts
+			if ( $r['get'] == 'recent' ) {
+				$qquery = array( "posts_per_page" => $r[ 'number' ] );
+			} else if ( $r[ 'get' ] == 'popular' ) {
+				$qquery = array( 'orderby' => 'comment_count' , 'posts_per_page' => $r[ 'number' ] ); 
+			} elseif ( $r[ 'get' ] == 'random' ) {
+				$qquery = array( 'orderby' => 'rand' , 'posts_per_page' => $r[ 'number' ] );
+			}
+		} else {
+		if ( $r[ 'cat' ] != '' ) {
+			$r[ 'tag' ] = '';
+			if ( is_numeric( $r[ 'cat' ] ) )
+				$qquery[ 'cat' ] = $r[ 'cat' ];
+			else
+				$qquery[ 'category_name' ] = $r[ 'cat' ];
+				
+			if ( $r[ 'exclude' ] != '' ) {
+				$excl_array = explode( ',' , $r[ 'exclude' ] );
+				if ( is_array( $excl_array ) )
+				$qquery[ 'category__not_in' ] = $excl_array;
+			}
+				
+		}
+		if ( $r[ 'tag' ] != '' ) {
+			if ( is_numeric( $r[ 'tag' ] ) ) {
+				$qquery[ 'tag_id' ] = $r[ 'tag' ];
+				if ( $r[ 'exclude' ] != '' ) {
+					$excl_array = explode(',', $r[ 'exclude' ] );
+					if ( is_array( $excl_array ) )
+					$qquery[ 'tag__not_in' ] = $excl_array;		
+				}
+			} else {
+				$qquery[ 'tag' ] = $r[ 'tag' ];
+			}
+		
+		}
+		
+		$qquery[ 'posts_per_page' ] = $r['number'];
+		
+		}			
+		$get_posts = new WP_Query( $qquery );
+
+
+		
+		$post_count = 0;
+		$post_basket = array();
+		
+		// 
+		while ( $get_posts->have_posts() ) : $get_posts->the_post();
+		
+		
+		$wost = array();
+		
+		$content = get_the_content();
+		
+		$wost['title'] = get_the_title();
+		$wost[ 'thumbnail' ] = get_the_post_thumbnail( get_the_ID() );		 
+		$wost['content'] = $content;
+		$check_more = preg_match( '/<!--more-->/im', $wost['content']);
+
+		// if ( $r[ 'length' ] == 'more' && $check_more ) {
+		// 	$pos = stripos( $content , '<!--more-->' );
+		// 	$wost[ 'excerpt' ] = substr( $content, 0 , $pos);
+		// } else {
+		if ( $r[ 'length' ] == 'more' )	{
+			$wost['excerpt'] = get_the_excerpt();
+		} else {
+			$elength = intval( $r[ 'length' ] );
+			if ( ! is_int( $elength ) ) $elength = 55;
+			$wost[ 'excerpt' ] = $this->get_excerpt( $content, $elength );
+		}
+		
+		$wost[ 'meta' ] = array();
+		$wost[ 'meta' ][ 'cat' ] = get_the_category_list( ',' );			
+		$wost[ 'meta' ][ 'tag' ] = 	get_the_tag_list('', ', ', '');
+		$wost[ 'meta' ][ 'comments' ] = get_comments_number();
+		
+		// }
+		$wost[ 'date' ] = get_the_date();
+		$wost[ 'url' ] = get_permalink( get_the_ID() );
+		$wost[ 'author' ] = get_the_author();
+		// $post_basket
+
+		$post_basket[ $post_count ] = $wost;
+
+
+		$post_count++;
+		endwhile; // end while get_posts loop
+		
+		wp_reset_postdata();
+		
+		// echo '<pre>';
+		// print_r($post_basket);
+		// echo '</pre>';
+
+		if ( $post_basket )
+			return $post_basket;
+	} // END function wpui_get_posts
+	
+	
+	/**
+	 * Get the relative time, like 5 days ago.
+	 * 
+	 * @since 0.5.8
+	 * @uses mysql2date, human_time_diff
+	 * @param integer $time, post time in GMT.
+	 * @return string, relative time
+	 */
+	function get_relative_time( $time )
+	{
+		$time = mysql2date( 'U' , $time );
+		$time = human_time_diff( $time, current_time( 'timestamp' ) ) . __( ' ago', WPPTD );
+		return $time;
+	} // END function get_relative_time
+	
+	
+	/**
+	 * Get the tags from a post ID.
+	 * 
+	 * @uses get_the_tags()
+	 * @since 0.7
+	 * @thinks God! why am i even typing this!
+	 * @param $ID id of the post.
+	 * @param $separator string 
+	 * @return $output long string of tags.
+	 */
+	function wpui_get_post_tags( $pID='0' , $sep=', ' )
+	{		
+		$get_tags = get_the_tags( $pID );
+		
+		$output = '';
+		$total_tags = count( $get_tags );
+		$present_tag = 1;
+		
+		if ( ! $get_tags ) return;
+		
+		foreach( $get_tags as $tag ) {
+			if ( $present_tag == $total_tags ) $sep = '';
+			$output .= '<a href="' . get_tag_link( $tag->term_id ) . '">' . $tag->name . '</a>' . $sep;
+			$present_tag++;
+		}		
+		return $output;		
+	} // END function wpui_get_post_tags
+	
+	
 	
 } // end class WP_UI
-
 
 
 $upload_dir = wp_upload_dir();
@@ -605,8 +1155,7 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 			}
 			$i++;
 		}
-	}
-	ksort( $valid );
+	}	ksort( $valid );
 	foreach( $valid as $key=>$value ) {
 		$valid[ $key ] = get_bloginfo('wpurl') . '/' . str_ireplace( ABSPATH, '', $value );
 	}
@@ -622,8 +1171,5 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 	// } else {
 	// }		
 } // END update CSS dirs.
-
-
-
 
 ?>

@@ -15,7 +15,8 @@
 /**
 *	Plugin Options class.
 */
-class plugin_options
+if ( ! class_exists( 'quark_admin_options') ) {
+class quark_admin_options
 {
 	
 	public $sections, $fields, $page_id, $admin_scripts, $plugin_details, $plugin_db_prefix, $plugin_page_prefix;
@@ -40,13 +41,13 @@ class plugin_options
 		foreach ( $plugin_details as $key => $value ) {
 			$this->{$key} = $value;
 		}
-		$this->plugin_options();
+		$this->quark_admin_options();
 		
 	}
 	
 	
 	
-	public function plugin_options() {
+	public function quark_admin_options() {
 		
 		add_action( 'admin_menu' , array(&$this, 'menu_admin'));
 		add_action( 'admin_init' , array(&$this, 'init_admin'));
@@ -75,7 +76,7 @@ class plugin_options
 		 * Hook for inserting info *above* your plugin's option page.
 		 * 	Can be used for information about the plugin, warnings etc.
 		 */
-		do_action( 'plugin_info_above_options_page' );
+		do_action( $this->page_prefix . '_above_options_page' );
 
 		/**
 		 * Start the form tag.
@@ -100,7 +101,7 @@ class plugin_options
 		 * Hook for inserting info *below* your plugin's option page.
 		 * 	Useful for credits and similar.
 		 */			
-			do_action( 'plugin_info_below_options_page' );
+			do_action( $this->page_prefix . '_below_options_page' );
 			
 	}
 
@@ -258,7 +259,8 @@ class plugin_options
 			if (!empty($textarea_size)) {
 				$text_cols = ' cols="' . $textarea_size['cols'] . '"';
 				$text_rows = ' rows="' . $textarea_size['rows'] . '"';
-				$autocomplete = $textarea_size['autocomplete'];
+				if( isset( $textarea_size[ 'autocomplete' ] ) )
+					$autocomplete = $textarea_size[ 'autocomplete' ];
 			}	
 			echo '<textarea' . $field_class . $text_cols . $text_rows . ' autocomplete="' . $autocomplete . '" id="' . $id . '" name="' . $this->db_prefix . '_options[' . $id . ']">' . $options[$id] . '</textarea>';
 			if( $desc != '' )
@@ -273,6 +275,8 @@ class plugin_options
 			if (!empty($textarea_size)) {
 				$text_cols = ' cols="' . $textarea_size['cols'] . '"';
 				$text_rows = ' rows="' . $textarea_size['rows'] . '"';
+				if( isset( $textarea_size[ 'autocomplete' ] ) )
+					$autocomplete = $textarea_size[ 'autocomplete' ];
 			}
 			echo '<p class="switch-editors" align="right"><a class="toggleVisual">Visual</a><a class="toggleHTML">HTML</a></p>';
 			echo '<textarea' . $field_class . $text_cols . $text_rows . ' id="' . $id . '" class="rich-text-editor" name="' . $this->db_prefix . '_options[' . $id . ']">' . $options[$id] . '</textarea>';
@@ -441,9 +445,9 @@ class plugin_options
 	public function get_admin_scripts() {
 		return $this->admin_scripts;
 	}
-} // END class plugin_options.
+} // END class quark_admin_options.
 
 
 
-// }
+} // END if class_exists check for quark_admin_options.
 ?>

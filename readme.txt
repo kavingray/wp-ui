@@ -1,27 +1,27 @@
 === WP UI - Tabs, Accordions, Sliders ===
 Contributors: kavingray
-Donate link: http://kav.in/
+Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, capability
-Requires at least: 2.9
+Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.5.6
+Stable tag: 0.7
 
-Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh & Unique CSS3 styles and Support for multiple jQuery UI custom themes.
+Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and use multiple jQuery UI custom themes.
 
 == Description ==
 
-WP UI is an advanced interface widgets plugin that combines the power of jQuery UI widgets into Wordpress posts. Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And please do remember, Great content deserves great presentation too! 
+WP UI is an advanced interface widgets plugin that combines the power of jQuery UI widgets into Wordpress posts. Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And great content deserves great presentation!
 
 [Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
 
 [Plugin page](http://kav.in/wp-ui-for-wordpress)
 
-[Plugin Support](http://kav.in/discuss)
+[Plugin Support](http://kav.in/forum)
 
 == Installation ==
 
-1. Upload the `wp-ui` folder to the `/wp-content/plugins/` directory
+1. Upload the `wp-ui` folder to the `/wp-content/plugins/` directory.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
 1. Add shortcodes to the post editor and enjoy!
 
@@ -46,15 +46,15 @@ All the code will **degrade gracefully** when javascript is disabled. Try disabl
 
 Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. From Version 0.5.5, it is now possible to use multiple UI themes, with this [guide](http://kav.in/wp-ui-using-jquery-ui-custom-themes/).
 
-= Why aren't my tabs working? / Why are some of my shortcodes not getting parsed? =
+= Why are some of my shortcodes appear on the rendered page? =
 
-Make sure each one of your shortcodes is in the **separate line** and avoid empty lines. eg. 
+Make sure each one of your shortcodes is in the **separate line** but please do avoid empty lines. eg. 
 
     [wptabs]
-    [wptabtitle]Tab 1[/wptabtitle]
-    [wptabcontent]Contents of the first tab goes here. Any thing, blah blah.[/wptabcontent]
-    [wptabtitle]Tab 2[/wptabtitle]
-    [wptabcontent]Content inside the second tab is here.[/wptabcontent]
+      [wptabtitle]Tab 1[/wptabtitle]
+      [wptabcontent]Contents of the first tab goes here. Any thing, blah blah.[/wptabcontent]
+      [wptabtitle]Tab 2[/wptabtitle]
+      [wptabcontent]Content inside the second tab is here.[/wptabcontent]
     [/wptabs]
 
 
@@ -62,21 +62,13 @@ Make sure each one of your shortcodes is in the **separate line** and avoid empt
 
 Shortcodes should be entered into the wordpress post editor's HTML mode. WP Visual mode editor can insert additional paragraph `<p>` tags before and after the shortcodes, thereby rendering those invalid.
 
-= Why can't i see the text in my tabs? =
+= Why do my font's look blurry / Why can not i see any text ? =
 
 Styling inconsistencies. Probably because the background color of the CSS3 style and your wordpress theme's text color are near same. Please try switching to some other tab style or jQuery UI theme.
 
 = Why does the widgets behave strangely sometimes? =
 
 This can be related to lot of white space between the shortcodes, which are converted by wordpress into empty space enclosed within `<p>` tags. Remove the unwanted space between the shortcodes.
-
-= I have tried everything, but why these still doesn't work? =
-
-Okay, drop me a note with the code you used. I'll be glad to help.
-
-= Why can't i select the other option tabs after using "Visualize and select" in the options panel? =
-
-This is because another copy of jQuery UI was loaded for the stylechooser. Please save changes and try again. It should work now. So will it, after page reload.
 
 = Where can i get help about this plugin? =
 
@@ -85,13 +77,14 @@ Documentation is available right within the wordpress admin. It is present in th
 * Post editor - look for the menu button in Visual mode and "?" icon in the HTML mode. This opens a document with common usage of the plugin shortcodes and their arguments.
 * Contextual Help - Available on the options page on the top right corner, below the username. Click each tab and information related to that tab will appear.
 
-Detailed Documentation & Demos can be found at [my projects site](http://kav.in/projects/).
+Help 
 
-You can contact me if you need any help or use the wordpress support forums.
+* [Detailed Documentation & Demos](http://kav.in/projects/).
+* [Support forums ](http://kav.in/forum)
 
 = I have some exciting idea/suggestion about this plugin! =
 
-I would love to hear about it. Please share it [here](http://kav.in/discuss)
+I would love to hear about it. Please drop me a note [here](http://kav.in/contact) or [here](http://kav.in/forum)
 
 = How can i support this plugin? =
 
@@ -108,6 +101,14 @@ I would love to hear about it. Please share it [here](http://kav.in/discuss)
 4. Style chooser available from within the post editor.
 
 == Changelog ==
+
+= 0.7 =
+* Display post/posts and pages within Tabs/accordion/dialogs/sliders.
+* Mousewheel support and vertical styling for Tabs.
+* Dialogs completely styled and ready for action. 
+* Template feature for the posts.
+* Sliders/dialogs rewritten.
+* Various bugfixes.
 
 = 0.5.6 =
 * Fix: array_key_exists error when there are no custom themes listed.
@@ -144,6 +145,9 @@ I would love to hear about it. Please share it [here](http://kav.in/discuss)
 
 == Upgrade Notice ==
 
+= 0.7 =
+Now, load posts into tabs/acc/dialogs/sliders. Mousewheel scrolling thro tabs. Dialogs styles, Vertical tabs. Please resave the options.
+
 = 0.5.6 =
 Fixed : array_key_exists error fixed. Please resave the options.
 
@@ -162,6 +166,19 @@ This is the first stable version to be released.
 
 == Demos ==
 
-It is recommended that you check out the [complete demo](http://kav.in/projects/blog/wp-ui-tabs-accordion-sliders-demo/) here. Please do check out the CSS3 styles, along with [style switcher here](http://kav.in/projects/blog/wp-ui-css3-styles-demo/).
+= Demos =
+* [complete demo](http://kav.in/projects/blog/wp-ui-tabs-accordion-sliders-demo/)
+* [styles demo ](http://kav.in/projects/blog/wp-ui-css3-styles-demo/)
+* [ Including the posts ](http://kav.in/projects/blog/wp-ui-display-posts-wordpress/)
 
 Please **rate** the plugin if you find it useful.
+
+
+= Credits =
+Following scripts have been included with this plugin.
+
+* Includes jQuery cookie plugin by Klaus Hartl.
+* Includes hashchange event plugin by Ben Alman.
+* Includes Mousewheel event plugin by Brandon Aaron.
+
+Thanks to respective authors for their great work.

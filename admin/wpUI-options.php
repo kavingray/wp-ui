@@ -1,15 +1,15 @@
 <?php
 require_once( 'admin-options.php' );
 
-
+if ( class_exists( 'quark_admin_options' ) ) {
 /**
-* Wp Present options
+* WP UI options
 */
-class wpUI_options extends plugin_options
+class wpUI_options extends quark_admin_options
 {
-	
 
 	public function validate_options( $input ) {
+
 		// echo '<pre>';
 		// print_r($input);
 		// echo '</pre>';
@@ -20,20 +20,21 @@ class wpUI_options extends plugin_options
 
 		if ( $reset ) {
 			$defaults = get_wpui_default_options();
-			
 			return $defaults;
 		}
 		return $new_input;
 	}
 }
+}
 
-$this->plugin_details = array(
+$wpui_plugin_details = array(
 	'name'			=>	'WP UI',
 	'db_prefix'		=>	'wpUI',
 	'page_prefix'	=>	'wpUI'
 );
 
-$option_page = new wpUI_options($this->plugin_details);
+if( class_exists( 'quark_admin_options') )
+	$option_page = new wpUI_options($wpui_plugin_details);
 
 
 $sects = array(
@@ -41,32 +42,39 @@ $sects = array(
 	'style'		=>	__('Style', WPPTD),
 	'effects'	=>	__('Effects', WPPTD),
 	'text'		=>	__('Text', WPPTD),
-	'advanced'	=>	__('Advanced', WPPTD)
-	// 'popup'		=>	'PopUp'
+	'posts'	=>	__('Posts', WPPTD),
+	'advanced'	=>	__('Advanced', WPPTD)	
 );
 
 $option_page->set_sections($sects);
 $options_list = array(
 	'tabMain'	=>	array(
 		'id'		=>	'enable_tabs',
-		'title'		=>	__('Enable Tabs', WPPTD),
-		'desc'		=>	__('Uncheck this, <u>only</u> if you want to disable Tabs.', WPPTD),
+		'title'		=>	__('Tabs', WPPTD),
+		'desc'		=>	__('Uncheck to disable tabs.', WPPTD),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'				
 	),
 	'accordMain'	=>	array(
 		'id'		=>	'enable_accordion',
-		'title'		=>	__('Enable Accordion', WPPTD),
-		'desc'		=>	__('Uncheck this, <u>only</u> if you want to disable Accordions.', WPPTD),
+		'title'		=>	__('Accordions', WPPTD),
+		'desc'		=>	__('Uncheck to disable accordion.', WPPTD),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'				
 	),
-	'enableTMCE'	=>	array(
-		'id'		=>	'enable_tinymce_menu',
-		'title'		=>	__('Enable TinyMCE menu/button', WPPTD),
-		'desc'		=>	__('When enabled, Tabs can be easily configured from Wordpress post editor(TinyMCE) menu.', WPPTD),
+	'enableColl'	=>	array(
+		'id'		=>	'enable_spoilers',
+		'title'		=>	__('Enable Collapsibles (Sliders)', WPPTD),
+		'desc'		=>	__('Uncheck this option to disable Collapsible panels/sliders.', WPPTD),
+		'type'		=>	'checkbox',
 		'section'	=>	'general',
-		'type'		=>	'checkbox'	
+	),
+	'enabledialog'	=>	array(
+		'id'		=>	'enable_dialogs',
+		'title'		=>	__('Enable Dialogs', WPPTD),
+		'desc'		=>	__('Uncheck to disable dialog support.', WPPTD),
+		'type'		=>	'checkbox',
+		'section'	=>	'general',
 	),
 	'enableQTB'	=>	array(
 		'id'		=>	'enable_quicktags_buttons',
@@ -89,34 +97,30 @@ $options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	'enableColl'	=>	array(
-		'id'		=>	'enable_spoilers',
-		'title'		=>	__('Enable Collapsibles (Sliders)', WPPTD),
-		'desc'		=>	__('Uncheck this option to disable Collapsible panels/sliders.', WPPTD),
-		'type'		=>	'checkbox',
+	'enableTMCE'	=>	array(
+		'id'		=>	'enable_tinymce_menu',
+		'title'		=>	__('TinyMCE menu', WPPTD),
+		'desc'		=>	__('Uncheck to disable TinyMCE menu.', WPPTD),
 		'section'	=>	'general',
-	),
-	'enabledialog'	=>	array(
-		'id'		=>	'enable_dialogs',
-		'title'		=>	__('Enable Dialogs', WPPTD),
-		'desc'		=>	__('Uncheck to disable dialog support.', WPPTD),
-		'type'		=>	'checkbox',
-		'section'	=>	'general',
+		'type'		=>	'checkbox'	
 	),	
-	
 
-	'load_all_styles'	=>	array(
-		'id'	=>	'load_all_styles',
-		'title'		=>	__('Load all styles', WPPTD),
-		'desc'		=>	__('If checked, <i>Multiple styles</i> can be used on the same page.', WPPTD),
-		'type'	=>	'checkbox',
-		'section'	=>	'style'
-	),
+	// 
+	// 'load_all_styles'	=>	array(
+	// 	'id'	=>	'load_all_styles',
+	// 	'title'		=>	__('Load all styles', WPPTD),
+	// 	'desc'		=>	__('If checked, <i>Multiple styles</i> can be used on the same page.', WPPTD),
+	// 	'type'	=>	'checkbox',
+	// 	'section'	=>	'style'
+	// ),
+	// 
+	
+	
 	
 	'tabstyle'=>	array(
 		'id'		=>	'tab_scheme',
-		'title'		=>	__('Tabs styles', WPPTD),
-		'desc'		=>	__('Select a <u>default</u> style. Use the shortcode attributes, ex. <code>[wptabs style="chosenstyle"]</code> to override.', WPPTD),
+		'title'		=>	__('Default style<br /><small>All widgets</small>', WPPTD),
+		'desc'		=>	__('Select a <u>default</u> style. Use the shortcode attributes to override.<br /> ex. <code>[wptabs style="chosenstyle"]</code>', WPPTD),
 		'type'		=>	'select',
 		'section'	=>	'style',
 		'choices'	=>	array(
@@ -175,7 +179,7 @@ $options_list = array(
 	
 	'jqui_custom'	=>	array(
 		'id'		=>	'jqui_custom_themes',
-		'title'		=>	__('Manage jQuery UI custom themes'),
+		'title'		=>	__('jQuery UI custom themes<br /><small>Manage Custom themes. Not sure? <a target="_blank" href="http://kav.in/wp-ui-using-jquery-ui-custom-themes/">follow this guide</a>.</small>'),
 		'desc'		=>	__('') . '<div id="jqui_theme_list" ></div><a href="#" class="button-secondary" title="This will scan the directory wp-ui under uploads for themes." id="jqui_scan_uploads">Scan Uploads</a>&nbsp;<a href="#" class="button-secondary" id="jqui_add_theme">Add theme</a>',
 		'type'		=>	'textarea',
 		'section'	=> 'style',
@@ -185,6 +189,14 @@ $options_list = array(
 			'autocomplete'	=>	'off'
 		)
 	),
+	'dialog_wid'	=>	array(
+		"id"		=>	'dialog_width',
+		'title'		=>	__('Dialog Width', WPPTD),
+		'desc'		=>	__('Default width of dialogs (without suffixing units)', WPPTD),
+		'type'		=>	'text',
+		'section'	=>	'style'
+	),
+	
 	
 	// 'iegrads'		=>	array(
 	// 	'id'		=>	'enable_ie_grad',
@@ -284,43 +296,54 @@ $options_list = array(
 		'section'	=>	'effects',
 		'type'		=>	'select',
 		'choices'	=>	array(
-				"false"       	   =>	"disable",
-				"linear"           =>	"linear",
-				"swing"            =>	"swing",
-				"easeInQuad"       =>	"easeInQuad",
-				"easeOutQuad"      =>	"easeOutQuad",
-				"easeInOutQuad"    =>	"easeInOutQuad",
-				"easeInCubic"      =>	"easeInCubic",
-				"easeOutCubic"     =>	"easeOutCubic",
-				"easeInOutCubic"   =>	"easeInOutCubic",
-				"easeInQuart"      =>	"easeInQuart",
-				"easeOutQuart"     =>	"easeOutQuart",
-				"easeInOutQuart"   =>	"easeInOutQuart",
-				"easeInQuint"      =>	"easeInQuint",
-				"easeOutQuint"     =>	"easeOutQuint",
-				"easeInOutQuint"   =>	"easeInOutQuint",
-				"easeInSine"       =>	"easeInSine",
-				"easeOutSine"      =>	"easeOutSine",
-				"easeInOutSine"    =>	"easeInOutSine",
-				"easeInExpo"       =>	"easeInExpo",
-				"easeOutExpo"      =>	"easeOutExpo",
-				"easeInOutExpo"    =>	"easeInOutExpo",
-				"easeInCirc"       =>	"easeInCirc",
-				"easeOutCirc"      =>	"easeOutCirc",
-				"easeInOutCirc"    =>	"easeInOutCirc",
-				"easeInElastic"    =>	"easeInElastic",
-				"easeOutElastic"   =>	"easeOutElastic",
-				"easeInOutElastic" =>	"easeInOutElastic",
-				"easeInBack"       =>	"easeInBack",
-				"easeOutBack"      =>	"easeOutBack",
-				"easeInOutBack"    =>	"easeInOutBack",
-				"easeInBounce"     =>	"easeInBounce",
-				"easeOutBounce"    =>	"easeOutBounce",
-				"easeInOutBounce"  =>	"easeInOutBounce"
+			"false"       	   =>	"disable",
+			"linear"           =>	"linear",
+			"swing"            =>	"swing",
+			"easeInQuad"       =>	"easeInQuad",
+			"easeOutQuad"      =>	"easeOutQuad",
+			"easeInOutQuad"    =>	"easeInOutQuad",
+			"easeInCubic"      =>	"easeInCubic",
+			"easeOutCubic"     =>	"easeOutCubic",
+			"easeInOutCubic"   =>	"easeInOutCubic",
+			"easeInQuart"      =>	"easeInQuart",
+			"easeOutQuart"     =>	"easeOutQuart",
+			"easeInOutQuart"   =>	"easeInOutQuart",
+			"easeInQuint"      =>	"easeInQuint",
+			"easeOutQuint"     =>	"easeOutQuint",
+			"easeInOutQuint"   =>	"easeInOutQuint",
+			"easeInSine"       =>	"easeInSine",
+			"easeOutSine"      =>	"easeOutSine",
+			"easeInOutSine"    =>	"easeInOutSine",
+			"easeInExpo"       =>	"easeInExpo",
+			"easeOutExpo"      =>	"easeOutExpo",
+			"easeInOutExpo"    =>	"easeInOutExpo",
+			"easeInCirc"       =>	"easeInCirc",
+			"easeOutCirc"      =>	"easeOutCirc",
+			"easeInOutCirc"    =>	"easeInOutCirc",
+			"easeInElastic"    =>	"easeInElastic",
+			"easeOutElastic"   =>	"easeOutElastic",
+			"easeInOutElastic" =>	"easeInOutElastic",
+			"easeInBack"       =>	"easeInBack",
+			"easeOutBack"      =>	"easeOutBack",
+			"easeInOutBack"    =>	"easeInOutBack",
+			"easeInBounce"     =>	"easeInBounce",
+			"easeOutBounce"    =>	"easeOutBounce",
+			"easeInOutBounce"  =>	"easeInOutBounce"
 
 		)
 	),
-
+	'mousewheel_tabs'	=>	array(
+		'id'		=>	'mouse_wheel_tabs',
+		'title'		=>	__('Tabs mousewheel navigation', WPPTD),
+		'desc'		=>	__('Scroll to switch between tabs.', WPPTD),
+		'section'	=>	'effects',
+		'type'		=>	'select',
+		'choices'	=>	array(
+			"false"		=>	"disable",
+			"list"      =>	"On List",
+			"panels"    =>	"On Panels"
+		)
+	),
 	
 	
 	// ================
@@ -347,7 +370,11 @@ $options_list = array(
 		'title'		=>	__('Text for show hidden content <br /><small>wp-spoiler <i>aka</i> collapsible panels </small>', WPPTD),
 		'desc'		=>	__( 'Displayed on the header above collapsed, hidden content. Changes to text in the next option when clicked. Dont want one? leave blank!', WPPTD),
 		'section'	=>	'text',
-		'type'		=>	'text'
+		'type'		=>	'textarea',
+		'textarea_size'	=>	array(
+			'cols'	=>	'60',
+			'rows'	=>	'2'
+		)
 	),
 	
 	'hidetext'		=>	array(
@@ -355,7 +382,11 @@ $options_list = array(
 		'title'		=>	__('Text for Hide shown content <br /><small>wp-spoiler <i>aka</i> collapsible panels </small>', WPPTD),
 		'desc'		=>	__( 'Displayed on open, shown collapsible content. Changes to text in previous option when clicked. Dont want one? leave blank!', WPPTD),
 		'section'	=>	'text',
-		'type'		=>	'text'
+		'type'		=>	'textarea',
+		'textarea_size'	=>	array(
+			'cols'	=>	'60',
+			'rows'	=>	'2'
+		)
 	),
 	
 	
@@ -404,6 +435,48 @@ $options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
+
+
+	'post_template_one'	=>	array(
+		'id'		=>	'post_template_1',
+		'title'		=>	__('Template for posts in tabs and accordion', WPPTD),
+		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
+		'type'		=>	'textarea',
+		'section'	=>	'posts',
+	'textarea_size'	=>	array(
+		'cols'	=>	'60',
+		'rows'	=>	'10',
+		'autocomplete'	=>	'off'
+	)
+	),
+
+	'post_template_two'	=>	array(
+		'id'		=>	'post_template_2',
+		'title'		=>	__('Template for posts in Dialogs and sliders', WPPTD),
+		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
+		'type'		=>	'textarea',
+		'section'	=>	'posts',
+	'textarea_size'	=>	array(
+		'cols'	=>	'60',
+		'rows'	=>	'10',
+		'autocomplete'	=>	'off'
+	)
+	),
+	'relative_timez'	=>	array(
+		'id'		=>	'relative_times',
+		'title'		=>	__( 'Relative time', WPPTD ),
+		'desc'		=>	__( 'Display relative time on posts retrieved by WP UI. <code>Example : 9 days ago.</code>'),
+		'type'		=>	'checkbox',
+		'section'	=>	'posts'
+	),
+	'excerpt_length'	=>	array(
+		'id'		=>	'excerpt_length',
+		'title'		=>	__( 'Default excerpt length', WPPTD ),
+		'desc'		=>	__( 'Maximum limit for the excerpts. Default is upto the  <code>&lt;!--more--&gt;</code> tag. '),
+		'type'		=>	'text',
+		'section'	=>	'posts'
+	),
+	
 
 );
 
@@ -464,11 +537,11 @@ function get_wpui_option( $value ) {
 
 
 // Insert content into the options page.
-add_action( 'plugin_info_above_options_page', 'plugin_info_above' );
-add_action( 'plugin_info_below_options_page', 'plugin_info_below' );
+add_action( 'wpUI_above_options_page', 'wpui_plugin_info_above' );
+add_action( 'wpUI_below_options_page', 'wpui_plugin_info_below' );
 
 
-function plugin_info_above() {
+function wpui_plugin_info_above() {
 	?>
 	<div class="click-for-help"></div>
 	<div class="info-above">
@@ -503,7 +576,7 @@ function plugin_info_above() {
 }	
 
 
-function plugin_info_below() {
+function wpui_plugin_info_below() {
 	?>
 
 	<div class="info-below">
@@ -542,9 +615,6 @@ function plugin_info_below() {
 		<li>
 			<a target="_blank" href="http://kav.in/discuss/viewforum.php?f=5">Suggestions / Ideas</a>
 		</li>
-		<li>
-			<a href="http://kav.in/wp-ui-using-jquery-ui-custom-themes/">Multiple jQuery UI Custom themes</a>
-		</li>
 		<li class="last-li">
 			<a href="http://twitter.com/cpblty">Capability on Twitter</a>
 		</li>		
@@ -552,12 +622,19 @@ function plugin_info_below() {
 
 	</div>
 
-	<div class="developer cols col-2">
+	<div class="developer cols col-2" style="line-height: 1.6 !important">
+		<h4>Note from the developer</h4>
+		<p>Hello there!</p><p>  I am <b>kavin</b>, developer &amp; designer of this plugin. First of all, thank you all for your solid support. Your feedback has been highly encouraging and i hope it continues that way as i will strive to make this plugin even better.</p>
+		<p>Please visit the <a href="http://kav.in/forum" target="_blank">forums</a> if you have any suggestions/ideas or criticism. You can contact me <a href="http://kav.in/contact/">here</a>, or at my <a target="_blank" href="http://www.facebook.com/pixelcreator">Facebook</a> and <a target="_blank" href="http://twitter.com/cpblty">twitter</a> account.</p>
+		<p>Thank you for using this plugin.</p>
+	</div>
+	
+	<!-- <div class="developer cols col-2">
 		<h4>Plugin developer</h4>
 		<p>WP UI for wordpress is being developed and maintained by <a href="http://kav.in">Kavin</a>.
 		You can visit the <a target="_blank" href="http://kav.in">his blog</a> for information on his current/upcoming works. </p> 
 	<p>Or maybe you could follow/hear/discuss what he has to say on <a target="_blank" href="http://twitter.com/cpblty">Twitter</a> and <a target="_blank" href="http://www.facebook.com/pixelcreator">Facebook</a>, if you like!</a></p>
-	</div>
+	</div> -->
 
 	<!-- <div class="wpui-new cols col-2">
 		<h4>Fresh!</h4>
@@ -583,6 +660,18 @@ function plugin_info_below() {
 }
 
 
+$wpui_default_post_template_1 = '<h2 class="wpui-post-title">{$title}</h2>
+<div class="wpui-post-meta">{$date} |  {$author}</div>
+<div class="wpui-post-thumbnail">{$thumbnail}</div>
+<div class="wpui-post-content">{$excerpt}</div>
+<p><a class="ui-button ui-widget ui-corner-all" href="{$url}" title="Read more of {$title}">Read More...</a></p>';
+
+$wpui_default_post_template_2 = '<div class="wpui-post-meta">{$date}</div>
+<div class="wpui-post-thumbnail">{$thumbnail}</div>
+<div class="wpui-post-content">{$excerpt}</div>
+<p><a href="{$url}" title="Read more of {$title}">Read More...</a></p>';
+
+
 function get_wpui_default_options( ) {
 	$defaults = array(
 	    "enable_tabs" 				=>	"on",
@@ -595,7 +684,8 @@ function get_wpui_default_options( ) {
 		"enable_dialogs"			=>	"on",
 		"load_all_styles"			=>	"on",
 		"enable_ie_grad"			=>	"on",
-	    "tab_scheme" 				=>	"ui-lightness",
+		"dialog_width"				=>	"300",
+	    "tab_scheme" 				=>	"wpui-light",
 		"jqui_custom_themes"		=>	"{}",
 	    "tabsfx"					=>	"slide",
 		"fx_speed"					=>	"400",
@@ -605,13 +695,25 @@ function get_wpui_default_options( ) {
 		"accord_autoheight"			=>	"on",
 		"accord_collapsible"		=>	"off",
 		"accord_easing"				=>	'false',
+		"mouse_wheel_tabs"			=>	'list',
 		"tab_nav_prev_text"			=>	'Prev',
 		"tab_nav_next_text"			=>	"Next",
 		"spoiler_show_text"			=>	"Click to show",
 		"spoiler_hide_text"			=>	"Click to hide",
+		"relative_times"			=>	"off",
 		"custom_css"				=>	"",
 		"use_cookies"				=>	"on",
-		"linking_history"			=>	"on"
+		"linking_history"			=>	"on",
+		'post_template_1'			=>	'<h2 class="wpui-post-title">{$title}</h2>
+		<div class="wpui-post-meta">{$date} |  {$author}</div>
+		<div class="wpui-post-thumbnail">{$thumbnail}</div>
+		<div class="wpui-post-content">{$excerpt}</div>
+		<p class="wpui-readmore"><a class="ui-button ui-widget ui-corner-all" href="{$url}" title="Read more from {$title}">Read More...</a></p>',
+		'post_template_2'			=>	'<div class="wpui-post-meta">{$date}</div>
+		<div class="wpui-post-thumbnail">{$thumbnail}</div>
+		<div class="wpui-post-content">{$excerpt}</div>
+		<p class="wpui-readmore"><a href="{$url}" title="Read more from {$title}">Read More...</a></p>',
+		'excerpt_length'			=>	'more'
 	);
 	return $defaults;
 }

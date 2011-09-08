@@ -264,7 +264,7 @@
 			}, response;			
 			
 				jQuery.post( ajaxurl, data, function( response ) {
-					console.log( response ); 
+					// console.log( response ); 
 					$msg.find( 'span' ).remove();
 					
 					// No directory!

@@ -411,7 +411,7 @@ div.cols {
 	width: 259px;
 }
 
-div.click-for-help {
+/*div.click-for-help {
 	background: url("../images/click-for-help.png") no-repeat scroll 0 0 transparent;
 	height: 60px;
 	position: absolute;
@@ -420,7 +420,7 @@ div.click-for-help {
 	width: 142px;
 	display: none;
 }
-
+*/
 p.submit input.button-primary {
 	background: -moz-linear-gradient(top , #48D3FF,  #3294B2);
 	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
@@ -489,7 +489,7 @@ p.submit input:active {
 	text-shadow: 0 1px 0 #FFF;
 	box-shadow: 0 1px 3px #DDD;
 	clear:left;
-	width: 976px;
+	width: 700px;
 }
 
 
@@ -798,6 +798,10 @@ div#style .form-table th {
 	width : 150px;
 }
 
+div#bleeding td {
+	position : relative;
+}
+
 div#style table.widefat {
 	width: 100%;
 }
@@ -855,3 +859,4 @@ div.jqui_ajax_info span.ajax_info img {
 .settings_page_wpUI-options #jqui_add_theme {
 	float: right;
 }
+

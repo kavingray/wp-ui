@@ -1,24 +1,22 @@
 /*!
- *	WP UI - Bridge v 0.5.5
- *	http://kav.in
+ *	WP UI version 0.7
  *	
- *	Copyright 2011, Kavin Amuthan
- *	Licensed under GPLv2.
+ *	Copyright (c) 2011, Kavin Amuthan ( http://kav.in )
+ *	Dual licensed under the MIT and GPL licenses.
  *	
+ *	Below components Copyright and License as per the respective authors.
  *	Includes jQuery cookie plugin by Klaus Hartl.
  *	Includes hashchange event plugin by Ben Alman.
+ *	Includes Mousewheel event plugin by Brandon Aaron.
+ *	
  *	
  *	Requires : jQuery v1.5, jQuery UI v1.8.10 or later.
  */
 
-// No longer used, removed on the next version.
-function getUID() {
-    var S4 = function() {
-       return (((1+Math.random())*0x1000)|0);
-    };
-    return (S4()+S4()+S4()+S4()+S4()+S4());
-}
 
+/*
+ *	Component - Tabs
+ */
 tabSet = 0;
 function getNextSet() {
 	return ++tabSet;
@@ -50,9 +48,11 @@ jQuery.fn.wptabs = function( options ) {
 		
 		$this.find('div.ui-tabs-panel:last-child').after('<p id="jqtemp">');
 		
-		$this.find('br').filter(function() {
-			return jQuery.trim(jQuery(this).text()) === ''
-		}).remove();
+		if ( o.wpuiautop ) {
+			$this.find('p, br').filter(function() {
+				return jQuery.trim(jQuery(this).html()) === ''
+			}).remove();
+		}
 		
 		wrapper.each(function() {
 			jQuery(this).parent().append( jQuery(this).parent().nextUntil("div.ui-tabs-panel") );
@@ -125,7 +125,7 @@ jQuery.fn.wptabs = function( options ) {
 			$this.find('ul').before("<div class='ui-tabs'>");
 			$this.find('.ui-tabs').each(function() {
 				jQuery(this).append( jQuery(this).nextUntil('p#jqtemp'));
-			});		
+			});
 		}
 		
 		tabsobj = {};
@@ -173,17 +173,18 @@ jQuery.fn.wptabs = function( options ) {
 		if ( o.topNav || o.bottomNav ) {
 		// Add previous/next navigation.
 		$this.find('div.ui-tabs-panel').each(function(i) {
-			base.navClass = '';
-			base.navNextSpan = '';
-			base.navPrevSpan = '';
-			if ( base.jqui ) {
+			// base.navClass = '';
+			// base.navNextSpan = '';
+			// base.navPrevSpan = '';
+			// 		
+			// if ( base.jqui ) {
 				base.navClass = ' ui-button ui-widget ui-state-default ui-corner-all';
 				base.navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>';
 				base.navNextSpan = '<span class="ui-icon ui-icon-circle-triangle-e"></span>';
-			} 
+			// } 
 			
 			! o.topNav || jQuery(this).prepend('<div class="tab-top-nav" />');
-			! o.bottomNav || jQuery(this).append('<div class="tab-bottom-nav" />');
+			! o.bottomNav || jQuery(this).append('<div style="clear: both;"></div><div class="tab-bottom-nav" />');
 			
 			var totalLength = jQuery(this).parent().children('.ui-tabs-panel').length -1;
 		
@@ -209,11 +210,6 @@ jQuery.fn.wptabs = function( options ) {
 		}).focus(function() {
 			if ( base.jqui )
 			jQuery(this).addClass('ui-state-focus ui-state-active');
-		}).click(function() {
-			var rel = $this.find('.ui-tabs').tabs('option', 'selected');
-			rel = (jQuery(this).hasClass('backward')) ? rel - 1 : rel + 1;
-			$tabs.tabs("select", rel);
-			return false;
 		}).blur(function() {
 			if ( base.jqui )
 			jQuery(this).removeClass('ui-state-focus ui-state-active');
@@ -238,10 +234,116 @@ jQuery.fn.wptabs = function( options ) {
 		});
 	} // END BottomTabs check.
 
+
+	// Vertical tabsets.
+	if ( $this.hasClass( 'wpui-tabs-vertical' ) ) {
+		
+		$tabs.addClass( 'ui-tabs-vertical ui-helper-clearfix' );
+		$tabs.find('li').removeClass('ui-corner-top').addClass( 'ui-corner-left' );
+		
+		$tabs.find('ul.ui-tabs-nav')
+			.css({ position : 'absolute' })
+			.children()
+			.css({ float : 'left', clear: 'left'});	
+		
+		getListWidth = jQuery(this).attr('class').match(/listwidth-(\d{2,4})/, "$1");
+		if ( getListWidth != null ) {
+			ulWidth = getListWidth[ 1 ];
+		} else {
+			ulWidth = $tabs.find('ul.ui-tabs-nav').outerWidth();
+		}
+		// console.log( ulWidth ); 
+		
+		
+		
+		ulHeight = $tabs.find( 'ul.ui-tabs-nav' ).outerHeight();
+		$tabs.find( 'ul.ui-tabs-nav' ).outerWidth( ulWidth );
+		$tabs.find( 'div.ui-tabs-panel' ).css({ float : 'right' });
+		
+		parWidth = $tabs.innerWidth() - (parseInt($tabs.css('paddingLeft')) + parseInt($tabs.css('paddingRight')));
+		
+		PaneWidth = parWidth - ulWidth;
+
+		maxPane = 0;
+		paneCount = $tabs.find( '.ui-tabs-panel' ).length;
+		
+		$tabs.find('.ui-tabs-panel').innerWidth( PaneWidth ).css({ marginLeft : ulWidth });
+		
+		$tabs.find( '.ui-tabs-panel' ).each(function() {
+			if ( jQuery( this ).outerHeight() > maxPane ) {
+				maxPane = jQuery( this ).outerHeight();
+			}
+			
+		});
+		
+		if ( o.effect == 'slideDown' )
+			$this.find('.ui-tabs').tabs({ fx : null });
+		
+		if ( maxPane != 0 ) {
+			( maxPane > ulHeight ) ?
+				$tabs.children().innerHeight( maxPane + 40 ) :
+				$tabs.children().innerHeight( ulHeight + 40 );
+			}
+		}
+
+
 	if (typeof WPUIOpts != 'undefined')
 	$this.append('<a class="thickbox cap-icon-link" title="" href="http://kav.in"><img src="' + wpUIOpts.pluginUrl  + '/images/cquest.png" alt="Cap" /></a>');
 
+
+	if ( jQuery.event.special.mousewheel !== "undefined" && o.mouseWheel != 'false' ) {
 		
+		if ( o.mouseWheel == "list" ) {
+			scrollEl = 'ul.ui-tabs-nav';
+		} else if ( o.mouseWheel == "panels" ) {
+			scrollEl = 'div.ui-tabs-panel';		
+			
+		}	
+
+		$this.panelength = $tabs.find( '.ui-tabs-panel' ).length;
+		if ( ! scrollEl ) scrollEl == 'ul.ui-tabs-nav';
+		$tabs.find( scrollEl ).mousewheel(function( event, delta) {
+			if ( delta < 0 )
+				dir = "forward";
+			else if ( delta > 0 )
+				dir = "backward";
+			
+			wpuiTabsMover( dir );
+			return false;
+		});
+	}
+	
+	$this.find( 'a.next-tab, a.prev-tab' ).hover(function() {
+		jQuery( this ).addClass( 'ui-state-hover' );
+	}, function() {
+		jQuery( this ).removeClass( 'ui-state-hover' );
+	});
+	
+	$this.find( 'a.next-tab, a.prev-tab' ).click(function() {
+		if ( jQuery( this ).is('a.next-tab') )
+			wpuiTabsMover( "forward" );
+		else	
+			wpuiTabsMover( "backward" );
+		return false;
+	});
+
+
+	// if ( jQuery.fn.wpuiSwipe !== "undefined" && o.mouseWheel != 'false' ) {
+	// 
+	// 	$tabs.find( 'div.ui-tabs-panel' ).wpuiSwipe({
+	// 		swipeLeft : function() { wpuiTabsMover( "backward" ); },
+	// 		swipeRight : function() { wpuiTabsMover( "forward" ); }
+	// 	});
+	// }
+
+		var wpuiTabsMover = function( dir ) {
+			dir = dir || 'forward';
+			mrel = $this.find('.ui-tabs').tabs('option', 'selected');
+			mrel = ( dir == 'backward' ) ? mrel - 1 : mrel + 1;
+			if ( dir == "forward" && mrel == $this.panelength ) mrel = 0;
+			if ( dir == "backward" && mrel < 0 ) mrel = $this.panelength - 1;
+			$tabs.tabs( "select", mrel );			
+		};		
 	}); // END return $this.each.	
 	
 	if ( o.hashChange && typeof jQuery.event.special.hashchange != "undefined" ) {
@@ -259,7 +361,6 @@ jQuery.fn.wptabs = function( options ) {
 		jQuery( window ).hashchange();
 
 	} // END check availability for hashchange event.
-	
 	return this;
 	
 }; // END function jQuery.fn.wptabs.
@@ -279,11 +380,16 @@ jQuery.fn.wptabs.defaults = {
 	tabPrevText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabPrevText != '' ) ? wpUIOpts.tabPrevText : '&laquo; Previous',		
 	tabNextText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabNextText != '' ) ? wpUIOpts.tabNextText : 'Next &raquo;',
 	cookies			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.cookies == 'on' ) ? true : false,
-	hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false
+	hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
+	hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
+	mouseWheel		: 		(typeof wpUIOpts != "undefined" ) ? wpUIOpts.mouseWheelTabs : '',
+	wpuiautop		: 		true	
 };
 
 
-
+/*
+ *	Component - Accordion
+ */
 jQuery.fn.wpaccord = function( options ) {
 	
 	var wrapper,
@@ -297,8 +403,8 @@ jQuery.fn.wpaccord = function( options ) {
 		
 		$this.append('<p id="jqtemp" />');
 		
-		$this.find('br').filter(function() {
-			return jQuery.trim(jQuery(this).text()) === ''
+		$this.find('p, br').filter(function() {
+			return jQuery.trim(jQuery(this).html()) === ''
 		}).remove();
 		
 		
@@ -357,7 +463,8 @@ jQuery.fn.wpaccord = function( options ) {
 		jQuery('.accordion h3.ui-accordion-header:last').addClass('last-child');
 		
 		// $this.find('p#jqtemp').remove();
-		
+	
+
 	});	
 	
 	
@@ -371,116 +478,118 @@ jQuery.fn.wpaccord.defaults = {
 	autoHeight		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? true : false,
 	collapse		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordCollapsible == 'on' ) ? true : false,
 	easing			: 	(typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEasing : '',
-	accordEvent			:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : ''
+	accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : ''
 }; // END wpaccord defaults.
 
 
 
-
+/*
+ *	Component - Spoilers/Collapsibles
+ */
 jQuery.fn.wpspoiler = function( options ) {
 	
 	var o, defaults, holder, hideText, showText, currText, hideSpan;
 	
 
 	o = jQuery.extend({}, jQuery.fn.wpspoiler.defaults, options );
-	return this.each(function() {
+	
+
+	this.each(function() {
 		var base = this,
-		$this = jQuery(this);
-		$this.addClass('ui-widget')
+		$this = jQuery( this );
+		hideText = convertEntities( o.hideText );
+		showText = convertEntities( o.showText );
 
 
-		if ( $this.hasClass('wpui-styles') )
-			base.jqui = true;
-		else
-			base.jqui = false;
-
-		$this.addClass('ui-collapsible');
-
-		$this.children(o.headerClass).each(function() {
+		$this.addClass( 'ui-widget ui-collapsible' );
 		
-		jQuery(this)
-			.addClass('ui-state-default ui-corner-all ui-helper-reset');
+		$header = $this.children( o.headerClass );
+		
+		$header.each(function() {
+			jQuery( this )
+				.addClass( 'ui-state-default ui-corner-all ui-helper-reset' )
+				.find( 'span.ui-icon', this )
+				.addClass( o.openIconClass );
+		
+			jQuery( this )
+				.append( '<span class="' +  o.spanClass.replace(/\./, '') + '" style="float:right"></span>' )
+				.find( o.spanClass )
+				.html( showText );
+				
+			base.aniOpts = {};
+			if ( o.fade ) base.aniOpts[ 'opacity' ] = 'toggle';
+			if ( o.slide ) base.aniOpts[ 'height' ] = 'toggle';
 			
-		jQuery( 'span.ui-icon', this ).addClass('ui-icon-triangle-1-e')
-		
-		jQuery(this)
-				.append('<span class="' +  o.spanClass.replace(/\./, '') + '" style="float:right"></span>').find(o.spanClass).css({ fontSize : '0.786em'});
-	
-		jQuery(this).hover(function() {
-			jQuery(this).addClass('ui-state-hover').css({ cursor: 'pointer'});
-		}, function() {
-			jQuery(this).removeClass('ui-state-hover');
-		});
-		
-		jQuery(this).click(function() {
-				jQuery(this)
-					.delay(2000).toggleClass('ui-state-active ui-corner-all  ui-corner-top');
+			if ( o.slide || o.fade ) {
+				if ( jQuery(this + '[class*=speed-]').length ) {
+					animSpeed = jQuery(this)
+									.attr('class')
+									.match(/speed-(.*)\s|\"/, "$1");
+					if ( animSpeed ) {
+						speed = animSpeed[1];
+					} else {
+						speed = o.speed;
+					}
+				}				
 				
-				jQuery( 'span.ui-icon', this ).toggleClass('ui-icon-triangle-1-s')
-				
-				o.fade = ( jQuery(this).hasClass('fade-false') ) ? false : true;
-				o.slide = ( jQuery(this).hasClass('slide-false') ) ? false : true;
-
-				aniOpts = {};
-				if ( o.fade ) aniOpts.opacity = 'toggle';
-				if ( o.slide ) aniOpts.height = 'toggle';
-
-
-				// Show the selected Effect.
- 				if ( o.slide || o.fade ) {
-					if ( jQuery(this + '[class*=speed-]').length ) {
-						animSpeed = jQuery(this).attr('class').match(/speed-(.*)\s|\"/, "$1");
-						if ( animSpeed ) {
-							speed = animSpeed[1];
-						} else {
-							speed = o.speed;
-						}
-					}	
-	
-	
-					jQuery(this)
-						.next('div.ui-collapsible-content')
-						.animate(aniOpts, o.speed )
-						.addClass('ui-widget-content');
-				
-				} else {
-					jQuery(this)
-						.next('div.ui-collapsible-content')
-						.toggle(o.speed)
-						.addClass('ui-widget-content');
-				}
-				
-				
-				// Toggle the text.
-				currText = jQuery(this).children(o.spanClass).text();
-				
-				jQuery(this)
-					.find(o.spanClass)
-					.text( ( currText == o.showText ) ? o.hideText : o.showText );
-					
-			}).next().hide()
-			  .prev()
-			  .find(o.spanClass).text(o.showText);
-
-			if ( jQuery( this ).hasClass( 'open-true' ) ) {
-				jQuery( this )
-					.removeClass( 'ui-corner-all' )
-					.addClass( 'ui-corner-top' )
-					.find( 'span.ui-icon' )
-					.addClass( 'ui-icon-triangle-1-s')
-					.text( o.hideText )
-					.end()
-					.next()
-					.addClass( 'ui-widget-content' )
-					.show();
-				 // jQuery(this).addClass('ui-state-active').next().show();
 			}
-			
-			
-		});
 	
 		
-	}); // end return each.
+				
+		}).next( 'div.ui-collapsible-content' )
+		.addClass( 'ui-widget-content ui-corner-bottom' )
+		.find( '.close-spoiler')
+		.addClass('ui-state-default ui-widget ui-corner-all ui-button-text-only' )
+		.end()
+		.hide(); // end headerClass each.	
+
+
+		$header.hover( function() {
+			jQuery( this ).addClass( 'ui-state-hover' ).css({ cursor : 'pointer' });
+		}, function() {
+			jQuery( this ).removeClass( 'ui-state-hover' );
+		});
+		
+		
+		$header.click(function() {
+			base.headerToggle( this );
+		});
+
+		$this.find( 'a.close-spoiler' ).click(function( e ) {
+			e.stopPropagation();
+			e.preventDefault();
+			heads = jQuery( this ).parent().siblings( o.headerClass ).get(0);
+			base.headerToggle( heads );
+			return false;						
+		});
+		
+		base.headerToggle = function( hel ) {
+			spanText = jQuery( hel ).find( o.spanClass ).html();
+
+			// Toggle the header and icon classes.
+			jQuery( hel )
+				.toggleClass( 'ui-state-active ui-corner-all ui-corner-top' )
+				.children( 'span.ui-icon' )
+				.toggleClass( o.closeIconClass )
+				.siblings( o.spanClass )
+				.html( ( spanText == hideText) ? showText : hideText )
+				.parent()
+				.next( 'div.ui-collapsible-content' )
+				.animate( base.aniOpts , 500 )
+				.addClass( 'ui-widget-content' );
+
+			
+		}; // END headerToggle function.
+	
+		if ( $this.find( o.headerClass).hasClass( 'open-true' ) ) {
+			h3 = $this.children( o.headerClass ).get(0);
+			base.headerToggle( h3 );		
+		} // end check for open-true
+		
+		
+	}); // this.each function.
+	
+	return this;
 	
 };
 
@@ -493,21 +602,24 @@ jQuery.fn.wpspoiler.defaults = {
 	slide	 : true,
 	speed	 : 600,
 	spanClass: '.toggle_text',
-	headerClass : 'h3.ui-collapsible-header'
+	headerClass : 'h3.ui-collapsible-header',
+	openIconClass : 'ui-icon-triangle-1-e',
+	closeIconClass : 'ui-icon-triangle-1-s'
 };
 
 
-
+/*
+ *	Component - Dialogs
+ */
 jQuery.fn.wpDialog = function( options ) {
 	
 	var o = jQuery.extend( {} , jQuery.fn.wpDialog.defaults, options );
 		
-		
-	var wpfill = function( el, index ) {
-		kel = el.replace( /wpui-(.*)-arg/mg, '$1' )
-				.replace(/(.*)-(.*)/, '$1 : $2');
-		return kel;
-	};
+	// var wpfill = function( el, index ) {
+	// 	kel = el.replace( /wpui-(.*)-arg/mg, '$1' )
+	// 			.replace(/(.*)-(.*)/, '$1 : $2');
+	// 	return kel;
+	// };
 	
 	return this.each(function() {
 		var base = this;
@@ -523,11 +635,13 @@ jQuery.fn.wpDialog = function( options ) {
 		
 		kel = {};	
 		
-		
+		// console.log( dialogArgs ); 
 		for( i = 0; i < dialogArgs.length; i++ ) {
 			dialogArgs[i] = dialogArgs[i].replace( /wpui-(.*)-arg/mg, '$1' );
 			key = dialogArgs[i].replace(/([\w\d\S]*):([\w\d\S]*)/mg, '$1');
-			value = dialogArgs[i].replace(/(.*):(.*)/mg, '$2').replace( /\*_\*/mg , ' ');
+			value = dialogArgs[i].replace(/(.*):(.*)/mg, '$2').replace( /%/mg , ' ');
+			if ( value == "true" ) value = true;
+			if ( value == "false" ) value = false;
 			kel[key] = value;			
 		}
 
@@ -544,15 +658,36 @@ jQuery.fn.wpDialog = function( options ) {
 			kel.buttons[ buttonLabel ] = dialogCloseFn
 		}
 		
+		if ( kel.dialogClass && kel.dialogClass != '' ) {
+			kel[ 'dialogClass' ] = kel.dialogClass.replace(/_/gm, ' ');
+		}
+		// console.log( kel.autoOpen === true ); 
 		// console.log( kel ); 
 		
-		( kel.autoOpen == 'true' ) ? kel.autoOpen = true : kel.autoOpen = false;
-		( kel.modal == 'false' ) ? kel.modal = false : kel.modal = true;
+		// ( kel.autoOpen === "true" ) ? kel.autoOpen = true : kel.autoOpen = false;
+		
+		// ( kel.modal == 'false' ) ? kel.modal = false : kel.modal = true;
+
+
 		
 		// kel.autoOpen = false;
 	
 		$base.dialog( kel );
-				
+
+		jQuery( '[class*=dialog-opener]' ).button({
+			icons : {
+				primary : 'ui-icon-newwin'
+			}
+		});
+		
+		jQuery( '[class*=dialog-opener]' ).click(function() {
+			openerClass = jQuery( this ).attr( 'class' ).match(/dialog\-opener\-(\d{1,2})/);
+			dNum = openerClass[ 1 ];
+			jQuery( '.wp-dialog-' + dNum ).dialog( 'open' );
+			return false;
+		});
+		
+			
 	}); // return this.each.
 
 };
@@ -562,109 +697,10 @@ jQuery.fn.wpDialog.defaults = {
 };
 
 
-jQuery.fn.extend({
-		
-		tooltips: function(	optionz ) {
-			
-			var defaults = {
-				background	: '#000',
-				gradient	: '',
-				bordercolor	: '#888',
-				textcolor	: '#EEE',
-				shadow		: '0 1px 3px #000',
-				effect		: 'fade',
-				forceUse	: false,
-				disableOn	: ''
-			},
-			
-			options = $.extend(defaults, optionz);
-			
-			return this.each(function() {
-				
-				var o = options;
-				
-				var $this = jQuery(this);
-				
-				attrName = ($this.is('img')) ? 'alt' : 'title';
-				
-				$this.not(o.disableOn).mouseover(function(e) {
-					getAttr = $this.attr(attrName);
-					
-					if ( getAttr.length == 0 ) {
-						if ( o.useValue == true )
-						{
-							getAttr = $this.text();
-						}
-						else
-						{
-							return;
-						}						
-					}
-					
-					$this.append('<div id="toolztip"><div class="tooltip-arrow-up"></div>' + getAttr + '<div class="tooltip-arrow-down"></div></div>');
-					
-					jQuery('#toolztip').css({
-						backgroundImage	: o.background,
-						borderColor		: o.bordercolor,
-						color			: o.textcolor
-					
-					})
-					.attr('style', 'box-shadow: ' + o.shadow + '; -moz-border-shadow:' + o.shadow + ';')
-					.attr('style', 'background-image: ' + o.gradient + '; background-image:' + o.gradient + ';');
-					jQuery('#toolztip div.tooltip-arrow-down').hide();
-					
-					// var hVal = e.pageY;
-					// var wVal = e.pageX;
-					// if ( e.pageY >= (jQuery(document).height() - 50)) {
-					// 	jQuery('#tooltip:before').css({'content': 'none'});
-					// 	hVal = e.pageY - ($this.height() * 6);
-					// 	wVal = e.pageX - ($this.width() * 2);
-					// 	jQuery('#tooltip div.tooltip-arrow-up').hide();
-					// 	jQuery('#tooltip div.tooltip-arrow-down').show();
-					// }								
-					// 
-					// 
-					// jQuery('#tooltip').css('top', hVal);
-					// jQuery('#tooltip').css('left', wVal).hide();
-		
-					
-					if (o.effect == 'slide') {
-						jQuery('#tooltip').slideDown('500');
-					} else if (o.tipEffect == 'fade') {
-						jQuery('#tooltip').fadeIn(500);
-					} 
 
-				
-				}).mousemove(function(e){
-					// 
-					// var hVal = e.pageY;
-					// var wVal = e.pageX;
-					// if ( e.pageY >= (jQuery(document).height() - 50)) {
-					// 	jQuery('#tooltip:before').css({'content': 'none'});
-					// 	hVal = e.pageY - ($this.height() * 4);
-					// 	wVal = e.pageX - ($this.width() * 0.5);
-					// 	jQuery('#toolztip div.tooltip-arrow-up').hide();
-					// 	jQuery('#toolztip div.tooltip-arrow-down').show();
-					// }
-					// 		
-					// jQuery('#toolztip').css('top', hVal);
-					// jQuery('#toolztip').css('left', wVal);
-					
-				}).mouseleave(function(e) {
-					
-					$this.find('#toolztip').remove();
-				});
-				
-				
-			}); // END return each.	
-			
-			
-		} // END function tooltips.		
-		
-	});	
-
-
-
+/**
+ *	The includes below. A lot of thanks to the respective authors.
+ */
 
 /**
  * jQuery Cookie plugin
@@ -799,3 +835,18 @@ throw new SyntaxError('JSON.parse');};}}());
  * http://benalman.com/about/license/
  */
 (function($,e,b){var c="hashchange",h=document,f,g=$.event.special,i=h.documentMode,d="on"+c in e&&(i===b||i>7);function a(j){j=j||location.href;return"#"+j.replace(/^[^#]*#?(.*)$/,"$1")}$.fn[c]=function(j){return j?this.bind(c,j):this.trigger(c)};$.fn[c].delay=50;g[c]=$.extend(g[c],{setup:function(){if(d){return false}$(f.start)},teardown:function(){if(d){return false}$(f.stop)}});f=(function(){var j={},p,m=a(),k=function(q){return q},l=k,o=k;j.start=function(){p||n()};j.stop=function(){p&&clearTimeout(p);p=b};function n(){var r=a(),q=o(m);if(r!==m){l(m=r,q);$(e).trigger(c)}else{if(q!==m){location.href=location.href.replace(/#.*/,"")+q}}p=setTimeout(n,$.fn[c].delay)}$.browser.msie&&!d&&(function(){var q,r;j.start=function(){if(!q){r=$.fn[c].src;r=r&&r+a();q=$('<iframe tabindex="-1" title="empty"/>').hide().one("load",function(){r||l(a());n()}).attr("src",r||"javascript:0").insertAfter("body")[0].contentWindow;h.onpropertychange=function(){try{if(event.propertyName==="title"){q.document.title=h.title}}catch(s){}}}};j.stop=k;o=function(){return a(q.location.href)};l=function(v,s){var u=q.document,t=$.fn[c].domain;if(v!==s){u.title=h.title;u.open();t&&u.write('<script>document.domain="'+t+'"<\/script>');u.close();q.location.hash=v}}})();return j})()})(jQuery,this);
+
+
+
+
+/* Copyright (c) 2009 Brandon Aaron (http://brandonaaron.net)
+ * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
+ * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+ * Thanks to: http://adomas.org/javascript-mouse-wheel/ for some pointers.
+ * Thanks to: Mathias Bank(http://www.mathias-bank.de) for a scope bug fix.
+ *
+ * Version: 3.0.2
+ * 
+ * Requires: 1.2.2+
+ */
+(function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(f){var d=[].slice.call(arguments,1),g=0,e=true;f=c.event.fix(f||window.event);f.type="mousewheel";if(f.wheelDelta){g=f.wheelDelta/120}if(f.detail){g=-f.detail/3}d.unshift(f,g);return c.event.handle.apply(this,d)}})(jQuery);

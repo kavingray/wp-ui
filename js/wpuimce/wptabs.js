@@ -141,9 +141,9 @@ var wptabsDialog = {
 
 		if ( document.forms[0].effectSpeed.value != '')
 			tabOpts[3] = 'speed="' + document.forms[0].effectSpeed.value + '"';
-		
+
 		if ( document.forms[0].rotateTabs.value == 'on'
-		 	 && document.forms[0].rotateDuration != '' ) {
+		 	 && document.forms[0].rotateDuration.value != '' ) {
 			tabOpts[5] = 'rotate="' + document.forms[0].rotateDuration.value + '"';
 		}
 		
@@ -152,9 +152,6 @@ var wptabsDialog = {
 		// alert(achu);
 		
 		var tabOptsStr = tabOpts.join(' ');
-		
-
-
 
 		insertCont = ' [wptabs ' + tabOptsStr + ']' + achu + '[/wptabs]';
 		
@@ -181,9 +178,11 @@ var wptabtitleDialog = {
 	insert : function() {
 	
 		tabname = document.forms[0].tabname.value;
-		loadURL = 'load="' + document.forms[0].loadAjax.value + '"';
+		loadURL = '';
+		if ( document.forms[0].loadAjax.value != '' )
+			loadURL = ' load="' + document.forms[0].loadAjax.value + '"';
 		
-		insertCont = ' [wptabtitle ' + loadURL + ']' + tabname + '[/wptabtitle]';
+		insertCont = ' [wptabtitle' + loadURL + ']' + tabname + '[/wptabtitle]';
 		
 		tinyMCEPopup.editor.execCommand('mceInsertContent', false, insertCont);
 		

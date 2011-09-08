@@ -31,7 +31,7 @@ ul.ui-tabs-nav {
 
 ul.ui-tabs-nav li {
 	border-bottom:none;
-	font: bold 14px 'Arial', Sans-serif;
+/*	font: bold 14px 'Arial', Sans-serif;*/
 	display:inline-block;
 	vertical-align:bottom;
 	padding: 8px 0;
@@ -121,7 +121,6 @@ ul.ui-tabs-nav.ul-bottom {
 ul.ui-tabs-nav.ul-bottom li {
     padding-top: 7px;
     vertical-align: top;
-	border-radius: 0px ;
 }
 
 ul.ui-tabs-nav.ul-bottom li.ui-state-active {
@@ -169,7 +168,7 @@ ul.ui-tabs-nav.ul-bottom li.ui-state-active a {
 div#toolztip.top-tip {
     border-radius: 10px;
     box-shadow: 0 3px 10px #999;
-    font: 12px 'Lucida Grande','Segoe UI','Ubuntu','Arial',sans-serif;
+/*    font: 12px 'Lucida Grande','Segoe UI','Ubuntu','Arial',sans-serif;*/
     left: -125px;
     margin: 20px;
     position: absolute;
@@ -299,13 +298,14 @@ div#toolztip.bottom-tip .toolztitle:before {
 
 .ui-accordion-content,
 .ui-collapsible-content {
-	font: 12px/1.5 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;
+	font-size: 12px/1.5;
+/*	font: 12px/1.5 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;*/
 	padding: 10px;
+	overflow: hidden;
 }
 
 
 h3.ui-accordion-header {
-	border-radius: 3px;
 	cursor : pointer;
 }
 
@@ -326,6 +326,13 @@ h3.ui-accordion-header.ui-state-active {
 h3.ui-collapsible-header {
 	margin-bottom: 0px !important;
 	cursor : pointer;
+}
+
+span.toggle_text {
+	display: block !important;
+	float: right;
+	font-size: 10px;
+	height: 12px;
 }
 
 div.ui-collapsible-content {
@@ -370,3 +377,74 @@ div.ui-collapsible-content {
 .ui-collapsible-content pre {
 	white-space : pre-wrap;
 }
+
+
+.wpui-align-center {
+	text-align: center;
+	margin: 5px auto;
+}
+
+.wpui-align-left {
+	text-align: left;
+}
+
+.wpui-align-right {
+	text-align: right;
+}
+
+
+.ui-tabs-vertical {
+	overflow: hidden;
+}
+
+
+
+.ui-tabs-vertical { width: 55em; }
+.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-selected { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+
+
+span.toggle_text {
+	opacity: 0;
+}
+
+h3.ui-collapsible-header:hover span.toggle_text {
+	opacity: 1;
+}
+
+span.ui-icon-triangle-1-e {
+	background: url( "images/arrow-splice.png" ) no-repeat;
+	width : 16px;
+	height : 16px;
+	display : inline-block;
+	margin-right: 5px;
+}
+
+span.ui-icon-triangle-1-s {
+	background: url( "images/arrow-splice.png" ) no-repeat;
+	background-position : -16px 0;
+	width : 16px;
+	height : 16px;
+	display : inline-block;
+	margin-right : 5px;
+}
+
+
+.ui-resizable-handle {	position: absolute; }
+.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0; }
+.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0; }
+.ui-resizable-e { cursor: e-resize; width: 7px; right: -5px; top: 0; height: 100%; }
+.ui-resizable-w { cursor: w-resize; width: 7px; left: -5px; top: 0; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 12px; height: 12px; right: 1px; bottom: 1px; }
+.ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}
+
+pre.wpui-pre {
+	white-space: pre-wrap;
+}
+
+

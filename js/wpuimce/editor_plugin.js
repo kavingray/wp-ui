@@ -15,7 +15,7 @@
 			case 'wpuimce' :
 			var c = cm.createSplitButton( 'wpuimce', {
 				title	: "WP UI widgets",
-				image	: pluginVars.pluginUrl + "/js/wpuimce/img/wptabs_mce_red.png",
+				image	: pluginVars.pluginUrl + "/js/wpuimce/img/wptabs_mce.png",
 				 onclick: function() {
 					// tinyMCE.activeEditor.windowManager.alert( 'Button was clicked!' );					
 				}
