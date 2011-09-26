@@ -723,12 +723,9 @@ function wpui_get_css3_styles_list()
 } // END function wpui_get_css3_styles_list
 
 
-
-
-
-
-
-
+/**
+ * Default options and like.
+ */
 
 $wpui_default_post_template_1 = '<h2 class="wpui-post-title">{$title}</h2>
 <div class="wpui-post-meta">{$date} |  {$author}</div>
