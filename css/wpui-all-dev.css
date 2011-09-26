@@ -9,6 +9,13 @@
 	padding: 0px !important;
 }
 
+.ui-tabs {
+	-moz-box-shadow    : 0 3px 6px rgba( 0, 0, 0, 0.3);
+	-webkit-box-shadow : 0 3px 6px rgba( 0, 0, 0, 0.3);
+	-o-box-shadow      : 0 3px 6px rgba( 0, 0, 0, 0.3);
+	box-shadow         : 0 3px 6px rgba( 0, 0, 0, 0.3);
+}
+
 .wpui-light ul.ui-tabs-nav {
 	padding-top: 10px;
 	padding-left: 10px;
@@ -59,10 +66,6 @@
 	background: -webkit-gradient( linear, left top, left bottom, from(#FFF), to(#D1D1D1));
 	background: -webkit-linear-gradient( top, #FFF, #D1D1D1);
 	background: -o-linear-gradient( top, #FFF, #D1D1D1);
-	box-shadow: 0 3px 6px #CDCDCD;
-	-moz-box-shadow: 0 3px 6px #CDCDCD;
-	-webkit-box-shadow: 0 3px 6px #CDCDCD;
-	-o-box-shadow: 0 3px 6px #CDCDCD;
 }
 
 .wpui-light .ui-tabs > .wp-tabs .ui-tabs {
@@ -298,11 +301,13 @@
 }
 
 
-
-
 .ui-dialog {
 	position: absolute !important; 
 	font-size: 12px;
+	-moz-box-shadow    : 0 2px 10px rgba( 0, 0, 0, 0.6 );
+	-webkit-box-shadow : 0 2px 10px rgba( 0, 0, 0, 0.6 );
+	-o-box-shadow      : 0 2px 10px rgba( 0, 0, 0, 0.6 );
+	box-shadow         : 0 2px 10px rgba( 0, 0, 0, 0.6 );	
 }
 
 .ui-dialog-titlebar {
@@ -323,7 +328,6 @@
 	color: #222;
 	border: 1px solid #A2A2A2;
 	text-shadow: 0 1px 0 #FFF;	
-	box-shadow: 0 2px 10px #000;
 	-moz-border-radius     : 7px 7px 0 0;
 	-webkit-border-radius  : 7px 7px 0 0;
 	-o-border-radius       : 7px 7px 0 0;
@@ -443,10 +447,6 @@
 	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#000));
 	background: -webkit-linear-gradient( top, #444, #000);
 	background: -o-gradient( top, #444, #000);
-	box-shadow: 0 3px 6px #999;
-	-moz-box-shadow: 0 3px 6px #999;
-	-webkit-box-shadow: 0 3px 6px #999;
-	-o-box-shadow: 0 3px 6px #999;
 	border:1px solid #777;
 }
 
@@ -550,6 +550,7 @@
 	-webkit-box-shadow : 1px 1px 0 #757575 inset, -1px -1px 0 #555 inset;
 	-o-box-shadow      : 1px 1px 0 #757575 inset, -1px -1px 0 #555 inset;
 	box-shadow         : 1px 1px 0 #757575 inset, -1px -1px 0 #555 inset;
+	border : 0px;
 }
 
 
@@ -711,14 +712,18 @@
 	border: 1px solid #000;
 	text-shadow: 0 1px 0 #000;	
 	background : #252525;
-	-moz-box-shadow  : 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
+	-moz-box-shadow    : 0 2px 10px rgba( 0, 0, 0, 0.8 );
+	-webkit-box-shadow : 0 2px 10px rgba( 0, 0, 0, 0.8 );
+	-o-box-shadow      : 0 2px 10px rgba( 0, 0, 0, 0.8 );
+	box-shadow         : 0 2px 10px rgba( 0, 0, 0, 0.8 );
 	-moz-border-radius     : 3px;
 	-webkit-border-radius  : 3px;
 	-o-border-radius       : 3px;
 	border-radius          : 3px;
+}
+
+.wpui-dark .wp-dialog {
+	color : #DDD !important;
 }
 
 .wpui-dark .ui-dialog-titlebar {
@@ -792,12 +797,7 @@
 	background: -webkit-gradient(linear, left top, left bottom, from(#DDD), to(#999));
 	background: -webkit-linear-gradient( top, #DDD, #999);
 	background: -o-gradient( top, #DDD, #999);
-	box-shadow: 0 3px 6px #999;
-	-moz-box-shadow: 0 3px 6px #999;
-	-webkit-box-shadow: 0 3px 6px #999;
-	-o-box-shadow: 0 3px 6px #999;
 	border: 1px solid #838383;
-	
 }
 
 .wpui-macish .ui-tabs .ui-tabs-panel .wp-tab-content > .wp-tabs .ui-tabs {
@@ -1071,10 +1071,6 @@
 	background: #DDD;
 	color: #222;
 	text-shadow: 0 1px 1px #FFF;	
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 4px 18px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
 }
 
 .wpui-macish .ui-dialog-titlebar {
@@ -1161,10 +1157,6 @@
 	background: -webkit-gradient(linear, left top, right bottom, from(rgba(180, 180, 180, 0.7)), color-stop(25%, rgba(255, 255, 255, 0.9)), color-stop(35%, rgba(190, 190, 190, 0.4)), color-stop(75%, rgba(190, 190, 190, 0.5)), color-stop(95%, rgba(255, 255, 255, 0.9)), to(rgba(180, 180, 180, 0.5))) fixed;
 	background: -webkit-linear-gradient(135deg, rgba(180, 180, 180, 0.7), rgba(170, 170, 171, 0.5), rgba(240, 240, 240, 0.4), rgba(220, 220, 220, 0.5), rgba(255, 255, 255, 0.7 ), rgba(200, 200, 200, 0.7), rgba(235, 235, 235, 0.4), rgba(180, 180, 180 , 1), rgba(255, 255, 255, 0.5)) fixed;
 	background: -o-linear-gradient(135deg, rgba(180, 180, 180, 0.7), rgba(170, 170, 171, 0.5), rgba(240, 240, 240, 0.4), rgba(220, 220, 220, 0.5), rgba(255, 255, 255, 0.7 ), rgba(200, 200, 200, 0.7), rgba(235, 235, 235, 0.4), rgba(180, 180, 180 , 1), rgba(255, 255, 255, 0.5)) fixed;		
-	box-shadow: 0 3px 6px #666;
-	-moz-box-shadow: 0 3px 6px #666;
-	-webkit-box-shadow: 0 3px 6px #666;
-	-o-box-shadow: 0 3px 6px #666;
 	border: 1px solid #777;
 	border-top: 2px groove #E2E6EF;
 }
@@ -1424,10 +1416,6 @@
 	color: #DDD;
 /*	border: 1px solid #888;*/
 /*	text-shadow: 0 1px 0 #000;*/
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-o-box-shadow      : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	box-shadow         : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
 	padding: 5px;
 }
 
@@ -1522,10 +1510,6 @@
 	background: -webkit-gradient(linear, left top, left bottom, from(#BFCDDB), color-stop(0.15, #D7E4F2), to(#D7E4F2));
 	background: -webkit-linear-gradient(top, #BFCDDB, #D7E4F2 15%);
 	background: -o-linear-gradient(top, #BFCDDB, #D7E4F2 15%);
-	box-shadow: 0 3px 6px #666;
-	-moz-box-shadow: 0 3px 6px #666;
-	-webkit-box-shadow: 0 3px 6px #666;
-	-o-box-shadow: 0 3px 6px #666;
 	border: 1px solid #777;
 	border-top: 2px groove #FFF;
 }
@@ -1818,10 +1802,7 @@
 	color: #DDD;
 	border: 1px solid #777;
 /*	text-shadow: 0 1px 0 #000;*/
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-o-box-shadow      : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	box-shadow         : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
+
 	padding: 5px;
 }
 
@@ -1925,10 +1906,6 @@
 
 .wpui-android .ui-tabs {
 	background: #080808;
-	box-shadow: 0 3px 6px #999;
-	-moz-box-shadow: 0 3px 6px #999;
-	-webkit-box-shadow: 0 3px 6px #999;
-	-o-box-shadow: 0 3px 6px #999;
 	border: 1px solid #5A5A5A;
 }
 
@@ -2154,10 +2131,6 @@
 	background: #131313;
 	color: #DDD;
 	border: 1px solid #5A5A5A;
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
 	-moz-border-radius     : 0px;
 	-webkit-border-radius  : 0px;
 	-o-border-radius       : 0px;
@@ -2244,10 +2217,6 @@
 	background: -webkit-gradient(linear, left top, left bottom , from(#6E4A40), to(#4A2F35));
 	background: -webkit-linear-gradient(top , #6E4A40, #4A2F35);
 	background: -o-linear-gradient(top , #6E4A40, #4A2F35);	
-	box-shadow: 0 3px 6px #999;
-	-moz-box-shadow: 0 3px 6px #999;
-	-webkit-box-shadow: 0 3px 6px #999;
-	-o-box-shadow: 0 3px 6px #999;
 	border: 0px !important
 }
 
@@ -2401,6 +2370,7 @@
 .wpui-quark .ui-tabs h4,
 .wpui-quark .ui-tabs h5 {
 	color: #F2E5D0 !important;
+	text-shadow : 0 1px 0 #000;
 }
 
 
@@ -2547,10 +2517,7 @@
 	background: #FFE7CC;
 	color: #282828;
 /*	border-top: 1px solid #DB9E8C;*/
-	-moz-box-shadow    : 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
+
 }
 
 .wpui-quark .ui-dialog-titlebar {
@@ -2608,7 +2575,17 @@
 }
 
 
-
+.wpui-quark pre.minimal,
+.wpui-quark code.minimal {
+	background: #DBC6A4;
+	text-shadow: 0 1px 0 #FFF;
+	padding: 1px;
+	color: #000;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+}
 
 
 
@@ -2624,10 +2601,6 @@
 
 .wpui-safle .ui-tabs {
 	background: #080808;
-	box-shadow: 0 3px 6px #CDCDCD;
-	-moz-box-shadow: 0 3px 6px #CDCDCD;
-	-webkit-box-shadow: 0 3px 6px #CDCDCD;
-	-o-box-shadow: 0 3px 6px #CDCDCD;
 	border-radius          : 8px 8px 0 0;
 	-moz-border-radius     : 8px 8px 0 0;
 	-webkit-border-radius  : 8px 8px 0 0;
@@ -2812,10 +2785,6 @@
 	font-family: 'Lucida Grande', 'Arial', sans-serif;
 	background: #030B1F;
 	color: #DDD;
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
 	padding: 5px;
 }
 
@@ -2891,10 +2860,6 @@
 	background: -webkit-gradient(linear, left top, left bottom , from(#C9D0DE), to(#9EA4AD));
 	background: -webkit-linear-gradient(top , #C9D0DE, #9EA4AD);
 	background: -o-linear-gradient(top , #C9D0DE, #9EA4AD);	
-	box-shadow: 0 3px 6px #999;
-	-moz-box-shadow: 0 3px 6px #999;
-	-webkit-box-shadow: 0 3px 6px #999;
-	-o-box-shadow: 0 3px 6px #999;
 	border:1px solid #777;
 }
 
@@ -3196,13 +3161,9 @@
 	-o-border-radius       : 6px;
 	border-radius          : 6px;
 	font-family: 'Lucida Grande', 'Arial', sans-serif;
-	background: #FFE7CC;
+	background: #EBF1F9;
 	color: #282828;
 	border: 1px solid #71757F;
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
 }
 
 .wpui-cyaat9 .ui-dialog-titlebar {
@@ -3293,10 +3254,6 @@
 	background: -webkit-gradient(linear, left top, left bottom , from(#00A8C7), to(#20639A) );
 	background: -webkit-linear-gradient(top , #00A8C7, #20639A);
 	background: -o-linear-gradient(top, #00A8C7, #20639A);	
-	box-shadow: 0 3px 6px #999;
-	-moz-box-shadow: 0 3px 6px #999;
-	-webkit-box-shadow: 0 3px 6px #999;
-	-o-box-shadow: 0 3px 6px #999;
 	border:1px solid #206299;
 }
 
@@ -3508,10 +3465,6 @@
     background: -o-linear-gradient(top , #FEED69, #62D790);
 	color: #282828;
 	border: 1px solid #BEB24F;
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
 }
 
 .wpui-achu .ui-dialog-titlebar {
@@ -3784,10 +3737,6 @@
 
 .wpui-green .ui-tabs {
 	background : #FFF;
-	box-shadow: 0 3px 6px #CDCDCD;
-	-moz-box-shadow: 0 3px 6px #CDCDCD;
-	-webkit-box-shadow: 0 3px 6px #CDCDCD;
-	-o-box-shadow: 0 3px 6px #CDCDCD;
 	border-radius          : 6px;
 	-moz-border-radius     : 6px;
 	-webkit-border-radius  : 6px;
@@ -4045,10 +3994,6 @@
 	border-radius          : 6px;
 	font-family: 'Lucida Grande', 'Arial', sans-serif;
 	color: #282828;
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
 }
 
 .wpui-green .ui-dialog-titlebar {
@@ -4132,10 +4077,6 @@
 
 .wpui-blue .ui-tabs {
 	background : #FFF;
-	box-shadow: 0 3px 6px #CDCDCD;
-	-moz-box-shadow: 0 3px 6px #CDCDCD;
-	-webkit-box-shadow: 0 3px 6px #CDCDCD;
-	-o-box-shadow: 0 3px 6px #CDCDCD;
 	border-radius          : 5px;
 	-moz-border-radius     : 5px;
 	-webkit-border-radius  : 5px;
@@ -4350,12 +4291,25 @@
 }
 
 
+.wpui-blue .ui-button {
+	border-radius          : 3px;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-webkit-border-radius  : 3px;
+	font: bold 14px 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;
+	background: #377AD0;
+	background: -moz-linear-gradient(top ,#52A8E8, #377AD0);
+	background: -webkit-gradient(linear, left top, left bottom , from(#52A8E8), to(#305DA9));
+	background: -webkit-linear-gradient(top , #52A8E8, #377AD0);
+	background: -o-linear-gradient(top , #52A8E8, #377AD0);
+	padding: 4px 10px;
+	color: #FFF !important;
+	border: 1px solid #3B592A;
+	text-shadow: 0 -1px 0 #3B592A;
+}
+
 .wpui-blue.ui-dialog {
 	font-family: 'Lucida Grande', 'Arial', sans-serif;
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 15px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
 	-moz-border-radius     : 8px 8px 0 0;
 	-webkit-border-radius  : 8px 8px 0 0;
 	-o-border-radius       : 8px 8px 0 0;
@@ -4443,10 +4397,6 @@
 
 .wpui-red .ui-tabs {
 	background : #FFF;
-	box-shadow: 0 3px 6px #CDCDCD;
-	-moz-box-shadow: 0 3px 6px #CDCDCD;
-	-webkit-box-shadow: 0 3px 6px #CDCDCD;
-	-o-box-shadow: 0 3px 6px #CDCDCD;
 	border-radius          : 5px;
 	-moz-border-radius     : 5px;
 	-webkit-border-radius  : 5px;
@@ -4642,7 +4592,8 @@
    background: -webkit-linear-gradient(top , #BD5454, #8A1F1F);
    background: -o-linear-gradient(top , #BD5454, #8A1F1F);
 	padding: 4px 10px;
-	color: #FFF !important;
+	color: #E3F9F9 !important;
+	color: rgba( 255, 255, 255, 0.7 );
 	border: 1px solid #3D1B1B;
 	text-shadow: 0 -1px 0 #13345A;
 }
@@ -4689,11 +4640,6 @@
 	-o-border-radius       : 8px;
 	border-radius          : 8px;
 	font-family: 'Lucida Grande', 'Arial', sans-serif;
-	-moz-box-shadow    : 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 0 3px 10px #000;
-
 }
 
 .wpui-red .ui-dialog-titlebar {
@@ -4751,16 +4697,6 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
 /*
  *	Alma CSS3 additions.
  */
@@ -4779,7 +4715,10 @@
 	padding:0px;
 	border: 0px !important;
 	background: none !important;
-	
+	-moz-box-shadow    : none !important;
+	-webkit-box-shadow : none !important;
+	-o-box-shadow      : none !important;
+	box-shadow         : none !important;
 }
 
 .wpui-alma .ui-tabs .ui-tabs-panel .wp-tab-content > .wp-tabs .ui-tabs {
@@ -4803,10 +4742,10 @@
 	-moz-border-radius     : 5px;
 	-webkit-border-radius  : 5px;
 	-o-border-radius       : 5px;
-	box-shadow         : 0 2px 5px #CDCDCD;
-	-moz-box-shadow    : 0 2px 5px #CDCDCD;
-	-webkit-box-shadow : 0 2px 5px #CDCDCD;
-	-o-box-shadow      : 0 2px 5px #CDCDCD;
+	-moz-box-shadow    : 0 2px 6px rgba( 0, 0, 0, 0.4 );
+	-webkit-box-shadow : 0 2px 6px rgba( 0, 0, 0, 0.4 );
+	-o-box-shadow      : 0 2px 6px rgba( 0, 0, 0, 0.4 );
+	box-shadow         : 0 2px 6px rgba( 0, 0, 0, 0.4 );
 	border: 3px solid #FFF;
 }
 
@@ -4952,10 +4891,6 @@
 	-moz-border-radius     : 12px;
 	-webkit-border-radius  : 12px;
 	-o-border-radius       : 12px;
-	box-shadow         : 0 1px 3px #CDCDCD;
-	-moz-box-shadow    : 0 1px 3px #CDCDCD;
-	-webkit-box-shadow : 0 1px 3px #CDCDCD;
-	-o-box-shadow      : 0 1px 3px #CDCDCD;
 	font-size: 12px;
 }
 
@@ -4998,7 +4933,6 @@
 
 .wpui-alma .ui-tabs-panel .tab-top-nav a:active,
 .wpui-alma .ui-tabs-panel .tab-bottom-nav a:active {
-	box-shadow : inset 0 1px 3px #CDCDCD;
 	border: 1px solid #FFF;
 }
 
@@ -5029,7 +4963,6 @@
 	-moz-border-radius     : 4px;
 	-webkit-border-radius  : 4px;
 	-o-border-radius       : 4px;
-	box-shadow: 0 1px 4px #999;
 	border: 1px solid #626262;
 }
 
@@ -5067,8 +5000,6 @@
 	background: #F2F2F2;
 	padding: 10px;
 	border: 1px solid #7A7A7A;
-	box-shadow: 0 1px 4px #999;
-	
 }
 
 .wpui-alma .ui-collapsible-content {
@@ -5094,10 +5025,6 @@
 	text-shadow : 0 1px 1px #000;
 	background : rgba(38, 38, 38, 0.89);
 	border: #000;
-	-moz-box-shadow    : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 3px 10px #000;
-	-webkit-box-shadow : 0 3px 10px #000;
-	-o-box-shadow      : 0 3px 10px #000;
-	box-shadow         : 1px 1px 0 #777 inset, -1px -1px 0 #777 inset, 0 3px 10px #000;
 }
 
 .wpui-alma .ui-dialog-titlebar {
@@ -5320,3 +5247,11 @@ a.close-spoiler {
 	margin: 20px 0 0 0;
 }
 
+span.ui-icon {
+	display : inline-block;
+	width : 16px;
+	height : 16px;
+}
+span.ui-icon-newwin {
+	background: url("../images/ui-icons.png") -48px -80px;
+}

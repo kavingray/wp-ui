@@ -1,10 +1,11 @@
 <?php
-require_once( 'admin-options.php' );
+
+require_once( dirname( __FILE__ ) . '/admin-options.php' );
 
 if ( class_exists( 'quark_admin_options' ) ) {
 /**
-* WP UI options
-*/
+ *	WP UI options
+ */
 class wpUI_options extends quark_admin_options
 {
 
@@ -33,8 +34,8 @@ $wpui_plugin_details = array(
 	'page_prefix'	=>	'wpUI'
 );
 
-if( class_exists( 'quark_admin_options') )
-	$option_page = new wpUI_options($wpui_plugin_details);
+// if( class_exists( 'quark_admin_options') )
+$option_page = new wpUI_options($wpui_plugin_details);
 
 
 $sects = array(
@@ -45,6 +46,86 @@ $sects = array(
 	'posts'	=>	__('Posts', WPPTD),
 	'advanced'	=>	__('Advanced', WPPTD)	
 );
+
+
+$wpui_skins_list_pre = array(
+
+	'startoptgroup1'=>	__('jQuery UI Themes', WPPTD),
+		'ui-lightness'	 =>	__('UI-Lightness', WPPTD),
+		'ui-darkness'	 =>	__('UI-Darkness', WPPTD),
+		'smoothness'	 =>	__('Smoothness', WPPTD),
+		'start'			 =>	__('start', WPPTD),
+		'redmond'		 =>	__('Redmond', WPPTD),
+		'sunny'			 =>	__('Sunny', WPPTD),
+		'overcast'		 =>	__('Overcast', WPPTD),
+		'le-frog'		 =>	__('Le Frog', WPPTD),
+		'flick'			 =>	__('Flick', WPPTD),
+		'pepper-grinder' => __('Pepper Grinder', WPPTD),
+		'eggplant'		 => __('Eggplant', WPPTD),
+		'dark-hive'		 => __('Dark Hive', WPPTD),
+		'cupertino'		 => __('Cupertino', WPPTD),
+		'south-street'	 => __('South St', WPPTD),
+		'blitzer'		 => __('Blitzer', WPPTD),
+		'humanity'		 => __('Humanity', WPPTD),
+		'hot-sneaks'	 => __('Hot Sneaks', WPPTD),
+		'excite-bike'	 => __('Excite Bike', WPPTD),
+		'vader'			 => __('Vader', WPPTD),
+		'dot-luv'		 => __('Dot Luv', WPPTD),
+		'mint-choc'		 => __('Mint Choc', WPPTD),
+		'black-tie'		 => __('Black Tie', WPPTD),
+		'trontastic'	 => __('Trontastic', WPPTD),
+		'swanky-purse'	 => __('Swanky Purse', WPPTD),
+		'base'			 => __('Base', WPPTD),
+		'black-tie'		 => __('Black Tie', WPPTD),
+		
+	'endoptgroup2'	=>	'',
+		
+	'startoptgroup2'=>	__('WP UI CSS3 Themes', WPPTD),
+		'wpui-light'		=>	__('WPUI - light', WPPTD),
+		'wpui-blue'			=>	__('WPUI - Blue', WPPTD),
+		'wpui-red'			=>	__('WPUI - Red', WPPTD),
+		'wpui-green'		=>	__('WPUI - Green', WPPTD),
+		'wpui-dark'			=>	__('WPUI - Dark', WPPTD),	
+		'wpui-quark'		=>	__('WPUI - Quark', WPPTD),
+		'wpui-cyaat9'		=>	__('WPUI - See ya at 9', WPPTD),
+		'wpui-android'		=>	__('WPUI - Android', WPPTD),
+		'wpui-safle'		=>	__('WPUI - safle', WPPTD),
+		'wpui-alma'			=>	__('WPUI - Alma', WPPTD),
+		'wpui-macish'		=>	__('WPUI - Macish', WPPTD),
+		'wpui-achu'			=>	__('WPUI - Achu', WPPTD),
+		'wpui-redmond'		=>	__('WPUI - Redmond', WPPTD),
+		'wpui-sevin'		=>	__('WPUI - Sevin', WPPTD),
+	'endoptgroup1'	=>	'',
+	
+);
+
+
+
+
+
+
+// 
+// $wpui_options = get_option( 'wpUI_options' );
+// 
+// if ( ! empty( $wpui_options) ) {
+// 	$wpui_jqui_custom_themes = json_decode( $wpui_options[ 'jqui_custom_themes' ] , true);
+// 
+// 	
+// 	$wpui_custom_thm_num = count( $wpui_jqui_custom_themes );
+// 	
+// 	if ( $wpui_custom_thm_num > 0 ) {
+// 		$wpui_skins_list_pre[ 'startoptgroup3' ] = __( 'jQuery Custom themes', WPPTD ); 
+// 		foreach( $wpui_jqui_custom_themes as $key=>$value ) {
+// 			$wpui_jqui_cust_thm_display = ucwords(str_ireplace( '-', ' ', $key ));
+// 			$wpui_skins_list_pre[ $wpui_jqui_cust_thm_display ] = $key;
+// 		}
+// 		
+// 		$wpui_skins_list_pre[ 'endoptgroup3' ] = '';
+// 		
+// 	}
+// 	
+// }
+// 
 
 $option_page->set_sections($sects);
 $options_list = array(
@@ -104,18 +185,6 @@ $options_list = array(
 		'section'	=>	'general',
 		'type'		=>	'checkbox'	
 	),	
-
-	// 
-	// 'load_all_styles'	=>	array(
-	// 	'id'	=>	'load_all_styles',
-	// 	'title'		=>	__('Load all styles', WPPTD),
-	// 	'desc'		=>	__('If checked, <i>Multiple styles</i> can be used on the same page.', WPPTD),
-	// 	'type'	=>	'checkbox',
-	// 	'section'	=>	'style'
-	// ),
-	// 
-	
-	
 	
 	'tabstyle'=>	array(
 		'id'		=>	'tab_scheme',
@@ -123,58 +192,8 @@ $options_list = array(
 		'desc'		=>	__('Select a <u>default</u> style. Use the shortcode attributes to override.<br /> ex. <code>[wptabs style="chosenstyle"]</code>', WPPTD),
 		'type'		=>	'select',
 		'section'	=>	'style',
-		'choices'	=>	array(
-
-			'startoptgroup1'=>	__('jQuery UI Themes', WPPTD),
-				'ui-lightness'	 =>	__('UI-Lightness', WPPTD),
-				'ui-darkness'	 =>	__('UI-Darkness', WPPTD),
-				'smoothness'	 =>	__('Smoothness', WPPTD),
-				'start'			 =>	__('start', WPPTD),
-				'redmond'		 =>	__('Redmond', WPPTD),
-				'sunny'			 =>	__('Sunny', WPPTD),
-				'overcast'		 =>	__('Overcast', WPPTD),
-				'le-frog'		 =>	__('Le Frog', WPPTD),
-				'flick'			 =>	__('Flick', WPPTD),
-				'pepper-grinder' => __('Pepper Grinder', WPPTD),
-				'eggplant'		 => __('Eggplant', WPPTD),
-				'dark-hive'		 => __('Dark Hive', WPPTD),
-				'cupertino'		 => __('Cupertino', WPPTD),
-				'south-street'	 => __('South St', WPPTD),
-				'blitzer'		 => __('Blitzer', WPPTD),
-				'humanity'		 => __('Humanity', WPPTD),
-				'hot-sneaks'	 => __('Hot Sneaks', WPPTD),
-				'excite-bike'	 => __('Excite Bike', WPPTD),
-				'vader'			 => __('Vader', WPPTD),
-				'dot-luv'		 => __('Dot Luv', WPPTD),
-				'mint-choc'		 => __('Mint Choc', WPPTD),
-				'black-tie'		 => __('Black Tie', WPPTD),
-				'trontastic'	 => __('Trontastic', WPPTD),
-				'swanky-purse'	 => __('Swanky Purse', WPPTD),
-				'base'			 => __('Base', WPPTD),
-				'black-tie'		 => __('Black Tie', WPPTD),
-				
-			'endoptgroup2'	=>	'',
-				
-			// __('Bundled - Quark', WPPTD),
-			'startoptgroup2'=>	__('WP UI CSS3 Themes', WPPTD),
-				'wpui-light'		=>	__('WPUI - light', WPPTD),
-				'wpui-blue'			=>	__('WPUI - Blue', WPPTD),
-				'wpui-red'			=>	__('WPUI - Red', WPPTD),
-				'wpui-green'		=>	__('WPUI - Green', WPPTD),
-				'wpui-dark'			=>	__('WPUI - Dark', WPPTD),	
-				'wpui-quark'		=>	__('WPUI - Quark', WPPTD),
-				'wpui-cyaat9'		=>	__('WPUI - See ya at 9', WPPTD),
-				'wpui-android'		=>	__('WPUI - Android', WPPTD),
-				'wpui-safle'		=>	__('WPUI - safle', WPPTD),
-				'wpui-alma'			=>	__('WPUI - Alma', WPPTD),
-				'wpui-macish'		=>	__('WPUI - Macish', WPPTD),
-				'wpui-achu'			=>	__('WPUI - Achu', WPPTD),
-				'wpui-redmond'		=>	__('WPUI - Redmond', WPPTD),
-				'wpui-sevin'		=>	__('WPUI - Sevin', WPPTD),
-			'endoptgroup1'	=>	''
-
-		),
-		'extras'	=>	'&nbsp; choosing a <a target="_blank" href="http://jqueryui.com/themeroller/#themeGallery">jQuery UI theme</a> | <a id="tab_scheme_trigger" href="" class="">WP UI CSS3 Style</a>'
+		'choices'	=>	$wpui_skins_list_pre,
+		'extras'	=>	'&nbsp; Preview <a id="wpui_styles_preview" href="" class="button-secondary">WP UI CSS3 Styles</a>  <a id="jqui_styles_preview" href="#" class="button-secondary">jQuery UI themes</a>'
 	),	
 	
 	'jqui_custom'	=>	array(
@@ -409,7 +428,7 @@ $options_list = array(
 	'alternative_codes'	=>	array(
 		'id'		=>	'alt_sc',
 		'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
-		'desc'		=>	__( 'Use shorter codes. For ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] instead of [wptabcontent]</li><li>[<strong>wslider</strong>] instead of [wpspoiler]</li></ul>Please make sure that no other plugins that you use have the same short codes defined.' ),
+		'desc'		=>	__( 'Use shorter codes. For ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] instead of [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>Please make sure that no other plugins that you use have the same short codes defined.' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
@@ -482,12 +501,23 @@ $options_list = array(
 
 $option_page->set_fields( $options_list );
 
-add_action('wp_ajax_WPUIstyles', 'choose_tab_style');
+add_action('wp_ajax_WPUIstyles', 'choose_wpui_style');
 
-function choose_tab_style() {
+function choose_wpui_style() {
 	echo file_get_contents( plugins_url('/wp-ui/js/wpui-choosestyles.php'));
 	die();
 }
+
+
+add_action('wp_ajax_JQUIstyles', 'choose_jqui_style');
+
+function choose_jqui_style() {
+	echo file_get_contents( plugins_url('/wp-ui/js/wpui-choose-jquistyles.php'));
+	die();
+}
+
+
+
 
 
 add_action('wp_ajax_editorButtonsHelp', 'editor_buttons_help');
@@ -507,6 +537,10 @@ function wpui_search_for_stylesheets()
 {
 	$upload_dir = wp_upload_dir();
 	$udir = preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir['path'] ) . 'wp-ui/';
+	$upnonce = $_POST['upNonce'];
+
+	if ( ! wp_verify_nonce( $upnonce, 'wpui-jqui-custom-themes' ) )
+		return false;
 
 	$results = wpui_jqui_dirs( $udir );
 
@@ -658,6 +692,42 @@ function wpui_plugin_info_below() {
 </div>
 	<?php
 }
+
+
+/**
+ * Get the list of jQuery UI themes.
+ */
+function wpui_get_jqui_themes_list()
+{
+	$theme_list = array(
+		'ui-lightness', 'ui-darkness', 'smoothness', 'start', 'redmond',	
+		'sunny', 'overcast', 'le-frog',	'flick', 'pepper-grinder', 'eggplant',
+		'dark-hive', 'cupertino', 'south-street', 'blitzer', 'humanity',
+		'hot-sneaks', 'excite-bike', 'vader', 'dot-luv', 'mint-choc',
+		'black-tie', 'trontastic', 'swanky-purse', 'base'		
+	);	
+	return $theme_list;	
+} // END function wpui_get_jqui_themes_list
+	
+/**
+ * Get the list of CSS3 styles.
+ */
+function wpui_get_css3_styles_list()
+{
+	$theme_list = array( 
+			'wpui-light', 'wpui-blue', 'wpui-red', 'wpui-green', 'wpui-dark',
+			'wpui-quark', 'wpui-cyaat9', 'wpui-android', 'wpui-safle', 'wpui-alma',
+			'wpui-macish', 'wpui-achu', 'wpui-redmond', 'wpui-sevin'
+	);
+	return $theme_list;
+} // END function wpui_get_css3_styles_list
+
+
+
+
+
+
+
 
 
 $wpui_default_post_template_1 = '<h2 class="wpui-post-title">{$title}</h2>

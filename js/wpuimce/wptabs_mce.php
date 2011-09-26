@@ -16,6 +16,7 @@ class wptabs_editor_buttons
 			}
 			if ( isset( $options['enable_quicktags_buttons'] ) ) 
 			add_action( 'edit_form_advanced', array(&$this, 'wptabs_quicktags_buttons'));
+			add_action( 'edit_page_form', array(&$this, 'wptabs_quicktags_buttons'));
 			// add_action( 'admin_head', array(&$this, 'tinymce_vars'));
 		}
 	}

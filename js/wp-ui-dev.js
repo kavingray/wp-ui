@@ -49,15 +49,20 @@ jQuery.fn.wptabs = function( options ) {
 		$this.find('div.ui-tabs-panel:last-child').after('<p id="jqtemp">');
 		
 		if ( o.wpuiautop ) {
-			$this.find('p, br').filter(function() {
+							
+			$this
+				.find('p, br')
+				.not('div.wp-tab-content br, div.wp-tab-content p ')
+				.filter(function() {
 				return jQuery.trim(jQuery(this).html()) === ''
 			}).remove();
+
 		}
+		
 		
 		wrapper.each(function() {
 			jQuery(this).parent().append( jQuery(this).parent().nextUntil("div.ui-tabs-panel") );
 		});	
-
 		
 		// Add the respective IDs to the ui-tabs-panel(content) and remove the h3s.
 		$this.find('.ui-tabs-panel').children(o.h3Class).each(function( index ) {
@@ -167,7 +172,47 @@ jQuery.fn.wptabs = function( options ) {
 			});
 			 
  		}
-		
+		if (o.followNav == true || $this.hasClass('tab-nav-follows')) {
+			o.topNav = o.bottomNav = false;
+			$tabs.append('<a href="#" class="ui-button tab-nav-follows prev-follow"><span></span>Previous</a>  <a href="#" class="ui-button tab-nav-follows next-follow"><span></span>Next</a>');
+			
+			jQuery('.tab-nav-follows').css({
+				position: 'absolute'
+			});
+			
+			wptabsHgt = $this.height() / 2;
+			wptabsNavWdt = $tabs.children('.tab-nav-follows').outerWidth();
+			$tabs.parent().css({
+				position: 'relative'
+			});
+			
+			maxPH = 0;
+			$tabs.children('.ui-tabs-panel').each(function() {
+				if (jQuery(this).height() > maxPH) {
+					maxPH = jQuery(this).height();
+				}
+			});
+			
+			$tabs.children('div.ui-tabs-panel').innerHeight(maxPH + 50);
+			jQuery('.next-follow').css({
+				right: wptabsNavWdt * -1 + "px",
+				top: "150px"
+			}).click(function() {
+				wpuiTabsMover('forward');
+				return false;
+			});
+			jQuery('.prev-follow').css({
+				left: wptabsNavWdt * -1 + "px",
+				top: "150px"
+			}).click(function() {
+				wpuiTabsMover('backward');
+				return false;
+			});
+			$fNavs = $this.find('a.tab-nav-follows');
+			$fNavs.wpuiScroller({
+				container: $tabs.get(0)
+			});
+		}
 		
 	
 		if ( o.topNav || o.bottomNav ) {
@@ -292,16 +337,15 @@ jQuery.fn.wptabs = function( options ) {
 
 
 	if ( jQuery.event.special.mousewheel !== "undefined" && o.mouseWheel != 'false' ) {
-		
-		if ( o.mouseWheel == "list" ) {
-			scrollEl = 'ul.ui-tabs-nav';
-		} else if ( o.mouseWheel == "panels" ) {
-			scrollEl = 'div.ui-tabs-panel';		
-			
-		}	
 
-		$this.panelength = $tabs.find( '.ui-tabs-panel' ).length;
-		if ( ! scrollEl ) scrollEl == 'ul.ui-tabs-nav';
+		if ( o.mouseWheel && o.mouseWheel == "panels" ) {
+			scrollEl = 'div.ui-tabs-panel';		
+		} else {
+			scrollEl = 'ul.ui-tabs-nav';
+		}
+		
+	$this.panelength = $tabs.find( '.ui-tabs-panel' ).length;
+
 		$tabs.find( scrollEl ).mousewheel(function( event, delta) {
 			if ( delta < 0 )
 				dir = "forward";
@@ -383,7 +427,40 @@ jQuery.fn.wptabs.defaults = {
 	hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
 	hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
 	mouseWheel		: 		(typeof wpUIOpts != "undefined" ) ? wpUIOpts.mouseWheelTabs : '',
-	wpuiautop		: 		true	
+	wpuiautop		: 		true,
+	followNav: false
+		
+};
+
+
+jQuery.fn.wpuiScroller = function(options) {
+	var base = this;
+	base.$el = jQuery(this);
+	base.opts = jQuery.extend({},
+	jQuery.fn.wpuiScroller.defaults, options);
+	base.startTop = parseInt(base.$el.css('top'));
+	if (base.opts.limiter) {
+		base.limiter = jQuery(base.opts.limiter);
+	} else {
+		base.limiter = base.$el.parent().parent();
+	}
+	base.startAt = parseInt(base.limiter.offset().top);
+	jQuery(window).scroll(function() {
+		base.endAt = parseInt(base.limiter.height() + jQuery(window).height() / 2);
+		base.moveTo = base.startTop;
+		if (jQuery(document).scrollTop() >= base.startAt) {
+			base.moveTo = base.startTop + (jQuery(window).scrollTop() - base.startAt);
+			if ((jQuery(window).scrollTop() + jQuery(window).height() / 2) >= (base.limiter.height() + base.limiter.offset().top - base.startTop)) {
+				base.moveTo = base.limiter.height() - base.startTop;
+			}
+		}
+		base.$el.css('top', base.moveTo);
+	});
+	return this;
+};
+jQuery.fn.wpuiScroller.defaults = {
+	limiter: false,
+	adJust: 50
 };
 
 
@@ -403,9 +480,16 @@ jQuery.fn.wpaccord = function( options ) {
 		
 		$this.append('<p id="jqtemp" />');
 		
-		$this.find('p, br').filter(function() {
-			return jQuery.trim(jQuery(this).html()) === ''
-		}).remove();
+		if ( o.wpuiautop ) {
+							
+			$this
+				.find('p, br')
+				.not('div.wp-tab-content br, div.wp-tab-content p ')
+				.filter(function() {
+				return jQuery.trim(jQuery(this).html()) === ''
+			}).remove();
+
+		}
 		
 		
 		// var wrapcontent = $this.find('h3').next().wrap('<div class="accordion-pre">');
@@ -414,6 +498,17 @@ jQuery.fn.wpaccord = function( options ) {
 		// $this.find('p, br').filter(function() {
 		// 	return jQuery.trim(jQuery(this).text()) === ''
 		// }).remove();
+		
+		if ( o.wpuiautop ) {
+							
+			$this
+				.find('p, br')
+				.not('div.wp-tab-content br, div.wp-tab-content p ')
+				.filter(function() {
+				return jQuery.trim(jQuery(this).html()) === ''
+			}).remove();
+
+		}		
 		
 		wrapper.each(function() {
 			jQuery(this).parent().append( jQuery(this).parent().nextUntil( 'p#jqtemp' ));
@@ -448,6 +543,10 @@ jQuery.fn.wpaccord = function( options ) {
 			accordOpts.autoHeight = false;
 		}
 		
+
+
+		// console.log( accClass.match(/acc-active-(\d){1}/im) ); 
+		
 		if ( o.collapse ) {
 			accordOpts.collapsible = true;
 			accordOpts.active = false;
@@ -456,12 +555,18 @@ jQuery.fn.wpaccord = function( options ) {
 		accordOpts.animated = o.easing;
 		
 		accordOpts.event = o.accordEvent;
-		
-		jQuery( '.accordion' ).accordion(accordOpts);
 
-		
+		$wpAccord = jQuery( '.accordion' ).accordion(accordOpts);
+
+		accClass = $this.attr( 'class' );
+
+		if ( activePanel = accClass.match(/acc-active-(\d){1}/im) ) {
+			$wpAccord.accordion( 'activate', parseInt( activePanel[ 1 ] ) );
+		}
+				
 		jQuery('.accordion h3.ui-accordion-header:last').addClass('last-child');
-		
+
+
 		// $this.find('p#jqtemp').remove();
 	
 
@@ -478,7 +583,8 @@ jQuery.fn.wpaccord.defaults = {
 	autoHeight		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? true : false,
 	collapse		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordCollapsible == 'on' ) ? true : false,
 	easing			: 	(typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEasing : '',
-	accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : ''
+	accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : '',
+	wpuiautop		: 		true
 }; // END wpaccord defaults.
 
 
@@ -489,17 +595,19 @@ jQuery.fn.wpaccord.defaults = {
 jQuery.fn.wpspoiler = function( options ) {
 	
 	var o, defaults, holder, hideText, showText, currText, hideSpan;
-	
 
 	o = jQuery.extend({}, jQuery.fn.wpspoiler.defaults, options );
-	
 
 	this.each(function() {
 		var base = this,
 		$this = jQuery( this );
-		hideText = convertEntities( o.hideText );
-		showText = convertEntities( o.showText );
-
+		
+		if ( typeof convertEntities == 'function' ) {
+			hideText = convertEntities( o.hideText );
+			showText = convertEntities( o.showText );
+		} else {
+			hideText = o.hideText; showText = o.showText;
+		}
 
 		$this.addClass( 'ui-widget ui-collapsible' );
 		
@@ -649,6 +757,17 @@ jQuery.fn.wpDialog = function( options ) {
 		dialogCloseFn = function() {
 			$(this).dialog("close");
 		};
+		
+		
+		if ( kel.position == 'bottomleft' ) {
+			kel.position = [ 'left' , 'bottom' ];
+		} else if ( kel.position == 'bottomright' ) {
+			kel.position = [ 'right', 'bottom' ];
+		} else if ( kel.position == 'topleft' ) {
+			kel.position = [ 'left', 'top' ];
+		} else if ( kel.position == 'topright' ) {
+			kel.position = [ 'right', 'top' ];
+		}
 		
 		
 		if ( kel.button ) {
@@ -801,6 +920,10 @@ jQuery.cookie = function (key, value, options) {
 (function($,e,b){var c="hashchange",h=document,f,g=$.event.special,i=h.documentMode,d="on"+c in e&&(i===b||i>7);function a(j){j=j||location.href;return"#"+j.replace(/^[^#]*#?(.*)$/,"$1")}$.fn[c]=function(j){return j?this.bind(c,j):this.trigger(c)};$.fn[c].delay=50;g[c]=$.extend(g[c],{setup:function(){if(d){return false}$(f.start)},teardown:function(){if(d){return false}$(f.stop)}});f=(function(){var j={},p,m=a(),k=function(q){return q},l=k,o=k;j.start=function(){p||n()};j.stop=function(){p&&clearTimeout(p);p=b};function n(){var r=a(),q=o(m);if(r!==m){l(m=r,q);$(e).trigger(c)}else{if(q!==m){location.href=location.href.replace(/#.*/,"")+q}}p=setTimeout(n,$.fn[c].delay)}$.browser.msie&&!d&&(function(){var q,r;j.start=function(){if(!q){r=$.fn[c].src;r=r&&r+a();q=$('<iframe tabindex="-1" title="empty"/>').hide().one("load",function(){r||l(a());n()}).attr("src",r||"javascript:0").insertAfter("body")[0].contentWindow;h.onpropertychange=function(){try{if(event.propertyName==="title"){q.document.title=h.title}}catch(s){}}}};j.stop=k;o=function(){return a(q.location.href)};l=function(v,s){var u=q.document,t=$.fn[c].domain;if(v!==s){u.title=h.title;u.open();t&&u.write('<script>document.domain="'+t+'"<\/script>');u.close();q.location.hash=v}}})();return j})()})(jQuery,this);
 
 
+/*
+ *	JSON Library
+ *	https://github.com/douglascrockford/JSON-js/blob/master/json2.js
+ */
 var JSON;if(!JSON){JSON={};}
 (function(){"use strict";function f(n){return n<10?'0'+n:n;}
 if(typeof Date.prototype.toJSON!=='function'){Date.prototype.toJSON=function(key){return isFinite(this.valueOf())?this.getUTCFullYear()+'-'+

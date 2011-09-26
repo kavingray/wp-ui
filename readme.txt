@@ -5,17 +5,17 @@ Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, capability
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.7
+Stable tag: 0.7.2
 
-Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and use multiple jQuery UI custom themes.
+Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
 == Description ==
 
 WP UI is an advanced interface widgets plugin that combines the power of jQuery UI widgets into Wordpress posts. Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And great content deserves great presentation!
 
-[Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
-
 [Plugin page](http://kav.in/wp-ui-for-wordpress)
+
+[Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
 
 [Plugin Support](http://kav.in/forum)
 
@@ -102,6 +102,14 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 == Changelog ==
 
+= 0.7.2 =
+* Detailed Preview of jQuery UI themes and CSS3 styles.
+* Dialog positions, style conflicts fixed.
+* Bug fixes, including Line breaks fix, and improved security.
+* Auto fix the missing options that are essential.
+* Optional scroll follow navigation for tabs
+* Numerous style conflicts are fixed across multiple wordpress themes.
+
 = 0.7 =
 * Display post/posts and pages within Tabs/accordion/dialogs/sliders.
 * Mousewheel support and vertical styling for Tabs.
@@ -144,6 +152,9 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 
 == Upgrade Notice ==
+
+= 0.7.2 =
+Detailed preview of jQuery UI themes & CSS3 styles. Dialog positions, linebreak fix, Buttons for page editor, Improved security. Auto Fix the missing options.
 
 = 0.7 =
 Now, load posts into tabs/acc/dialogs/sliders. Mousewheel scrolling thro tabs. Dialogs styles, Vertical tabs. Please resave the options.

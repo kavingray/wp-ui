@@ -16,9 +16,19 @@ jQuery(document).ready(function() {
 		
 	jQuery( '.tab-bottom-nav a, .tab-top-nav a' ).removeClass('ui-button');	
 
-		jQuery('#tab_scheme_trigger').click(function() {
-			chooseTabStyles = initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles&TB_iframe=true';
-			tb_show('Choose a WP UI style!', chooseTabStyles);
+		jQuery('#wpui_styles_preview').click(function() {
+			// var wtbWidth = Math.round( 0.9 * jQuery( window ).width() );
+			var wtbHeight = Math.round( 0.9 * jQuery( window ).height() );
+			chooseWpuiStyles = initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles&TB_iframe=true&width=800&height=' + wtbHeight;
+			tb_show('Choose a WP UI style', chooseWpuiStyles);
+			return false;
+		});
+		
+		jQuery('#jqui_styles_preview').click(function() {
+			// var wtbWidth = Math.round( 0.9 * jQuery( window ).width() );
+			var wtbHeight = Math.round( 0.9 * jQuery( window ).height() );
+			choosejquiStyles = initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=JQUIstyles&TB_iframe=true&width=810&height=' + wtbHeight;
+			tb_show('Choose a jQuery UI theme', choosejquiStyles);
 			return false;
 		});
 		
@@ -28,6 +38,7 @@ jQuery(document).ready(function() {
 					jQuery(this).attr( 'selected', 'selected' );
 			});
 			tb_remove();
+			jQuery( 'p.submit input.button-primary' ).click();			
 		}
 
 		jQuery('a.wpui_options_help').click(function() {
@@ -35,6 +46,70 @@ jQuery(document).ready(function() {
 			return false;
 		});
 
+		// console.log( jQuery( '#post_template_1' ).val() );
+		// jQuery( 'label[for="post_template_1"]').css({ background: 'red'});
+		
+		
+		/*
+		 *	Check the fields
+		 */
+		
+		emptyFields = false;
+		emptyObs = [];
+		defaVals = {
+				excerpt_length : 'more',
+				post_template_1 : "<h2 class=\"wpui-post-title\">{$title}</h2>\n<div class=\"wpui-post-meta\">{$date} |  {$author}</div>\n<div class=\"wpui-post-thumbnail\">{$thumbnail}</div>\n<div class=\"wpui-post-content\">{$excerpt}</div>\n<p class=\"wpui-readmore\"><a class=\"ui-button ui-widget ui-corner-all\" href=\"{$url}\" title=\"Read more from {$title}\">Read More...</a></p>",
+				post_template_2 : "<div class=\"wpui-post-meta\">{$date}</div>\n<div class=\"wpui-post-thumbnail\">{$thumbnail}</div>\n<div class=\"wpui-post-content\">{$excerpt}</div>\n<p class=\"wpui-readmore\"><a href=\"{$url}\" title=\"Read more from {$title}\">Read More...</a></p>"
+			
+			 };
+		
+		
+		
+		newObjs = jQuery( '#post_template_1, #post_template_2, #excerpt_length' );
+		
+		wpui_fieldCount = 0;
+
+		newObjs.each(function( i ) {
+			if ( jQuery( this ).val() == '' ) {
+				emptyFields = true;
+				emptyObs[ wpui_fieldCount ] = jQuery( this ).attr('id');
+				wpui_fieldCount++;
+			}
+		});
+		
+		if ( emptyObs.length > 0 ) {
+		jQuery( '#wpui-cap' ).after('<div id="setting-error-settings_updated" class="updated settings-error"><p style="color: red"><strong>Some of the Essential option fields are empty. <a href="#" class="correct-wpui-options">Click here to correct this issue</a>.</strong></p></div>' );	
+			
+			
+			jQuery( '.correct-wpui-options' ).click(function() {
+				var clickOK = confirm("This will fill the required option fields that are empty and save the options.");
+				
+				if ( clickOK ) {
+				
+				for( i=0; i < emptyObs.length; i++ ) {
+					jQuery( '#' + emptyObs[ i ] ).val(defaVals[ emptyObs[ i ] ] );
+				}
+				jQuery( 'p.submit input.button-primary' ).click();			
+				}
+				return false;
+				});			
+		}
+		
+		
+		// if ( emptyFields )
+		// jQuery( '#wpui-cap' ).after('<div id="setting-error-settings_updated" class="updated settings-error"><p style="color: red"><strong>Some of the newer option fields are empty. <a href="#" class="correct-wpui-options">Click here to correct This</a>.</strong></p></div>' );
+		// 
+		// // 
+		// // jQuery( '.correct-wpui-options' ).click(function() {
+		// // 	
+		// // });
+		// 	
+		// for( i = 0; i < emptyObs.length; i++ ) {
+		// 	console.log( emptyObs[ i ] ); 
+		// 	jQuery( '#' + emptyObs[ i ] ).val( defaVals[ emptyObs[ i ] ] ); 
+		// }
+		
+		
 		
 		// jQuery('#jqui_custom_themes').css({ display : 'none'});
 

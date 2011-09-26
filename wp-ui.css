@@ -189,9 +189,9 @@ div#toolztip.top-tip {
 }
 
 div#toolztip.bottom-tip {
-     border-radius: 10px;
+    border-radius: 10px;
     box-shadow: 0 3px 10px #999;
-     font: 12px 'Lucida Grande','Segoe UI','Ubuntu','Arial',sans-serif;
+    font: 12px 'Lucida Grande','Segoe UI','Ubuntu','Arial',sans-serif;
     left: -125px;
     margin: 20px;
     position: absolute;
@@ -289,11 +289,13 @@ div#toolztip.bottom-tip .toolztitle:before {
 	margin-bottom: 0px !important;
 	margin-top: 2px !important;
 	outline: 0;
+	background: #DDD;
 }
 
 .ui-collapsible h3.ui-collapsible-header {
 /*	margin-bottom: 0px !important;*/
 	outline: 0;
+
 }
 
 .ui-accordion-content,
@@ -340,8 +342,9 @@ div.ui-collapsible-content {
 }
 
 .options-noise {
-	background: url('images/options_noise.jpg');
+	background: url('images/pattern-gray.png') #FF8AB9;
 }
+
 
 
 /*
@@ -368,7 +371,7 @@ div.ui-collapsible-content {
 
 
 .ui-tabs-panel pre {
-	overflow: scroll;
+/*	overflow: scroll;*/
 	color: #222 !important;
 	white-space: pre-wrap;
 }
@@ -448,3 +451,51 @@ pre.wpui-pre {
 }
 
 
+.prev-follow,
+.next-follow {
+	width: 10px !important;
+	height : 20px !important;
+	padding : 5px;
+	display : block !important;
+	text-indent : -999999px !important;
+	overflow:hidden;
+/*	background: #DDD;
+	background: -webkit-linear-gradient( top, #EEE, #AAA );
+	border: 1px solid #999;
+	-moz-box-shadow    : 0 1px 0 #FFF inset;
+	-webkit-box-shadow : 0 1px 0 #FFF inset;
+	-o-box-shadow      : 0 1px 0 #FFF inset;
+	box-shadow         : 0 1px 0 #FFF inset;*/
+}
+
+.prev-follow {
+/*	-moz-box-shadow    : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, -5px 1px 7px rgba(0, 0, 0, 0.4) !important;
+	-webkit-box-shadow : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, -5px 1px 7px rgba(0, 0, 0, 0.4) !important;
+	-o-box-shadow      : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, -5px 1px 7px rgba(0, 0, 0, 0.4)  !important;
+	box-shadow         : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, -5px 1px 7px rgba(0, 0, 0, 0.4)  !important;*/
+}
+
+.next-follow {
+/*	-moz-box-shadow    : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, 5px 1px 7px rgba(0, 0, 0, 0.4) !important;
+	-webkit-box-shadow : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, 5px 1px 7px rgba(0, 0, 0, 0.4)  !important;
+	-o-box-shadow      : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, 5px 1px 7px rgba(0, 0, 0, 0.4)  !important;
+	box-shadow         : 1px 1px 0 #F4F2F4 inset, -1px -1px 0 #DDD inset, 5px 1px 7px rgba(0, 0, 0, 0.4)  !important;*/
+
+}
+
+.prev-follow span,
+.next-follow span {
+	width: 16px;
+	height: 16px;
+	display : block;
+	margin : 1px -2px;
+}
+
+.prev-follow span {
+	background: url( "images/ui-icons.png" ) -96px -16px;
+	
+}
+
+.next-follow span {
+	background: url( "images/ui-icons.png" ) -32px -16px;
+}

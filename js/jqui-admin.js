@@ -15,7 +15,6 @@
 		
 		base.fileList = ( base.$el.val() != '' ) ? JSON.parse( base.$el.val()) : {};
 
-
         base.$el.data("wpui.jquiThemeManage", base);
 
         base.init = function(){
@@ -34,8 +33,6 @@
 			jQuery( base.fileList ).bind('change', function() {
 				base.$el.val( JSON.stringify( base.fileList ) );
 			});
-
-			
 
         };
 
@@ -257,10 +254,10 @@
 				.append( '<span class="ajax_success" />' )
 				.find( 'span.ajax_success')
 				.html( '<img width="30px" height="30px" src="' + initOpts.pluginUrl + 'images/scanning-white.gif" />Scanning the uploads folder for themes..</span>' );
-				
-			
+						
 			var data = {
-				action : 'jqui_css'
+				action : 'jqui_css',
+				upNonce : jqui_admin.upNonce
 			}, response;			
 			
 				jQuery.post( ajaxurl, data, function( response ) {
