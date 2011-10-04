@@ -4,10 +4,10 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles and multiple jQuery UI custom themes.
 Author:	Kavin
-Version: 0.7.2
+Version: 0.7.3
 Author URI: http://kav.in
 
-Copyright (c) 2011 Kavin (http://kav.in/contact)
+Copyright (c) 2011 Kavin ( http://kav.in/contact )
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,11 +59,11 @@ class wpUI {
 		// Register the default options on activation.
 		register_activation_hook( __FILE__ , array(&$this, 'set_defaults'));
 
-		// Output the plugin scripts and styles.
-		add_action('wp_print_scripts', array(&$this, 'plugin_viewer_scripts'));
-		
-		add_action('wp_print_styles', array(&$this, 'plugin_viewer_styles'));
 
+		// Output the plugin scripts and styles.
+		add_action('wp_print_scripts', array(&$this, 'plugin_viewer_scripts'), 999);
+		
+		add_action('wp_print_styles', array(&$this, 'plugin_viewer_styles'), 999 );
 
 		// Load the admin scripts and styles.
 		if ( is_admin() )
@@ -72,7 +72,7 @@ class wpUI {
 	
 		// Translation.
 		add_action('init', array(&$this, 'load_plugin_loc'));
-		add_action('init', array(&$this, 'wpui_tackle_conflicts'));
+		// add_action('init', array(&$this, 'wpui_tackle_conflicts'));
 
 		// Custom CSS query.
 		add_filter( 'query_vars', array( &$this, 'wpui_add_query') );
@@ -86,6 +86,8 @@ class wpUI {
 		add_shortcode( 'wpspoiler', array(&$this, 'sc_wpspoiler'));
 		add_shortcode( 'wpdialog', array(&$this, 'sc_wpdialog'));
 		add_shortcode( 'wploop', array(&$this, 'sc_wpui_loop'));
+
+
 		
 		/**
 		 *  Insert the editor buttons and help panels.
@@ -125,15 +127,15 @@ class wpUI {
 		if ( ! is_admin() && ! isset($this->options['jquery_disabled'] ) ) {
 			wp_deregister_script( 'jquery' );
 			
-			wp_enqueue_script( 'jquery', $js_dir . 'jquery.min.js' );
-			wp_enqueue_script( 'jquery-ui', $js_dir . 'jquery-ui.min.js' );
-			wp_enqueue_script( 'jquery-easing', $js_dir . 'jquery.easing.1.3.js' );
+			// wp_enqueue_script( 'jquery', $js_dir . 'jquery.min.js' );
+			// wp_enqueue_script( 'jquery-ui', $js_dir . 'jquery-ui.min.js' );
 			
 			// wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js');
+			wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
 			
-			// wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js');
+			wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js');
 					
-			// wp_enqueue_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js');
+			wp_enqueue_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js');
 		}
 		
 		wp_enqueue_script( 'wp-ui-min', $plugin_url . '/js/wp-ui.js');
@@ -144,11 +146,13 @@ class wpUI {
 			'enableAccordion' =>	isset($this->options['enable_accordion']) ? $this->options['enable_accordion'] : '',
 			'enableSpoilers'  =>	isset($this->options['enable_spoilers']) ?	$this->options['enable_spoilers'] : '' ,	
 			'enableDialogs'	  =>	isset($this->options['enable_dialogs']) ?	$this->options['enable_dialogs'] : '' ,	
+			'enablePagination' =>	isset($this->options['enable_pagination']) ?	$this->options['enable_pagination'] : '' ,
 			'tabsEffect'      =>	isset($this->options['tabsfx']) ? $this->options['tabsfx'] : '',
 			'effectSpeed'     =>	isset($this->options['fx_speed']) ? $this->options['fx_speed'] : '',
 			'accordEffect'    =>	isset($this->options['tabsfx']) ? $this->options['tabsfx'] : '',
 			'alwaysRotate'    =>	isset($this->options['tabs_rotate']) ? $this->options['tabs_rotate'] : '',
 			'tabsEvent'  	  =>	isset($this->options['tabs_event']) ? $this->options['tabs_event'] : '',
+			'collapsibleTabs'  =>	isset($this->options['collapsible_tabs']) ? $this->options['collapsible_tabs'] : '',
 			'accordEvent'  	  =>	isset($this->options['accord_event']) ? $this->options['accord_event'] : '',
 			'topNav'          =>	isset($this->options['topnav']) ? $this->options['topnav'] : '',
 			'accordAutoHeight'=>	isset($this->options['accord_autoheight']) ? $this->options['accord_autoheight'] : '',
@@ -161,7 +165,8 @@ class wpUI {
 			'spoilerShowText' =>	isset($this->options['spoiler_show_text']) ? $this->options['spoiler_show_text'] : '',
 			'spoilerHideText' =>	isset($this->options['spoiler_hide_text']) ? $this->options['spoiler_hide_text'] : '',
 			"cookies"			=>	isset( $this->options['use_cookies'] ) ? $this->options['use_cookies'] : '',
-			"hashChange"		=> isset( $this->options['linking_history'] ) ? $this->options['linking_history'] : ''
+			"hashChange"		=> isset( $this->options['linking_history'] ) ? $this->options['linking_history'] : '',
+			"docWriteFix"		=> isset( $this->options['docwrite_fix'] ) ? $this->options['docwrite_fix'] : ''
 		));
 
 		if ( ! is_admin() ) {
@@ -176,6 +181,7 @@ class wpUI {
 				// 	 ), 'admin-ajax.php' )	
 			));
 		} // END if ! is _admin() for init.js.
+
 		
 	}
 	
@@ -189,12 +195,7 @@ class wpUI {
 
 
 		$wpuiCss3List = wpui_get_css3_styles_list();
-
-
-		
 	
-		
-		
 		/**
 		 * 	Look if it's a css3 style, or try to load a jQuery theme.
 		 */		
@@ -214,7 +215,8 @@ class wpUI {
 		/**
 		 * 	Load all the styles default since 0.5.7
 		 */
-		wp_enqueue_style( 'wp-ui-all' , $plugin_url . 'css/wpui-all.css');
+		if ( $this->options[ 'load_all_styles'] == 'on' )
+			wp_enqueue_style( 'wp-ui-all' , $plugin_url . 'css/wpui-all.css');
 			
 		if ( $is_IE && $this->options['enable_ie_grad'] )
 		wp_enqueue_style( 'wp-tabs-css-bundled-all-IE' , $plugin_url . 'css/wpui-all-ie.css');	
@@ -327,7 +329,7 @@ class wpUI {
 		
 		// Load the css on options page.
 		if ( isset( $_GET['page'] ) && $_GET['page'] == 'wpUI-options' ) {
-			wp_enqueue_style('wp-tabs-admin-js', $plugin_url . '/css/admin.css');
+			wp_enqueue_style('wp-tabs-admin-js', $plugin_url . 'css/admin.css');
 			// wp_enqueue_style('wp-admin-jqui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/smoothness/jquery.ui.all.css');
 		}		
 	}
@@ -385,7 +387,8 @@ class wpUI {
 			'mode'		=>	'horizontal',
 			'listwidth'	=>	'',
 			// Accordion only options below
-			'active'	=>	false
+			'active'	=>	false,
+			'background'	=>	'true'
 		), $atts));
 		
 		$output  = '';
@@ -408,6 +411,8 @@ class wpUI {
 		if ( $listwidth != '' )
 			$style .= ' listwidth-' . $listwidth;
 
+		if ( $background == 'false' )
+			$style .= ' wpui-no-background';
 	
 		// Default : tabs. Change type for accordion.
 		// $class  = ($type == 'accordion') ? 'wp-accordion' : 'wp-tabs';
@@ -471,6 +476,7 @@ class wpUI {
 		}
 		
 		if ( $num_per_page ) {
+			$output .= '<div class="wpui-pages-holder" />';
 			$output .= '<div class="wpui-page wpui-page-1">';		
 			$num_page = 1;
 		}
@@ -487,14 +493,16 @@ class wpUI {
 				&& ( $posts_passed != ( $wpui_total_posts ) )
 				) {
 				$num_page++;
-				$output .= '</div>';
+				$output .= '</div><!-- end div.wpui-page -->';
 				$output .= '<div class="wpui-page wpui-page-' . $num_page . '">';
+
 			}			
 		} // END foreach.
 		
-		if ( $num_page )
-		$output .= '</div><!-- end wpui-page -->';
-		
+		if ( $num_page ) {
+			$output .= '</div><!-- end wpui-page -->';
+			$output .= '</div><!-- end wpui-pages-holder -->';
+		}
 		return $output;		
 	} // END function sc_wpui_loop
 

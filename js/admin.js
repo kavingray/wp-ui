@@ -10,7 +10,8 @@ jQuery(document).ready(function() {
 		 					botNav: true,
 		 					cookies : true,
 							hashchange : false,
-							wpuiautop : false
+							wpuiautop : false,
+							collapsibleTabs : false
 		});
 
 		

@@ -224,7 +224,7 @@ div.tab-bottom-nav a {
 .accordion-holder,
 .spoiler-holder,
 .dialog-holder {
-	width: 350px;
+	width: 330px;
 	height : 350px;
 	float : left;
 	overflow : hidden;

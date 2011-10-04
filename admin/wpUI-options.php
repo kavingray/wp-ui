@@ -99,11 +99,6 @@ $wpui_skins_list_pre = array(
 	
 );
 
-
-
-
-
-
 // 
 // $wpui_options = get_option( 'wpUI_options' );
 // 
@@ -157,6 +152,13 @@ $options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
+	'enablePage'	=>	array(
+		'id'		=>	'enable_pagination',
+		'title'		=>	__('Enable pagination support', WPPTD),
+		'desc'		=>	__('Uncheck to disable pagination support.', WPPTD),
+		'type'		=>	'checkbox',
+		'section'	=>	'general',
+	),
 	'enableQTB'	=>	array(
 		'id'		=>	'enable_quicktags_buttons',
 		'title'		=>	__('Enable Quicktags(HTML editor) buttons', WPPTD),
@@ -186,6 +188,13 @@ $options_list = array(
 		'type'		=>	'checkbox'	
 	),	
 	
+	'load_all_styless'=>	array(
+		'id'		=>	'load_all_styles',
+		'title'		=>	__('Load all styles', WPPTD),
+		'desc'		=>	__('If checked, <i>Multiple styles</i> can be used on the same page. Uncheck to not load the Custom CSS3 styles.', WPPTD),
+		'type'		=>	'checkbox',
+		'section'	=>	'style'
+	),
 	'tabstyle'=>	array(
 		'id'		=>	'tab_scheme',
 		'title'		=>	__('Default style<br /><small>All widgets</small>', WPPTD),
@@ -211,7 +220,7 @@ $options_list = array(
 	'dialog_wid'	=>	array(
 		"id"		=>	'dialog_width',
 		'title'		=>	__('Dialog Width', WPPTD),
-		'desc'		=>	__('Default width of dialogs (without suffixing units)', WPPTD),
+		'desc'		=>	__('Default width of dialogs with the suffix( px | em | % )', WPPTD),
 		'type'		=>	'text',
 		'section'	=>	'style'
 	),
@@ -277,7 +286,13 @@ $options_list = array(
 			'mouseover'	=>	__( 'Mouseover', WPPTD ),
 		)
 	),	
-	
+	'collapsible_tabbies' => array(
+		'id'		=>	'collapsible_tabs',
+		'title'		=>	__('Collapsible Tabs', WPPTD),
+		'desc'		=>	__('If checked, content panel can be collapsed by clicking on the tab.', WPPTD),
+		'type'		=>	'checkbox',
+		'section'	=>	'effects'
+	),		
 	
 	
 	// Accordion
@@ -293,7 +308,7 @@ $options_list = array(
 			'mouseover'	=>	__( 'Mouseover', WPPTD ),
 		)
 	),	
-	
+
 	'accordion_autoheight'	=>	array(
 		'id'		=>	'accord_autoheight',
 		'title'		=>	__('Accordion auto height', WPPTD),
@@ -454,7 +469,13 @@ $options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
-
+	'doc_write_fix'	=>	array(
+		'id'		=>	'docwrite_fix',
+		'title'		=>	__( 'Blank page fix<br /><small>document.write issue</small>', WPPTD ),
+		'desc'		=>	__( 'Enable to fix the blank page issue that results when including other scripts within tabs/accordion<br> <small>Known scripts : Twitter profile widget, e-commerce widgets. </small>', WPPTD),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
 
 	'post_template_one'	=>	array(
 		'id'		=>	'post_template_1',
@@ -495,7 +516,6 @@ $options_list = array(
 		'type'		=>	'text',
 		'section'	=>	'posts'
 	),
-	
 
 );
 
@@ -743,6 +763,7 @@ function get_wpui_default_options( ) {
 	$defaults = array(
 	    "enable_tabs" 				=>	"on",
 	    "enable_accordion"			=>	"on",
+	    "enable_pagination"			=>	"on",
 	    "enable_tinymce_menu"		=>	"on",
 	    "enable_quicktags_buttons"	=>	"on",
 		"topnav"					=>	"",
@@ -751,13 +772,14 @@ function get_wpui_default_options( ) {
 		"enable_dialogs"			=>	"on",
 		"load_all_styles"			=>	"on",
 		"enable_ie_grad"			=>	"on",
-		"dialog_width"				=>	"300",
+		"dialog_width"				=>	"300px",
 	    "tab_scheme" 				=>	"wpui-light",
 		"jqui_custom_themes"		=>	"{}",
 	    "tabsfx"					=>	"slide",
 		"fx_speed"					=>	"400",
 		"tabs_rotate"				=>	"stop",
 		"tabs_event"				=>	"click",
+		"collapsible_tabs"			=>	"on",
 		"accord_event"				=>	"click",
 		"accord_autoheight"			=>	"on",
 		"accord_collapsible"		=>	"off",
@@ -780,7 +802,8 @@ function get_wpui_default_options( ) {
 		<div class="wpui-post-thumbnail">{$thumbnail}</div>
 		<div class="wpui-post-content">{$excerpt}</div>
 		<p class="wpui-readmore"><a href="{$url}" title="Read more from {$title}">Read More...</a></p>',
-		'excerpt_length'			=>	'more'
+		'excerpt_length'			=>	'more',
+		'docwrite_fix'				=>	'on'
 	);
 	return $defaults;
 }

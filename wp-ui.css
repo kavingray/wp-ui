@@ -24,6 +24,7 @@ ul.ui-tabs-nav {
 	list-style:none;
 	margin-bottom: 0px !important;
 	margin-top: 0px;
+	padding-bottom : 0px !important;
 /*	padding: 0px !important;*/
 /*	text-align:center;
 	margin: 0 auto;*/ 
@@ -34,17 +35,25 @@ ul.ui-tabs-nav li {
 /*	font: bold 14px 'Arial', Sans-serif;*/
 	display:inline-block;
 	vertical-align:bottom;
-	padding: 8px 0;
+/*	padding: 8px 0;*/
 	margin-left:0px;
 	*display: inline;
 	zoom:1;
+	font-size : 12px;
+	font-weight : bold;
 
 }
 
 ul.ui-tabs-nav li a {
 	text-decoration: none;
 	border-bottom:none;
-	padding: 8px 12px;
+/*	padding: 8px 12px;*/
+	padding : 0.5em 1em;
+	float : left;
+}
+
+.ui-tabs-vertical ul.ui-tabs-nav li a {
+	float : none;
 }
 
 .ui-tabs-panel {

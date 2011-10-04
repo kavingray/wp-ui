@@ -1,13 +1,7 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function( $ ) {
 
-	// // REMOVE
-	// jQuery('#content').css({ 'margin-right' : '400px'});
-	// jQuery('.wp-tab-content').css({ 'font-size' : '12px'});
-
-	
-	// jQuery('div.wp-tabs p, div.wp-tabs br').filter(function() {
-	// 	return jQuery.trim(jQuery(this).html()) === ''
-	// }).remove();
+	if ( wpUIOpts.enablePagination == 'on' )
+		jQuery( 'div.wpui-pages-holder' ).wpuiPager();
 	
 	if ( wpUIOpts.enableTabs == 'on')
 		jQuery('div.wp-tabs').wptabs();
@@ -20,37 +14,7 @@ jQuery(document).ready(function() {
 	
 	if ( wpUIOpts.enableDialogs == 'on' )
 		jQuery('.wp-dialog').wpDialog();
-	
-	// jQuery('div.ui-tabs-panel pre').wpuipre();
-
-
-	// var creditText = '<p>Like these tabs? Click here to get one!</p>';
-	// var creditImg = initOpts.pluginUrl + 'images/cap-icon.png';
-	// 
-	// jQuery('a.cap-icon-link').toolztip({
-	// 	width	 : '250px',
-	// 	imgWidth : "72px" 
-	// }, creditText , 'WP UI for WordPress', creditImg);
-
-	
-
-	
-	// jQuery('table.form-table tr:odd').addClass('odd');
-	// 
-	// jQuery('table.form-table').each(function() {
-	// 	var totalTr = jQuery(this).find('tr').length;
-	// 	if ( totalTr >= 2 )
-	// 	jQuery(this).find('tr:odd').addClass('odd');
-	// });
-	
-	// jQuery('p.switch-editors a').css({ cursor: 'pointer'});
-	// jQuery('p.switch-editors a.toggleVisual').addClass( 'active' );
-	// jQuery('p.switch-editors a').click(function() {
-	// 	jQuery(this).toggleClass('active').siblings().toggleClass('active');
-	// 	
-	// });
-
-	
+		
 });
 
 
@@ -197,3 +161,4 @@ var tb_remove = function() {
 	jQuery(document).unbind('.thickbox');
 	return false;
 } // END function tb_remove()
+

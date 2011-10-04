@@ -1,17 +1,17 @@
 === WP UI - Tabs, Accordions, Sliders ===
 Contributors: kavingray
-Donate link: http://kav.in/donation
+Donate link: http://pledgie.com/campaigns/16073
 Plugin URI: http://kav.in/wp-ui-for-wordpress
-Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, capability
+Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, capability
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.7.2
+Stable tag: 0.7.3
 
 Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
 == Description ==
 
-WP UI is an advanced interface widgets plugin that combines the power of jQuery UI widgets into Wordpress posts. Tabs are common widgets found in almost every graphical browser and Desktop/Mobile Operating systems. These widgets can increase your post's potential for greater user interactivity. And great content deserves great presentation!
+WP UI is an advanced interface widgets plugin that channels the power of jQuery UI over the stability of wordpress for achieving awesome posts. Widgets or components of WP UI - Tabs, Accordions, Spoilers, Collapsibles, Dialogs can make any lengthy posts easy on eyes and to digest and is the way to greater user interactivity. Tabs and accordions are also most common widgets found everywhere in the digital world today - Browsers on Desktop/Mobile/Operating systems, e-Commerce sites, administration etc. 
 
 [Plugin page](http://kav.in/wp-ui-for-wordpress)
 
@@ -29,7 +29,7 @@ WP UI is an advanced interface widgets plugin that combines the power of jQuery 
 
 = Where can i find recent & up-to-date FAQ? =
 
-Can be found [here](http://kav.in/projects/plugins/blog/wp-ui-faq).
+Can be found [here](http://kav.in/projects/blog/wp-ui-faq/).
 
 = How do i use multiple jQuery UI themes? =
 It is possible from WP UI 0.5.5 to use multiple jQuery UI themes on the same page. Check out this [guide](http://kav.in/wp-ui-using-jquery-ui-custom-themes/).
@@ -102,6 +102,16 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 == Changelog ==
 
+= 0.7.3 =
+* Tons of compatibility fixes.
+* jQuery version requirement relaxed to 1.4.4. 
+* Another Tabs design option - no-background tabs. Use background="false" to try it with any style.
+* Style Fixes - Jumpy text, uniform feel. Use the custom css panel to input your font size.
+* New shortcode [wpui_loop] gets you custom loop can be used anywhere, not limited to WP UI.
+* Pagination for posts inside tabs. Basic pagination for now to be used with the [wpui_loop] shortcode.
+* Twitter and e-commerce widgets blank page fix. 
+* Please Save The Options.
+
 = 0.7.2 =
 * Detailed Preview of jQuery UI themes and CSS3 styles.
 * Dialog positions, style conflicts fixed.
@@ -152,6 +162,9 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 
 == Upgrade Notice ==
+
+= 0.7.3 =
+Pagination, new anywhere loop shortcode, Tons of compatibility fixes, style fix etc. Please save the options.
 
 = 0.7.2 =
 Detailed preview of jQuery UI themes & CSS3 styles. Dialog positions, linebreak fix, Buttons for page editor, Improved security. Auto Fix the missing options.
