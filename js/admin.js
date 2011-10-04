@@ -8,7 +8,7 @@ jQuery(document).ready(function() {
 		 					effect: 'fade',
 		 					topNav: false,
 		 					botNav: true,
-		 					cookies : true,
+		 					cookies : false,
 							hashchange : false,
 							wpuiautop : false,
 							collapsibleTabs : false
