@@ -103,12 +103,11 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 == Changelog ==
 
 = 0.7.3 =
-* Tons of compatibility fixes.
-* jQuery version requirement relaxed to 1.4.2.
-* Another Tabs design option - no-background tabs. Use `background="false"` with wptabs shortcode.
-* Style Fixes - Jumpy text, uniform feel. Use the custom css panel to input your font size.
-* New shortcode `wpui_loop` outputs custom loop anywhere and is not limited to WP UI.
-* Pagination for posts inside tabs. Basic pagination for now to be used with the `wpui_loop` shortcode.
+* Tons of compatibility fixes. jQuery version requirement relaxed to 1.4.2.
+* Another Tabs design, no-background tabs. Use background="false" with wptabs shortcode.
+* Style Fixes - uniform feel. Use the custom css panel to enter your font size rule.
+* New shortcode wpui_loop outputs custom loop anywhere and is not limited to WP UI.
+* Pagination for retrieved posts. Basic pagination for now, to be used with the wpui_loop shortcode.
 * Twitter and e-commerce widgets blank page fix. 
 
 = 0.7.2 =
