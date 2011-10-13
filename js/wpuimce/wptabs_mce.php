@@ -29,7 +29,7 @@ class wptabs_editor_buttons
 	function tinymce_vars() {
 		wp_enqueue_script('editor');
 		wp_localize_script( 'editor', 'pluginVars', array(
-			'wpUrl'		=>	get_bloginfo('url'),
+			'wpUrl'		=>	site_url(),
 			'pluginUrl'	=>	plugins_url()
 		));
 

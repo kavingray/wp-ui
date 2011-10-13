@@ -4,7 +4,7 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles and multiple jQuery UI custom themes.
 Author:	Kavin
-Version: 0.7.3
+Version: 0.7.4
 Author URI: http://kav.in
 
 Copyright (c) 2011 Kavin ( http://kav.in/contact )
@@ -41,7 +41,7 @@ define( 'WPPTD' , 'wp-ui');
 // print_r( $opts );
 // echo '</pre>';
 
-$wpuiver = '0.7.2';
+$wpuiver = '0.7.4';
 
 $wp_ui = new wpUI;
 
@@ -125,17 +125,22 @@ class wpUI {
 		$plugin_url = get_option("url") . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__));
 		$js_dir = $plugin_url . '/js/';
 		if ( ! is_admin() && ! isset($this->options['jquery_disabled'] ) ) {
-			wp_deregister_script( 'jquery' );
+			// wp_deregister_script( 'jquery' );
 			
+			// // These are local jQuery and jQuery UI.
 			// wp_enqueue_script( 'jquery', $js_dir . 'jquery.min.js' );
 			// wp_enqueue_script( 'jquery-ui', $js_dir . 'jquery-ui.min.js' );
 			
-			// wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js');
-			wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
+			// // These are to be loaded from Google CDN.
+			// wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js', false, '1.6.1');
+			// wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js', false, '1.4.2');
 			
-			wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js');
+			// Let's use Wordpress bundled jQuery.
+			wp_enqueue_script( 'jquery' );
+			
+			wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js', array( 'jquery' ), '1.8.12' );
 					
-			wp_enqueue_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js');
+			wp_enqueue_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js', array( 'jquery', 'jquery-ui') );
 		}
 		
 		wp_enqueue_script( 'wp-ui-min', $plugin_url . '/js/wp-ui.js');
@@ -279,7 +284,7 @@ class wpUI {
 
 			wp_enqueue_script( 'admin_wp_ui' , $plugin_url . 'js/admin.js');
 			wp_localize_script('admin_wp_ui' , 'initOpts', array(
-				'wpUrl'				=>	get_bloginfo('url'),
+				'wpUrl'				=>	site_url(),
 				'pluginUrl' 		=>	plugins_url('/wp-ui/'),
 				'queryVars1'	=>	add_query_arg( array(
 					 	'action' => 'WPUIstyles',
@@ -300,7 +305,7 @@ class wpUI {
 			wp_deregister_script( 'thickbox' );
 			wp_enqueue_script( 'wpui_tb' , $plugin_url . 'js/thickbox.js' );
 			wp_localize_script( 'wpui_tb' , 'tbOpts', array(
-				'wpUrl'				=>	get_bloginfo('url'),
+				'wpUrl'				=>	site_url(),
 				'pluginUrl' 		=>	plugins_url('/wp-ui/')				
 			));
 	
@@ -314,7 +319,7 @@ class wpUI {
 		// Editor buttons and JS vars.
 		wp_enqueue_script('editor');
 		wp_localize_script( 'editor', 'pluginVars', array(
-			'wpUrl'		=>	get_bloginfo('url'),
+			'wpUrl'		=>	site_url(),
 			'pluginUrl'	=>	$plugin_url,
 			'tmceURL'	=>	get_bloginfo( 'url' ) . '/wp-includes/js/tinymce/',
 			'queryVars1'	=>	add_query_arg( array( 'action' => 'tabtitlehelp', 'height' => '200', 'width' => '300' ), 'admin-ajax.php' )
@@ -531,6 +536,7 @@ class wpUI {
 			'tag'				=>	'',
 			'number'			=>	'4',
 			'exclude'			=>	'',
+			'rotate'			=>	'',
 			'elength'			=>	$this->options['excerpt_length'],
 			'before_post'		=>	'',
 			'after_post'		=>	''
@@ -594,7 +600,8 @@ class wpUI {
 		if ( $listwidth != '' )
 			$style .= ' listwidth-' . $listwidth;
 		$wptabsargs .= ' style="' . $style . '"';
-		
+		if ( $rotate && $rotate != '' )
+			$wptabsargs .= ' rotate="' . $rotate . '"';
 		
 		// if ( $listwidth != '' )
 			$style .= ' listwidth-' . $listwidth;
@@ -1201,7 +1208,7 @@ class wpUI {
 
 
 $upload_dir = wp_upload_dir();
-$jqdir = preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir['path'] ) . 'wp-ui/';
+$jqdir = trailingslashit( preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir['path'] ) ) . 'wp-ui/';
 
 
 

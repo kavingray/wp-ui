@@ -1,11 +1,11 @@
 === WP UI - Tabs, Accordions, Sliders ===
 Contributors: kavingray
-Donate link: http://pledgie.com/campaigns/16073
+Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, capability
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.7.3
+Stable tag: 0.7.4
 
 Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
@@ -18,6 +18,8 @@ WP UI is an advanced interface widgets plugin that channels the power of jQuery 
 [Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
 
 [Plugin Support](http://kav.in/forum)
+
+[Help improve multi-language support](http://kav.in/forum/discussion/81/need-help-improving-multi-language-support#Item_1)
 
 == Installation ==
 
@@ -102,6 +104,13 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 == Changelog ==
 
+= 0.7.4 =
+* Compatibility and bug fixes. 
+* Style fixes for IE < 8.
+* Help on editor page, Style chooser on options page should now work perfectly.
+* Please remember to save the options. 
+
+
 = 0.7.3 =
 * Tons of compatibility fixes. jQuery version requirement relaxed to 1.4.2.
 * Another Tabs design, no-background tabs. Use background="false" with wptabs shortcode.
@@ -160,6 +169,9 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 
 == Upgrade Notice ==
+
+= 0.7.4 =
+Bug and compatibility fix update. Help/style chooser pages fixed. IE 6/7 spoiler fix. Re-Save the options.
 
 = 0.7.3 =
 Pagination, new anywhere loop shortcode, Tons of compatibility fixes, style fix etc. Please save the options.

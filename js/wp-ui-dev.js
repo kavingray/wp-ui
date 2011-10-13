@@ -1,5 +1,5 @@
 /*!
- *	WP UI version 0.7.3
+ *	WP UI version 0.7.4
  *	
  *	Copyright (c) 2011, Kavin Amuthan ( http://kav.in )
  *	Dual licensed under the MIT and GPL licenses.
@@ -148,7 +148,7 @@ jQuery.fn.wptabs = function( options ) {
 		
 		// Wrap everything inside div.ui-tabs
 		if ( $this.find('div.ui-tabs').length == 0) {
-			$this.find('ul').before("<div class='ui-tabs'>");
+			$this.find('ul.ui-tabs-nav').before("<div class='ui-tabs'>");
 			$this.find('.ui-tabs').each(function() {
 				jQuery(this).append( jQuery(this).nextUntil('p#jqtemp'));
 			});
@@ -248,7 +248,7 @@ jQuery.fn.wptabs = function( options ) {
 			// base.navClass = '';
 			// base.navNextSpan = '';
 			// base.navPrevSpan = '';
-			// 		
+
 			// if ( base.jqui ) {
 				base.navClass = ' ui-button ui-widget ui-state-default ui-corner-all';
 				base.navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>';
@@ -318,7 +318,7 @@ jQuery.fn.wptabs = function( options ) {
 			.removeClass( 'ui-corner-all' )
 			.addClass( 'ui-corner-left' )
 			.children()
-			.css({ float : 'left', clear: 'left' });	
+			.css({ 'float' : 'left', clear: 'left' });	
 		
 		getListWidth = jQuery(this).attr('class').match(/listwidth-(\d{2,4})/, "$1");
 		if ( getListWidth != null ) {
@@ -331,7 +331,7 @@ jQuery.fn.wptabs = function( options ) {
 		
 		ulHeight = $tabs.find( 'ul.ui-tabs-nav' ).outerHeight();
 		$tabs.find( 'ul.ui-tabs-nav' ).outerWidth( ulWidth + 4);
-		$tabs.find( 'div.ui-tabs-panel' ).css({ float : 'right' });
+		$tabs.find( 'div.ui-tabs-panel' ).css({ 'float' : 'right' });
 		
 		parWidth = $tabs.innerWidth() - (parseInt($tabs.css('paddingLeft')) + parseInt($tabs.css('paddingRight')));
 		
@@ -427,9 +427,15 @@ jQuery.fn.wptabs = function( options ) {
 	if ( o.hashChange && typeof jQuery.event.special.hashchange != "undefined" ) {
 		
 		jQuery( window ).hashchange(function() {
-			if ( jQuery( window.location.hash ).length != 1 )
+			tabHash = window.location.hash;	
+			if ( ( jQuery( tabHash ).length != 1 ) || 
+			   ( jQuery.inArray( tabHash.replace( /^#/, '' ) , tabNames ) == -1 )
+			)
 				return false;
+
 			hashed = jQuery(window.location.hash).prevAll().length - 1;
+			console.log( window.location.hash );
+			console.log( tabNames );  
 			jQuery( window.location.hash )
 					.parent()
 					.tabs({ selected : hashed });
@@ -465,7 +471,6 @@ jQuery.fn.wptabs.defaults = {
 	mouseWheel		: 		(typeof wpUIOpts != "undefined" ) ? wpUIOpts.mouseWheelTabs : '',
 	wpuiautop		: 		true,
 	followNav: false
-		
 };
 
 
@@ -672,7 +677,6 @@ jQuery.fn.wpaccord = function( options ) {
 			}).remove();
 
 		}
-		
 		
 		// var wrapcontent = $this.find('h3').next().wrap('<div class="accordion-pre">');
 		wrapper = $this.find('h3:first').wrap('<div class="accordion">');

@@ -25,7 +25,10 @@
 }
 
 .ui-collapsible-header span.ui-icon {
-	display: inline-block;
+	display : inline-block;
+	/* For IE < 8 */
+	*text-indent : 0;
+	*font-size : 0;
 }
 
 div.tab-top-nav,
@@ -172,8 +175,8 @@ div.tab-bottom-nav {
 	opacity: 1 !important;
 	float: none !important;
 	display : inline-block;
-
 }
+
 .wpui-alma ul.ui-tabs-nav li.ui-state-active {
 	height: 30px !important;
 }
@@ -326,7 +329,7 @@ div.tab-bottom-nav {
 
 .jqui-options-noise {
 /*	background: url('images/pattern-gray.png') #C6FFB0;*/
-	background: url('images/pattern-gray.png') #45B5CC;
+	background: url('../images/pattern-gray.png') #45B5CC;
 }
 
 

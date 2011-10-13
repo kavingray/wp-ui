@@ -524,7 +524,13 @@ $option_page->set_fields( $options_list );
 add_action('wp_ajax_WPUIstyles', 'choose_wpui_style');
 
 function choose_wpui_style() {
-	echo file_get_contents( plugins_url('/wp-ui/js/wpui-choosestyles.php'));
+	$file_url = WP_CONTENT_DIR . '/plugins/wp-ui/js/wpui-choosestyles.php';
+	$style_file = file_get_contents( $file_url  );
+	// $style_file = file_get_contents( plugins_url('/wp-ui/js/wpui-choosestyles.php'));
+	if ( $style_file !== false )
+		echo $style_file;
+	else
+		echo "<h3>Page Failed to load!</h3> Possible reasons <ul>  </li><li>Please verify the file permissions on the plugin directory.<li>Plugin installation might be incomplete with missing files. </li><li>You might need to update mod_security rules on this server. In rare cases, PHP version might be outdated. </li> </ul>";
 	die();
 }
 
@@ -532,7 +538,13 @@ function choose_wpui_style() {
 add_action('wp_ajax_JQUIstyles', 'choose_jqui_style');
 
 function choose_jqui_style() {
-	echo file_get_contents( plugins_url('/wp-ui/js/wpui-choose-jquistyles.php'));
+	$file_url = WP_CONTENT_DIR . '/plugins/wp-ui/js/wpui-choose-jquistyles.php';
+	$jqui_file = file_get_contents( $file_url );
+	if ( $jqui_file !== false ) {
+		echo $jqui_file;
+	} else {
+		echo "<h3>Page Failed to load!</h3> Possible reasons <ul>  </li><li>Please verify the file permissions on the plugin directory.<li>Plugin installation might be incomplete with missing files. </li><li>You might need to update mod_security rules on this server. In rare cases, PHP version might be outdated. </li> </ul>";
+	}	
 	die();
 }
 
@@ -779,7 +791,7 @@ function get_wpui_default_options( ) {
 		"fx_speed"					=>	"400",
 		"tabs_rotate"				=>	"stop",
 		"tabs_event"				=>	"click",
-		"collapsible_tabs"			=>	"on",
+		"collapsible_tabs"			=>	"off",
 		"accord_event"				=>	"click",
 		"accord_autoheight"			=>	"on",
 		"accord_collapsible"		=>	"off",
