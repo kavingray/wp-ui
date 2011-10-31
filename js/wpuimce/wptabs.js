@@ -136,7 +136,7 @@ var wptabsDialog = {
 		if ( document.forms[0].tabType.value != '')
 			tabOpts[0] = 'type="' + document.forms[0].tabType.value + '"';
 
-		tabOpts[1] = 'color="' + document.forms[0].colorScheme.value + '"';
+		tabOpts[1] = 'style="' + document.forms[0].colorScheme.value + '"';
 		tabOpts[2] =  'effect="' + document.forms[0].effectType.value + '"';
 
 		if ( document.forms[0].effectSpeed.value != '')

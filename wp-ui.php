@@ -4,7 +4,7 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles and multiple jQuery UI custom themes.
 Author:	Kavin
-Version: 0.7.4
+Version: 0.7.5
 Author URI: http://kav.in
 
 Copyright (c) 2011 Kavin ( http://kav.in/contact )
@@ -41,7 +41,9 @@ define( 'WPPTD' , 'wp-ui');
 // print_r( $opts );
 // echo '</pre>';
 
-$wpuiver = '0.7.4';
+
+
+$wpuiver = '0.7.5';
 
 $wp_ui = new wpUI;
 
@@ -86,7 +88,10 @@ class wpUI {
 		add_shortcode( 'wpspoiler', array(&$this, 'sc_wpspoiler'));
 		add_shortcode( 'wpdialog', array(&$this, 'sc_wpdialog'));
 		add_shortcode( 'wploop', array(&$this, 'sc_wpui_loop'));
+		add_shortcode( 'wpuifeeds', array(&$this, 'sc_wpuifeeds'));
 
+		
+		include_once( ABSPATH . WPINC . '/feed.php' );
 
 		
 		/**
@@ -136,14 +141,14 @@ class wpUI {
 			// wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js', false, '1.4.2');
 			
 			// Let's use Wordpress bundled jQuery.
-			wp_enqueue_script( 'jquery' );
+			// wp_enqueue_script( 'jquery' );
 			
 			wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js', array( 'jquery' ), '1.8.12' );
 					
 			wp_enqueue_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js', array( 'jquery', 'jquery-ui') );
 		}
 		
-		wp_enqueue_script( 'wp-ui-min', $plugin_url . '/js/wp-ui.js');
+		wp_enqueue_script( 'wp-ui-min', $plugin_url . '/js/wp-ui.js', array( 'jquery', 'jquery-ui'), '0.7' );
 		wp_localize_script( 'wp-ui-min', 'wpUIOpts', array(
 			'wpUrl'           =>	get_bloginfo('url'),
 			'pluginUrl'       =>	plugins_url('/wp-ui/'),
@@ -175,7 +180,7 @@ class wpUI {
 		));
 
 		if ( ! is_admin() ) {
-			wp_enqueue_script('wpui-init', $plugin_url . '/js/init.js');
+			wp_enqueue_script('wpui-init', $plugin_url . '/js/init.js', array( 'jquery', 'jquery-ui', 'wp-ui-min' ) );
 			wp_localize_script('wpui-init' , 'initOpts', array(
 				'wpUrl'				=>	get_bloginfo('url'),
 				'pluginUrl' 		=>	plugins_url('/wp-ui/'),
@@ -198,14 +203,20 @@ class wpUI {
 		global $is_IE;
 		$plugin_url = plugins_url('/wp-ui/');
 
-
 		$wpuiCss3List = wpui_get_css3_styles_list();
-	
+		$jqui_c = wpui_get_custom_themes_list();
+		$jqui_cs = wpui_get_custom_themes_list( true );
+		
 		/**
 		 * 	Look if it's a css3 style, or try to load a jQuery theme.
 		 */		
 		if ( in_array( $this->options[ 'tab_scheme' ] , $wpuiCss3List ) )	{
 			wp_enqueue_style('wp-ui', $plugin_url . 'wp-ui.css');
+			
+		} elseif( in_array( $this->options[ 'tab_scheme' ] , $jqui_c ) ) { 
+			wp_enqueue_style( 'jquery-ui-wp-fix', $plugin_url . 'css/jquery-ui-wp-fix.css' );
+			
+			wp_enqueue_style( $this->options[ 'tab_scheme' ], $jqui_cs[ $this->options[ 'tab_scheme' ] ] );
 			
 		} else {	
 			// Sets the standard font size for jQuery UI themes,
@@ -215,7 +226,7 @@ class wpUI {
 			// Load the jQuery UI theme from the Google CDN.
 			wp_enqueue_style( 'jquery-ui-css-' . $this->options['tab_scheme'] , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/' . $this->options['tab_scheme'] . '/jquery.ui.all.css');
 			
-		} // END if ( !in_array( ) )
+		} 
 
 		/**
 		 * 	Load all the styles default since 0.5.7
@@ -230,12 +241,13 @@ class wpUI {
 		/**
 		 * 	Load jQuery UI custom themes.
 		 */
-		if ( isset( $this->options['jqui_custom_themes'] ) && $this->options['jqui_custom_themes'] != '' ) {
-			$jquithms = json_decode( $this->options[ 'jqui_custom_themes'] , true );
-			foreach( $jquithms as $key=>$val ) {
-				wp_enqueue_style( $key, $val );		
-			}
-		}
+		// if ( isset( $this->options['jqui_custom_themes'] ) && $this->options['jqui_custom_themes'] != '' ) {
+		// 	$jquithms = json_decode( $this->options[ 'jqui_custom_themes'] , true );
+		// 	foreach( $jquithms as $key=>$val ) {
+		// 		if ( $key !== $this->options[ 'tab_scheme' ] )
+		// 			wp_enqueue_style( $key, $val );		
+		// 	}
+		// }
 			
 		// Try a jQuery UI theme.
 		// wp_enqueue_style( 'jquery-ui-css-flick' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/flick/jquery.ui.all.css');
@@ -245,7 +257,6 @@ class wpUI {
 		 */
 		if ( $this->options['custom_css'] != '' )
 			wp_enqueue_style( 'wpui-custom-css', get_bloginfo( 'url' ) . '/?wpui-query=css');
-	
 		
 	} // END method plugin_viewer_styles()
 	
@@ -456,7 +467,8 @@ class wpUI {
 			'elength'			=>	$this->options['excerpt_length'],
 			'before_post'		=>	'',
 			'after_post'		=>	'',
-			'num_per_page'		=>	FALSE		
+			'num_per_page'		=>	FALSE,
+			'template'			=>	'1'	
 		), $atts ));
 		
 		if ( ( ! $cat || $cat == '' ) && ( ! $tag || $tag == '' ) && ( ! $get || $get == '' ) )
@@ -486,11 +498,18 @@ class wpUI {
 			$num_page = 1;
 		}
 		
+		$ptempl = ( isset( $this->options[ 'post_template_' . $template ] ) ) ?
+					$this->options[ 'post_template_' . $template ] :
+					$this->options[ 'post_template_1' ];
+
+		
+		
+		
 		$wpui_total_posts = count( $custom_loop );
 		foreach( $custom_loop as $index=>$item ) {			
 			$posts_passed = $index + 1;
 
-			$tmpl = $this->replace_tags( $this->options[ 'post_template_1'], $item );
+			$tmpl = $this->replace_tags( $ptempl, $item );
 			$output .= $before_post . $tmpl . $after_post;
 		
 			if( $num_per_page 
@@ -528,7 +547,7 @@ class wpUI {
 			'type'				=>	'tabs',
 			'mode'				=>	'',
 			'listwidth'			=>	'',
-			'tab_names'			=>	'numbers',
+			'tab_names'			=>	'title',
 			'effect'			=>	$this->options['tabsfx'],
 			'speed'				=>	'600',
 			'get'				=>	'',
@@ -539,15 +558,10 @@ class wpUI {
 			'rotate'			=>	'',
 			'elength'			=>	$this->options['excerpt_length'],
 			'before_post'		=>	'',
-			'after_post'		=>	''
+			'after_post'		=>	'',
+			'template'			=>	'1'
 		), $atts ));
 		
-		
-		if ( $tab_names != 'numbers' ) {
-			$tab_names_arr = preg_split( '/(?<!\\\\),/sim', $tab_names );
-			if ( count( $tab_names_arr ) < 2 )
-				$tab_names = 'numbers';
-		}
 		
 		if ( ( ! $cat || $cat == '' ) && ( ! $tag || $tag == '' ) && ( ! $get || $get == '' ) )
 			return;
@@ -568,9 +582,9 @@ class wpUI {
 		// print_r($my_posts);
 		// echo '</pre>';
 		
-		$output = ''; 
+		$tab_names_arr = preg_split( '/\s?,\s?/i', $tab_names );
 		
-		$tabs_count = 1;
+		$output = ''; 
 		
 		$each_tabs = '';
 		
@@ -578,16 +592,23 @@ class wpUI {
 			return "Please verify <code>[<span>wptabposts</span>]</code> arguments.";
 		}
 		
+		$ptempl = ( isset( $this->options[ 'post_template_' . $template ] ) ) ?
+					$this->options[ 'post_template_' . $template ] :
+					$this->options[ 'post_template_1' ];
+		
 		foreach( $my_posts as $index=>$item ) {
-			if ( $tab_names != 'numbers' )
+			$tabs_count = $index + 1;
+			if ( $tab_names == 'title' ) {
+				$tab_name =  $item[ 'title' ];
+			} elseif ( isset( $tab_names_arr ) && ( count( $tab_names_arr ) > 1 ) ) { 
 				$tab_name = $tab_names_arr[ $index ];
-			else
+			} else {
 				$tab_name = $tabs_count;
-			$tmpl = $this->replace_tags( $this->options[ 'post_template_1'], $item );
+			}
+			
+			$tmpl = $this->replace_tags( $ptempl , $item );
 			$tab_content = $before_post . $tmpl . $after_post;
 			$each_tabs .= do_shortcode( '[wptabtitle] ' . $tab_name . ' [/wptabtitle] [wptabcontent] ' . $tab_content  . ' [/wptabcontent]' );
-
-			$tabs_count++;
 		} // END foreach.
 		
 		$wptabsargs = '';
@@ -603,8 +624,9 @@ class wpUI {
 		if ( $rotate && $rotate != '' )
 			$wptabsargs .= ' rotate="' . $rotate . '"';
 		
-		// if ( $listwidth != '' )
-			$style .= ' listwidth-' . $listwidth;
+		if ( $listwidth != '' )
+			$wptabsargs .= ' listwidth-' . $listwidth;
+			
 		$output .= do_shortcode( '[wptabs' . $wptabsargs . ']' . $each_tabs . '[/wptabs]' );
 		
 		return $output;
@@ -628,10 +650,16 @@ class wpUI {
 			'number'	=>	'4',
 			'exclude'	=>	'',
 			'tag'		=>	'',
+			'feed'		=>	'',
 			'elength'	=>	$this->options['excerpt_length'],
 			'before_post'	=>	'',
-			'after_post'	=>	''
+			'after_post'	=>	'',
+			'template'	=>	'1'
 		), $atts));
+		
+		$tmpl = ( isset( $this->options[ 'post_template_' . $template ] ) ) ?
+					$this->options[ 'post_template_' . $template ] :
+					$this->options[ 'post_template_1' ];		
 		
 		if( $post != '' ) {
 			// No ajax load if a post is specified.
@@ -641,7 +669,6 @@ class wpUI {
 			if ( ! is_array( $post_cont ) ) :
 				$post_content = $post_cont;
 			else :
-			$tmpl = $this->options[ 'post_template_1' ];
 			$post_content = $before_post . $this->replace_tags( $tmpl, $post_cont ) . $after_post;
 			endif;
 			$output  = '<' . $header . ' class="wp-tab-title">';
@@ -655,7 +682,6 @@ class wpUI {
 				$post_content = $post_cont;
 			else :			
 			$post_cont[ 'excerpt' ] = $post_cont[ 'content' ];
-			$tmpl = $this->options[ 'post_template_1' ];
 			$post_content = $before_post . $this->replace_tags( $tmpl, $post_cont ) . $after_post;
 			$post_cont[ 'excerpt' ] = $post_cont[ 'content' ];
 			endif;
@@ -682,13 +708,26 @@ class wpUI {
 			$posts_group = '';
 			
 			foreach( $get_cat_posts as $index=>$values ) {
-				$tmpl = $this->options[ 'post_template_1' ];
 				$posts_group .= $this->replace_tags( $tmpl, $values );	
 			}
 			
 			$output = '<' . $header . ' class="wp-tab-title">';
 			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
 			$output .= do_shortcode( '[wptabcontent]' . $posts_group . '[/wptabcontent]' );			
+			
+		} elseif( $feed != '' ) { 
+			$get_feeds = $this->wpui_get_feeds( array( 
+							'url'		=>	$feed,
+							'number'	=>	$number	
+						));
+			$feeds_list = '';
+			foreach( $get_feeds as $index=>$item ) {
+				$feeds_list .= $this->replace_tags( $tmpl, $item );
+			}
+			
+			$output = '<' . $header . ' class="wp-tab-title">';
+			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
+			$output .= do_shortcode( '[wptabcontent]' . $feeds_list . '[/wptabcontent]' );			
 			
 		} elseif ( $load != '' ) {
 			$output  = '<' . $header . ' class="wp-tab-title">';
@@ -702,6 +741,7 @@ class wpUI {
 		
 		return $output;
 	} // END function sc_wptabtitle
+
 	
 	/**
 	 * 	[wptabcontent]
@@ -734,7 +774,8 @@ class wpUI {
 				'post'		=>	'',
 				'elength'	=>	$this->options['excerpt_length'],
 				'before_post'	=>	'',
-				'after_post'	=>	''
+				'after_post'	=>	'',
+				'template'	=>	'2'
 			), $atts));
 			
 			$h3class  = '';
@@ -747,7 +788,9 @@ class wpUI {
 			if ( $post != '' ) {
 				$content = '';
 				$post_content = $this->wpui_get_post( $post, $elength );
-				$tmpl = $this->options[ 'post_template_2' ];
+				$tmpl = ( isset($this->options[ 'post_template_' . $template ]) ) ?
+							$this->options[ 'post_template_' . $template ] :
+							$this->options[ 'post_template_2' ];
 				$content = $before_post . $this->replace_tags( $tmpl, $post_content ) . $after_post;
 				$name = $post_content[ 'title' ];		
 			}
@@ -783,7 +826,8 @@ class wpUI {
 			'post'			=>	'',
 			'elength'		=>	'more',
 			'before_post'	=>	'',
-			'after_post'	=>	''
+			'after_post'	=>	'',
+			'template'		=>	'2'
 		), $atts ) );
 		
 		static $dia_inst = 0;
@@ -812,11 +856,13 @@ class wpUI {
 			$args .= ' wpui-button:' . $button . '-arg';
 		}
 
-
+		$tmpl = ( isset($this->options[ 'post_template_' . $template ]) ) ?
+					$this->options[ 'post_template_' . $template ] :
+					$this->options[ 'post_template_1' ];
+					
 		if ( $post != '' ) {
 			$get_post = $this->wpui_get_post( $post , $elength );
 			$title = $get_post[ 'title' ];
-			$tmpl = $this->options[ 'post_template_2' ];
 			$content = $before_post . $this->replace_tags( $tmpl, $get_post ) . $after_post;
 		}
 		
@@ -833,10 +879,10 @@ class wpUI {
 		}
 		$output .= '<h4 class="wp-dialog-title ' . $args . '"></h4>';
 		$output .= do_shortcode( $content ) . '</div><!-- end .wp-dialog -->';
-		
+
 		
 		return $output;
-		
+
 	} // END method sc_wpdialog	
 
 	
@@ -933,7 +979,7 @@ class wpUI {
 		$text = apply_filters( 'the_content' , $text );
 		$text = str_replace( '\]\]\>', ']]&gt;', $text );
 		$text = preg_replace( '@<script[^>]*?>.*?</script>@si', '', $text );
-		$text = strip_tags( $text, '<p><ul><ol><li><img><h2><h3>' );
+		$text = strip_tags( $text, '<p><ul><ol><li><img/><h2><h3>' );
 		
 		if ( ! is_int( $length ) ) {
 			if ( isset( $this->options[ 'excerpt_length' ] ) )
@@ -941,11 +987,29 @@ class wpUI {
 			else 
 				$length = 55;
 		}
-				
-		$words = explode( ' ' , $text , $length + 1 );
 		
+		
+		// $words = explode( ' ' , $text , $length + 1 );
+		
+		$words = preg_split( '/ /', $text, $length + 1 );
+
+		// if ( ! stristr( $words[ $length - 1 ], '.' ) ) {
+			// $lastC = $length - 1;
+			// $words[ $lastC  ] = preg_replace( '/([^\.]\.).+/sim' , '$1', $words[ $lastC ] );
+			// array_splice( $words, $lastC );
+		// }
+		
+		$words_limit = count($words);
+		
+		$words[ $words_limit -1 ] = preg_replace( '/([^\.]\.\s).+/sim' , '$1', $words[ $words_limit - 1] );
+	
+		// 
+		// echo '<pre>';
+		// print_r($words);
+		// echo '</pre>';		
+
 		if ( count( $words ) > $length ) {
-			array_pop( $words );
+			// array_pop( $words );
 			// array_push( $words , $more_link );
 			$text = implode( ' ', $words );
 		}		
@@ -1105,7 +1169,6 @@ class wpUI {
 		$post_count = 0;
 		$post_basket = array();
 		
-		// 
 		while ( $get_posts->have_posts() ) : $get_posts->the_post();
 		
 		
@@ -1114,7 +1177,7 @@ class wpUI {
 		$content = get_the_content();
 		
 		$wost['title'] = get_the_title();
-		$wost[ 'thumbnail' ] = get_the_post_thumbnail( get_the_ID() );		 
+		$wost[ 'thumbnail' ] = ( function_exists( 'get_the_post_thumbnail' ) ) ? get_the_post_thumbnail( get_the_ID() ) : '';		 
 		$wost['content'] = $content;
 		$check_more = preg_match( '/<!--more-->/im', $wost['content']);
 
@@ -1159,7 +1222,7 @@ class wpUI {
 	
 	
 	/**
-	 * Get the relative time, like 5 days ago.
+	 * Get the relative time e.g, 5 days ago.
 	 * 
 	 * @since 0.5.8
 	 * @uses mysql2date, human_time_diff
@@ -1203,6 +1266,167 @@ class wpUI {
 	} // END function wpui_get_post_tags
 	
 	
+	function sc_wpuifeeds( $atts, $content = null ) {
+		extract( shortcode_atts( array( 
+				'url'			=>	'',
+				'number'		=>	3,
+				'style'			=>	$this->options[ 'tab_scheme' ],
+				'type'			=>	'tabs',
+				'mode'			=>	'',
+				'listwidth'		=>	'',
+				'tab_names'		=>	'title',
+				'effect'		=>	$this->options['tabsfx'],
+				'speed'			=>	'600',
+				'number'		=>	'4',
+				'rotate'		=>	'',
+				'elength'		=>	$this->options['excerpt_length'],
+				'before_post'	=>	'',
+				'after_post'	=>	'',
+				'template'		=>	'1'
+			), $atts));
+			
+			if ( ! $url )
+				return __( 'WP-UI feeds shortcodes needs a valid RSS URL to work.' , WPPTD );
+				
+			$results = $this->wpui_get_feeds( array(
+				'url'		=>	$url,
+				'elength'	=>	$elength,
+				'number'	=>	$number				
+			));
+
+		$tab_names_arr = preg_split( '/\s?,\s?/i', $tab_names );
+
+		$output = '';
+
+		$output_s = '';
+
+		$tmpl = ( isset( $this->options[ 'post_template_' . $template ] ) ) ?
+					$this->options[ 'post_template_' . $template ] :
+					$this->options[ 'post_template_1' ];
+
+		foreach( $results as $index=>$item ) {
+			$tab_num = $index+ 1;
+			
+			if ( $tab_names == 'title' ) {
+				$tab_name = $item[ 'title' ];
+			} elseif ( isset( $tab_names_arr ) && count( $tab_names_arr ) > 1 ) {
+				$tab_name = $tab_names_arr[ $index ];
+			} else {
+				$tab_name = $tab_num;
+			}
+				
+			$tabs_content = $this->replace_tags( $tmpl , $item );
+			$output_s .= do_shortcode( '[wptabtitle]' . $tab_name. '[/wptabtitle] [wptabcontent] ' . $tabs_content . 	' [/wptabcontent]' );
+			
+		}		
+		
+		$wptabsargs = '';
+		
+		if ( $type != '' )
+			$wptabsargs .= ' type="' . $type . '"';
+		if ( $mode != '' )
+			$wptabsargs .= ' mode="' . $mode . '"';
+		
+		if ( $listwidth != '' )
+			$style .= ' listwidth-' . $listwidth;
+		$wptabsargs .= ' style="' . $style . '"';
+		if ( $rotate && $rotate != '' )
+			$wptabsargs .= ' rotate="' . $rotate . '"';
+		
+		if ( $listwidth != '' )
+			$style .= ' listwidth-' . $listwidth;
+			
+		$output .= do_shortcode( '[wptabs' . $wptabsargs . '] ' . $output_s  . ' [/wptabs]' );
+		
+		return $output;
+			
+	} // END function sc_wptabcontent
+
+	
+	/**
+	 * Get a feed and output the array.
+	 */
+	function wpui_get_feeds( $args='' )
+	{
+		$defaults = array(
+			'url'		=>	'',
+			'number'	=>	5,
+			'length'	=>	55
+		);
+		
+		$r = wp_parse_args( $args, $defaults );
+		
+		$feed = fetch_feed( $r[ 'url' ] );
+
+		if ( is_wp_error( $feed ) )
+			return false;
+			
+		$number = $feed->get_item_quantity( $r[ 'number' ] );
+
+		$items = $feed->get_items( 0, $number );
+
+		$lists = array();
+		$itera = 0;
+
+		$format_opt = get_option( 'date_format' );
+		$date_format = ( $format_opt ) ? $format_opt : 'l, F jS, Y';
+
+	
+		foreach( $items as $item ) {
+			$thisArr[ 'title' ] = $item->get_title();
+			$thisArr['url'] = $item->get_permalink();
+			$thisArr[ 'date' ] = $item->get_date( $date_format );
+			$thisArrAuth = $item->get_author();
+			$thisArr[ 'author' ] = $thisArrAuth->get_name();
+
+			$thisArr[ 'content' ] = $item->get_content();
+			
+			if ( strlen( $thisArr[ 'content' ] ) > intval( $r[ 'length' ] ) )
+				$thisArr[ 'excerpt' ] = $this->get_excerpt( $thisArr[ 'content' ], $r[ 'length' ] );
+			else
+				$thisArr[ 'excerpt' ] = $thisArr[ 'content' ];
+				
+			$thisArr[ 'thumbnail' ] = $this->get_image_from_Content( $thisArr[ 'content' ] );
+	
+			$thisArr[ 'meta' ][ 'cat' ]  = '';
+			
+			$thisCat = $item->get_category();
+			if ( $thisCat )
+			$thisArr[ 'meta' ][ 'cat' ]  = $thisCat->get_term();
+			$thisArr[ 'meta' ][ 'tag' ]  = '';
+			$thisArr[ 'meta' ][ 'comments' ]  = '';
+			
+			$lists[ $itera ] = $thisArr;
+			$itera++;
+		}
+		
+		return $lists;
+	} // END function wpui_get_feeds
+	
+	
+	/**
+	 * Get image from a block of content.
+	 */
+	function get_image_from_content( $content )
+	{
+		if ( ! $content ) return;
+		
+		$content = html_entity_decode( $content, ENT_QUOTES, 'UTF-8' );
+		preg_match( '/<img[^>]+\>/i', $content, $matches );
+		if ( empty( $matches ) && ! count( $matches ) > 0 )
+			return;
+		
+		$thumb_width = get_option( 'thumbnail_size_w' );
+		$thumb_height = get_option( 'thumbnail_size_h' );
+		$image = $matches[ 0 ];
+		
+		$image = preg_replace( '|width="([^"]*)"|' , 'width="' . $thumb_width . '"', $image );
+		$image = preg_replace( '|height="([^"]*)"|' , 'height="' . $thumb_height . '"', $image );
+		
+
+		return $image;
+	} // END function get_image_from_content
+	
 	
 } // end class WP_UI
 
@@ -1215,8 +1439,12 @@ $jqdir = trailingslashit( preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir
 function wpui_jqui_dirs( $dir, $format='array' ) {
 
 	$valid = array();
+	$is_Windows = strtoupper( substr(php_uname('s'), 0, 3 )) == 'WIN';
+	
+	$ndir = ( $is_Windows ) ? str_ireplace( '/', '\\', $dir ) : $dir;
+		
 	if ( ! is_dir( $dir ) )
-		return "NO_DIR ::::: $dir";
+		return "NO_DIR ::::: $ndir";
 	$it = new DirectoryIterator( $dir );
 	$abspath = ABSPATH;
 	$i = 0;
@@ -1237,11 +1465,14 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 		}
 	}	ksort( $valid );
 	foreach( $valid as $key=>$value ) {
-		$valid[ $key ] = get_bloginfo('wpurl') . '/' . str_ireplace( ABSPATH, '', $value );
+		$valURL = str_ireplace( ABSPATH, '', $value );
+		$valURL = ( $is_Windows ) ? str_ireplace( '\\', '/', $valURL ) : $valURL;
+		$valid[ $key ] = get_bloginfo('wpurl') . '/' . $valURL;
+		
 	}
 	
 	if ( empty( $valid ) ) {
-		return "EMPTY_DIR ::::: " . $dir;
+		return "EMPTY_DIR ::::: " . $ndir;
 	} else {
 		return json_encode( $valid );
 	}

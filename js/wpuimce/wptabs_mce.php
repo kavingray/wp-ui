@@ -67,7 +67,7 @@ class wptabs_editor_buttons
 
 			function wpuiEditorHelp() {
 				editorHelp = '<?php admin_url() ?>admin-ajax.php?action=editorButtonsHelp&TB_iframe=true';
-				tb_show('choosing tab names', editorHelp);
+				tb_show('WP UI - A brief guide', editorHelp);
 			}
 			
 		</script>

@@ -78,7 +78,17 @@ jQuery(document).ready(function() {
 			}
 		});
 		
-		if ( emptyObs.length > 0 ) {
+		// Somebody call Sherlock, our options are missing!!!
+		if ( ! jQuery( 'input[type="checkbox"]' ).is(':checked' ) ) {
+		jQuery( '#wpui-cap' ).after('<div id="setting-error-settings_updated" class="updated settings-error"><p style="color: red"><strong>Options are missing. <a href="#" class="correct-wpui-options">Click here to correct this issue</a>.</strong></p></div>' );				
+			
+			jQuery( '.correct-wpui-options' ).click(function() {
+				jQuery('input[name="wpUI_options[reset]"]').click();
+				return false;
+			});
+			
+			
+		} else if ( emptyObs.length > 0 ) {
 		jQuery( '#wpui-cap' ).after('<div id="setting-error-settings_updated" class="updated settings-error"><p style="color: red"><strong>Some of the Essential option fields are empty. <a href="#" class="correct-wpui-options">Click here to correct this issue</a>.</strong></p></div>' );	
 			
 			
@@ -96,238 +106,79 @@ jQuery(document).ready(function() {
 				});			
 		}
 		
-		
-		// if ( emptyFields )
-		// jQuery( '#wpui-cap' ).after('<div id="setting-error-settings_updated" class="updated settings-error"><p style="color: red"><strong>Some of the newer option fields are empty. <a href="#" class="correct-wpui-options">Click here to correct This</a>.</strong></p></div>' );
-		// 
-		// // 
-		// // jQuery( '.correct-wpui-options' ).click(function() {
-		// // 	
-		// // });
-		// 	
-		// for( i = 0; i < emptyObs.length; i++ ) {
-		// 	console.log( emptyObs[ i ] ); 
-		// 	jQuery( '#' + emptyObs[ i ] ).val( defaVals[ emptyObs[ i ] ] ); 
-		// }
-		
-		
-		
-		// jQuery('#jqui_custom_themes').css({ display : 'none'});
 
-			// var data = {
-			// 	action : 'jqui_css'
-			// }, response;			
-			// 
-			// jQuery.post( ajaxurl, data, function( response ) {
-			// 	console.log( response ); 
-			// 
-			// 		return false;
-			// 
-			// 	});	
-			
 
-				// 	
-				// 	themeList = jQuery('#jqui_theme_list');
-				// 	themeList.append('<table class="widefat"><tbody>');
-				// 	
-				// 	if ( jQuery('#jqui_custom_themes').val() != '' ) {
-				// 		fileList = JSON.parse( jQuery('#jqui_custom_themes').val() ); 
-				// 	} else {
-				// 		fileList = {};
-				// 	}
-				// 	themeTable = jQuery('table tbody', '#jqui_theme_list');
-				// 	
-				// 	themeTable
-				// 		.before('<thead />')
-				// 		.parent()
-				// 		.find('thead')
-				// 		.append('<tr><th>Name</th><th>Stylesheet</th><th>Manage</th></tr>');
-				// 	
-				// 	for ( key in fileList ) {
-				// 		value = fileList[ key ];
-				// 		themeTable
-				// 			.append( '<tr />')
-				// 			.find( 'tr:last' )
-				// 			.append('<td width="10%">' + key + '</td><td><a target="_blank" href="'+ value + '">' + value + '</a></td><td width="10%"><a href="#" class="jqui-delete-theme">Delete</a></td>' );
-				// 	}
-				// 	
-				// 	
-				// 	jQuery( '<div style="display:none" title="Add a jQuery UI Custom theme" id="theme_add_form" />' )
-				// 	.append( '<form />' )
-				// 	.find('form')
-				// 	.append( '<fieldset />' )
-				// 	.find( 'fieldset' )
-				// 	.append( '<div class="theme_add_notes" />')
-				// 	.append( '<label for="jqui_theme_name">Name (CSS scope) <span> that will be used with the style argument</span></label>' )
-				// 	.append( '<input id="jqui_theme_name" type="text" name="theme_name" class="ui-widget-content ui-corner-all" />' )
-				// 	.append( '<label for="jqui_theme_url">Link <span>Absolute URL of the stylesheet</label>' )
-				// 	.append( '<input id="jqui_theme_url" type="text" name="theme_url"  class="ui-widget-content ui-corner-all" />' )
-				// 	.append( '<input id="jqui_theme_multiple" type="checkbox" name="theme_multiple"  class="ui-widget-content ui-corner-all" /><label for="jqui_theme_multiple">Keep on adding</label>' )
-				// 	.end()
-				// 	.end()
-				// 	.appendTo( themeList );
-				// 	
-				// 
-				// 	jQuery('#jqui_add_theme').click(function() {
-				// 		jQuery( '#theme_add_form' ).dialog({
-				// 			width: 400,
-				// 			// show : 'slide',
-				// 			// hide : 'fade',
-				// 			buttons : {
-				// 				"Cancel" : function() {
-				// 					jQuery( this ).dialog( 'close' );
-				// 				},
-				// 				"Add" : function() {
-				// 					insertDetails( 'add' );
-				// 				}
-				// 			},
-				// 			open : function() {
-				// 				jQuery( '.ui-button:first' , '.ui-dialog-buttonset' )
-				// 					.addClass('cancel-button');
-				// 				jQuery( '.ui-button:last' , '.ui-dialog-buttonset' )
-				// 					.addClass('save-button');
-				// 				
-				// 			},
-				// 			beforeClose : function() {
-				// 				jQuery( '#theme_add_notes').find('ol').remove();
-				// 			}
-				// 
-				// 		});
-				// 		return false;
-				// 	});
-				// 
-				// 
-				// var insertDetails = function( status ) {
-				// 	var formValid = true;
-				// 	theme_name = jQuery('#jqui_theme_name');
-				// 	theme_url = jQuery('#jqui_theme_url');
-				// 	theme_mult = jQuery( '#jqui_theme_multiple' );
-				// 	theme_notes = jQuery( 'div.theme_add_notes' );
-				// 	formValidmsg = {};
-				// 
-				// 	
-				// 	if ( theme_name.val() == '' ) {
-				// 		formValid = false;
-				// 		formValidmsg.name = "Name (CSS scope) should not be empty."					
-				// 	}
-				// 	if ( ! /^[\w\-_]*$/im.test( theme_name.val() ) ) {
-				// 		formValid = false;
-				// 		formValidmsg.name = "Name( CSS scope) , should contain only alphabets, digits, hyphens - and Underscore _."
-				// 	}
-				// 	
-				// 	if ( ! /\b(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)[\-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&@#\/%=~_|$]/i.test(theme_url.val()) ) {
-				// 		formValid = false;
-				// 		formValidmsg.url = "Please verify the link.";
-				// 	}			
-				// 
-				// 	if ( formValid ) {
-				// 		
-				// 	if ( status == 'add' ) 	{
-				// 		themeTable
-				// 			.append('<tr>')
-				// 			.find('tr:last')
-				// 			.append(' <td> ' +
-				// 					theme_name.val() +
-				// 					'</td><td>' +
-				// 					theme_url.val() + 
-				// 					'</td><td>Delete</td></tr>'						
-				// 		);
-				// 		
-				// 		fileList[ theme_name.val() ] = theme_url.val();
-				// 		
-				// 		if ( ! jQuery( '#jqui_theme_multiple').is(':checked') )
-				// 			jQuery( '#theme_add_form' ).dialog( 'close' );
-				// 		
-				// 	} else if ( status == 'edit' ) {
-				// 		parent.html( '<td>' + theme_name.val() + '</td><td>' + theme_url.val() + '</td><td>Delete</tr>');					
-				// 		fileList[ theme_name.val() ] = theme_url.val();
-				// 		
-				// 	}
-				// 		
-				// 		jQuery( fileList ).trigger('change');
-				// 		
-				// 		console.log( fileList ); 
-				// 		
-				// 	} else {
-				// 		console.log( formValidmsg ); 
-				// 		console.log( formValid ); 
-				// 		theme_notes.html('<ol></ol>').hide();
-				// 		for ( msg in formValidmsg ) {
-				// 			msgval = formValidmsg[ msg ];
-				// 			theme_notes.find('ol').append( '<li>' + msgval + '</li>' );
-				// 		}
-				// 		// jQuery('div.theme_add_notes').html('<b>Please verify the URL you have entered.');
-				// 		theme_notes.fadeIn(500); 
-				// 	}
-				// 
-				// };
-				// 	
-				// 
-				// jQuery('a.jqui-delete-theme'  ).click(function( e ) {
-				// 	keyName = jQuery(this).parent().siblings(':first').text();
-				// 	delete fileList[ keyName ];
-				// 	console.log( fileList );
-				// 	console.log( jQuery( this ).parent().parent() ); 
-				// 	
-				// 	
-				// 	jQuery( this )
-				// 		.parent()
-				// 		.parent()
-				// 		.hide( 'pulsate' , { times : '3' }, 'fast', function() {
-				// 			jQuery( this ).remove();
-				// 		});
-				// 	
-				// 	jQuery( fileList ).trigger('change');
-				// 	return false;
-				// });
-				// 
-				// 
-				// jQuery('#jqui_theme_list table tbody tr td').dblclick(function() {
-				// 	parent = jQuery(this).parent();
-				// 	backUP = jQuery( this ).parent().html();
-				// 	backUPUrl = jQuery( this ).text();
-				// 	backUPName = jQuery( this ).prev().text();
-				// 
-				// 	jQuery('#theme_add_form').dialog({
-				// 		width: 400,
-				// 		title : 'Edit the theme - <bold>' + backUPName + '</bold>',
-				// 		buttons : {
-				// 			"Save" : function() {
-				// 				insertDetails( 'edit', this );
-				// 				jQuery( this ).dialog( 'close' );
-				// 			},
-				// 			"Cancel" : function() {
-				// 				jQuery( this ).dialog( 'close' );
-				// 			}
-				// 		},
-				// 		open : function( event, ui ) {
-				// 			jQuery( '.ui-button:first' , '.ui-dialog-buttonset' )
-				// 				.addClass('cancel-button');
-				// 			jQuery( '.ui-button:last' , '.ui-dialog-buttonset' )
-				// 				.addClass('save-button');
-				// 			jQuery( 'input#jqui_theme_name' )
-				// 				.val( backUPName );
-				// 				
-				// 			jQuery( 'input#jqui_theme_url' )
-				// 				.val( backUPUrl );
-				// 
-				// 		},
-				// 		beforeClose : function( event, ui ) {
-				// 			jQuery( this ).find('input').val('');
-				// 		},
-				// 		close : function( event, ui ) {
-				// 			jQuery( this ).dialog( 'destroy');
-				// 		}
-				// 
-				// 	});
-				// 	
-				// });
-				// 
-				// jQuery( fileList ).bind('change', function() {
-				// 	jQuery( '#jqui_custom_themes' ).val( JSON.stringify( fileList ) );
-				// 	
-				// });
+		/**
+		 *
+		 */
+		
+		// jQuery( '#posts table.form-table tr:last' )
+		
+		
+		jQuery( '<tr valign="top" />')
+			.append( '<td colspan="2" />' )
+			.find( 'td' )
+			.append( '<span class="wpui-add-templates-notify">Now don\'t forget to save the options!</span><a href="#" class="wpui-add-templates button-secondary" style="float : right; clear: right;">Add another template</a>' )
+			.end()
+			.insertAfter( '#posts table.form-table tr:last' );
+	
+		jQuery( '.wpui-add-templates-notify' )
+			.css({
+				color : 'red',
+				fontWeight : 'bold',
+				
+			})
+			.hide();
+	
+		jQuery( '.wpui-add-templates' ).click(function() {
+			$thisTR = jQuery( this ).parent().parent();
 			
+			prevLength = jQuery( 'textarea[id^=post_template_]');
+			lastEl = prevLength.last().attr('id').replace(/post_template_/,'');
+			
+			lArr = [];
+			for( i = 0; i < lastEl; i++ ) {
+				prevLength = parseInt( lastEl ) + 1;
+				if ( ! jQuery( '#post_template_' + i ).length )
+					prevLength = i;
+				// console.log( prevLength );
+			}
+		
+					
+			$thisTR
+				.prev()
+				.clone()
+				.find('th[scope=row]')
+				.text('Template ' + prevLength )
+				.end()
+				.find( 'textarea' )
+				.attr({
+					id : 'post_template_' + prevLength,
+					name : 'wpUI_options[post_template_' + prevLength + ']'
+				})
+				.end()
+				.insertAfter( 
+					jQuery( '#post_template_' + ( prevLength - 1 ) )
+						.parent()
+						.parent()
+					
+					);
+				
+				jQuery( '.wpui-add-templates-notify' )
+					.effect( "pulsate",{ times : 6 }, 1200 )
+					.fadeOut( 1200 );
+			
+			return false;
+						
+		}); // end add templates click
+	
+	
+	
+	
+	
+/**
+ *	Little bit outdated contextual help. :(
+ */			
 
 		var context = new Array;
 

@@ -10,10 +10,6 @@ class wpUI_options extends quark_admin_options
 {
 
 	public function validate_options( $input ) {
-
-		// echo '<pre>';
-		// print_r($input);
-		// echo '</pre>';
 		
 		$new_input = $input;
 
@@ -23,6 +19,15 @@ class wpUI_options extends quark_admin_options
 			$defaults = get_wpui_default_options();
 			return $defaults;
 		}
+		
+		$reset_tmpls = preg_grep_keys( '/^reset_post_template_[3-9]{1,2}$/', $input );
+		if( $reset_tmpls ) {
+			foreach( $reset_tmpls as $tmpls=>$data ) {
+				$template_num = str_ireplace( 'reset_', '', $tmpls );
+				unset( $new_input[ $template_num ] );
+			}
+		}
+
 		return $new_input;
 	}
 }
@@ -99,28 +104,26 @@ $wpui_skins_list_pre = array(
 	
 );
 
-// 
-// $wpui_options = get_option( 'wpUI_options' );
-// 
-// if ( ! empty( $wpui_options) ) {
-// 	$wpui_jqui_custom_themes = json_decode( $wpui_options[ 'jqui_custom_themes' ] , true);
-// 
-// 	
-// 	$wpui_custom_thm_num = count( $wpui_jqui_custom_themes );
-// 	
-// 	if ( $wpui_custom_thm_num > 0 ) {
-// 		$wpui_skins_list_pre[ 'startoptgroup3' ] = __( 'jQuery Custom themes', WPPTD ); 
-// 		foreach( $wpui_jqui_custom_themes as $key=>$value ) {
-// 			$wpui_jqui_cust_thm_display = ucwords(str_ireplace( '-', ' ', $key ));
-// 			$wpui_skins_list_pre[ $wpui_jqui_cust_thm_display ] = $key;
-// 		}
-// 		
-// 		$wpui_skins_list_pre[ 'endoptgroup3' ] = '';
-// 		
-// 	}
-// 	
-// }
-// 
+$wpui_options = get_option( 'wpUI_options' );
+// echo '<pre>';
+// print_r($wpui_options);
+// echo '</pre>';
+
+if( isset( $wpui_options ) ) {
+	if ( $wpui_options[ 'jqui_custom_themes' ] !== '' ) {
+		$jquis = array_keys( json_decode( $wpui_options[ 'jqui_custom_themes' ], true ) );
+		if ( ! empty( $jquis ) ) {
+			$wpui_skins_list_pre[ 'startoptgroup3' ] = __( 'Custom themes', WPPTD );
+			foreach ( $jquis as $key=>$value ) {
+				$dName = ucwords( str_ireplace( '-', ' ', $value ) );
+			
+				// echo '<h1>' . $dName . '</h1>';
+				$wpui_skins_list_pre[ $value ] = $dName;
+			}
+			$wpui_skins_list_pre[ 'endoptgroup3'] = '';
+		}
+	}
+}
 
 $option_page->set_sections($sects);
 $options_list = array(
@@ -477,31 +480,6 @@ $options_list = array(
 		'section'	=>	'advanced'
 	),
 
-	'post_template_one'	=>	array(
-		'id'		=>	'post_template_1',
-		'title'		=>	__('Template for posts in tabs and accordion', WPPTD),
-		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
-		'type'		=>	'textarea',
-		'section'	=>	'posts',
-	'textarea_size'	=>	array(
-		'cols'	=>	'60',
-		'rows'	=>	'10',
-		'autocomplete'	=>	'off'
-	)
-	),
-
-	'post_template_two'	=>	array(
-		'id'		=>	'post_template_2',
-		'title'		=>	__('Template for posts in Dialogs and sliders', WPPTD),
-		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
-		'type'		=>	'textarea',
-		'section'	=>	'posts',
-	'textarea_size'	=>	array(
-		'cols'	=>	'60',
-		'rows'	=>	'10',
-		'autocomplete'	=>	'off'
-	)
-	),
 	'relative_timez'	=>	array(
 		'id'		=>	'relative_times',
 		'title'		=>	__( 'Relative time', WPPTD ),
@@ -516,10 +494,83 @@ $options_list = array(
 		'type'		=>	'text',
 		'section'	=>	'posts'
 	),
+	'post_template_one'	=>	array(
+		'id'		=>	'post_template_1',
+		'title'		=>	__('Template 1 <br /><small>Usually the default for the Tabs and accordions on posts/feeds</small>', WPPTD),
+		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
+		'type'		=>	'textarea',
+		'section'	=>	'posts',
+	'textarea_size'	=>	array(
+		'cols'	=>	'60',
+		'rows'	=>	'10',
+		'autocomplete'	=>	'off'
+	)
+	),
+
+	'post_template_two'	=>	array(
+		'id'		=>	'post_template_2',
+		'title'		=>	__('Template 2 <br /><small>Usually the default for spoilers and dialogs</small>', WPPTD),
+		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
+		'type'		=>	'textarea',
+		'section'	=>	'posts',
+	'textarea_size'	=>	array(
+		'cols'	=>	'60',
+		'rows'	=>	'10',
+		'autocomplete'	=>	'off'
+	)
+	),
 
 );
 
-$option_page->set_fields( $options_list );
+
+/**
+ * Like preg_grep wildcard search, but this searches keys.
+ */
+function preg_grep_keys( $pattern, $array ) {
+	if ( !is_array( $array ) ) return;
+	$results = preg_grep( $pattern, array_keys( $array ) );
+	if ( empty( $results ) )
+		return false;
+	$resultArr = array();
+	foreach( $results as $result ) {
+		$resultArr[ $result ] = $array[ $result ]; 
+	}
+	return $resultArr;	
+} // end function preg_grep_keys
+
+
+/**
+ * Adds custom HTML templates if found.
+ */
+if ( isset( $wpui_options ) ) {
+	$wpui_addl_templates = preg_grep_keys( '/^post_template_[3-9]{1,2}$/', $wpui_options );
+	if ( is_array( $wpui_addl_templates ) ) {
+		foreach( $wpui_addl_templates as $key=>$value ) {
+			$valKey = intval( str_ireplace( 'post_template_' , '', $key ) );
+			$options_list[ 'post_template_' . $valKey ] = array(
+				'id'		=>	'post_template_' . $valKey,
+				'title'		=>	__('Template ' . $valKey . '<br /><small>Use <code>template="' . $valKey . '" </code>with any of the compatible shortcodes.</small>', WPPTD),
+				'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets. <input name="wpUI_options[reset_post_template_' . $valKey . ']"  type="submit" value="Delete">' ),
+				'type'		=>	'textarea',
+				'section'	=>	'posts',
+			'textarea_size'	=>	array(
+				'cols'	=>	'60',
+				'rows'	=>	'10',
+				'autocomplete'	=>	'off'
+			)				
+			);			
+			
+		}
+	}
+}
+
+//////////////////////////////////////////////
+$option_page->set_fields( $options_list ); //
+////////////////////////////////////////////
+
+
+
+
 
 add_action('wp_ajax_WPUIstyles', 'choose_wpui_style');
 
@@ -568,7 +619,10 @@ add_action('wp_ajax_jqui_css', 'wpui_search_for_stylesheets');
 function wpui_search_for_stylesheets() 
 {
 	$upload_dir = wp_upload_dir();
+		
 	$udir = preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir['path'] ) . 'wp-ui/';
+	
+	
 	$upnonce = $_POST['upNonce'];
 
 	if ( ! wp_verify_nonce( $upnonce, 'wpui-jqui-custom-themes' ) )
@@ -617,7 +671,7 @@ function wpui_plugin_info_above() {
 	
 	<div id="wpui-cap">
 	<div class="cap-icon">
-		<img width="80px" src="<?php echo plugins_url( '/wp-ui/images/cap-icon.png' ) ?>" />
+		<img width="50px" src="<?php echo plugins_url( '/wp-ui/images/cap-badge.png' ) ?>" />
 	</div><!-- end div.cap-icon -->
 	
 	<div class="wpui-desc">
@@ -629,7 +683,7 @@ function wpui_plugin_info_above() {
 		</p>
 		
 		<p>
-			Help improve this plugin : <a target="_blank" href="http://kav.in/discuss" title="Improve the plugin by sharing your thoughts">Suggestions? Ideas?</a> | Report - <a target="_blank" title="Report the issues you find, so it gets just better and better!" href="http://kav.in/discuss">Bugs / Issues / conflicts</a> on Support forums</p>
+			Help improve this plugin : <a target="_blank" href="http://kav.in/forum" title="Improve the plugin by sharing your opinion">Suggestions? Ideas?</a> | Report - <a target="_blank" title="Report the issues you find and improve the plugin!" href="http://kav.in/forum">Bugs / Issues / conflicts</a> on Support forums</p>
 	</div><!-- end div.wpui-desc -->	
 	
 	</div>
@@ -676,10 +730,10 @@ function wpui_plugin_info_below() {
 			<a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/">Documentation</a>
 		</li>
 		<li>
-			<a target="_blank" href="http://kav.in/discuss/viewforum.php?f=4">Help, Bugs and Issues</a>
+			<a target="_blank" href="http://kav.in/forum/viewforum.php?f=4">Help, Bugs and Issues</a>
 		</li>
 		<li>
-			<a target="_blank" href="http://kav.in/discuss/viewforum.php?f=5">Suggestions / Ideas</a>
+			<a target="_blank" href="http://kav.in/forum/viewforum.php?f=5">Suggestions / Ideas</a>
 		</li>
 		<li class="last-li">
 			<a href="http://twitter.com/cpblty">Capability on Twitter</a>
@@ -753,6 +807,28 @@ function wpui_get_css3_styles_list()
 	);
 	return $theme_list;
 } // END function wpui_get_css3_styles_list
+
+
+/**
+ * Check for custom themes, enqueue of list them if any.
+ */
+function wpui_get_custom_themes_list( $values=false ) {
+	$opts = get_option( 'wpUI_options' );
+	$themes_list = array();
+	
+	if ( $opts[ 'jqui_custom_themes' ] == '' )
+		return false;
+	if ( $opts[ 'jqui_custom_themes' ] == '{}' )
+		return $themes_list;
+	 
+	$cust_themes = json_decode( $opts[ 'jqui_custom_themes' ], true );
+	if ( $cust_themes !== null ) {
+		$returnArray = ( ! $values ) ? array_keys( $cust_themes ) : $cust_themes;
+		return $returnArray;
+	}	
+} // END wpui
+
+
 
 
 /**

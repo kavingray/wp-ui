@@ -2,10 +2,10 @@
 Contributors: kavingray
 Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
-Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, capability
+Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, capability
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.7.4
+Stable tag: 0.7.5
 
 Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
@@ -92,17 +92,26 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 * Give this plugin a nice rating - Stars on the right!
 * Tell others that it works, with the compatibility box on the right
-* We'd really appreciate, if you [link](http://kav.in/wp-ui-for-wordpress) to the plugin site or share.
-* Maybe, you can like us on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) or follow us on [twitter](http://twitter.com/cpblty), if you think we are doing a good job!
+* We'd really appreciate a [link](http://kav.in/wp-ui-for-wordpress) to the plugin site. 
+* Maybe, you can like us on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) or follow us on [twitter](http://twitter.com/cpblty), if you think this is a fine work. 
 
 == Screenshots ==
 
-1. Preview of some of the CSS3 styles.
-2. Editor Buttons and help.
-3. Step by Step Help available right within the wordpress editor.
-4. Style chooser available from within the post editor.
+1. Preview of the CSS3 styles.
+2. Buttons on both editor aspects.
+3. Near complete inbuilt documentation.
+4. Both jQuery UI themes and WP UI CSS3 styles preview. Picture shows a full CSS3 style - wpui-sevin.
 
 == Changelog ==
+
+= 0.7.5 =
+* Get and display RSS feeds inside the wp ui widgets. 
+* Rewritten documentation available right from within editor.
+* Vertical style on tabs now more sleek and compact.
+* Add unlimited post and feed templates.
+* Select custom/exclusive styles as defaults.
+* Scan styles path issue has been corrected and now works 100%.
+* TinyMCE/quicktags buttons corrected.
 
 = 0.7.4 =
 * Compatibility and bug fixes. 
@@ -169,6 +178,9 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 
 == Upgrade Notice ==
+
+= 0.7.5 =
+Get/parse/display RSS Feeds, Rewritten documentation, select custom styles as default, multiple post templates. Fixes - TinyMCE, scan styles, linking. Please Save The Options.
 
 = 0.7.4 =
 Bug and compatibility fix update. Help/style chooser pages fixed. IE 6/7 spoiler fix. Re-Save the options.

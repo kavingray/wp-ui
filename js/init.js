@@ -17,8 +17,6 @@ jQuery(document).ready(function( $ ) {
 		
 });
 
-
-
 jQuery.fn.tabsThemeSwitcher = function(classArr) {
 	
 	return this.each(function() {
@@ -63,84 +61,6 @@ jQuery.fn.tabsThemeSwitcher = function(classArr) {
 	}); // END each function.	
 	
 };
-
-
-jQuery.fn.toolztip = function( options, data , title, image ) {
-	
-	var defaults ;
-	
-	defaults = {
-		width		: '200px',
-		imgWidth	: '75px'
-	};
-	
-	var o = jQuery.extend( defaults, options );
-	
-	return this.each(function() {
-		var $this = jQuery(this);
-		
-		$this.mouseover(function(e) {
-			
-			if ( $this.find('div#toolztip').length < 1 ) {
-			
-				$this.append( 	'<div id="toolztip" class=""> \
-									<div class="toolztitle"> \
-									</div><!-- end div.toolztitle --> \
-									<div class="toolzcontent"> \
-										<div class="toolz-icon"></div> \
-										<div class="toolz-desc"></div> \
-									</div><!-- end div.toolzcontent --> \
-							  	</div><!-- end #toolztip --> \
-							');
-
-				$tool = jQuery('#toolztip');
-
-				if ( ( $tool.offset().top + $tool.height() ) < jQuery(window).scrollTop() )
-				{
-					$tool.addClass( 'bottom-tip' );
-				} else {
-					$tool.addClass( 'top-tip');
-				}
-						
-				$this.find( '#toolztip div.toolztitle').html( title );
-			
-				$tool.width( o.width );
-				
-				imge = document.createElement( 'img' );
-				jQuery(imge).attr({
-					src : image,
-					width : o.imgWidth
-				}).css({ 'float' : 'left', margin : '10px', marginTop : '0px'});
-			
-
-			
-				$this.find( '#toolztip div.toolzcontent' ).append( data );
-
-				$this.find( 'div#toolztip' ).hide();
-			
-				$this.find( 'div#toolztip' ).show('slide', {direction : 'up', easing : 'easeOutBounce' }, 1000);
-				if ( image )
-					$this.find( '#toolztip div.toolzcontent .toolz-icon' ).prepend( imge );
-			}
-			
-			
-			if ( ( $tool.offset().top + $tool.height() ) < jQuery(window).scrollTop() )
-			{
-				// $tool.removeClass('top-tip').addClass('bottom-tip');
-				$tool.switchClass( 'top-tip', 'bottom-tip', 600);
-			}
-
-			
-		}).mouseleave(function() {
-			jQuery('#toolztip').hide('slide', {direction : 'up', easing : 'easeInExpo' }, 300, function() {
-				jQuery(this).remove();
-			});
-		});
-		
-	}); // END return this each.	
-	
-};
-
 
 var tb_remove = function() {
 	// console.log( "Thickbox close fix" );

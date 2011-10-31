@@ -232,6 +232,7 @@ div#wpui-cap {
 div#wpui-cap .cap-icon {
     float: left;
     padding:10px;
+	padding-top: 0px;
     width: 100px;
 }
 
@@ -241,7 +242,7 @@ div#wpui-cap .cap-icon img {
 
 div#wpui-cap .wpui-desc {
     border-radius: 4px 4px 4px 4px;
-    padding: 10px 10px 10px 120px;
+    padding: 20px 10px 10px 120px;
 }
 
 div#wpui-cap .wpui-desc p {

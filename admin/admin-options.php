@@ -65,7 +65,7 @@ class quark_admin_options
 		// $this->set_page_id($page_id);
 		return $this->page_id;
 	}
-		
+	
 	public function render_options_page() {
 
 		echo '<div class="wrap">
@@ -403,6 +403,8 @@ class quark_admin_options
 	public function validate_options( $input ) {
 		// echo '<pre>';
 		// print_r($input);
+		// 
+		// echo '</pre>';
 		return $input;
 	}
 	

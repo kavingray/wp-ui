@@ -85,7 +85,7 @@
 					onclick	: 	function() {
 						editorHelp = pluginVars.wpUrl + '/wp-admin/admin-ajax.php?action=editorButtonsHelp&TB_iframe=true';
 					
-						tb_show('choosing tab names', editorHelp);				
+						tb_show('WP UI documentation', editorHelp);				
 					}
 					
 				});

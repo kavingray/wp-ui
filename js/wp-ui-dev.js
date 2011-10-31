@@ -2,7 +2,7 @@
  *	WP UI version 0.7.4
  *	
  *	Copyright (c) 2011, Kavin Amuthan ( http://kav.in )
- *	Dual licensed under the MIT and GPL licenses.
+ *	@license - Dual licensed under the MIT and GPL licenses.
  *	
  *	Below components Copyright and License as per the respective authors. 
  *	Thanks for their hard work.
@@ -42,7 +42,7 @@ function getNextSet() {
 	return ++tabSet;
 }
 
-var tabNames = [];
+var tabNames = [], accNames = [];
 
 jQuery.fn.wptabs = function( options ) {
 
@@ -179,8 +179,6 @@ jQuery.fn.wptabs = function( options ) {
 		//////////////////////////////////////////////
 		var $tabs = $this.children('.ui-tabs').tabs(tabsobj);
 		
-		$tabs.find('ul.ui-tabs-nav li a' ).eq(1).click();
-		
 		jQuery('ul.ui-tabs-nav').each(function() {
 			jQuery('li:first', this).addClass('first-li');
 			jQuery('li:last', this).addClass('last-li');
@@ -289,7 +287,7 @@ jQuery.fn.wptabs = function( options ) {
 		});
 	} // END if o.navigation
 
-	 	$tabs.tabs('option', 'disabled', false);
+	 	// $tabs.tabs('option', 'disabled', false);
 		
 	if ( o.position == 'bottom' || jQuery(this).hasClass('tabs-bottom') ) {
 		jQuery('ul.ui-tabs-nav', this).each(function() { 					
@@ -318,29 +316,38 @@ jQuery.fn.wptabs = function( options ) {
 			.removeClass( 'ui-corner-all' )
 			.addClass( 'ui-corner-left' )
 			.children()
-			.css({ 'float' : 'left', clear: 'left' });	
+			.css({ 'float' : 'left', clear: 'left', position : 'relative' })
+			.append( '<div class="wpui-tabs-arrow"><div></div></div>');	
+		
 		
 		getListWidth = jQuery(this).attr('class').match(/listwidth-(\d{2,4})/, "$1");
+
 		if ( getListWidth != null ) {
 			ulWidth = getListWidth[ 1 ];
 		} else {
-			ulWidth = $tabs.find('ul.ui-tabs-nav').outerWidth();
+			ulWidth = $tabs.find( 'ul.ui-tabs-nav' ).outerWidth();
 		}
 		// console.log( ulWidth ); 
 			
 		
 		ulHeight = $tabs.find( 'ul.ui-tabs-nav' ).outerHeight();
-		$tabs.find( 'ul.ui-tabs-nav' ).outerWidth( ulWidth + 4);
+		$tabs.find( 'ul.ui-tabs-nav' ).width( ulWidth );
 		$tabs.find( 'div.ui-tabs-panel' ).css({ 'float' : 'right' });
 		
-		parWidth = $tabs.innerWidth() - (parseInt($tabs.css('paddingLeft')) + parseInt($tabs.css('paddingRight')));
+		parWidth = $tabs.width() -
+					(
+					parseInt( $tabs.children( 'div.ui-tabs-panel' ).css('paddingLeft') )  +
+					parseInt( $tabs.children( 'div.ui-tabs-panel' ).css('paddingRight') )  +
+					parseInt( $tabs.children( 'div.ui-tabs-panel' ).css('borderRightWidth') )  +
+					parseInt( $tabs.children( 'div.ui-tabs-panel' ).css('borderLeftWidth') )  
+					);
 		
 		PaneWidth = parWidth - ulWidth;
 
 		maxPane = 0;
 		paneCount = $tabs.find( '.ui-tabs-panel' ).length;
 		
-		$tabs.find('.ui-tabs-panel').innerWidth( PaneWidth ).css({ marginLeft : ulWidth });
+		$tabs.find('.ui-tabs-panel').width( PaneWidth );
 		
 		$tabs.find( '.ui-tabs-panel' ).each(function() {
 			if ( jQuery( this ).outerHeight() > maxPane ) {
@@ -348,6 +355,23 @@ jQuery.fn.wptabs = function( options ) {
 			}
 			
 		});
+		
+		$tabs.find( '.wpui-tabs-arrow' ).each(function() {
+			jQuery( this ).height( 
+				jQuery( this ).parent().height() // +
+				 // 				parseInt( jQuery( this ).css( 'borderTopWidth' ) ) +
+				 // 				parseInt( jQuery( this ).css( 'borderBottomWidth' ) )
+				
+				);
+		});
+		
+		if ( jQuery.browser.mozilla == true ) {
+			jQuery( 'body' ).append( '<style type="text/css">.tabs-arrow-svg {  clip-path : url( #c1 ); }</style><svg height="0">  <clipPath id="c1" clipPathUnits="objectBoundingBox">  <polygon style="fill:#FFFFFF;" points="0,0 0,1 0.4,1 0.8,0.5 0.4,0"/> </clipPath> </svg> ' );
+			jQuery( '.wpui-tabs-arrow' ).each(function() {
+				jQuery( this ).addClass( 'tabs-arrow-svg' );
+			});
+		} 
+		
 		
 		if ( o.effect == 'slideDown' )
 			$this.find('.ui-tabs').tabs({ fx : null });
@@ -434,8 +458,8 @@ jQuery.fn.wptabs = function( options ) {
 				return false;
 
 			hashed = jQuery(window.location.hash).prevAll().length - 1;
-			console.log( window.location.hash );
-			console.log( tabNames );  
+			// console.log( window.location.hash );
+			// console.log( tabNames );  
 			jQuery( window.location.hash )
 					.parent()
 					.tabs({ selected : hashed });
@@ -704,9 +728,19 @@ jQuery.fn.wpaccord = function( options ) {
 		
 		$this.find(o.h3Class).each(function() {
 			loadLinks = jQuery(this).children(o.linkAjaxClass);
-			
 
-			if ( loadLinks.length != 0) {
+				
+				aparID = jQuery(this).text().replace(/\s{1,}/gm, '_');
+				aparID = aparID.replace( /[^\-A-Za-z0-9\s_]/mg, '');
+				
+				if ( jQuery.inArray( aparID, accNames ) != '-1' )
+					aparID = aparID + '_' + dup;
+				
+				jQuery(this)
+					.next()
+					.attr('id', aparID);			
+
+		if ( loadLinks.length != 0) {
 				getAjaxUrl = loadLinks.attr("href");
 			
 				loadLinks.parent().after('<div></div>');
@@ -717,6 +751,8 @@ jQuery.fn.wpaccord = function( options ) {
 				jQuery(this).text(jQuery(this).children().text());
 				
 			} // END check loadLinks.length
+
+			accNames = accNames.concat( aparID );
 
 		}); // END $this h3class.
 
@@ -753,6 +789,28 @@ jQuery.fn.wpaccord = function( options ) {
 		jQuery('.accordion h3.ui-accordion-header:last').addClass('last-child');
 
 
+		// if ( o.hashChange && typeof jQuery.event.special.hashchange != "undefined" ) {
+
+			jQuery( window ).hashchange(function() {
+				aHash = window.location.hash;	
+				if ( ( jQuery( aHash ).length != 1 ) || 
+				   ( jQuery.inArray( aHash.replace( /^#/, '' ) , accNames ) == -1 )
+				)
+					return false;
+				
+				console.log( aHash ); 
+
+				hashed = jQuery(window.location.hash).prevAll( o.h3Class ).length - 1;
+				console.log( hashed ); 
+				
+				jQuery( window.location.hash ).parent().accordion( 'activate', hashed );
+				
+				return false;
+			});
+
+			jQuery( window ).hashchange();
+
+		// }
 		// $this.find('p#jqtemp').remove();
 	
 
@@ -770,7 +828,8 @@ jQuery.fn.wpaccord.defaults = {
 	collapse		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordCollapsible == 'on' ) ? true : false,
 	easing			: 	(typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEasing : '',
 	accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : '',
-	wpuiautop		: 		true
+	wpuiautop		: 	true,
+	hashChange 		: 	true
 }; // END wpaccord defaults.
 
 
