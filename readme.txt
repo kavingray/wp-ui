@@ -5,7 +5,7 @@ Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, related-posts
 Requires at least: 3.1
 Tested up to: 3.3
-Stable tag: 0.7.5
+Stable tag: 0.8
 
 Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
