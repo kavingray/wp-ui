@@ -99,6 +99,7 @@
 					.attr( 'title' , 'Add a jQuery UI custom theme' )
 					.dialog({
 						width : 400,
+						modal : true,
 						buttons : {
 							"Cancel" : function( ) {
 								jQuery( this ).dialog('destroy');
@@ -136,6 +137,7 @@
 					.attr( 'title' , 'Edit the theme - ' + editName )
 					.dialog({
 						width : 400,
+						modal : true,
 						buttons : {
 							"Cancel" : function() {
 								jQuery( this ).dialog('destroy');
@@ -440,8 +442,6 @@
 
 		};
 
-
-
 		base.editDetails = function( element, arr ) {
 			if ( arr[0] ===  arr[2] && arr[1] === arr[3] ) {
 				base.themeForm.attr( 'title' , '' );
@@ -495,10 +495,174 @@
         });
     };
     
-})(jQuery);
+    
+	$.wpui.selectStyles = function( el, options ) {
+        var base = this;
+        base.$el = $(el);
+        base.el = el;
 
+        base.$el.data("wpui.jquiThemeManage", base);
+		
+		base.init = function( ) {
+			base.o = $.extend( {}, $.wpui.selectStyles.defaults , options );
+			
+			base.addForm();
+			base.formBinders();
+			
+			
+			
+		};
+
+		base.addForm = function() {
+			var data = {
+				action : 'selectstyles_list',
+			}, response;
+			
+			// Add a hidden dialog form to the body, later used for add or delete.
+			base.selectForm = jQuery( '<div style="display : none; " title="" id="multiple_styles_form" />')
+				.append( '<form><fieldset /></form>' )
+				.find( 'form fieldset' )
+				.append( '<div class="theme_add_notes" />')
+				.append( '<div class="check_styles_lists">Uncheck the styles you don\'t want to load. Drag to reorder the styles. These are loaded only if "Load Multiple Styles" is checked.<ul id="wpui-sortable"></ul></div>')
+				.end()
+				.appendTo( 'body' );
+			
+			
+			// jQuery.post(ajaxurl, data, function( response ) {
+				if ( response == '404' ) return false;		
+				base.stylesList = ["wpui-light", "wpui-blue", "wpui-red", "wpui-green", "wpui-dark", "wpui-quark", "wpui-cyaat9", "wpui-android", "wpui-safle", "wpui-alma", "wpui-macish", "wpui-achu", "wpui-redmond", "wpui-sevin"];
+				
+				base.storedList = [];
+				if ( jQuery( '#selected_styles' ).val() )
+					base.storedList = JSON.parse( jQuery( '#selected_styles' ).val() );
+				liDStr = '';
+				
+				// console.log( base.stylesList );
+				for( i =0; i < base.stylesList.length; i++ ) {
+					addScore = base.stylesList[ i ].replace( /\-/im, '_' );
+					isDis = (jQuery.inArray( base.stylesList[ i ], base.storedList ) == '-1');
+					if (  isDis ) {
+						liClass = 'checkbox-holder ui-state-disabled';
+						checKed = '';
+					} else {
+						liClass = 'checkbox-holder';
+						checKed = 'checked="checked"';
+					}
+					liStr = '<li class="' + liClass + '" id="' + base.stylesList[ i ] + '"><input type="checkbox" name="' + addScore + '" id="' + addScore + '" value="on" ' + checKed + ' /><label for="'+ addScore + '">' + base.stylesList[ i ] + '</label></li>';
+					if ( isDis ) {
+						liDStr += liStr;
+					} else {					
+					jQuery( '.check_styles_lists ul' )
+						.append( liStr );
+					}
+				}
+				
+				jQuery( '.check_styles_lists ul' )
+					.append( liDStr );
+				
+				
+			// });
+			
+			
+			base.formBinders = function() {
+				jQuery( '#wpui-combine-css3-files' ).click(function() {
+
+					base.selectForm
+						.attr( 'title' , 'Select multiple styles' )
+						.dialog({
+							width : 400,
+							modal : true,
+							buttons : {
+								"Cancel" : function( ) {
+									jQuery( this ).dialog('destroy');
+									jQuery( this ).attr( 'title' , '' );
+								},
+								"Select" : function() {
+									jQuery( '#wpui-sortable' ).trigger( 'sortchange' );
+									jQuery( this ).dialog( 'destroy' );
+								}
+							},
+							open : function() {
+								jQuery( 'div.theme_add_notes' ).find('ol').remove();
+								jQuery( '.ui-button:first' , '.ui-dialog-buttonset' )
+									.addClass('cancel-button');
+								jQuery( '.ui-button:last' , '.ui-dialog-buttonset' )
+									.addClass('save-button');
+							}
+
+
+						});
+
+					return false;
+				});				
+			};
+
+
+
+			jQuery( '#wpui-sortable' ).sortable({
+				items : "li:not(.ui-state-disabled)",
+				cancel : ".ui-state-disabled",
+				containment : 'parent'				
+			});
+
+			jQuery( '#wpui-sortable' ).bind( 'sortchange', function() {
+				SLarr = jQuery( this ).sortable( 'toArray' );
+
+				jQuery( 'textarea#selected_styles' )
+					.val( JSON.stringify( SLarr ) );				
+			});
+
+
+			jQuery( '#wpui-sortable li input' ).live( 'change', function() {
+
+				
+				if ( jQuery( this ).is(':checked') ) {
+					jQuery( this ).parent().removeClass( 'ui-state-disabled' );
+				} else {
+					jQuery( this ).parent().addClass( 'ui-state-disabled' );
+					jQuery( this ).parent()
+						.fadeOut( 300, function() {
+							jQuery( this )
+							.appendTo( jQuery( this ).parent() )
+							.fadeIn( 300 );
+						});
+				}
+				jQuery( '#wpui-sortable' ).sortable( 'refresh' );			
+				jQuery( '#wpui-sortable' ).trigger( 'sortchange' );			
+				
+					
+			});
+			
+			
+			
+			
+			
+		};
+		
+
+		
+		
+		base.init();
+	};
+	
+	$.wpui.selectStyles.defaults = {
+		
+	};
+	
+	$.fn.wpui_selectStyles = function( options ) {
+	 	return this.each(function() {
+			(new $.wpui.selectStyles( this, options ) );
+		});
+	};
+	
+	
+})( jQuery );
 
 jQuery( document ).ready(function() {
 
 	jQuery( '#jqui_custom_themes' ).wpui_jquiThemeManage();
+	jQuery( 'textarea#selected_styles' ).parent().parent().hide();
+	jQuery( '#wpui-combine-css3-files' ).wpui_selectStyles();
+	
 });
+

@@ -2,24 +2,53 @@
 Contributors: kavingray
 Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
-Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, capability
-Requires at least: 3.0
-Tested up to: 3.2.1
+Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, related-posts
+Requires at least: 3.1
+Tested up to: 3.3
 Stable tag: 0.7.5
 
 Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
 == Description ==
 
-WP UI is an advanced interface widgets plugin that channels the power of jQuery UI over the stability of wordpress for achieving awesome posts. Widgets or components of WP UI - Tabs, Accordions, Spoilers, Collapsibles, Dialogs can make any lengthy posts easy on eyes and to digest and is the way to greater user interactivity. Tabs and accordions are also most common widgets found everywhere in the digital world today - Browsers on Desktop/Mobile/Operating systems, e-Commerce sites, administration etc. 
+WordPress is a great platform suitable for almost every case of websites out there, ranging from a personal blog to a complex CMS. This plugin started out as a snippet when i needed a way to shorten my posts and make them look more presentable. WP UI plugin for WordPress, right from its first release, is all about user experience and presentation. It takes care of all the not-needed background stuff and makes it ultimately easy to implement wp ui widgets - Tabs, accordions, spoilers, dialogs. That, friends is just tip of the iceberg. Real power of this plugin lies in the handy functions and shortcodes that deal with posts and feeds.
 
-[Plugin page](http://kav.in/wp-ui-for-wordpress)
+= Base =
 
-[Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
+WP UI for WordPress is powered by jQuery **U**ser **I**nterface library - jQuery UI. It acts as a bridge between jQuery UI and WordPress, simplifies and manages the code structure for easy usage. 
 
-[Plugin Support](http://kav.in/forum)
+= Styles =
 
-[Help improve multi-language support](http://kav.in/forum/discussion/81/need-help-improving-multi-language-support#Item_1)
+WP UI comes with 15 stunning CSS3 styles alongside the ability to use all the [jQuery UI themes](http://jqueryui.com/themeroller/). Moreover you can use more than one jQuery UI theme in the page and with [jQuery UI custom themes](http://kav.in/wp-ui-using-jquery-ui-custom-themes). Want your own CSS3 theme? No problem, just upload the stylesheet, scan, select it. It's that easy.
+
+= Ease of usage =
+
+There is a dedicated menus and dialogs within the WordPress editor that allows both entering content manually or inserting posts - Easy. Options page comes with contextual help and is intuitive.
+
+= Shortcodes & Functions =
+
+Most common functionality in WP UI is achieved through shortcodes, that comes with wide variety of arguments. For example - <code>[wptabs style="wpui-blue"]...</code> style argument accepts around 24 values, not including any custom themes you might want to try. Want only a mini loop or display related/popular/recent/random posts? Well, the shortcodes and functions are at your disposal.
+
+= Posts and Feeds =
+
+Including posts and feeds have never been more easier. With a single post shortcode - <code>[wptabposts]</code>, get and display posts as neatly arranged tabs or accordions, Automatically. This shortcode's counterpart that deals with feeds - <code>wpuifeeds</code>. And you can use the post argument ( <code>[wpspoiler post="3028"]</code> ) universally with most shortcodes to get a single post. 
+
+= Documentation =
+
+WP UI comes with rich documentation bundled in the options page and right within the editor. While they work great for a quick reference on shortcodes or arguments, there is a [dedicated documentation](http://kav.in/projects/) site, built and updated every day.
+
+= Support =
+
+There is an active support [forum](http://kav.in/forum) available for getting quick help and support. Moreover, an user-editable wiki style documentation is coming right away. Stay tuned, friends.
+
+= Further =
+
+* [Plugin page](http://kav.in/wp-ui-for-wordpress)
+* [Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
+* [Support](http://kav.in/forum)
+* [Like us on Facebook](http://www.facebook.com/#!/pages/Capability/136970409692187)
+* [Follow @kavingray](http://twitter.com/kavingray)
+* [Help improve multi-language support](http://kav.in/forum/discussion/81/need-help-improving-multi-language-support)
 
 == Installation ==
 
@@ -59,14 +88,17 @@ Make sure each one of your shortcodes is in the **separate line** but please do 
       [wptabcontent]Content inside the second tab is here.[/wptabcontent]
     [/wptabs]
 
-
 = Why do i see closing shortcodes in the rendered page? =
 
 Shortcodes should be entered into the wordpress post editor's HTML mode. WP Visual mode editor can insert additional paragraph `<p>` tags before and after the shortcodes, thereby rendering those invalid.
 
-= Why do my font's look blurry / Why can not i see any text ? =
+= How do i insert or choose posts easily? =
 
-Styling inconsistencies. Probably because the background color of the CSS3 style and your wordpress theme's text color are near same. Please try switching to some other tab style or jQuery UI theme.
+Editor menu allows you to insert content manually and choose the posts. You will be given a list of posts you have to choose from. 
+
+= How do i differentiate between a styling and javascript conflict? =
+
+Not working at all? Something other broken? It's mostly a javascript conflict. But when there is a CSS conflict - things work, but just not looking as expected.
 
 = Why does the widgets behave strangely sometimes? =
 
@@ -88,12 +120,14 @@ Help
 
 I would love to hear about it. Please drop me a note [here](http://kav.in/contact) or [here](http://kav.in/forum)
 
+
 = How can i support this plugin? =
 
 * Give this plugin a nice rating - Stars on the right!
-* Tell others that it works, with the compatibility box on the right
+* Tell others that it works, with the compatibility box on the right!
 * We'd really appreciate a [link](http://kav.in/wp-ui-for-wordpress) to the plugin site. 
-* Maybe, you can like us on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) or follow us on [twitter](http://twitter.com/cpblty), if you think this is a fine work. 
+* Support us by a like on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) 
+* Follow us on [twitter](http://twitter.com/kavingray), if you appreciate the work or support.
 
 == Screenshots ==
 
@@ -103,6 +137,23 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 4. Both jQuery UI themes and WP UI CSS3 styles preview. Picture shows a full CSS3 style - wpui-sevin.
 
 == Changelog ==
+
+= 0.8 =
+* Lots of changes and rewrites from the last release.
+* Wordpress 3.3 compatible - Try the tour and help.
+* Completely overhauled editor interface.
+* Revamped tinyMCE and QTags buttons - ready for 3.3 . 
+* Load scripts on demand or use conditional logic.
+* Caching images and scripts to improve functionality. Uses **<code>wp-content/uploads/wp-ui/cache/</code>** for cache files and images. 
+* Display Related/Popular/Recent/Random Posts with the new posts widget.
+* WordPress widgets, manual content or posts widget.
+* Improved/revamped options page with new options added.
+* Interactive tour, that briefs the new features on editor interface.
+* Use images or icons in tabs ( with [wptabtitle] shortcode )
+* New theme "wpui-gene" - minimalistic.
+* New on spoilers - Use <code>[wpspoiler background="minimal green"...</code>. Also try blue or red instead of green.
+* Re-Save the Options, please. Deactivate the plugin first if you are uploading manually. :)
+
 
 = 0.7.5 =
 * Get and display RSS feeds inside the wp ui widgets. 
@@ -179,6 +230,9 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 == Upgrade Notice ==
 
+= 0.8 =
+3.3 compatible. Performance related changes, lots of conflicts fixed. New editor menus and dialogs( > 3.1 only). Split-load and cache options added. Save the options.
+
 = 0.7.5 =
 Get/parse/display RSS Feeds, Rewritten documentation, select custom styles as default, multiple post templates. Fixes - TinyMCE, scan styles, linking. Please Save The Options.
 
@@ -223,8 +277,10 @@ Please **rate** the plugin if you find it useful.
 = Credits =
 Following scripts have been included with this plugin.
 
-* Includes jQuery cookie plugin by Klaus Hartl.
-* Includes hashchange event plugin by Ben Alman.
-* Includes Mousewheel event plugin by Brandon Aaron.
+Includes
+* jQuery cookie plugin by Klaus Hartl.
+* Hashchange event plugin by Ben Alman.
+* Mousewheel event plugin by Brandon Aaron.
+* Image resizer inspired from work by Jarrod Oberto.
 
 Thanks to respective authors for their great work.

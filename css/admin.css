@@ -291,7 +291,7 @@ div.cols {
 	float:left;
 	width: 30%;
 	margin: 10px;
-	min-height:190px;
+/*	min-height:190px;*/
 	border: 1px solid #AAA;
 	border-radius          : 5px;
 	-moz-border-radius     : 5px;
@@ -572,8 +572,7 @@ p.submit input:active {
 
 }
 
-.settings_page_wpUI-options .ui-dialog-content input,
-.settings_page_wpUI-options .ui-dialog-content label {
+.settings_page_wpUI-options .ui-dialog-content input {
 	display : block;
 	width: 100%;
 	padding: 5px 0;
@@ -589,6 +588,14 @@ p.submit input:active {
 	-webkit-box-shadow : 0 1px 5px #000;
 	-o-box-shadow      : 0 1px 5px #000;
 	box-shadow         : 0 1px 5px #000;
+}
+
+
+
+.settings_page_wpUI-options .ui-dialog-content input[type="checkbox"],
+.settings_page_wpUI-options .ui-dialog-content label[for="checkbox"] {
+	display : inline;
+	width: auto;
 }
 
 
@@ -855,8 +862,51 @@ div.jqui_ajax_info span.ajax_info img {
 	margin-right : 10px;
 }
 
+div.ui-widget-overlay,
+div#TB_overlay {
+	background: url("../images/pattern-gray.png"), rgba( 0, 0, 0, 0.4 );
+	background: -webkit-linear-gradient( top left, rgba(0, 0, 0, 0.5), rgba(32, 32, 32, 0.1), rgba(0, 0,0, 0.5) ),-webkit-linear-gradient( top right, rgba(0, 0, 0, 0.5), rgba(68, 68, 68, 0.2), rgba(0, 0, 0, 0.5) ), url("../images/pattern-gray.png");
+	background: -moz-linear-gradient( top left, rgba(0, 0, 0, 0.5), rgba(32, 32, 32, 0.1), rgba(0, 0,0, 0.5) ),-webkit-linear-gradient( top right, rgba(0, 0, 0, 0.5), rgba(68, 68, 68, 0.2), rgba(0, 0, 0, 0.5) ), url("../images/pattern-gray.png");
+	background: -o-linear-gradient( top left, rgba(0, 0, 0, 0.5), rgba(32, 32, 32, 0.1), rgba(0, 0,0, 0.5) ),-webkit-linear-gradient( top right, rgba(0, 0, 0, 0.5), rgba(68, 68, 68, 0.2), rgba(0, 0, 0, 0.5) ), url("../images/pattern-gray.png");
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
 
 .settings_page_wpUI-options #jqui_add_theme {
 	float: right;
 }
+.wpui-new-feature {
+	display: inline;
+	background: #E04C88;
+	color: white;
+	padding: 2px 4px;
+	font-size: 10px;
+	text-shadow: 0 1px 0 #1E2734;
+	border-radius: 2px;
+	font-style : normal;
+	margin-left : 10px;
+}
+
+li.checkbox-holder {
+	background : #111;
+	background : rgba( 0, 0, 0, 0.4 );
+	box-shadow : 0 1px 3px #000;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+	padding : 5px 10px;
+}
+
+li.checkbox-holder.ui-state-disabled {
+	opacity : 0.4;
+}
+
+textarea#selected_styles {
+	display : none !important;
+}
+
 

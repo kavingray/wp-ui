@@ -3,8 +3,10 @@
 <head>
 <title>Choose your WPTabs options</title>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> -->
+<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/jquery.min.js"></script>
+<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/jquery-ui.min.js"></script>
+
 <script type="text/javascript" src="../wp-content/plugins/wp-ui/js/wp-ui.js"></script>
 <link rel="stylesheet" href="../wp-content/plugins/wp-ui/wp-ui.css" media="screen">
 <link rel="stylesheet" href="../wp-content/plugins/wp-ui/css/wpui-all.css" media="screen">

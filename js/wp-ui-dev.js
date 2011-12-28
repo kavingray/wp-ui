@@ -1,5 +1,5 @@
 /*!
- *	WP UI version 0.7.4
+ *	WP UI version 0.8
  *	
  *	Copyright (c) 2011, Kavin Amuthan ( http://kav.in )
  *	@license - Dual licensed under the MIT and GPL licenses.
@@ -14,9 +14,6 @@
  *	
  *	Requires : jQuery v1.4.2, jQuery UI v1.8 or later.
  */
-
-
-// wpuiJQ = jQuery.noConflict( );
 
 
 // document.write blank page fix. Thanks to altCognito on stackoverflow. ( http://stackoverflow.com/q/761190 ) for the code from which this is adapted.
@@ -50,7 +47,6 @@ jQuery.fn.wptabs = function( options ) {
 	var o = jQuery.extend({} , jQuery.fn.wptabs.defaults, options);
 	
 	// Assign $this.
-	
 	this.each(function() {
 		uid = getNextSet();
 		base = this;
@@ -84,66 +80,66 @@ jQuery.fn.wptabs = function( options ) {
 			jQuery(this).parent().append( jQuery(this).parent().nextUntil("div.ui-tabs-panel") );
 		});	
 		
+		// liStr = '';
+		
 		// Add the respective IDs to the ui-tabs-panel(content) and remove the h3s.
 		$this.find('.ui-tabs-panel').children(o.h3Class).each(function( index ) {
 			dup = getNextSet();
 			
-			// var h3Val = jQuery(this).text().replace(/\s/gm, '_') + '_' + uid++;
-			// jQuery(this).parent().attr('id', h3Val);			
+			parID = jQuery( this ).text();
+			otherClass = jQuery( this ).hasClass( 'wpui-hidden-tab' ) ? 'wpui-hidden-tab' : '';
 			
-			if ( jQuery(this).children(o.linkAjaxClass).length != 0 ) {
+		
+			// Non english characters.
+			if ( parID.match( /[^\x00-\x80]+/ ) ) {
+				base.nonEng = true;
+				parID = 'tab-' + dup;
+			}
+			
+			if ( jQuery( this ).has( o.linkAjaxClass ).length != 0 ) 
+				base.linkAJAX = true;
+			
+			// Process pID.
+			parID = parID.replace(/\s{1,}/gm, '_')
+					.replace( /[^\-A-Za-z0-9\s_]/mg, '')
+					.toLowerCase();
+			
+			var linkS = '';
+			
+			if ( jQuery.inArray( parID, tabNames ) != '-1' )
+					parID = parID + '-' + dup;
 				
+			
+			if ( base.linkAJAX ) {
+			aLink = jQuery( this ).find( o.linkAjaxClass );
+			linkS = '<a href="' + aLink.attr( "href" ) + '">' + aLink.text() + '</a>';
+			} else if( jQuery( this ).find( 'img' ).length == 1 ) { 
+
+				var parIMG = jQuery( this ).find( 'img' );
+				while ( parIMG.parent().is( 'h3' ) != 1 ) parIMG.unwrap();
+				parIMG.removeAttr( 'style' ).css( 'vertical-align', 'middle' );
+				if ( parIMG.attr( 'title' ) != 'undefined' && parIMG.attr( 'title') != '' && jQuery( this ).text() == '' )
+				parID = parIMG.attr( 'title' ).replace(/\s{1,}/gm, '_').replace( /[^\-A-Za-z0-9\s_]/mg, '');
+				var imgLink = '<img src="' + parIMG.attr( 'src' ) + '" title="' + parIMG.attr( 'title' ) + '" />'; 
 				
-				linkAttrs = ' href="' + jQuery(this).children(o.linkAjaxClass).attr('href') + '" title="' + jQuery(this).text() + '"';
+			linkS = '<a href="#' + parID + '">' + imgLink + jQuery( this ).text() + '</a>';
 				
-				parID = jQuery(this).text().replace(/\s{1,}/gm, '_');
-				parID = parID.replace( /[^\-A-Za-z0-9\s_]/mg, '');
-				
-				if ( jQuery.inArray( parID, tabNames ) != '-1' )
-					parID = parID + '_' + dup;
-				
-				// Add the links to the UL.
-				jQuery(this)
-					.parent()
-					.parent()
-					.children('ul.ui-tabs-nav')
-					.append('<li><a '+ linkAttrs + '>' + jQuery(this).text() + '</a></li>');
-				
-				jQuery(this)
-					.parent()
-					.attr('id', parID);
-				 
 			} else {
-				
-				
-				parID = jQuery(this).text()
-							.replace( /[^\-A-Za-z0-9\s_]/mg, '')
-							.replace( /\s{1,}/gm, '_' )
-							.toLowerCase();				
-				
-				if ( jQuery.inArray( parID, tabNames ) != '-1' )
-					parID = parID + '_' + dup;
-				
-				linkAttrs = ' href="#' + parID + '"';
-				
-				jQuery(this)
-					.parent()
-					.parent()
-					.children('ul.ui-tabs-nav')
-					.append('<li><a ' + linkAttrs  + '>' + jQuery(this).text() + '</a></li>');
-
-				jQuery(this)
-					.parent()
-					.attr('id', parID);		
-							
-
+			linkS = '<a href="#' + parID + '">' + jQuery( this ).text() + '</a>'; 
 			}
 		
-			panelWidth = jQuery(this).width() - 20;
-			jQuery(this).find('img').css({ width :  panelWidth });
-			jQuery(this).find('iframe').css({ width : '600px' });
 			
-			tabNames = tabNames.concat(parID);
+			liStr = '<li class="' + otherClass + '">' + linkS + '</li>';
+			$this.find( 'ul.ui-tabs-nav' ).append( liStr );
+			
+			if ( ! base.linkAJAX )
+			jQuery( this ).parent().attr( 'id', parID );
+			else
+			jQuery( this ).parent().remove();
+			
+			tabNames = tabNames.concat( parID );
+
+
 		}).hide();
 		
 		// Wrap everything inside div.ui-tabs
@@ -316,8 +312,7 @@ jQuery.fn.wptabs = function( options ) {
 			.removeClass( 'ui-corner-all' )
 			.addClass( 'ui-corner-left' )
 			.children()
-			.css({ 'float' : 'left', clear: 'left', position : 'relative' })
-			.append( '<div class="wpui-tabs-arrow"><div></div></div>');	
+			.css({ 'float' : 'left', clear: 'left', position : 'relative' });	
 		
 		
 		getListWidth = jQuery(this).attr('class').match(/listwidth-(\d{2,4})/, "$1");
@@ -356,21 +351,21 @@ jQuery.fn.wptabs = function( options ) {
 			
 		});
 		
-		$tabs.find( '.wpui-tabs-arrow' ).each(function() {
-			jQuery( this ).height( 
-				jQuery( this ).parent().height() // +
-				 // 				parseInt( jQuery( this ).css( 'borderTopWidth' ) ) +
-				 // 				parseInt( jQuery( this ).css( 'borderBottomWidth' ) )
-				
-				);
-		});
+		// $tabs.find( '.wpui-tabs-arrow' ).each(function() {
+		// 	jQuery( this ).height( 
+		// 		jQuery( this ).parent().height() // +
+		// 		 // 				parseInt( jQuery( this ).css( 'borderTopWidth' ) ) +
+		// 		 // 				parseInt( jQuery( this ).css( 'borderBottomWidth' ) )
+		// 		
+		// 		);
+		// });
 		
-		if ( jQuery.browser.mozilla == true ) {
-			jQuery( 'body' ).append( '<style type="text/css">.tabs-arrow-svg {  clip-path : url( #c1 ); }</style><svg height="0">  <clipPath id="c1" clipPathUnits="objectBoundingBox">  <polygon style="fill:#FFFFFF;" points="0,0 0,1 0.4,1 0.8,0.5 0.4,0"/> </clipPath> </svg> ' );
-			jQuery( '.wpui-tabs-arrow' ).each(function() {
-				jQuery( this ).addClass( 'tabs-arrow-svg' );
-			});
-		} 
+		// if ( jQuery.browser.mozilla == true ) {
+		// 	jQuery( 'body' ).append( '<style type="text/css">.tabs-arrow-svg {  clip-path : url( #c1 ); }</style><svg height="0">  <clipPath id="c1" clipPathUnits="objectBoundingBox">  <polygon style="fill:#FFFFFF;" points="0,0 0,1 0.4,1 0.8,0.5 0.4,0"/> </clipPath> </svg> ' );
+		// 	jQuery( '.wpui-tabs-arrow' ).each(function() {
+		// 		jQuery( this ).addClass( 'tabs-arrow-svg' );
+		// 	});
+		// } 
 		
 		
 		if ( o.effect == 'slideDown' )
@@ -402,9 +397,8 @@ jQuery.fn.wptabs = function( options ) {
 			if ( delta < 0 )
 				dir = "forward";
 			else if ( delta > 0 )
-				dir = "backward";
-			
-			wpuiTabsMover( dir );
+				dir = "backward";	
+			typeof ( dir ) == 'undefined' || wpuiTabsMover( dir );
 			return false;
 		});
 	}
@@ -798,11 +792,7 @@ jQuery.fn.wpaccord = function( options ) {
 				)
 					return false;
 				
-				console.log( aHash ); 
-
 				hashed = jQuery(window.location.hash).prevAll( o.h3Class ).length - 1;
-				console.log( hashed ); 
-				
 				jQuery( window.location.hash ).parent().accordion( 'activate', hashed );
 				
 				return false;
@@ -859,6 +849,7 @@ jQuery.fn.wpspoiler = function( options ) {
 		$header = $this.children( o.headerClass );
 		
 		$header.each(function() {
+			jQuery( this ).prepend( '<span class="ui-icon"></span>' );
 			jQuery( this )
 				.addClass( 'ui-state-default ui-corner-all ui-helper-reset' )
 				.find( 'span.ui-icon', this )
@@ -911,7 +902,8 @@ jQuery.fn.wpspoiler = function( options ) {
 		$this.find( 'a.close-spoiler' ).click(function( e ) {
 			e.stopPropagation();
 			e.preventDefault();
-			heads = jQuery( this ).parent().siblings( o.headerClass ).get(0);
+			heads = jQuery( this ).parent().parent().siblings( o.headerClass ).get(0);
+
 			base.headerToggle( heads );
 			return false;						
 		});
@@ -928,7 +920,7 @@ jQuery.fn.wpspoiler = function( options ) {
 				.html( ( spanText == hideText) ? showText : hideText )
 				.parent()
 				.next( 'div.ui-collapsible-content' )
-				.animate( base.aniOpts , 500 )
+				.animate( base.aniOpts , o.speed, o.easing )
 				.addClass( 'ui-widget-content' );
 
 			
@@ -951,6 +943,7 @@ jQuery.fn.wpspoiler.defaults = {
 	// showText : 'Click to show',
 	hideText : (typeof wpUIOpts != "undefined") ? wpUIOpts.spoilerHideText : '',
 	showText : (typeof wpUIOpts != "undefined") ? wpUIOpts.spoilerShowText : '',
+	easing : 'easeInOutQuart',
 	fade	 : true,
 	slide	 : true,
 	speed	 : 600,
@@ -1211,3 +1204,120 @@ throw new SyntaxError('JSON.parse');};}}());
  * Requires: 1.2.2+
  */
 (function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(f){var d=[].slice.call(arguments,1),g=0,e=true;f=c.event.fix(f||window.event);f.type="mousewheel";if(f.wheelDelta){g=f.wheelDelta/120}if(f.detail){g=-f.detail/3}d.unshift(f,g);return c.event.handle.apply(this,d)}})(jQuery);
+
+
+/**
+ *	Init the scripts.
+ */
+jQuery(document).ready(function( $ ) {
+	
+	if ( typeof wpUIOpts == 'object' ) {
+
+	if ( wpUIOpts.enablePagination == 'on' )
+		jQuery( 'div.wpui-pages-holder' ).wpuiPager();
+	
+	if ( wpUIOpts.enableTabs == 'on')
+		jQuery('div.wp-tabs').wptabs();
+	
+	if ( wpUIOpts.enableSpoilers == 'on' )
+		jQuery('.wp-spoiler').wpspoiler();
+	
+	if ( wpUIOpts.enableAccordion == 'on')
+		jQuery('.wp-accordion').wpaccord();
+	
+	if ( wpUIOpts.enableDialogs == 'on' )
+		jQuery('.wp-dialog').wpDialog();
+	} 
+	
+	jQuery( "ul.wpui-related-posts" ).each(function() {
+		allWidth = jQuery( this ).children( 'li' ).outerWidth() - jQuery( this ).children('li').width();
+
+		if ( jQuery( this ).hasClass( 'wpui-per_3' ) ) {
+			liWidth = ( jQuery( this ).innerWidth() / 3 ) - allWidth;
+		} else if ( jQuery( this ).hasClass( 'wpui-per_4' ) ) {
+			liWidth = ( jQuery( this ).innerWidth() / 4 ) - allWidth;
+			
+		} else if ( jQuery( this ).hasClass( 'wpui-per_2' ) ) {
+			liWidth = ( jQuery( this ).innerWidth() / 2 ) - allWidth;
+		}
+
+		if ( typeof( liWidth ) != 'undefined' )
+		jQuery( this ).children( 'li' ).width( liWidth - 1 );
+		
+		if ( jQuery( this ).hasClass( 'wpui-per_2' ) ) {
+			jQuery( this ).children( 'li' ).find( '.wpui-rel-post-meta' ).width( liWidth  - 120 );
+			
+		}
+		var soHgt = 0;
+		jQuery( this ).children( 'li' ).each(function() {
+			soHgt = Math.max( soHgt, jQuery( this ).height());
+		}).height( soHgt );
+
+	});	
+		
+});
+
+jQuery.fn.tabsThemeSwitcher = function(classArr) {
+	
+	return this.each(function() {
+		var $this = jQuery(this);
+
+		$this.prepend('<div class="selector_tab_style">Switch Theme : <select id="tabs_theme_select" /></div>');
+	
+	for( i=0; i< classArr.length; i++) {
+		jQuery('#tabs_theme_select', this).append('<option value="' + classArr[i] + '">' + classArr[i] + '</option');
+		
+	} // END for loop.
+	
+
+	if ( jQuery.cookie && jQuery.cookie('tab_demo_style') != null ) {
+		currentVal = jQuery.cookie('tab_demo_style');
+		$this.find('select#tabs_theme_select option').each(function() {
+			if ( currentVal == jQuery(this).attr("value") ) {
+			 	jQuery(this).attr( 'selected', 'selected' );
+			}
+		});
+	} else {
+		currentVal = classArr[0];
+	} // END cookie value check.
+
+	
+	$this.children('.wp-tabs').attr('class', 'wp-tabs wpui-styles').addClass(currentVal, 500);
+	$this.children('.wp-accordion').attr('class', 'wp-accordion wpui-styles').addClass(currentVal, 500);
+	$this.children('.wp-spoiler').attr('class', 'wp-spoiler wpui-styles').addClass(currentVal, 500);
+
+	
+	jQuery('#tabs_theme_select').change(function(e) {
+		newVal = jQuery(this).val();
+		
+		$this.children('.wp-tabs, .wp-accordion, .wp-spoiler').switchClass(currentVal, newVal, 1500);
+		
+		currentVal = newVal;
+		
+		if ( jQuery.cookie ) jQuery.cookie('tab_demo_style', newVal, { expires : 2 });
+	}); // END on select box change.
+	
+
+	}); // END each function.	
+	
+};
+// 
+// var tb_remove = function() {
+// 	// console.log( "Thickbox close fix" );
+//  	jQuery("#TB_imageOff").unbind("click");
+// 	jQuery("#TB_closeWindowButton").unbind("click");
+// 	jQuery("#TB_window")
+// 		.fadeOut("fast",function(){
+// 				jQuery('#TB_window,#TB_overlay,#TB_HideSelect')
+// 					.unload("#TB_ajaxContent")
+// 					.unbind()
+// 					.remove();
+// 		});
+// 	jQuery("#TB_load").remove();
+// 	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
+// 		jQuery("body","html").css({height: "auto", width: "auto"});
+// 		jQuery("html").css("overflow","");
+// 	}
+// 	jQuery(document).unbind('.thickbox');
+// 	return false;
+// } // END function tb_remove()

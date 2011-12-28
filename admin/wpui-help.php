@@ -13,21 +13,26 @@ function get_plgn_url() {
 	} else {
 		$plgn_url .= $_SERVER['SERVER_NAME'] . $script_url;
 	}
+	$plgn_url = str_ireplace( 'admin', '', $plgn_url );
 	return $plgn_url;	
 } // END function get_page_url.
+
+function get_site_url() {
+	$plgn_url = get_plgn_url();
+	$plgn_url = str_ireplace( 'wp-content/plugins/wp-ui/', '', $plgn_url );
+	return $plgn_url;	
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Untitled Document</title>
+<title>WP UI - Rock and roll!</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
 var wpUIOpts = {
-	wpUrl: "http://192.168.1.105/wpmu",
-	pluginUrl: "http://192.168.1.105/wpmu/wp-content/plugins/wp-ui/",
 	enableTabs: "on",
 	enableAccordion: "on",
 	enableSpoilers: "on",
@@ -56,18 +61,18 @@ var wpUIOpts = {
 };
 /* ]]> */
 </script>
-<script type="text/javascript" src="<?php echo get_plgn_url() ?>../../../js/wp-ui.js"></script>
+<script type="text/javascript" src="<?php echo get_plgn_url() ?>/js/wp-ui.js"></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
 var initOpts = {
-	wpUrl: "http://192.168.1.105/wpmu",
-	pluginUrl: "http://192.168.1.105/wpmu/wp-content/plugins/wp-ui/"
+	wpUrl: "<?php echo get_site_url() ?>",
+	pluginUrl: "<?php echo get_plgn_url() ?>"
 };
 /* ]]> */
 </script>
-<script type="text/javascript" src="<?php echo get_plgn_url() ?>../../../js/init.js" media="screen"></script>
-<link rel="stylesheet" href="<?php echo get_plgn_url() ?>../../../wp-ui.css" type="text/css">
-<link rel="stylesheet" href="<?php echo get_plgn_url() ?>../../../css/wpui-all.css" type="text/css">
+
+<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/wp-ui.css" type="text/css">
+<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/css/wpui-all.css" type="text/css">
 
 <script type="text/javascript">
 
@@ -96,23 +101,23 @@ a {
 	color : #006699;
 }
 p {
-	line-height: 1.5em	
+	line-height: 1.5em;
 }
 h3 {
 	color: #006699;
 }
 .page-title {
 	background: #444;
-	background : -webkit-linear-gradient( left, #A1216E, #D8164A, #F82913, #F98F17, #FBCC0C, #EEE810, #79C53E, #4BC574, #5FCDC2, #5B3C9C, #A8185F );
+/*	background : -webkit-linear-gradient( left, #A1216E, #D8164A, #F82913, #F98F17, #FBCC0C, #EEE810, #79C53E, #4BC574, #5FCDC2, #5B3C9C, #A8185F );
 	background : -moz-linear-gradient( left, #A1216E, #D8164A, #F82913, #F98F17, #FBCC0C, #EEE810, #79C53E, #4BC574, #5FCDC2, #5B3C9C, #A8185F );
-	background : -o-linear-gradient( left, #A1216E, #D8164A, #F82913, #F98F17, #FBCC0C, #EEE810, #79C53E, #4BC574, #5FCDC2, #5B3C9C, #A8185F );
-	
-	border-bottom: 1px solid #DDD;	
-	color: #DDD;
-	text-shadow : 1px 1px 0 #555;
+	background : -o-linear-gradient( left, #A1216E, #D8164A, #F82913, #F98F17, #FBCC0C, #EEE810, #79C53E, #4BC574, #5FCDC2, #5B3C9C, #A8185F );*/
+	background : url("<?php echo get_plgn_url(); ?>/images/cpattern.png" );
+	border-bottom: 1px solid #FFF;	
+	color: #000;
+	text-shadow : 1px 1px 0 #999;
 	padding: 10px;
 	margin-top: 0px;
-	box-shadow: 0 2px 6px #CDCDCD;
+	box-shadow: 0 -2px 3px #444 inset;
 }
 .wp-kav-image {
 	border: 6px solid #222;
@@ -269,7 +274,6 @@ table tbody td code {
 </style>
 </head>
 <body>
-
 <div id="wrapper">
 <h2 class="page-title">WP UI - Docs</h2>
 <div id="container">
@@ -295,27 +299,25 @@ table tbody td code {
 	</li>
 </ul>
 </div> -->
-<p>WP UI editor buttons are available for both the HTML mode editor(Recommended)and the Visual mode editor(TinyMCE - Usable), though the former is preferred over the later.</p>
+<p>WP UI editor buttons are available for both the HTML mode editor and the Visual mode editor(TinyMCE)</p>
 
 <div class="wp-tabs wpui-dark wpui-no-background">
-<h3 class="wp-tab-title">HTML Editor</h3>
-<div class="wp-tab-content">
-<div class="kav-caption dark" style="width:412px"><img class="wp-kav-image" style="border-right: 0px;" src="<?php echo get_plgn_url() ?>/wpui_quicktags_button_help.png" width="400" height="250" alt="WPUI - HTML editor buttons" />
-<p class="kav-caption-text" align="center"><strong>Image 1.0 </strong>WP UI - HTML mode Editor buttons and the steps</p></div><br />
-</div>
 <h3 class="wp-tab-title">Visual</h3>
 <div class="wp-tab-content">	
-<div class="kav-caption dark" style="width:412px"> <img class="wp-kav-image" src="<?php echo get_plgn_url() ?>/wpui_tinymce_buttons_help.png" width="400" height="250" alt="WP UI - TinyMCE buttons" />
-<p class="kav-caption-text" align="center"><strong>Image 1.1</strong> WP UI -Visual mode Editor buttons and the steps </p></div></div>
+<div class="kav-caption dark" style="width:412px"> <img class="wp-kav-image" src="<?php echo get_plgn_url() ?>/images/editor/tinymce.png" width="400" height="250" alt="WP UI - TinyMCE buttons" />
+<p class="kav-caption-text" align="center"><strong>Image 1.1</strong> WP UI -Visual mode Editor Menu</p></div></div>
+
+	
+<h3 class="wp-tab-title">HTML Editor</h3>
+<div class="wp-tab-content">
+<div class="kav-caption dark" style="width:412px"><img class="wp-kav-image" style="border-right: 0px;" src="<?php echo get_plgn_url() ?>/images/editor/quicktags.png" width="400" height="250" alt="WPUI - HTML editor buttons" />
+<p class="kav-caption-text" align="center"><strong>Image 1.0 </strong>WP UI - HTML mode Editor buttons</p></div><br />
+</div>
 
 </div><!-- End .wp-tabs -->
-<p align="left">Implementing tabs as like other widgets are very easy. Number inside the brackets corresponds to the labels in above image.</p>
-<ol>
-  <li>Enter a Tab name ( 1 ) </li>
-  <li>Enter the Tab content ( 2 )</li>
-  <li>Repeat the steps 1 and 2, for as many number of tabs you need.</li>
-  <li>Finish - Wrap the tabs into a tabset ( 3 )</li>
-</ol>
+
+
+
 <hr />
 <p align="left">&nbsp;</p>
 <div id="shortcode_basics">
@@ -628,7 +630,7 @@ table tbody td code {
 <h3 class="ui-collapsible-header"><span class="ui-icon"></span>Arguments related to dialogs</h3>
 <div class="ui-collapsible-content">
 	<table border="0">
-		<caption><strong>[<span>wpdialog</span>]</strong> Dialogs</caption>
+		<caption><strong>[<span>wpdialog</span>]</strong>Dialogs</caption>
 		<thead>
 		<tr>
 			<th>Arguments</th>
@@ -643,7 +645,7 @@ table tbody td code {
 
 		<tr>
 			<td>width</td>
-			<td>Width of the dialog, <b>without the suffixing px value</b>. <br /> <code>[<span>wpdialog width="600"</span>] </code></td>
+			<td>Width of the dialog, <b>without the suffixing px value</b>.<br /> <code>[<span>wpdialog width="600"</span>] </code></td>
 		</tr>
 		<tr>
 			<td>show</td>

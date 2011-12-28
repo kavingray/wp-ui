@@ -15,6 +15,9 @@ jQuery(document).ready(function( $ ) {
 	if ( wpUIOpts.enableDialogs == 'on' )
 		jQuery('.wp-dialog').wpDialog();
 		
+		
+
+		
 });
 
 jQuery.fn.tabsThemeSwitcher = function(classArr) {

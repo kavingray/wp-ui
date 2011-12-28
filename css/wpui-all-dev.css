@@ -4013,8 +4013,6 @@
 	background: -webkit-gradient(linear, left top, left bottom , from(#B3E6DC), color-stop(0.15, #FFF));
 	background: -webkit-linear-gradient(top , #B3E6DC, #FFF 15%);
 	background: -o-linear-gradient(top , #B3E6DC, #FFF 15%);
-	padding: 15px;
-
 }
 
 
@@ -4319,7 +4317,6 @@
 	background: -webkit-gradient(linear, left top, left bottom , from(#E6E6DC), to(#FFF));
 	background: -webkit-linear-gradient(top , #E6E6DC, #FFF 10%);
 	background: -o-linear-gradient(top , #E6E6DC, #FFF);	
-	padding: 10px;
 }
 
 
@@ -4659,8 +4656,6 @@
 	background: -webkit-gradient(linear, left top, left bottom , from(#E6D1DC), color-stop(0.15, #FFF), to(#FFF));
    background: -webkit-linear-gradient(top , #E6D1DC, #FFF 15%);
    background: -o-linear-gradient(top , #E6D1DC, #FFF 15%);
-	padding: 10px;
-	
 }
 
 

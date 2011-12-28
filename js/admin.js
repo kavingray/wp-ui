@@ -18,6 +18,9 @@ jQuery(document).ready(function() {
 	jQuery( '.tab-bottom-nav a, .tab-top-nav a' ).removeClass('ui-button');	
 
 		jQuery('#wpui_styles_preview').click(function() {
+			backup_send = window.send_to_editor;
+			window.send_to_editor = window.ste_skins;
+
 			// var wtbWidth = Math.round( 0.9 * jQuery( window ).width() );
 			var wtbHeight = Math.round( 0.9 * jQuery( window ).height() );
 			chooseWpuiStyles = initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles&TB_iframe=true&width=800&height=' + wtbHeight;
@@ -26,6 +29,8 @@ jQuery(document).ready(function() {
 		});
 		
 		jQuery('#jqui_styles_preview').click(function() {
+			backup_send = window.send_to_editor;
+			window.send_to_editor = window.ste_skins;
 			// var wtbWidth = Math.round( 0.9 * jQuery( window ).width() );
 			var wtbHeight = Math.round( 0.9 * jQuery( window ).height() );
 			choosejquiStyles = initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=JQUIstyles&TB_iframe=true&width=810&height=' + wtbHeight;
@@ -33,23 +38,19 @@ jQuery(document).ready(function() {
 			return false;
 		});
 		
-		window.send_to_editor = function(skin_name) {
+		window.ste_skins = function(skin_name) {
 			jQuery('#tab_scheme option').each(function() {
 				if ( jQuery(this).attr("value") == skin_name )
 					jQuery(this).attr( 'selected', 'selected' );
 			});
 			tb_remove();
-			jQuery( 'p.submit input.button-primary' ).click();			
+			jQuery( 'p.submit input.button-primary' ).click();
 		}
 
 		jQuery('a.wpui_options_help').click(function() {
 			jQuery('#contextual-help-link').click();
 			return false;
 		});
-
-		// console.log( jQuery( '#post_template_1' ).val() );
-		// jQuery( 'label[for="post_template_1"]').css({ background: 'red'});
-		
 		
 		/*
 		 *	Check the fields
@@ -201,20 +202,20 @@ jQuery(document).ready(function() {
 		context[5] = '<p style="background:#FFF; text-align: center; padding:4px; border: 1px solid #AAA">Click on each tab for help on respective sections.</p><h3>Advanced options</h3> <h4>Custom CSS</h4> Use this tab to output additional CSS. For example, this might be for a simple layout fix, or maybe your own skin. <h4>Alternative Shortcodes</h4> When enabled,  it is possible to use shorter codes , e.g <div><ul>	<li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] instead of [wptabcontent]</li><li>[<strong>wslider</strong>] instead of [wpspoiler]</li></ul></div><h4><span style="color: #800000;">Disable jQuery loading</span></h4><div>Please be careful about this option. When checked, jquery will not be loaded by wp-ui. Thereby widgets will not be rendered, when globally jQuery/UI is not available.</div><h4>Cookies!</h4>Cookies are used to store information about the browser state. In our case jQuery UI tabs are able to remember the selected tabs across page reloads and re-visit.<h4>Linking and history</h4>With this option enabled, you can link to the tabs and have them activated on click without reload. History support, i.e. users can click the back button to re open the previous tabs.';
 
 
-		if ( /\?page=wpUI-options/gm.test(window.location.href)) {
-
-		var cTab = $admin_tabs.children('.ui-tabs').tabs('option', 'selected');
-
-		jQuery(".metabox-prefs").html(context[cTab]);
-
-		for( i = 0; i<context.length; i++ ) {
-			$admin_tabs.bind("tabsshow, tabsselect", function(event, ui) {
-				index = ui.index;
-				jQuery('.metabox-prefs').html(context[index]);
-			});
-		}
-
-		}	
+		// if ( /\?page=wpUI-options/gm.test(window.location.href)) {
+		// 
+		// var cTab = $admin_tabs.children('.ui-tabs').tabs('option', 'selected');
+		// 
+		// jQuery(".metabox-prefs").html(context[cTab]);
+		// 
+		// for( i = 0; i<context.length; i++ ) {
+		// 	$admin_tabs.bind("tabsshow, tabsselect", function(event, ui) {
+		// 		index = ui.index;
+		// 		jQuery('.metabox-prefs').html(context[index]);
+		// 	});
+		// }
+		// 
+		// }	
 
 
 });
