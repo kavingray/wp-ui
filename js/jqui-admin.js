@@ -530,7 +530,7 @@
 			
 			// jQuery.post(ajaxurl, data, function( response ) {
 				if ( response == '404' ) return false;		
-				base.stylesList = ["wpui-light", "wpui-blue", "wpui-red", "wpui-green", "wpui-dark", "wpui-quark", "wpui-cyaat9", "wpui-android", "wpui-safle", "wpui-alma", "wpui-macish", "wpui-achu", "wpui-redmond", "wpui-sevin"];
+				base.stylesList = ["wpui-gene", "wpui-light", "wpui-blue", "wpui-red", "wpui-green", "wpui-dark", "wpui-quark", "wpui-cyaat9", "wpui-android", "wpui-safle", "wpui-alma", "wpui-macish", "wpui-achu", "wpui-redmond", "wpui-sevin"];
 				
 				base.storedList = [];
 				if ( jQuery( '#selected_styles' ).val() )

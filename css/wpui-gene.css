@@ -33,6 +33,8 @@
 	-o-box-shadow      : 0 -1px 4px #AAA inset;
 	box-shadow         : 0 -1px 4px #AAA inset;
 }
+
+
 .wpui-gene .ui-tabs .ui-tabs-nav li a {
 	color : #999;
 	text-shadow : 0 1px 0 #FFF;	
@@ -40,6 +42,10 @@
 	font-size : 14px;
 }
 
+.wpui-gene .ui-tabs .ui-tabs-nav li a img {
+	display : inline-block;
+	vertical-align : middle;
+}
 
 .wpui-gene .ui-tabs .ui-tabs-nav li.ui-state-active {
 	background : #FFF;

@@ -89,11 +89,11 @@ class wpUI {
 		
 		include_once( 'inc/wpui-helpers.php' );
 
-		// if ( isset( $this->options ) &&
-		// 	isset( $this->options[ 'load_scripts_on_demand' ] ) &&
-		//  	$this->options[ 'load_scripts_on_demand' ] == 'on' ) {
-		add_filter( 'the_posts', array( &$this, 'assess_needed_scripts' ) );
-		// }
+		if ( isset( $this->options ) &&
+			isset( $this->options[ 'load_scripts_on_demand' ] ) &&
+		 	$this->options[ 'load_scripts_on_demand' ] == 'on' ) {
+				add_filter( 'the_posts', array( &$this, 'assess_needed_scripts' ) );
+		}
 		
 		if ( ! is_admin() ) {
 		// Output the plugin scripts and styles.
@@ -142,9 +142,9 @@ class wpUI {
 		}
 
 		
-	
-		
 	} //END method wpUI
+
+
 
 	public function test_ground() {}
 
