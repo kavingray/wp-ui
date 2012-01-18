@@ -1,7 +1,8 @@
 <?php
 /**
- *	WP UI Posts handling.
+ *	Script: WP UI Posts
  *	
+ * 	WP UI posts handler class.
  *	
  *		
  * @since $Id$
@@ -11,7 +12,11 @@
 
 
 /**
-* WP UI Posts
+* Class: WP UI Posts ( wpuiPosts )
+* 
+* See also : 
+* 	<wpui>
+* 
 */
 class wpuiPosts
 {
@@ -31,9 +36,15 @@ class wpuiPosts
 	
 	
 	/**
-	 * 	Replace the tags on the template.
+	 * Function: replace_tags
+	 * 	returns the template string, with replaced values.
 	 * 	
 	 * @since 0.7
+	 * 
+	 * @param $template - HTML template as a string
+	 * @param $needles - array with values that are to be replaced in the HTML template.
+	 * 
+	 * 
 	 * @return string $template HTML
 	 */
 	function replace_tags( $template, $needles ) {
@@ -69,13 +80,15 @@ class wpuiPosts
 
 	
 	/**
+	 * Function: get_excerpt
+	 * 
 	 * Generate excerpt.
 	 * 
 	 * @since 0.7
 	 * 
-	 * @param string $text to be trimmed.
-	 * @param integer $length to trim.
-	 * @return string $text trimmed content
+	 * @param $text to be trimmed.
+	 * @param $length to trim.
+	 * @return $text trimmed content
 	 */
 	function get_excerpt( $text, $length ) {
 		$text = apply_filters( 'the_content' , $text );
@@ -120,11 +133,11 @@ class wpuiPosts
 	
 
 	/**
+	 * Function: wpui_get_post
 	 * Get individual posts.
 	 * 
 	 * @since 0.7
-	 * @uses get_post()
-	 * @param $ID , ID of the post
+	 * @param $ID of the post
 	 * @param $args array.
 	 */
 	function wpui_get_post( $ID , $length , $type='post' ) {
@@ -140,7 +153,6 @@ class wpuiPosts
 				$wpui_post = get_page( $ID );
 			else
 				$wpui_post = get_page_by_title( $ID );
-				
 		} else {
 			$wpui_post = get_post( $ID );
 		}
@@ -151,7 +163,7 @@ class wpuiPosts
 
 
 		$p_title = $wpui_post->post_title;
-		$p_thumb = get_the_post_thumbnail( $ID );				
+		$p_thumb = ( function_exists( 'get_the_post_thumbnail' ) ) ? get_the_post_thumbnail( $ID ) : '';				
 
 		$more_link = get_permalink( $ID );
 		$check_more = preg_match( '/<!--more-->/im', $wpui_post->post_content);
@@ -198,8 +210,13 @@ class wpuiPosts
 	
 	
 	/**
-	 * 	Get multiple posts with custom query.
+	 * Function wpui_get_posts
+	 * 	Get **multiple posts** with custom query.
 	 * 
+	 * See also :
+	 * 	<wpui_get_post>
+	 * 
+	 *	@param $args array
 	 * 	@since 0.7
 	 * 	@uses WP_Query, wp_reset_postdata()
 	 * 	@return array $posts 
@@ -226,7 +243,6 @@ class wpuiPosts
 		);
 		
 		$r = wp_parse_args( $args, $defaults );
-			
 
 		$qquery = array();
 		
@@ -282,8 +298,8 @@ class wpuiPosts
 				if ( is_array( $excl_array ) )
 				$qquery[ 'category__not_in' ] = $excl_array;
 			}
-				
 		}
+		
 		// Tags
 		if ( $r[ 'tag' ] != '' || $r[ 'tag_name' ] != '' ) {
 			
@@ -317,7 +333,6 @@ class wpuiPosts
 		$post_basket = array();
 		
 		while ( $get_posts->have_posts() ) : $get_posts->the_post();
-		
 		
 		$wost = array();
 		
@@ -354,12 +369,10 @@ class wpuiPosts
 
 		$post_basket[ $post_count ] = $wost;
 
-
 		$post_count++;
 		endwhile; // end while get_posts loop
 		
 		wp_reset_postdata();
-
 
 		if ( $post_basket )
 			return $post_basket;
@@ -367,6 +380,7 @@ class wpuiPosts
 	
 	
 	/**
+	 * Function: get_relative_time 
 	 * Get the relative time e.g, 5 days ago.
 	 * 
 	 * @since 0.5.8
@@ -383,6 +397,7 @@ class wpuiPosts
 	
 	
 	/**
+	 * 	Function: wpui_get_post_tags
 	 * Get the tags from a post ID.
 	 * 
 	 * @uses get_the_tags()
@@ -410,85 +425,12 @@ class wpuiPosts
 	} // END function wpui_get_post_tags
 	
 	
-	function sc_wpuifeeds( $atts, $content = null ) {
-		extract( shortcode_atts( array( 
-				'url'			=>	'',
-				'number'		=>	3,
-				'style'			=>	$this->options[ 'tab_scheme' ],
-				'type'			=>	'tabs',
-				'mode'			=>	'',
-				'listwidth'		=>	'',
-				'tab_names'		=>	'title',
-				'effect'		=>	$this->options['tabsfx'],
-				'speed'			=>	'600',
-				'number'		=>	'4',
-				'rotate'		=>	'',
-				'elength'		=>	$this->options['excerpt_length'],
-				'before_post'	=>	'',
-				'after_post'	=>	'',
-				'template'		=>	'1'
-			), $atts));
-			
-			if ( ! $url )
-				return __( 'WP-UI feeds shortcodes needs a valid RSS URL to work.' , 'wp-ui' );
-				
-			$results = $this->wpui_get_feeds( array(
-				'url'		=>	$url,
-				'elength'	=>	$elength,
-				'number'	=>	$number				
-			));
-
-		$tab_names_arr = preg_split( '/\s?,\s?/i', $tab_names );
-
-		$output = '';
-
-		$output_s = '';
-
-		$tmpl = ( isset( $this->options[ 'post_template_' . $template ] ) ) ?
-					$this->options[ 'post_template_' . $template ] :
-					$this->options[ 'post_template_1' ];
-
-		foreach( $results as $index=>$item ) {
-			$tab_num = $index+ 1;
-			
-			if ( $tab_names == 'title' ) {
-				$tab_name = $item[ 'title' ];
-			} elseif ( isset( $tab_names_arr ) && count( $tab_names_arr ) > 1 ) {
-				$tab_name = $tab_names_arr[ $index ];
-			} else {
-				$tab_name = $tab_num;
-			}
-				
-			$tabs_content = $this->replace_tags( $tmpl , $item );
-			$output_s .= do_shortcode( '[wptabtitle]' . $tab_name. '[/wptabtitle] [wptabcontent] ' . $tabs_content . 	' [/wptabcontent]' );
-			
-		}		
-		
-		$wptabsargs = '';
-		
-		if ( $type != '' )
-			$wptabsargs .= ' type="' . $type . '"';
-		if ( $mode != '' )
-			$wptabsargs .= ' mode="' . $mode . '"';
-		
-		if ( $listwidth != '' )
-			$style .= ' listwidth-' . $listwidth;
-		$wptabsargs .= ' style="' . $style . '"';
-		if ( $rotate && $rotate != '' )
-			$wptabsargs .= ' rotate="' . $rotate . '"';
-		
-		if ( $listwidth != '' )
-			$style .= ' listwidth-' . $listwidth;
-			
-		$output .= do_shortcode( '[wptabs' . $wptabsargs . '] ' . $output_s  . ' [/wptabs]' );
-		
-		return $output;
-			
-	} // END function sc_wptabcontent
-
-	
 	/**
-	 * Get a feed and output the array.
+	 * Function: wpui_get_feeds
+	 *	Get a feed and output the array.
+	 * 
+	 * @param $args array.
+	 * @return $items array
 	 */
 	function wpui_get_feeds( $args='' )
 	{
@@ -547,7 +489,13 @@ class wpuiPosts
 		return $lists;
 	} // END function wpui_get_feeds
 	
-	
+	/**
+	 * Function: get_thumbnail
+	 * 	Get the thumbnail from a post using ID. Use the default image if there is none.
+	 * 
+	 * @param $ID - integer ID of post.
+	 * @return $img string
+	 */
 	function get_thumbnail( $ID ) {
 		$cache = ( isset( $this->options['enable_cache' ] ) && isset( $this->options[ 'enable_cache' ] ) ) ? true : false;
 		
@@ -584,7 +532,11 @@ class wpuiPosts
 	}
 	
 	/**
-	 * Get image from a block of content.
+	 * Function: get_image_from_content
+	 * Get the first image from a block of content.
+	 * 
+	 * @param $content - HTML string
+	 * @return image.
 	 */
 	function get_image_from_content( $content )
 	{
@@ -606,7 +558,14 @@ class wpuiPosts
 		return $image;
 	} // END function get_image_from_content
 
-
+	
+	/**
+	 * Function: put_related_posts
+	 * 	Append related posts shortcode to the end of single post.
+	 * 
+	 * @param $content
+	 * @return $content 
+	 */
 	function put_related_posts( $content ) {
 		global $post, $wp_query;
 		
@@ -620,6 +579,17 @@ class wpuiPosts
 		// echo $post->ID . ':::::::::::' . $wp_query->post->ID . '<br />';
 		
 		// $content .= do_shortcode( '[wpui_related_posts]' );
+		$content .= '<style type="text/css">ul.wpui-related-posts{margin :10px 0px !important;padding :0px !important;float :none !important;overflow :hidden;list-style :none;}
+		ul.wpui-related-posts li.row-first{border-left :none !important;}
+		ul.wpui-related-posts li.row-last{border-right :none !important;}
+		ul.wpui-related-posts li{padding:10px;vertical-align :top;font-size :12px;text-align :center;
+		height :100%;opacity :0.7;float :left;-moz-transition :all 0.6s ease-out 0.2s;-webkit-transition :all 0.6s ease-out 0.2s;-o-transition :all 0.6s ease-out 0.2s;-ms-transition :all 0.6s ease-out 0.2s;-moz-border-radius :4px;-webkit-border-radius :4px;-o-border-radius :4px;border-radius :4px;}
+		ul.wpui-related-posts li:hover{opacity :1;background :#EEE;-webkit-transition :all 0.6s ease-in 0.2s;-moz-transition :all 0.6s ease-in 0.2s;-o-transition :all 0.6s ease-in 0.2s;-ms-transition :all 0.6s ease-in 0.2s;}
+		.wpui-related-posts .wpui-post-thumbnail a img{padding :10px;border :1px solid #888 !important;}
+		.wpui-related-posts .wpui-rel-post-title{text-transform :uppercase;}
+		.wpui-per_2 li .wpui-rel-post-thumbnail{float :left;width :100px;}
+		.wpui-per_2 li .wpui-rel-post-meta{float :left;width :150px;}
+		.wpui-per_2 li .wpui-rel-post-meta span{display :block;}</style>';
 		$content .= '[wpui_related_posts]';
 
 		return $content;
@@ -632,7 +602,8 @@ class wpuiPosts
 			'number'	=>	4,
 			'per_row'	=>	4,
 			'title'		=>	'We recommend',
-			'singular'	=>	'true'
+			'singular'	=>	'true',
+			'settings'	=>	'true'
 		), $atts));
 		
 		if ( ! is_singular() && $singular == 'false' ) return $content;
@@ -640,10 +611,12 @@ class wpuiPosts
 				
 		$pst_id = $post->ID;		
 		
-		$pst_wid = ( isset( $this->options ) && $this->options[ 'post_widget'] ) ?
-						$this->options[ 'post_widget' ] :
-						array( 'title' => $title, 'number' => $number, 'per_row' => $per_row, 'type' => $type );
-			
+		if ( $settings == true || isset( $this->options ) && is_array($this->options[ 'post_widget']) ) {
+			$pst_wid = $this->options['post_widget'];			
+		} else {
+			$pst_wid = array( 'title' => $title, 'number' => $number, 'per_row' => $per_row, 'type' => $type ); 
+		}
+
 			
 			$num =  $pst_wid[ 'number' ];
 			$get = $pst_wid[ 'type' ];
@@ -701,23 +674,6 @@ class wpuiPosts
 
 } // end class wpuiPosts;
 
-
-
-
-// add_action( 'init', 'wpui_add_post_type' );
-// 
-// function wpui_add_post_type() {
-// 	register_post_type( 'wp_ui', array( 
-// 			'labels'	=>	array(
-// 				'name'	=>	'Slides',
-// 				'singular_name'	=>	'Slide'
-// 			),
-// 			'public'	=>	true,
-// 			'has_archive'	=>	true
-// 		
-// 		));
-// 	
-// }
 
 
 

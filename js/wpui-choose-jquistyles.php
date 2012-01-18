@@ -184,7 +184,9 @@ p.submit #submit:active {
 <script type="text/javascript">
 function submit_form() {
 	var win = window.dialogArguments || opener || parent || top;
-	win.send_to_editor(document.forms[0].selected_skin.value);
+	parent.jQuery( '#tab_scheme' ).val( document.forms[ 0 ].selected_skin.value );
+	parent.jQuery.fn.colorbox.close();
+	parent.document.forms[ 0 ].submit();
 	return false;
 }
 </script>
@@ -233,11 +235,11 @@ function submit_form() {
 
 <div class="wp-accordion">
 	
-<h3 class="wp-tab-title">Section 1</h3>
+<h3 class="wp-tab-title">Panel 1</h3>
 	<div class="wp-tab-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed elit ut erat viverra dapibus. Cras at blandit sem. Nullam in augue non ipsum fermentum consequat. Nulla eu orci velit. Cras eu neque non justo malesuada pretium ut nec arcu. Curabitur viverra mollis risus vel convallis. Sed et felis dolor. Mauris semper faucibus ipsum non porta. Proin erat quam, congue a venenatis nec, volutpat nec leo. Nam vehicula lorem quis nulla tristique tempor. </div><!-- end div.wp-tab-content -->
-<h3 class="wp-tab-title">Section 2</h3><br>
+<h3 class="wp-tab-title">Panel 2</h3><br>
 	<div class="wp-tab-content">Vestibulum rhoncus ligula est. Nam nisi velit, vestibulum eget fermentum vitae, bibendum vitae velit. Sed ac ante eget nisl elementum varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ut leo eget leo volutpat placerat vitae at est. Mauris vestibulum ligula vel ante rhoncus luctus. Fusce sagittis, nisi at faucibus eleifend, sapien mauris semper arcu, eget aliquam justo enim sit amet turpis. Nulla fringilla, nunc in hendrerit volutpat, massa leo laoreet lectus, a vehicula odio ligula quis metus.</div><!-- end div.wp-tab-content -->
-<h3 class="wp-tab-title">Section 3</h3>
+<h3 class="wp-tab-title">Panel 3</h3>
 	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content --> 
 
 </div><!-- end wp-accordion -->
@@ -250,8 +252,8 @@ function submit_form() {
 <h3 class="section-header">Spoilers</h3>
 
 <div class="wp-spoiler">
-<h3 class="ui-collapsible-header"><span class="ui-icon"></span>Spoiler section</h3>
-<div class="ui-collapsible-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed elit ut erat viverra dapibus. Cras at blandit sem. Nullam in augue non ipsum fermentum consequat. Nulla eu orci velit. Cras eu neque non justo malesuada pretium ut nec arcu. Curabitur viverra mollis risus vel convallis. Sed et felis dolor. Mauris semper faucibus ipsum non porta. Proin erat quam, congue a venenatis nec, volutpat nec leo. Nam vehicula lorem quis nulla tristique tempor.
+<h3 class="wp-spoiler-title">Spoiler section</h3>
+<div class="wp-spoiler-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed elit ut erat viverra dapibus. Cras at blandit sem. Nullam in augue non ipsum fermentum consequat. Nulla eu orci velit. Cras eu neque non justo malesuada pretium ut nec arcu. Curabitur viverra mollis risus vel convallis. Sed et felis dolor. Mauris semper faucibus ipsum non porta. Proin erat quam, congue a venenatis nec, volutpat nec leo. Nam vehicula lorem quis nulla tristique tempor.
 </div><!-- end .ui-collapsible-content -->
 </div><!-- end div.wp-spoiler -->
 </div><!-- end holder -->
@@ -264,7 +266,7 @@ function submit_form() {
 <div class="dialog-button">
 <p class="dialog-opener-container wpui-macish"><a href="#" class="dialog-opener-3">Open Dialog</a></p>
 </div>
-<div class="wp-dialog wp-dialog-3 dialog-number-3" title="Cutest dialog"><h4 class="wp-dialog-title wpui-dialogClass:dialog-number-3-arg wpui-width:300-arg wpui-height:auto-arg wpui-autoOpen:false-arg wpui-show:drop-arg wpui-hide:fade-arg wpui-modal:false-arg wpui-closeOnEscape:true-arg wpui-position:center-arg wpui-modal:true-arg wpui-zIndex:1000-arg"></h4> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus, tellus at sagittis imperdiet, turpis augue rutrum lacus, ut tincidunt ligula mi vitae nibh. Praesent nisl velit, pellentesque in semper quis, pretium nec massa. </div>
+<div class="wp-dialog wp-dialog-3 dialog-number-3" title="UI dialog"><h4 class="wp-dialog-title wpui-dialogClass:dialog-number-3-arg wpui-width:300-arg wpui-height:auto-arg wpui-autoOpen:false-arg wpui-show:drop-arg wpui-hide:fade-arg wpui-modal:false-arg wpui-closeOnEscape:true-arg wpui-position:center-arg wpui-modal:true-arg wpui-zIndex:1000-arg"></h4> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus, tellus at sagittis imperdiet, turpis augue rutrum lacus, ut tincidunt ligula mi vitae nibh. Praesent nisl velit, pellentesque in semper quis, pretium nec massa. </div>
 
 </div><!-- end holder -->
 

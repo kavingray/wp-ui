@@ -51,7 +51,6 @@ class quark_admin_options
 		add_action( 'admin_menu' , array(&$this, 'menu_admin'));
 		add_action( 'admin_init' , array(&$this, 'init_admin'));
 		$this->set_page_id($this->page_id);	
-
 	}
 
 
@@ -98,7 +97,7 @@ class quark_admin_options
 			
 		echo '</div><!-- end #options-wrap -->
 				<p class="submit">
-					<input name="' . $this->db_prefix . '_options[submit]" type="submit" class="button-primary" value="' . __( 'Save Changes' ) . '" />
+					<input name="' . $this->db_prefix . '_options[submit]" type="submit" class="button-primary" value="' . __( 'Save Options' ) . '" />
 					<input name="' . $this->db_prefix . '_options[reset]" type="submit" class="button-secondary" value="' . __( 'Reset Defaults' ) . '" />
 					</p><!-- end p.submit -->
 			</form><!-- end form#optionsform -->';
@@ -309,6 +308,7 @@ class quark_admin_options
 		if( $desc != ''  && ! $nested )
 			echo '<br /> ' . $desc;		
 	} // end fun textarea.
+
 
 	private function fileinput( $id, $name, $desc, $nested=false ) {
 		$defs = array(

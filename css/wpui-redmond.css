@@ -118,7 +118,7 @@
 
 
 
-.wpui-sevin .ui-button {
+.wpui-redmond .ui-button {
 	background: #D5D5D5;
 	background: -moz-linear-gradient(top, #F2F2F2, #EEE 48%, #DDDDDD 49%, #CFCFCF);
 	background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), color-stop(48%, #EEE), color-stop(49%, #DDDDDD), to(#CFCFCF));
@@ -132,7 +132,7 @@
 }
 
 
-.wpui-sevin .wp-tab-content a.ui-button {
+.wpui-redmond .wp-tab-content a.ui-button {
 	float: right;
 	margin: 20px 0;
 	text-decoration: none !important;

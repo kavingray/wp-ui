@@ -4,21 +4,14 @@ Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, related-posts
 Requires at least: 3.1
-Tested up to: 3.3
-Stable tag: 0.8
+Tested up to: 3.3.1
+Stable tag: 0.8.1
 
 Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
 == Description ==
 
 WordPress is a great platform suitable for almost every case of websites out there, ranging from a personal blog to a complex CMS. This plugin started out as a snippet when i needed a way to shorten my posts and make them look more presentable. WP UI plugin for WordPress, right from its first release, is all about user experience and presentation. It takes care of all the not-needed background stuff and makes it ultimately easy to implement wp ui widgets - Tabs, accordions, spoilers, dialogs.  Real power of this plugin lies in the handy functions and shortcodes that deal with posts and feeds.
-
-
-= Update =
->With version 0.8 - most of the plugin tree structure has been changed. Most commonly browser cache might give false positive errors, [please read this](http://kav.in/forum/discussion/222/version-0.8-please-read-this#Item_2). To brief, please try one of these.
-> - Clear the browser cache. Usually can be done with Ctrl+R a couple times ( Alt+R in Mac ). Switching to alternate browser and back once, might help.
-> - If installation went correctly - server cache plugins such as W3TC should prompt you to empty the cache, please do so. 
-
 
 = Base =
 
@@ -125,16 +118,15 @@ Help
 
 = I have some exciting idea/suggestion about this plugin! =
 
-I would love to hear about it. Please drop me a note [here](http://kav.in/contact) or [here](http://kav.in/forum)
-
+I would love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 = How can i support this plugin? =
 
-* Give this plugin a nice rating - Stars on the right!
-* Tell others that it works, with the compatibility box on the right!
-* We'd really appreciate a [link](http://kav.in/wp-ui-for-wordpress) to the plugin site. 
+* Give this plugin a nice 5 star rating on the [plugin page](http://wordpress.org/extend/plugins/wp-ui/).
+* Tell others that it works, with the compatibility box on the [plugin page](http://wordpress.org/extend/plugins/wp-ui/).
 * Support us by a like on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) 
-* Follow us on [twitter](http://twitter.com/kavingray), if you appreciate the work or support.
+* Tweet about the plugin or follow us on twitter [@kavingray](http://twitter.com/kavingray).
+* We'd really appreciate a review.
 
 == Screenshots ==
 
@@ -144,6 +136,17 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 4. Both jQuery UI themes and WP UI CSS3 styles preview. Picture shows a full CSS3 style - wpui-sevin.
 
 == Changelog ==
+
+= 0.8.1 =
+* BugFixes related to previous version.
+* On Demand script loading using jQuery.
+* Feeds access/excerpt handling.
+* Custom themes uploading error handling and directory browsing improved.
+* Options page modal windows are now handled by colorbox, replacing thickbox. 
+* Related posts widget updated.
+* Fix regarding post meta.
+* Options handling changed and might require a manual save for upgrading users.
+
 
 = 0.8 =
 * Lots of changes and rewrites from the last release.
@@ -236,6 +239,9 @@ I would love to hear about it. Please drop me a note [here](http://kav.in/contac
 
 
 == Upgrade Notice ==
+
+= 0.8.1 =
+Please save the options manually. Mostly bugfixes relating to styles, dialogs, editor menus.  
 
 = 0.8 =
 3.3 compatible. Performance related changes, lots of conflicts fixed. New editor menus and dialogs( > 3.1 only). Split-load and cache options added. Save the options.

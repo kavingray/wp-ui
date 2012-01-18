@@ -1,122 +1,266 @@
-jQuery.fn.wpspoiler = function( options ) {
+(function( $ ) {
+	if ( ! $.wpui ) $.wpui = {};
 	
-	var o, defaults, holder, hideText, showText, currText, hideSpan;
-
-	o = jQuery.extend({}, jQuery.fn.wpspoiler.defaults, options );
-
-	this.each(function() {
-		var base = this,
-		$this = jQuery( this );
-		
-		if ( typeof convertEntities == 'function' ) {
-			hideText = convertEntities( o.hideText );
-			showText = convertEntities( o.showText );
-		} else {
-			hideText = o.hideText; showText = o.showText;
-		}
-
-		$this.addClass( 'ui-widget ui-collapsible' );
-		
-		$header = $this.children( o.headerClass );
-		
-		$header.each(function() {
-			jQuery( this )
-				.addClass( 'ui-state-default ui-corner-all ui-helper-reset' )
-				.find( 'span.ui-icon', this )
-				.addClass( o.openIconClass );
-		
-			jQuery( this )
-				.append( '<span class="' +  o.spanClass.replace(/\./, '') + '" style="float:right"></span>' )
-				.find( o.spanClass )
-				.html( showText );
+	$.wpui._spoilerHashSet = false;
+	
+	$.widget( 'wpui.wpspoiler', {
+		options : {
+			hideText : ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.spoilerHideText : '',
+			showText : ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.spoilerShowText : '',
+			fade	 : true,
+			slide	 : true,
+			speed	 : 600,
+			spanClass: '.toggle_text',
+			headerClass : 'h3.ui-collapsible-header',
+			openIconClass : 'ui-icon-triangle-1-e',
+			closeIconClass : 'ui-icon-triangle-1-s',
+			autoOpen : false
+		},
 				
-			base.aniOpts = {};
-			if ( o.fade ) base.aniOpts[ 'opacity' ] = 'toggle';
-			if ( o.slide ) base.aniOpts[ 'height' ] = 'toggle';
+		_create	: 	function() {
+			var base = this;
+			this._isOpen = false;
+			this._trigger( 'create' );
+			this._spoil(); 
+			this._hashSet = false;
+
+			// $.wpui.wpspoiler.instances.push( this.element );
+			$.wpui.wpspoiler.instances[ this.element.attr('id') ] = this.element;
 			
-			if ( o.slide || o.fade ) {
-				if ( jQuery(this + '[class*=speed-]').length ) {
-					animSpeed = jQuery(this)
-									.attr('class')
-									.match(/speed-(.*)\s|\"/, "$1");
-					if ( animSpeed ) {
-						speed = animSpeed[1];
-					} else {
-						speed = o.speed;
-					}
-				}				
+			
+			
+		},
+		
+		_spoil : function( init ) {
+			var self = this;
+			self.o = this.options;
+			this._trigger( 'init' );
+			self.element.addClass( 'ui-widget ui-collapsible ui-helper-reset' );
+			
+			this.header = this.element.children( 'h3' ).first();
+			this.content = this.header.next( 'div' );
+			
+			this.header.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
+					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
+								
+			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top' )
+					.children( self.o.spanClass )
+					.html( self.o.showText );
+
+			this.content
+				.addClass( 'ui-helper-reset ui-state-default ui-widget-content ui-collapsible-content ui-collapsible-hide' )
+				.wrapInner( '<div class="ui-collapsible-wrapper" />' );
+			
+			this.animOpts = {};
+			if ( self.o.fade ) this.animOpts.opacity = 'toggle';
+			if ( self.o.slide ) this.animOpts.height = 'toggle';
+					
+
+		},
+		
+		_init : function() {
+			var self = this;
+			this._isOpen = false;
+			
+			// this.hashGo();		
+
+			if ( this.options.autoOpen || this.element.hasClass( 'open-true' ) ) this.toggle();
+			
+			self.header.bind( 'click.wpspoiler', function() {
+				self.toggle();
+			})
+			.hover( function() { $( this ).toggleClass( 'ui-state-hover' ) });
+
+			this.content.find( '.close-spoiler' )
+			.wrapInner( '<span class="ui-button-text" />')
+			.addClass('ui-state-default ui-widget ui-corner-all ui-button-text-only' )
+			.click(function() {
+				self.toggle(); return false;
+			});			
+			
+		},
+		_stripPre : function( str ) {
+			return str.replace( /^(\.|#)/, '' );
+		},		
+		toggle : function() {
+			var TxT = ( this.isOpen() ) ? this.options.showText : this.options.hideText;
+			this.header
+				.toggleClass( 'ui-corner-top ui-corner-all ui-state-active' )
+				.children( '.ui-icon' )
+				// .removeClass( this.options.closeIconClass )
+				// .addClass( this.options.openIconClass )
+				.toggleClass( this.options.openIconClass + ' ' + this.options.closeIconClass )
+				.siblings('span')
+				.html( TxT );
 				
+			this.animate();
+			
+			if ( this.isOpen() ) {
+				this._trigger( 'close' );
+				this._isOpen = false;
+			} else {
+				this._trigger( 'open' );
+				this._isOpen = true;
 			}
-	
-		
-				
-		}).next( 'div.ui-collapsible-content' )
-		.addClass( 'ui-widget-content ui-corner-bottom' )
-		.find( '.close-spoiler')
-		.addClass('ui-state-default ui-widget ui-corner-all ui-button-text-only' )
-		.end()
-		.hide(); // end headerClass each.	
-
-
-		$header.hover( function() {
-			jQuery( this ).addClass( 'ui-state-hover' ).css({ cursor : 'pointer' });
-		}, function() {
-			jQuery( this ).removeClass( 'ui-state-hover' );
-		});
-		
-		
-		$header.click(function() {
-			base.headerToggle( this );
-		});
-
-		$this.find( 'a.close-spoiler' ).click(function( e ) {
-			e.stopPropagation();
-			e.preventDefault();
-			heads = jQuery( this ).parent().siblings( o.headerClass ).get(0);
-			base.headerToggle( heads );
-			return false;						
-		});
-		
-		base.headerToggle = function( hel ) {
-			spanText = jQuery( hel ).find( o.spanClass ).html();
-
-			// Toggle the header and icon classes.
-			jQuery( hel )
-				.toggleClass( 'ui-state-active ui-corner-all ui-corner-top' )
-				.children( 'span.ui-icon' )
-				.toggleClass( o.closeIconClass )
-				.siblings( o.spanClass )
-				.html( ( spanText == hideText) ? showText : hideText )
-				.parent()
-				.next( 'div.ui-collapsible-content' )
-				.animate( base.aniOpts , 500 )
-				.addClass( 'ui-widget-content' );
-
+		},
+		open : function() {
+			if ( this.isOpen() ) this.toggle();
 			
-		}; // END headerToggle function.
-	
-		if ( $this.find( o.headerClass).hasClass( 'open-true' ) ) {
-			h3 = $this.children( o.headerClass ).get(0);
-			base.headerToggle( h3 );		
-		} // end check for open-true
+		},
+		close : function() {
+			if ( ! this.isOpen() ) this.toggle();
+		},
+		animate : function() {
+			this.content.animate( this.animOpts, this.options.speed, this.options.easing, function() {
+			});			
+		},	
+		isOpen : function() {
+			return this._isOpen;
+		},
 		
-		
-	}); // this.each function.
+		destroy : function() {
+			
+			this.header
+				.removeClass( 'ui-collapsible-header ui-state-default ui-corner-all ui-helper-reset' )
+				.find( 'span' )
+				.remove();
+				
+			this.header.unbind( 'click.wpspoiler' );
+			
+			this.content
+				.children()
+				.unwrap()
+				.end()
+				.removeClass( 'ui-collapsible-content ui-corner-bottom ui-helper-reset');
+			
+			this.removeClass( 'ui-collapsible ui-widget' );
+			
+			$.Widget.prototype.destroy.call( this );
+		},
+		_getOtherInstances : function( dall ) {
+			var element = this.element,
+			all = dall || false;
+			
+			if ( ! all  ) {			
+				return $.grep( $.wpui.wpspoiler.instances, function( el ) {
+					return el != element;
+				});
+			} else {
+				return $.wpui.wpspoiler.instances;
+			}			
+		},		
+		_setOption : function( key, value ) {
+			this.options[ key ] = value;
+			
+			switch( key ) {
+				case 'open':
+				case 'close':
+				case 'toggle':
+					this.toggle();
+					break;
+				case 'destroy':
+					this.destroy();
+					break;
+				case 'status':
+					return (this._isOpen() ? 'Open' : 'closed' );
+					break;
+				case 'goto':
+					return this.hashGo( value );
+					break;
+			}
+		}
+	});
 	
-	return this;
-	
-};
+	$.extend( $.wpui.wpspoiler, {
+		instances : {}
+	});
 
-jQuery.fn.wpspoiler.defaults = {
-	// hideText : 'Click to hide',
-	// showText : 'Click to show',
-	hideText : (typeof wpUIOpts != "undefined") ? wpUIOpts.spoilerHideText : '',
-	showText : (typeof wpUIOpts != "undefined") ? wpUIOpts.spoilerShowText : '',
-	fade	 : true,
-	slide	 : true,
-	speed	 : 600,
-	spanClass: '.toggle_text',
-	headerClass : 'h3.ui-collapsible-header',
-	openIconClass : 'ui-icon-triangle-1-e',
-	closeIconClass : 'ui-icon-triangle-1-s'
-};
+
+	$.fn.wpspoilerHash = function() {
+		if ( $.wpui._spoilerHashSet ) return this;
+	
+		$( window ).bind( 'hashchange', function() {
+			var some = $.bbq.getState(),
+			spoils = $.wpui.wpspoiler.instances;
+
+			if ( typeof( some ) == 'object' && typeof( spoils ) == 'object' ) {
+
+				for ( so in some ) {
+					if ( some[ so ] instanceof Array ) {
+						var i = some[so].length;
+						while( i-- ) {
+							if ( spoils[ some[ so ] ] )
+							spoils[ some[ so ][ i ] ].wpspoiler( so ); 
+						}
+					} else {
+						if ( spoils[ some[ so ] ] )
+						spoils[ some[so] ].wpspoiler( so );
+					}							
+				}
+				return false;
+			}
+		});			
+		
+		$( window ).trigger( 'hashchange' );
+		
+		$.wpui._spoilerHashSet = true;
+		
+		
+		return this;
+	};
+	
+
+	$.widget( 'wpui.wpuiClickReveal', {
+		options : {
+			spanClass : 'span.wpui-click-reveal',
+			showText : '<b>spoiler!</b>',
+			hideText : '<b>Hide</b>',
+			autoShow : false
+		},
+		_state : 'off',
+		instances : {},
+		_create : function() {
+			var self = this, el = this.element;
+			this.handle = $( '<span class="wpui-click-handle">' + this.options.showText + '</span>' )
+							.insertBefore( el );
+			
+		},
+		_init : function() {
+			var self = this;
+			if ( ! this.options.autoShow ) {
+				this.element.toggle();
+				this._getState( 'off' );
+			} else {
+				this._getState('on');
+			}
+			this.handle.click( function() {
+				self.element.toggle( 'fast', function() {
+					self._getState( this._state == 'on' ? 'off' : 'on' );
+				});
+			});
+		},
+		_getState : function( stat ) {
+			if ( ! stat ) {
+				return this._state;
+			} else {
+				return this._state = stat;
+			}
+		},
+		_destroy : function() {
+			
+		}
+	});	
+
+	
+	
+	
+	
+})( jQuery );
+jQuery( document ).ready(function() {
+	// jQuery( '.wp-spoiler' ).bind( 'wpspoilercreate', function() {
+		jQuery( '.wp-spoiler' ).wpspoilerHash();
+		jQuery( '.wpui-click-reveal' ).wpuiClickReveal();
+	// });
+
+
+});

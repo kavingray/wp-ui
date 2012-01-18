@@ -12,13 +12,13 @@ class wpui_editor_buttons
 		if ( ! is_admin() || ! $this->do_edit() ) return;
 			
 			// Do Tinymce
-			if ( isset( $options['enable_tinymce_menu'] ) ) {
+			if ( isset( $options['enable_tinymce_menu'] ) && $options['enable_tinymce_menu'] == 'on' ) {
 				add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
 				add_filter( 'mce_buttons', array( &$this, 'mce_buttons' ) );
 			}
 			
 			// Do QTags.
-			if ( isset( $options['enable_quicktags_buttons'] )) {
+			if ( isset( $options['enable_quicktags_buttons'] ) && $options[ 'enable_quicktags_buttons' ] == 'on' ) {
 				if ( $this->ls3point3() ) {
 					add_action( 'edit_form_advanced', array(&$this, 'wptabs_quicktags_buttons'));
 					add_action( 'edit_page_form', array(&$this, 'wptabs_quicktags_buttons'));
@@ -66,6 +66,7 @@ class wpui_editor_buttons
 	// }
 		
 	function mce_external_plugins( $plugin_array ) {
+		if ( file_exists( wpui_dir('/inc/wpuimce/editor_plugin.js') ) )
 		$plugin_array['wpuimce'] = wpui_url('/inc/wpuimce/editor_plugin.js');
 		return $plugin_array;
 	}

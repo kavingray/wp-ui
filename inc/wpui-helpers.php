@@ -43,7 +43,7 @@ function wpui_is_windows( ) {
 	return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 }
 
-function wpui_windows_path( $path ) {
+function wpui_adjust_path( $path ) {
 	if ( wpui_is_windows() )
 		$path = str_ireplace( '/', '\\', $path ); 
 	return $path;		
@@ -61,6 +61,7 @@ function wpui_windows_path( $path ) {
 // }
 
 
+
 /**
  *  Returns the WP UI directory path. 
  * 	
@@ -69,7 +70,7 @@ function wpui_dir( $app='' ) {
 	$path = str_replace( basename(dirname( __FILE__ )), '', dirname( __FILE__ )  );
 	if ( $app != '' ) $path = $path . $app;
 	if ( wpui_is_windows( ) ) 
-		$path = wpui_windows_path( $path );
+		$path = wpui_adjust_path( $path );
 	return $path;
 }
 
@@ -130,6 +131,61 @@ function editor_buttons_help() {
 
 
 
+add_action('wp_ajax_wpui_clean_cache', 'wpui_clean_cache_images_scripts');
+/**
+ *	Clean the cache. I mean empty it.
+ */
+function wpui_clean_cache_images_scripts() 
+{
+	$upload_dir = wp_upload_dir();
+		
+	$cudir = wpui_adjust_path(preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir['path'] ) . 'wp-ui/cache');
+	
+	$upnonce = $_POST['Cnonce'];
+
+	if ( ! wp_verify_nonce( $upnonce, 'wpui-cache-nonce' ) )
+		return false;
+		
+	// if ( ! is_dir( $cudir ) ) {
+	// 	echo "Cache directory, was not found in the following location. <pre>" . $cudir . '</pre>';
+	// } else {
+		try {
+			system( '/bin/rm -rf ' . escapeshellarg( $cudir ) );
+			mkdir( $cudir, 0755 );
+		} catch( Exception $e ) {
+			echo "Error : " . $e->getMessage() . "\n";
+			die ();
+		}
+	// }
+	echo "Cache files were cleaned successfully.";
+	
+
+	die();
+} // END wpui_clean_cache_images_scripts
+
+
+add_action('wp_ajax_wpui_clean_postmeta', 'wpui_clean_post_meta_fix_for_wpscetc');
+/**
+ *	Clean the old post meta last version. Removed in the next two
+ */
+function wpui_clean_post_meta_fix_for_wpscetc() 
+{
+	$posts = get_posts('numberposts=-1&post_type=post&post_status=any');
+	foreach( $posts as $post ) {
+		delete_post_meta( $post->ID, 'wp-ui-load' );
+		delete_post_meta( $post->ID, '_wp-ui-load' );
+	}
+	echo "Old Post meta information found were removed.";
+	die();
+} // END wpui_clean_post_meta_fix_for_wpscetc
+
+
+
+
+function wpui_exception( $errnum, $errstr, $errfile, $errline ) {
+	throw new ErrorException( $errstr, 0, $errnum, $errfile, $errline );
+}
+
 add_action('wp_ajax_jqui_css', 'wpui_search_for_stylesheets');
 /**
  *	Documentation
@@ -138,22 +194,31 @@ function wpui_search_for_stylesheets()
 {
 	$upload_dir = wp_upload_dir();
 		
-	$udir = preg_replace( '/(\d){4}\/(\d){2}/i' , '' , $upload_dir['path'] ) . 'wp-ui/';
+	$udir = wpui_adjust_path( WP_CONTENT_DIR . '/uploads/wp-ui/' );
 	
+	$_status = '';
+	
+	$someArr = false;
+	
+	file_exists( $udir ) || @mkdir( $udir, 0755 );
+	
+	if ( ! is_dir( $udir ) ) {
+		$someArr = array();
+		$someArr[ 'status' ] = 'error';
+		$someArr[ 'description' ] = __( 'The folder wp-ui was not found and could not be created. Please check the uploads folder permissions.', 'wp-ui' );
+		$someArr[ 'link' ] = $udir;
+		echo json_encode( $someArr );
+		die();
+	}
 	
 	$upnonce = $_POST['upNonce'];
 
 	if ( ! wp_verify_nonce( $upnonce, 'wpui-jqui-custom-themes' ) )
-		return false;
+		wp_die( 'Just what do you think you\'re doing, Dave?' );
 
 	$results = wpui_jqui_dirs( $udir );
+	echo $results;
 
-	if ( is_array( $results ) ) {
-		echo json_encode( $results );
-	} else {
-		echo $results;
-	}
-	
 	die();
 } // END wpui_search_for_stylesheets
 
@@ -166,7 +231,7 @@ function wpui_get_file( $url, $args=array(), $output='return' ) {
 		echo '<pre>';
 		var_export($response);
 		echo '</pre>';
-		echo __( 'Failed to load File. Double check URL or please make sure the installation went good.', 'wp-ui' );
+		echo __( 'Failed to load File. Double check URL or maybe the installation didn\'t go well?', 'wp-ui' );
 	} else {
 		if ( $response[ 'body' ] ) {
 			if ( $output == 'echo' ) echo $response[ 'body' ];
@@ -199,9 +264,11 @@ function wpui_query_posts()
 
 	$args[ 'posts_per_page' ] = ( isset( $_POST[ 'number' ] ) ) ? $_POST[ 'number' ] : 5;
 
-	if ( isset( $_POST[ 'page' ] ) && isset( $_POST[ 'number' ] ) && ! isset( $_POST[ 'search' ] ) ) 
+	if ( isset( $_POST[ 'page' ] ) && isset( $_POST[ 'number' ] ) && (! isset( $_POST[ 'search' ] ) || $_POST[ 'search' ] == '' ) ) 
 		 $args[ 'offset' ] = $_POST['page'] > 1 ? ($_POST['number'] * $_POST['page']) : 0;
-
+		
+	$args['post_type'] = 'any';
+	
 	$wpui_posts = get_posts( $args );
 
 	foreach( $wpui_posts as $post ) {
@@ -280,6 +347,37 @@ function wpui_query_meta()
 } // END wpui_query_meta
 
 
+add_action( 'wp_ajax_wpui_validate_feed', 'wpui_validate_feed' ); 
+/**
+ * Check if the given feed exists.
+ */
+function wpui_validate_feed() {
+	$options = get_option( 'wpui_options' );
+	if ( ! isset( $_POST ) ) die( "-1" );
+	
+	$data = array();
+	
+	if ( ! isset( $_POST[ 'feed_url' ] ) ) { 
+		$data['status'] = 'error';
+		$data['description'] = "Parameter feed_url required.";
+		echo json_encode( $data );
+		die( "-1" );
+	}
+	$feedURL = $_POST[ 'feed_url' ];
+	$getFeed = @fetch_feed( $feedURL );
+	
+	if ( is_wp_error( $getFeed ) ) {
+		$data[ 'status' ] = 'error';
+		$data[ 'description' ] = 'Not a valid Feed URL';
+		echo json_encode( $data );
+	} else {
+		$data['status'] = 'success';
+		$data[ 'description'] = 'This is valid RSS 2.0 Feed.';
+		echo json_encode( $data );
+	}	
+	die();
+} // END function wpui_validate_feed
+
 
 
 
@@ -304,6 +402,12 @@ add_action( 'wp_ajax_wpui_setopts', 'set_wpui_option' );
 
 function set_wpui_option( $value ) {
 	$options = get_option( 'wpUI_options' );
+	
+	$nonce = $_POST[ 'nonce' ];
+	
+	if ( ! isset( $_POST[ 'option' ] ) || ! wp_verify_nonce( $nonce, 'wpui-setopts-nonce' ) )
+		die( "-1" ); 
+	
 	if ( ! isset( $_POST[ 'option' ] ) || ! current_user_can( 'manage_options' ) ) die( '-1' ); 
 	
 	$ajaxOpts = $_POST[ 'option' ];
@@ -387,11 +491,31 @@ function wpui_get_skins_list() {
 			'swanky-purse'	 => 'Swanky Purse',
 			'base'			 => 'Base', 
 			'black-tie'		 => 'Black Tie',
-		'endoptgroup2'	=>	'',
+		'endoptgroup2'	=>	''
 	);
 	
-	return $wpui_skins_list_pre;
+	return apply_filters( 'wpui_get_skins_list', $wpui_skins_list_pre );
 } // END function wpui_get_skins_list
+
+
+add_filter( 'wpui_get_skins_list', 'wpui_add_custom_skins' );
+
+function wpui_add_custom_skins( $skins ) {
+	$opts = get_option( 'wpUI_options' );
+	if ( ! $skins || ! is_array( $skins ) || ! isset( $opts ) ) return $skins;
+	if ( ! empty( $opts[ 'jqui_custom_themes' ] ) ) {
+		$customs = json_decode( $opts[ 'jqui_custom_themes'], true );
+		if ( ! is_array( $customs ) || empty( $customs ) ) return $skins;
+		$customs = array_keys( $customs );
+		$skins[ 'startoptgroup3' ] = __( 'Custom themes', 'wp-ui' );
+		foreach ( $customs as $key=>$value ) {
+			$dName = ucwords( str_ireplace( '-', ' ', $value ) );
+			$skins[ $value ] = $dName;
+		}
+		$skins[ 'endoptgroup3'] = '';	
+	} // end isset for custom themes.	
+	return $skins;
+}
 
 
 
@@ -404,6 +528,95 @@ function wpui_less_33( $version='3.3' ) {
 }
 
 
+add_action('admin_notices', 'add_wpui_update_notification');
+/**
+ *	Notify the user to verify the options after update.
+ */
+function add_wpui_update_notification( $output ) 
+{
+	$opts = get_option( 'wpUI_options' );
+	if ( isset( $opts[ 'version'] ) ) return;
+	global $pagenow;
+	echo '<div class="error update-nag"><p>';
+	
+	if ( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'wpUI-options' ) {
+		echo sprintf( __( 'Options need a manual save. Please click %1$sSave options%2$s to do so.', 'wp-ui' ), '<b>', '</b>' );
+	} else {
+		echo sprintf( __( '%1$sImportant : WP UI Options%2$s tables structure has been changed and requires a manual save. Please take a moment to %3$sVisit Options page%4$s', 'wp-ui' ), '<b>', '</b>', '<a href="' . admin_url( 'options-general.php?page=wpUI-options' ) . '">', '</a>' );
+		
+/*	   echo '<p>Important : <b>WP UI</b> Option tables structure has been changed and requires a manual save. <a href="' . admin_url( 'options-general.php?page=wpUI-options' ) . '">Visit Options page</a></p>';*/
+	}
+	echo '</p></div>';
+} // END add_wpui_update_notification
+
+
+
+
+function wpui_jqui_dirs( $dir, $format='array' ) {
+
+	$valid = array();
+	$is_Windows = strtoupper( substr(php_uname('s'), 0, 3 )) == 'WIN';
+	
+	$someArr = array();
+	
+	$ndir = ( $is_Windows ) ? str_ireplace( '/', '\\', $dir ) : $dir;
+		
+	if ( ! is_dir( $dir ) ){
+		$someArr[ 'status' ] = 'error';
+		$someArr[ 'description' ] = __( 'No directory found.', 'wp-ui' );
+		$someArr[ 'link' ] = $ndir;
+		return json_encode( $someArr );
+	}	
+	
+	try {
+		$it = new DirectoryIterator( $dir );
+	} catch ( Exception $e ) {
+		$someArr[ 'status' ] = 'error';
+		$someArr[ 'description' ] = $e->getMessage();
+		$someArr[ 'link' ] = $ndir;
+		return json_encode( $someArr );
+	}
+	
+	$abspath = ABSPATH;
+	$i = 0;
+	foreach( $it as $fi ) {
+		if ( $fi->isDir() &&
+		 	! $fi->isDot() )
+		  {
+	$itt = new DirectoryIterator( $fi->getPathname() );
+		foreach( $itt as $fii ) {
+				if ( $fii->isFile() ) {
+					if( 'css' == substr( $fii->getFilename() , -3 ) ) {
+						$valid[ $fi->getBasename() ] = $fii->getPathName();
+						$i++;
+					}
+				}
+			}
+			$i++;
+		}
+	}	ksort( $valid );
+	foreach( $valid as $key=>$value ) {
+		if ( $is_Windows ) $abspath = str_ireplace( '/', '\\', ABSPATH );
+		$valURL = str_ireplace( $abspath, '', $value );
+		$valURL = ( $is_Windows ) ? str_ireplace( '\\', '/', $valURL ) : $valURL;
+		$valid[ $key ] = get_bloginfo('wpurl') . '/' . $valURL;
+		
+	}
+
+	if ( empty( $valid ) ) {
+		$someArr[ 'status' ] = 'error';
+		$someArr[ 'description' ] = __( 'No themes found inside folder.', 'wp-ui' );
+		$someArr[ 'link' ] = $ndir;
+	} else {
+		$someArr[ 'status' ] = 'success';
+		$someArr[ 'links' ] = $valid;
+	}
+	return json_encode( $someArr );	
+	// if ( $format == 'array' ) {
+	// 	return $valid;
+	// } else {
+	// }		
+} // END update CSS dirs.
 
 
 

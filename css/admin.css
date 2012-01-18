@@ -48,6 +48,14 @@ div.tab-bottom-nav {
 	margin-top: 5px;
 }
 
+.ui-tabs .ui-tabs-hide {
+	display : block;
+    position: absolute;
+    left: -10000px;
+}
+
+
+
 /*
  *	Colors	
  */
@@ -238,6 +246,7 @@ div#wpui-cap .cap-icon {
 
 div#wpui-cap .cap-icon img {
 	width: 96px;
+
 }
 
 div#wpui-cap .wpui-desc {
@@ -363,6 +372,13 @@ div.help h4 {
 	background: url("../images/icons/help.png") no-repeat 5px 50%, -webkit-gradient(linear, left top, left bottom, from(#EAEAEA), to(#DADADA));
 	background: url("../images/icons/help.png") no-repeat 5px 50%, -webkit-linear-gradient(top, #EAEAEA, #DADADA);
 	background: url("../images/icons/help.png") no-repeat 5px 50%, -o-linear-gradient(top, #EAEAEA, #DADADA);
+}
+
+div.actions h4 {
+	background: url("../images/icons/edit.png") no-repeat 5px 50%, -moz-linear-gradient(top, #EAEAEA, #DADADA);
+	background: url("../images/icons/edit.png") no-repeat 5px 50%, -webkit-gradient(linear, left top, left bottom, from(#EAEAEA), to(#DADADA));
+	background: url("../images/icons/edit.png") no-repeat 5px 50%, -webkit-linear-gradient(top, #EAEAEA, #DADADA);
+	background: url("../images/icons/edit.png") no-repeat 5px 50%, -o-linear-gradient(top, #EAEAEA, #DADADA);	
 }
 
 div.support-plugin h4 {
@@ -605,7 +621,7 @@ p.submit input:active {
 	margin: 0 0 5px 0;
 }
 	
-.settings_page_wpUI-options .ui-button {
+.settings_page_wpUI-options .ui-dialog .ui-button {
 	background: -moz-linear-gradient(top , #F4F2F4,  #BBB);
 	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
 	background: -webkit-linear-gradient(top , #48D3FF, #3294B2);
@@ -628,7 +644,7 @@ p.submit input:active {
 	width: 75px;
 }
 
-.settings_page_wpUI-options .save-button {
+.settings_page_wpUI-options .ui-dialog  .save-button {
 	background: #48D3FF;
 	background: -moz-linear-gradient(top , #48D3FF,  #3294B2);
 	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
@@ -651,7 +667,7 @@ p.submit input:active {
 	font-family: 'Arial', sans-serif;
 }
 
-.settings_page_wpUI-options .cancel-button {
+.settings_page_wpUI-options .ui-dialog  .cancel-button {
 	background: #C00;
 	background: -moz-linear-gradient(top , #C00,  #900);
 	background: -webkit-gradient(linear, left top, left bottom, from(#C00), to(#900));
@@ -674,7 +690,7 @@ p.submit input:active {
 	font-family: 'Arial', sans-serif;
 }
 
-.settings_page_wpUI-options .save-button:hover {
+.settings_page_wpUI-options  .ui-dialog  .save-button:hover {
 	background: #41BEE5;
 	background: -moz-linear-gradient(top , #41BEE5,  #369EBF);
 	background: -webkit-gradient(linear, left top, left bottom, from(#41BEE5), to(#24697F));
@@ -682,7 +698,7 @@ p.submit input:active {
 	background: -o-linear-gradient(top , #41BEE5, #24697F);
 }
 
-.settings_page_wpUI-options .cancel-button:hover {
+.settings_page_wpUI-options .ui-dialog  .cancel-button:hover {
 	background: #A00;
 	background: -moz-linear-gradient(top , #A00,  #900);
 	background: -webkit-gradient(linear, left top, left bottom, from(#A00), to(#900));
@@ -691,7 +707,7 @@ p.submit input:active {
 }
 
 
-.settings_page_wpUI-options .cancel-button:active {
+.settings_page_wpUI-options .ui-dialog  .cancel-button:active {
 	background: #900;
 	-moz-box-shadow    : 0px 2px 5px #100 inset;
 	-webkit-box-shadow : 0px 2px 5px #100 inset;
@@ -699,7 +715,7 @@ p.submit input:active {
 	box-shadow         : 0px 2px 5px #100 inset;	
 }
 
-.settings_page_wpUI-options .save-button:active {
+.settings_page_wpUI-options .ui-dialog  .save-button:active {
 	background: #369EBF;
 	-moz-box-shadow    : 0px 2px 5px #123540 inset;
 	-webkit-box-shadow : 0px 2px 5px #123540 inset;
@@ -863,7 +879,9 @@ div.jqui_ajax_info span.ajax_info img {
 }
 
 div.ui-widget-overlay,
-div#TB_overlay {
+div#TB_overlay,
+#cboxOverlay {
+	background : url( "../images/pattern-gray.png" );
 	background: url("../images/pattern-gray.png"), rgba( 0, 0, 0, 0.4 );
 	background: -webkit-linear-gradient( top left, rgba(0, 0, 0, 0.5), rgba(32, 32, 32, 0.1), rgba(0, 0,0, 0.5) ),-webkit-linear-gradient( top right, rgba(0, 0, 0, 0.5), rgba(68, 68, 68, 0.2), rgba(0, 0, 0, 0.5) ), url("../images/pattern-gray.png");
 	background: -moz-linear-gradient( top left, rgba(0, 0, 0, 0.5), rgba(32, 32, 32, 0.1), rgba(0, 0,0, 0.5) ),-webkit-linear-gradient( top right, rgba(0, 0, 0, 0.5), rgba(68, 68, 68, 0.2), rgba(0, 0, 0, 0.5) ), url("../images/pattern-gray.png");
@@ -909,4 +927,315 @@ textarea#selected_styles {
 	display : none !important;
 }
 
+div#hidden-info {
+	background-color: #FFFBCC;
+	border-color: #E6DB55;
+	color: #555;
+	line-height: 19px;
+	padding: 5px 0;
+	font-size: 12px;
+	text-align: center;
+	margin: 0 15px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+	display : none;
+	clear : both;
+}
 
+/*
+    ColorBox Core Style:
+    The following CSS is consistent between example themes and should not be altered.
+*/
+#colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999;}
+#cboxOverlay{position:fixed; width:100%; height:100%;}
+#cboxMiddleLeft, #cboxBottomLeft{clear:left;}
+#cboxContent{position:relative;}
+#cboxLoadedContent{overflow:auto;margin: 0px !important;}
+#cboxTitle{margin:0;}
+#cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
+#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
+.cboxPhoto{float:left; margin:auto; border:0; display:block;}
+.cboxIframe{width:100%; height:100%; display:block; border:0;}
+
+/* 
+    User Style:
+    Change the following styles to modify the appearance of ColorBox.  They are
+    ordered & tabbed in a way that represents the nesting of the generated HTML.
+*/
+/*#cboxOverlay{background:url(../images/colorbox/overlay.png) repeat 0 0;}*/
+#colorbox{}
+/*    #cboxTopLeft{width:21px; height:21px; background:url(../images/colorbox/controls.png) no-repeat -101px 0;}
+    #cboxTopRight{width:21px; height:21px; background:url(../images/colorbox/controls.png) no-repeat -130px 0;}
+    #cboxBottomLeft{width:21px; height:21px; background:url(../images/colorbox/controls.png) no-repeat -101px -29px;}
+    #cboxBottomRight{width:21px; height:21px; background:url(../images/colorbox/controls.png) no-repeat -130px -29px;}*/
+/*    #cboxMiddleLeft{width:21px; background:url(../images/colorbox/controls.png) left top repeat-y;}
+    #cboxMiddleRight{width:21px; background:url(../images/colorbox/controls.png) right top repeat-y;}
+    #cboxTopCenter{height:21px; background:url(../images/colorbox/border.png) 0 0 repeat-x;}
+    #cboxBottomCenter{height:21px; background:url(../images/colorbox/border.png) 0 -29px repeat-x;}*/
+    #cboxContent{background:#fff; border : 10px solid #FFF; border-radius: 3px;}
+        .cboxIframe{background:#fff;}
+        #cboxError{padding:50px; border:1px solid #ccc;}
+        #cboxLoadedContent{margin-bottom:28px;}
+        #cboxTitle{position:absolute; top:0px; left:0;color:#949494; background: #FFF;  text-shadow: 0 1px 0 #FFF; }
+		#cboxTitle span { padding : 10px; display : inline-block; }
+        #cboxCurrent{position:absolute; top:4px; left:58px; color:#949494;}
+/*        #cboxSlideshow{position:absolute; top:4px; right:30px; color:#0092ef;}
+        #cboxPrevious{position:absolute; top:0; left:0; background:url(../images/colorbox/controls.png) no-repeat -75px 0; width:25px; height:25px; text-indent:-9999px;}
+        #cboxPrevious:hover{background-position:-75px -25px;}
+        #cboxNext{position:absolute; top:0; left:27px; background:url(../images/colorbox/controls.png) no-repeat -50px 0; width:25px; height:25px; text-indent:-9999px;}
+        #cboxNext:hover{background-position:-50px -25px;}*/
+        #cboxLoadingOverlay{background:url(../images/colorbox/loading_background.png) no-repeat center center;}
+        #cboxLoadingGraphic{background:url(../images/colorbox/loading.gif) no-repeat center center;}
+        #cboxClose{position:absolute; top: -15; right:-15pxf; background:url(../images/colorbox/controls.png) no-repeat -25px 0; width:25px; height:25px; text-indent:-9999px;}
+		#cboxClose { background: url("../images/modal-close.png") no-repeat; width: 35px; height: 35px;
+			display: block; position: absolute; top: -28px; right: -26px; text-indent: -99999em; }
+/*        #cboxClose:hover{background-position:-25px -25px;}*/
+
+/*
+  The following fixes a problem where IE7 and IE8 replace a PNG's alpha transparency with a black fill
+  when an alpha filter (opacity change) is set on the element or ancestor element.  This style is not applied to or needed in IE9.
+  See: http://jacklmoore.com/notes/ie-transparency-problems/
+*/
+.cboxIE #cboxTopLeft,
+.cboxIE #cboxTopCenter,
+.cboxIE #cboxTopRight,
+.cboxIE #cboxBottomLeft,
+.cboxIE #cboxBottomCenter,
+.cboxIE #cboxBottomRight,
+.cboxIE #cboxMiddleLeft,
+.cboxIE #cboxMiddleRight {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+}
+
+
+/*
+  The following provides PNG transparency support for IE6
+  Feel free to remove this and the /ie6/ directory if you have dropped IE6 support.
+*/
+.cboxIE6 #cboxTopLeft{background:url(../images/colorbox/ie6/borderTopLeft.png);}
+.cboxIE6 #cboxTopCenter{background:url(../images/colorbox/ie6/borderTopCenter.png);}
+.cboxIE6 #cboxTopRight{background:url(../images/colorbox/ie6/borderTopRight.png);}
+.cboxIE6 #cboxBottomLeft{background:url(../images/colorbox/ie6/borderBottomLeft.png);}
+.cboxIE6 #cboxBottomCenter{background:url(../images/colorbox/ie6/borderBottomCenter.png);}
+.cboxIE6 #cboxBottomRight{background:url(../images/colorbox/ie6/borderBottomRight.png);}
+.cboxIE6 #cboxMiddleLeft{background:url(../images/colorbox/ie6/borderMiddleLeft.png);}
+.cboxIE6 #cboxMiddleRight{background:url(../images/colorbox/ie6/borderMiddleRight.png);}
+
+.cboxIE6 #cboxTopLeft,
+.cboxIE6 #cboxTopCenter,
+.cboxIE6 #cboxTopRight,
+.cboxIE6 #cboxBottomLeft,
+.cboxIE6 #cboxBottomCenter,
+.cboxIE6 #cboxBottomRight,
+.cboxIE6 #cboxMiddleLeft,
+.cboxIE6 #cboxMiddleRight {
+    _behavior: expression(this.src = this.src ? this.src : this.currentStyle.backgroundImage.split('"')[1], this.style.background = "none", this.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src=" + this.src + ", sizingMethod='scale')");
+}
+
+
+.wpui-toggle-switch {
+/*	background : red;*/
+	background: #DADADA;
+	position: relative;
+	background: -moz-linear-gradient(top , #DEDEDE,  #EEE);
+	background: -webkit-gradient(linear, left top, left bottom, from(#DEDEDE), to(#EEE));
+	background: -webkit-linear-gradient(top , #DEDEDE, #EEE);
+	background: -o-linear-gradient(top , #DEDEDE, #EEE);
+	width : 80px;
+	height: 20px;
+	display : inline-block;
+	position : relative;
+	border : 1px solid #DDD;
+	-moz-box-shadow    : 0 2px 5px rgba( 0, 0, 0, 0.2) inset, 0 1px 0 #FFF;
+	-webkit-box-shadow : 0 2px 5px rgba( 0, 0, 0, 0.2) inset;
+	-o-box-shadow      : 0 2px 5px rgba( 0, 0, 0, 0.2) inset;
+	box-shadow         : 0 2px 5px rgba( 0, 0, 0, 0.2) inset, 0 1px 0 #FFF;
+	vertical-align : middle;
+	overflow : hidden;
+	-moz-border-radius     : 5px;
+/*	-webkit-border-radius  : 5px;*/
+	-o-border-radius       : 5px;
+/*	border-radius          : 5px;*/
+
+}
+
+
+.wpui-toggle-switch-handle {
+	background : #DDD;
+	background: -moz-linear-gradient(top , #D6D6D6,  #F4F2F4);
+	background: -webkit-gradient(linear, left top, left bottom, from(#D6D6D6), to(#F4F2F4));
+	background: -webkit-linear-gradient(top , #D6D6D6, #F4F2F4);
+	background: -o-linear-gradient(top , #D6D6D6, #F4F2F4);
+	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#D6D6D6", endColorStr="#F4F2F4");
+	border : 1px solid #AAA;
+	-moz-border-radius     : 5px;
+/*	-webkit-border-radius  : 5px;*/
+	-o-border-radius       : 5px;
+/*	border-radius          : 5px;*/
+	display : block;
+	position : absolute;
+/*	z-index : 3;*/
+	width: 40px;
+	height: 18px;
+	top:0px;
+	-moz-box-shadow    : 0 1px 0 #FFF inset;
+	-webkit-box-shadow : 0 1px 0 #FFF inset;
+	-o-box-shadow      : 0 1px 0 #FFF inset;
+	box-shadow         : 0 1px 0 #FFF inset;
+/*	margin-left : 50%;*/
+	cursor : move !important;
+	
+}
+
+
+
+.ui-statuses {
+	width : 45%;
+	height:  19px;
+	text-align : center;
+	-moz-border-radius     : 5px;
+/*	-webkit-border-radius  : 5px;*/
+	-o-border-radius       : 5px;
+/*	border-radius          : 5px;*/
+	font-size : 15px;
+	font-weight : bold;
+	text-transform : uppercase;
+	position : absolute;
+	padding-top: 1px;
+	z-index : 1;
+	top : 0;
+	
+}
+
+
+
+.ui-status-on {
+	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#3677CC", endColorStr="#55AAFF");
+	background : -moz-linear-gradient( top, #3677CC, #4F9AF0 56%, #55AAFF 57%, #88BDFD);
+	background : -webkit-linear-gradient( top, #3677CC, #4F9AF0 56%, #55AAFF 57%, #88BDFD);
+	background : -ms-linear-gradient( top, #3677CC, #4F9AF0 56%, #55AAFF 57%, #88BDFD);
+	background : -o-linear-gradient( top, #3677CC, #4F9AF0 56%, #55AAFF 57%, #88BDFD);
+	color : #FFF;
+	text-shadow : 0 1px 0 #1Ea634;
+	padding-right : 5px;
+	float : left;
+	-moz-box-shadow    : 0 2px 5px rgba( 30, 38, 52, 0.3) inset;
+	-webkit-box-shadow : 0 2px 5px rgba( 30, 38, 52, 0.2) inset;
+	-o-box-shadow      : 0 2px 5px rgba( 30, 38, 52, 0.2) inset;
+/*	box-shadow         : 0 2px 5px rgba( 30, 38, 52, 0.2) inset;*/
+}
+
+.ui-status-off {
+
+	color : #999;
+	text-shadow : 0 1px 0 #FFF;
+	right : 0px;
+	padding-left : 5px;
+	float : right;
+}
+
+.ui-menu {
+	background : red;
+	color : #FFF;
+	width : 200px;
+}
+
+
+input.ui-autocomplete-input {
+	background : red;
+}
+
+
+
+div.ui-select-div {
+	background : #DDD;
+	
+	background : -webkit-linear-gradient( top, #EEE, #DEDEDE 40%, #CCC 42%, #EEE );
+	background : -moz-linear-gradient( top, #EEE, #DEDEDE 40%, #CCC 42%, #EEE );
+	background : -o-linear-gradient( top, #EEE, #DEDEDE 40%, #CCC 42%, #EEE );
+	background : -ms-linear-gradient( top, #EEE, #DEDEDE 40%, #CCC 42%, #EEE );
+	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#EEEEEE", endColorStr="#CCCCCC");
+	padding : 2px;
+	border : 1px solid #AAA;
+	width: 180px;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+	box-shadow : 0 1px 0 #FFF inset;
+	display : inline-block;
+	
+}
+
+div.ui-select-div .ui-autocomplete-input {
+	background : none;
+	border: none;
+}
+
+div.ui-select-div button {
+	background : url("../images/ui-icons-gray.png" ) no-repeat -128px 0px;
+	width : 16px;
+	padding-left : 10px;
+	border : none;
+	cursor : pointer;
+	float : right;
+}
+
+.ui-menu {
+	background : #222222;
+	color : #FFF;
+	text-shadow : 0 1px 0 #000;
+	width : 180px;
+	-moz-border-radius     : 0 0 3px 3px;
+	-webkit-border-radius  : 0 0 3px 3px;
+	-o-border-radius       : 0 0 3px 3px;
+	border-radius          : 0 0 3px 3px;
+	-moz-box-shadow    : 0 2px 6px rgba(0, 0, 0, 0.7);
+	-webkit-box-shadow : 0 2px 6px rgba(0, 0, 0, 0.7);
+	-o-box-shadow      : 0 2px 6px rgba(0, 0, 0, 0.7);
+	box-shadow         : 0 2px 6px rgba(0, 0, 0, 0.7);
+	z-index : 1000;
+/*	max-height : 300px;
+	overflow : auto;*/
+/*	overflow-y : scroll;*/
+/*	z-index : 1000;*/
+	
+}
+
+
+.ui-menu li {
+	padding: 3px 6px;
+	border-top : 1px solid #333;
+	border-bottom : 1px solid #131313;
+	margin : 0px;
+	cursor : pointer;
+	padding-left : 20px;
+	cursor : pointer;
+	-webkit-transition : all 0.4s ease-in 0.4s;
+	
+	
+}
+
+.ui-menu li.ui-autocomplete-category {
+	background : #000;
+	color : #DDD;
+	padding-left : 10px;
+
+}
+
+
+.ui-menu li a {
+	color : #FFF;
+	text-shadow : 0 1px 0 #000;
+	width : 100%;
+	padding : 6px;
+}
+
+li.ui-menu-item:hover {
+	background : #555;
+	-webkit-transition : all 0.2s ease-in 0.2s;
+}

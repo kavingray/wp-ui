@@ -59,6 +59,7 @@ class WPUITour
 			jQuery.wpui.tour.dismiss = function() {
 				jQuery.post( ajaxurl, {
 					action : 'wpui_setopts',
+					nonce : '<?php echo wp_create_nonce( "wpui-setopts-nonce" ); ?>',
 					option : {
 						'tour' : 'off'
 					}					

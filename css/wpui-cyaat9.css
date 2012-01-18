@@ -104,15 +104,6 @@
 	bottom: -2px;
 }
 
-.wpui-cyaat9 .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active .wpui-tabs-arrow {
-/*	background: #C9D0DE;*/
-	background: -moz-linear-gradient(top, #D5DCEB, #C9D0DE);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#D5DCEB), to(#C9D0DE));*/
-	background: -webkit-linear-gradient(top, #D5DCEB, #C9D0DE);
-/*	background: -o-linear-gradient(top, #D5DCEB, #C9D0DE);*/
-/*	box-shadow : 0 3px 10px #000;*/
-}
-
 .wpui-cyaat9 ul.ui-tabs-nav li.ui-state-active a {
 	color: #27292B;
 	text-shadow: 0 1px 0 #FFF;

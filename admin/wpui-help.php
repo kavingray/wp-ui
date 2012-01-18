@@ -4,8 +4,8 @@
  */
 function get_plgn_url() {
 	$plgn_url = 'http';
-	if ( $_SERVER['HTTPS'] == 'on' )
-			$plgn_url .= "s";
+	if ( isset( $_SERVER[ 'HTTPS'] ) && $_SERVER['HTTPS'] == 'on' )
+		$plgn_url .= "s";
 	$plgn_url .= "://";
 	$script_url = str_ireplace('/'. basename(__FILE__), '', $_SERVER['REQUEST_URI']);
 	if ( $_SERVER['SERVER_PORT'] != '80' ) {
@@ -366,8 +366,8 @@ table tbody td code {
 
 
 <div class="wp-spoiler wpui-sevin">
-<h3 class="ui-collapsible-header"><span class="ui-icon"></span>Tabs and accordions</h3>
-<div class="ui-collapsible-content"><div id="tab_name">
+<h3 class="wp-spoiler-title">Tabs and accordions</h3>
+<div class="wp-spoiler-content"><div id="tab_name">
 <h3>Step 1 . Tab's name - Shortcode : [wptabtitle]</h3>
 <p>You can use the shortcode [wptabtitle] to define the tab's name. This is the name that is displayed on the clickable tab.</p>
 <p>Example follows:</p>
@@ -417,8 +417,8 @@ table tbody td code {
 <p>Arguments for the shortcodes</p>
 
 <div class="wp-spoiler wpui-sevin">
-<h3 class="ui-collapsible-header"><span class="ui-icon"></span>Arguments for tabs and accordion shortcodes</h3>
-<div class="ui-collapsible-content">
+<h3 class="wp-spoiler-title">Arguments for tabs and accordion shortcodes</h3>
+<div class="wp-spoiler-content">
 	<table>
 		<caption><strong>[<span>wptabtitle</span>]</strong></caption>
 		<thead>
@@ -542,8 +542,8 @@ table tbody td code {
 </div>
 </div>
 <div class="wp-spoiler wpui-sevin">
-<h3 class="ui-collapsible-header"><span class="ui-icon"></span>Arguments related to the post functionality</h3>
-<div class="ui-collapsible-content">
+<h3 class="wp-spoiler-title">Arguments related to the post functionality</h3>
+<div class="wp-spoiler-content">
 	<table border="0">
 		<caption><strong>[<span>wptabposts</span>]</strong> Tabs with multiple posts.</caption>
 		<thead>
@@ -562,8 +562,8 @@ table tbody td code {
 </div>
 </div>
 <div class="wp-spoiler wpui-sevin">
-<h3 class="ui-collapsible-header"><span class="ui-icon"></span>Arguments related to spoiler</h3>
-<div class="ui-collapsible-content">
+<h3 class="wp-spoiler-title">Arguments related to spoiler</h3>
+<div class="wp-spoiler-content">
 	<table border="0">
 		<caption><strong>[<span>wpspoiler</span>]</strong> Spoilers (single) | Collapsible (multiple) </caption>
 		<thead>
@@ -627,8 +627,8 @@ table tbody td code {
 </div>
 </div>
 <div class="wp-spoiler wpui-sevin">
-<h3 class="ui-collapsible-header"><span class="ui-icon"></span>Arguments related to dialogs</h3>
-<div class="ui-collapsible-content">
+<h3 class="wp-spoiler-title">Arguments related to dialogs</h3>
+<div class="wp-spoiler-content">
 	<table border="0">
 		<caption><strong>[<span>wpdialog</span>]</strong>Dialogs</caption>
 		<thead>
@@ -694,7 +694,7 @@ table tbody td code {
 </div>
 </div>
 <!-- <div class="wp-spoiler">
-<h3 class="ui-collapsible-header"><span class="ui-icon"></span></h3>
+<h3 class="ui-collapsible-header"></h3>
 <div class="ui-collapsible-content">
 	
 </div>

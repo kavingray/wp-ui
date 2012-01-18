@@ -14,12 +14,12 @@ $wpui_skins_list_pre = wpui_get_skins_list();
 /**
  * Add any custom style found to the admin.
  */
-function jqui_add_to_options( $input )
+/*function jqui_add_to_options( $input )
 {
 	if ( ! $input ) return;
 	
 	$jsond = json_decode( $input, true );
-	if ( ! is_array( $jsond ) ) return; 
+	if ( ! is_array( $jsond ) ) return false; 
 
 	$jquis = array_keys( $jsond );
 	
@@ -40,12 +40,11 @@ function jqui_add_to_options( $input )
 
 
 if ( isset( $wpui_options ) ) {
-	if ( $wpui_options[ 'jqui_custom_themes' ] !== '' )
+	if ( ! empty( $wpui_options[ 'jqui_custom_themes' ] ) ) {
 		$wpui_cust_thms = jqui_add_to_options( $wpui_options[ 'jqui_custom_themes' ] );
-	if ( $wpui_cust_thms ) {
-			$wpui_skins_list_pre = array_merge( $wpui_skins_list_pre, $wpui_cust_thms );
-		}			
-} // end isset for custom themes.
+	if ( $wpui_cust_thms ) $wpui_skins_list_pre = array_merge( $wpui_skins_list_pre, $wpui_cust_thms );
+	}
+}*/ // end isset for custom themes.
 
 
 
@@ -54,87 +53,87 @@ global $wpui_options_list;
 
 // $wpui_option_page->set_sections($sects);
 $wpui_options_list = array(
-	'tabMain'	=>	array(
+	'enable_tabs'	=>	array(
 		'id'		=>	'enable_tabs',
 		'title'		=>	__('Tabs', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable tabs.', 'wp-ui'),
+		'desc'		=>	__('Enable', 'wp-ui'),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'				
 	),
-	'accordMain'	=>	array(
+	'enable_accordion'	=>	array(
 		'id'		=>	'enable_accordion',
 		'title'		=>	__('Accordions', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable accordion.', 'wp-ui'),
+		'desc'		=>	__('Enable', 'wp-ui'),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'				
 	),
-	'enableColl'	=>	array(
+	'enable_spoilers'	=>	array(
 		'id'		=>	'enable_spoilers',
-		'title'		=>	__('Enable Collapsibles (Sliders)', 'wp-ui'),
-		'desc'		=>	__('Uncheck this option to disable Collapsible panels/sliders.', 'wp-ui'),
+		'title'		=>	__('Enable Collapsibles', 'wp-ui'),
+		'desc'		=>	__('Enable', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	'enabledialog'	=>	array(
+	'enable_dialogs'	=>	array(
 		'id'		=>	'enable_dialogs',
-		'title'		=>	__('Enable Dialogs', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable dialog support.', 'wp-ui'),
+		'title'		=>	__('Dialogs', 'wp-ui'),
+		'desc'		=>	__('Enable', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	'enablePage'	=>	array(
+	'enable_pagination'	=>	array(
 		'id'		=>	'enable_pagination',
-		'title'		=>	__('Enable pagination support', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable pagination support.', 'wp-ui'),
+		'title'		=>	__('Pagination support', 'wp-ui'),
+		'desc'		=>	__('Enable', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	'enableQTB'	=>	array(
+	'enable_quicktags_buttons'	=>	array(
 		'id'		=>	'enable_quicktags_buttons',
-		'title'		=>	__('Enable Quicktags(HTML editor) buttons', 'wp-ui'),
-		'desc'		=>	__('When enabled, HTML aspect of Wordpress post editor shows buttons for inserting tab shortcodes.', 'wp-ui'),
+		'title'		=>	__('HTML editor buttons', 'wp-ui'),
+		'desc'		=>	__('Enable', 'wp-ui'),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'	
 	),
-	'top_navigation'	=>	array(
+	'topnav'	=>	array(
 		'id'		=>	'topnav',
-		'title'		=>	__('Display <i>Top</i> next/previous links?', 'wp-ui'),
-		'desc'		=>	__('Check to display the Next/previous tab navigation at top of the panel.', 'wp-ui'),
+		'title'		=>	__('Top next/previous links', 'wp-ui'),
+		'desc'		=>	__('Enable top navigation on tabs.', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	'bottom_navigation'	=>	array(
+	'bottomnav'	=>	array(
 		'id'		=>	'bottomnav',
-		'title'		=>	__('Display <i>Bottom</i> next/previous links?', 'wp-ui'),
-		'desc'		=>	__('Check to display the Next/previous tab navigation at bottom of the panel.', 'wp-ui'),
+		'title'		=>	__('Bottom next/previous links', 'wp-ui'),
+		'desc'		=>	__('Enable bottom navigation on tabs.', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	'enableTMCE'	=>	array(
+	'enable_tinymce_menu'	=>	array(
 		'id'		=>	'enable_tinymce_menu',
 		'title'		=>	__('TinyMCE menu', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable TinyMCE menu.', 'wp-ui'),
+		'desc'		=>	__('Enable.', 'wp-ui'),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'	
 	),
 	'enableWidgets'	=>	array(
 		'id'		=>	'enable_widgets',
-		'title'		=>	__('Widgets', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable included wordpress widgets.', 'wp-ui'),
+		'title'		=>	__('WP Widgets', 'wp-ui'),
+		'desc'		=>	__('Enable wordpress widgets.', 'wp-ui'),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'	
 	),
 	'enablePostWi'	=>	array(
 		'id'		=>	'enable_post_widget',
-		'title'		=>	__('Posts widget', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable the popular/recent/random/related posts shown at the end of each post.', 'wp-ui'),
+		'title'		=>	__('Post bottom widget', 'wp-ui'),
+		'desc'		=>	__('Enable the popular/recent/random/related posts shown at the end of each post. Requires cache option to be set.', 'wp-ui'),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'	
 	),	
 	'enableCacheWi'	=>	array(
 		'id'		=>	'enable_cache',
-		'title'		=>	__('Cache images and scripts', 'wp-ui'),
-		'desc'		=>	__('Uncheck to disable the cache feature for thumbnail images and scripts. ', 'wp-ui' ),
+		'title'		=>	__( 'Cache images and scripts', 'wp-ui'),
+		'desc'		=>	__( 'Uncheck to disable the cache feature for thumbnail images and scripts. ', 'wp-ui' ),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'	
 	),	
@@ -146,14 +145,14 @@ $wpui_options_list = array(
 	'load_all_styless'=>	array(
 		'id'		=>	'load_all_styles',
 		'title'		=>	__('Load Multiple Styles', 'wp-ui'),
-		'desc'		=>	__('Load more than one CSS3 style. <a href="#" id="wpui-combine-css3-files" class="button-secondary">Select multiple files</a>', 'wp-ui'),
+		'desc'		=>	sprintf( __( 'Load multiple css3 styles. %1$s Select your styles %2$s', 'wp-ui' ), '<a href="#" id="wpui-combine-css3-files" class="button-secondary">', '</a>' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'style'
 	),
 	'selected_styles'	=>	array(
 		'id'		=>	'selected_styles',
-		'title'		=>	__( '', 'wp-ui' ),
-		'desc'		=>	__( '', 'wp-ui' ),
+		'title'		=>	__( 'Style selection', 'wp-ui' ),
+		'desc'		=>	__( 'Select styles you want to load.', 'wp-ui' ),
 		'section'	=>	'style',
 		'type'		=>	'textarea',
 		'textarea_size'	=>	array(
@@ -165,17 +164,17 @@ $wpui_options_list = array(
 	'tabstyle'=>	array(
 		'id'		=>	'tab_scheme',
 		'title'		=>	__('Default style<br /><small>All widgets</small>', 'wp-ui'),
-		'desc'		=>	__('Select a <u>default</u> style. Use the shortcode attributes to override.<br /> ex. <code>[wptabs style="chosenstyle"]</code>', 'wp-ui'),
+		'desc'		=>	__('Select a <u>default</u> style. Shortcode argument "style" overrides.<br /> ex. <code>[wptabs style="wpui-quark"]</code>', 'wp-ui'),
 		'type'		=>	'select',
 		'section'	=>	'style',
 		'choices'	=>	$wpui_skins_list_pre,
-		'extras'	=>	__( '&nbsp; Preview ', 'wp-ui' ) . '<a id="wpui_styles_preview" href="" class="button-secondary">' . __( 'WP UI CSS3 Styles', 'wp-ui' ) . '</a>  <a id="jqui_styles_preview" href="#" class="button-secondary">' . __( 'jQuery UI themes', 'wp-ui' ) . '</a>'
+		'extras'	=>	'' . __( 'Preview ', 'wp-ui' ) . '<a id="wpui_styles_preview" href="" class="button-secondary">' . __( 'WP UI CSS3 Styles', 'wp-ui' ) . '</a>  <a id="jqui_styles_preview" href="#" class="button-secondary">' . __( 'jQuery UI themes', 'wp-ui' ) . '</a>'
 	),	
 	
 	'jqui_custom'	=>	array(
 		'id'		=>	'jqui_custom_themes',
 		'title'		=>	__('jQuery UI custom themes<br /><small>Manage Custom themes. Not sure? <a target="_blank" href="http://kav.in/wp-ui-using-jquery-ui-custom-themes/">follow this guide</a>.</small>'),
-		'desc'		=>	'<div id="jqui_theme_list" ></div><a href="#" class="button-secondary" title="This will scan the directory wp-ui under uploads for themes." id="jqui_scan_uploads">Scan Uploads</a>&nbsp;<a href="#" class="button-secondary" id="jqui_add_theme">Add theme</a>',
+		'desc'		=>	'<div id="jqui_theme_list" ></div><a href="#" class="button-secondary" title="' . __( 'This will scan the directory wp-ui under uploads for themes.', 'wp-ui' ) . '" id="jqui_scan_uploads">' . __('Scan Uploads', 'wp-ui' ) . '</a>&nbsp;<a href="#" class="button-secondary" id="jqui_add_theme">' . __( 'Add a theme/style', 'wp-ui' ). '</a>',
 		'type'		=>	'textarea',
 		'section'	=> 'style',
 		'textarea_size'	=>	array(
@@ -187,7 +186,7 @@ $wpui_options_list = array(
 	'custom_styles'		=>	array(
 		'id'		=>	'custom_css',
 		'title'		=>	__('Custom CSS', 'wp-ui'),
-		'desc'		=>	__('Enter additional css rules here. Make sure of the right syntax.', 'wp-ui'),
+		'desc'		=>	__('Enter additional css rules here, taking care on the CSS syntax.', 'wp-ui'),
 		'type'		=>	'textarea',
 		'section'	=>	'style',
 		'textarea_size'	=>	array(
@@ -198,7 +197,7 @@ $wpui_options_list = array(
 	'dialog_wid'	=>	array(
 		"id"		=>	'dialog_width',
 		'title'		=>	__('Dialog Width', 'wp-ui'),
-		'desc'		=>	__('Default width of dialogs with the suffix( px | em | % )', 'wp-ui'),
+		'desc'		=>	__('Default width of dialogs with the suffix', 'wp-ui') . '( px | em | % )',
 		'type'		=>	'text',
 		'section'	=>	'style'
 	),
@@ -220,7 +219,7 @@ $wpui_options_list = array(
 	'tabsfx'		=>	array(
 		'id'		=>	'tabsfx',
 		'title'		=>	__('Tabs effects', 'wp-ui'),
-		'desc'		=>	__('Select the desired effects for the tabs/accordion.', 'wp-ui'),
+		'desc'		=>	__('Tabs show effect.', 'wp-ui'),
 		'type'		=>	'select',
 		'section'	=>	'effects',
 		'choices'	=>	array(
@@ -233,7 +232,7 @@ $wpui_options_list = array(
 	'fxSpeed'	=>	array(
 		'id'		=>	'fx_speed',
 		'title'		=>	__('Effect speed', 'wp-ui'),
-		'desc'		=>	__("Enter the speed, number of microseconds the animation should run. Possible valid example values are 200, 600, 900, 'fast', 'slow'.", 'wp-ui'),
+		'desc'		=>	__("Enter the animation speed. Larger number - slow, smaller number - quick. Example - 200, 600, 900, 'fast', 'slow'.", 'wp-ui'),
 		'type'		=>	'text',
 		'section'	=>	'effects'
 	),
@@ -241,14 +240,13 @@ $wpui_options_list = array(
 	'tabsrotate'	=>	array(
 		'id'	=>	'tabs_rotate',
 		'title'	=>	__('Tabs rotation', 'wp-ui'),
-		'desc'	=>	__('choose the options on Tabs auto rotation. Tabs can rotated by passing a shortcode attribute "rotate". Example: <code>[wptabs rotate="6000"]</code> or <code>[wptabs rotate="6s"]</code>, where <code>6000/6s</code> is the example speed( 6 seconds ). And above option should have any other than "None" selected.', 'wp-ui'),
+		'desc'	=>	__('Behavior on auto rotation. Rotation can be enabled with shortcode attribute "rotate". Example : ', 'wp-ui' ) . '<code>[wptabs rotate="6000"]</code> or <code>[wptabs rotate="6s"]</code>',
 		'type'	=>	'select',
 		'section'	=>	'effects',
 		'choices'	=>	array(
-			'always'		=>	__( 'Always Rotate', 'wp-ui' ),			
-			'stop'	=>	__( 'Stop on Click', 'wp-ui' ),
 			'disable'	=>	__( 'None', 'wp-ui' ),
-
+			'always'	=>	__( 'Keep rotating', 'wp-ui' ),			
+			'stop'		=>	__( 'Stop on Click', 'wp-ui' ),
 		)
 	),
 	
@@ -267,7 +265,7 @@ $wpui_options_list = array(
 	'collapsible_tabbies' => array(
 		'id'		=>	'collapsible_tabs',
 		'title'		=>	__('Collapsible Tabs', 'wp-ui'),
-		'desc'		=>	__('If checked, content panel can be collapsed by clicking on the tab.', 'wp-ui'),
+		'desc'		=>	__( 'Enable all panels in a tabset to be collapsed.', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'effects'
 	),		
@@ -286,11 +284,10 @@ $wpui_options_list = array(
 			'mouseover'	=>	__( 'Mouseover', 'wp-ui' ),
 		)
 	),	
-
 	'accordion_autoheight'	=>	array(
 		'id'		=>	'accord_autoheight',
 		'title'		=>	__('Accordion auto height', 'wp-ui'),
-		'desc'		=>	__('Use height of the highest content panel for all the panels.', 'wp-ui'),
+		'desc'		=>	__('Uniform accordion panel height.', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'effects'
 	),
@@ -304,7 +301,7 @@ $wpui_options_list = array(
 	'accord_Easing'	=>	array(
 		'id'		=>	'accord_easing',
 		'title'		=>	__('Easing for the Accordion', 'wp-ui'),
-		'desc'		=>	__('Choose the favorite easing animation. Choose <code>Disable</code> to disable. Easing effects can be demoed at <a href="http://jqueryui.com/demos/effect/easing.html" target="_blank" rel="nofollow">this link</a>. ', 'wp-ui'),
+		'desc'		=>	__('Optional : easing effect on accordion animation', 'wp-ui'),
 		'section'	=>	'effects',
 		'type'		=>	'select',
 		'choices'	=>	array(
@@ -346,8 +343,8 @@ $wpui_options_list = array(
 	),
 	'mousewheel_tabs'	=>	array(
 		'id'		=>	'mouse_wheel_tabs',
-		'title'		=>	__('Tabs mousewheel navigation', 'wp-ui'),
-		'desc'		=>	__('Scroll to switch between tabs.', 'wp-ui'),
+		'title'		=>	__( 'Tabs mousewheel navigation', 'wp-ui' ),
+		'desc'		=>	__( 'Scroll and switch between tabs.', 'wp-ui'),
 		'section'	=>	'effects',
 		'type'		=>	'select',
 		'choices'	=>	array(
@@ -364,7 +361,7 @@ $wpui_options_list = array(
 	'tab_nav_prev'	=>	array(
 		'id'		=>	'tab_nav_prev_text',
 		'title'		=>	__('Previous tab - button text<br /><small>Tabs Navigation</small>', 'wp-ui'),
-		'desc'		=>	__('Enter the alternate text for the Tab navigation\'s (Switch to) Previous tab button. Default is <code> Previous </code>.', 'wp-ui'),
+		'desc'		=>	__( 'Tabs previous button. Default is "Previous".', 'wp-ui'),
 		'section'	=>	'text',
 		'type'		=>	'text'
 	),
@@ -372,15 +369,15 @@ $wpui_options_list = array(
 	'tab_nav_next'	=>	array(
 		'id'		=>	'tab_nav_next_text',
 		'title'		=>	__('Next tab - button text<br /><small>Tabs Navigation</small>', 'wp-ui'),
-		'desc'		=>	__('Enter the alternate text for the Tab navigation\'s (Move to) Next tab button. Default is <code> Next </code>.', 'wp-ui'),
+		'desc'		=>	__('Tabs Next button. Default is "Next". ', 'wp-ui'),
 		'section'	=>	'text',
 		'type'		=>	'text'
 	),
 	
 	'showtext'		=>	array(
 		'id'		=>	'spoiler_show_text',
-		'title'		=>	__('Text for show hidden content <br /><small>wp-spoiler <i>aka</i> collapsible panels </small>', 'wp-ui'),
-		'desc'		=>	__( 'Displayed on the header above collapsed, hidden content. Changes to text in the next option when clicked. Dont want one? leave blank!', 'wp-ui'),
+		'title'		=>	__('Closed WP Spoiler text', 'wp-ui'),
+		'desc'		=>	__( 'Displayed on hovering over collapsed spoiler\'s header. Leave blank to disable.', 'wp-ui'),
 		'section'	=>	'text',
 		'type'		=>	'textarea',
 		'textarea_size'	=>	array(
@@ -391,8 +388,8 @@ $wpui_options_list = array(
 	
 	'hidetext'		=>	array(
 		'id'		=>	'spoiler_hide_text',
-		'title'		=>	__('Text for Hide shown content <br /><small>wp-spoiler <i>aka</i> collapsible panels </small>', 'wp-ui'),
-		'desc'		=>	__( 'Displayed on open, shown collapsible content. Changes to text in previous option when clicked. Dont want one? leave blank!', 'wp-ui'),
+		'title'		=>	__('Open WP spoiler text', 'wp-ui' ),
+		'desc'		=>	__( 'Displayed on hovering over header on open spoiler.', 'wp-ui'),
 		'section'	=>	'text',
 		'type'		=>	'textarea',
 		'textarea_size'	=>	array(
@@ -411,20 +408,20 @@ $wpui_options_list = array(
 	'alternative_codes'	=>	array(
 		'id'		=>	'alt_sc',
 		'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
-		'desc'		=>	__( 'Use shorter codes. For ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] instead of [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>Please make sure that no other plugins that you use have the same short codes defined.' ),
+		'desc'		=>	__( 'Use shorter codes. ', 'wp-ui' ) . 'ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] => [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>',
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
 	'jquery_include'	=>	array(
 		'id'		=>	'jquery_disabled',
 		'title'		=>	__('Donot load the jQuery copy', 'wp-ui'),
-		'desc'		=>	__('Check this box to prevent loading jQuery & UI libs from Google CDN. <br /> <br /><span style="color: maroon">Please note: Recent versions of jQuery and jQuery UI javascript libraries are required for the functionality of WP UI. This Plugin\'s components might <b>not</b> work as expected with the older versions of jQuery and UI. </span>', 'wp-ui'),
+		'desc'		=>	__('Check this box to prevent loading jQuery & UI libs from Google CDN. <br /> <br />Please note: Recent versions of jQuery and jQuery UI javascript libraries are required for the functionality of WP UI. This Plugin\'s components might <b>not</b> work as expected with the older versions of jQuery and UI.', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
 	'script_cond'		=>	array(
 		'id'		=>	'script_conditionals',
-		'title'		=>	__('Conditional script loading', 'wp-ui'),
+		'title'		=>	__('Conditional script load logic', 'wp-ui'),
 		'desc'		=>	__( 'Use <a href="http://codex.wordpress.org/Conditional_Tags" title="Learn more on Wordpress conditional tags on Codex" target="_blank">wordpress conditional tags</a>  to load limit/prevent scripts from loading. <font style="" <br><strong>Examples</strong> - <br><ul style="list-style: disc inside none"> <li>To load only on single pages, input <code>is_single()</code>, similarly <code>is_front_page()</code> to load only on frontpage.</li> <li><code>!is_page()</code> disables it on all pages.</li><li>Use <code>||</code> (or) or <code>&&</code> operators to define a complex conditional clause. <code>is_single() && is_page( \'about\' ) && in_category( array( 1,2,3 ) ) </li></ul>', 'wp-ui'),
 		'type'		=>	'textarea',
 		'section'	=>	'advanced',
@@ -437,14 +434,14 @@ $wpui_options_list = array(
 	"scripts_adv"	=>	array(
 		'id'		=>	'load_scripts_on_demand',
 		'title'		=>	__(	'Demand load scripts', 'wp-ui' ),
-		'desc'		=>	__( 'Load needed components on demand. <font style="color:red">Might not yet work correctly on some servers. if unsure, please leave this disabled. Definitely not on windows localhosts.</font>. Uses <code>/wp-content/uploads/wp-ui/</code> for cache files. <strong>Don\'t use this if already using cache plugins such as w3tc. Dont use this with html structure in templates.</strong>'),
+		'desc'		=>	__( 'Load needed components on demand. With jQuery. This scripts are significantly newer versions than the regular ones.' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),	
 	"cookies"		=>	array(
 		'id'		=>	'use_cookies',
 		'title'		=>	__(	'Use cookies for tabs', 'wp-ui' ),
-		'desc'		=>	__( 'WP UI makes use of cookies to remember the state of the selected tabs. Click here to disable the behavior. This uses jQuery cookie plugin by Klaus Hartl.'),
+		'desc'		=>	__( 'WP UI makes use of cookies to remember the state of the selected tabs. Click here to disable the behavior. jQuery cookie plugin by Klaus Hartl.'),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
@@ -452,17 +449,10 @@ $wpui_options_list = array(
 	"link_hist"		=>	array(
 		'id'		=>	'linking_history',
 		'title'		=>	__(	'Linking and History', 'wp-ui' ),
-		'desc'		=>	__( 'Uncheck here to disable history and linking. This uses jQuery hashchange plugin by Ben Alman.'),
+		'desc'		=>	__( 'Uncheck here to disable history and linking. jQuery hashchange plugin by Ben Alman.'),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),	
-	"wid_rich_text"		=>	array(
-		'id'		=>	'widget_rich_text',
-		'title'		=>	__(	'Rich Text Editing in Widgets', 'wp-ui' ),
-		'desc'		=>	__( 'Enables <abbr title="What You See Is What You Get">WYSIWYG</abbr> - Rich Text editor in Widgets. Uncheck them to turn that off.' ),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),
 	'doc_write_fix'	=>	array(
 		'id'		=>	'docwrite_fix',
 		'title'		=>	__( 'Blank page fix<br /><small>document.write issue</small>', 'wp-ui' ),
@@ -474,14 +464,14 @@ $wpui_options_list = array(
 	'relative_timez'	=>	array(
 		'id'		=>	'relative_times',
 		'title'		=>	__( 'Relative time', 'wp-ui' ),
-		'desc'		=>	__( 'Display relative time on posts retrieved by WP UI. <code>Example : 9 days ago.</code>'),
+		'desc'		=>	__( 'Display relative time on posts retrieved by WP UI.' , 'wp-ui' ) . '<code>Example : 9 days ago.</code>',
 		'type'		=>	'checkbox',
 		'section'	=>	'posts'
 	),
 	'excerpt_length'	=>	array(
 		'id'		=>	'excerpt_length',
 		'title'		=>	__( 'Default excerpt length', 'wp-ui' ),
-		'desc'		=>	__( 'Maximum limit for the excerpts. Default is upto the  <code>&lt;!--more--&gt;</code> tag. '),
+		'desc'		=>	__( 'Maximum limit for the excerpts. Default is upto the ', 'wp-ui' ) . ' <code>&lt;!--more--&gt;</code>',
 		'type'		=>	'text',
 		'section'	=>	'posts'
 	),
@@ -490,7 +480,7 @@ $wpui_options_list = array(
 		'id'		=>	'post_widget',
 		'type'		=>	'multiple',
 		'title'		=>	__( 'Post widget', 'wp-ui' ),
-		'desc'		=>	__('Popular/Recent/Random/Related posts will be shown at end of each post.', 'wp-ui' ),
+		'desc'		=>	__( 'Popular/Recent/Random/Related posts can be shown at end of each post.', 'wp-ui' ),
 		'section'	=>	'posts',
 		'fields'	=>	array(
 			array(
@@ -554,7 +544,7 @@ $wpui_options_list = array(
 	'post_widgets_image'	=>	array(
 		'id'		=>	'post_default_thumbnail',
 		'title'		=>	__( 'Default thumbnail image', 'wp-ui' ),
-		'desc'		=>	__( 'This image will be used through out, in case post thumbnail is not available.', 'wp-ui' ),
+		'desc'		=>	__( 'The default image in case, post thumbnail is not available.', 'wp-ui' ),
 		'type'		=>	'multiple',
 		'section'	=>	'posts',
 		'fields'	=>	array(
@@ -588,9 +578,7 @@ $wpui_options_list = array(
 					'after'	=>	'<br />',
 				)
 			)
-			
-			
-			
+	
 		)
 		
 	),
@@ -599,8 +587,8 @@ $wpui_options_list = array(
 	
 	'post_template_one'	=>	array(
 		'id'		=>	'post_template_1',
-		'title'		=>	__('Template 1 <br /><small>Usually the default for the Tabs and accordions on posts/feeds</small>', 'wp-ui'),
-		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
+		'title'		=>	__('Template 1', 'wp-ui' ) . '<br /><small>' . __( 'Usually the default for the Tabs and accordions on posts/feeds', 'wp-ui') . '</small>',
+		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets. Click the top-right help link->Posts for reference.'),
 		'type'		=>	'textarea',
 		'section'	=>	'posts',
 	'textarea_size'	=>	array(
@@ -612,7 +600,7 @@ $wpui_options_list = array(
 
 	'post_template_two'	=>	array(
 		'id'		=>	'post_template_2',
-		'title'		=>	__('Template 2 <br /><small>Usually the default for spoilers and dialogs</small>', 'wp-ui'),
+		'title'		=>	__('Template 2' , 'wp-ui').'<br /><small>' . __('Usually the default for spoilers and dialogs', 'wp-ui') . '</small>',
 		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets.'),
 		'type'		=>	'textarea',
 		'section'	=>	'posts',
@@ -710,8 +698,9 @@ class wpUI_options extends quark_admin_options
 
 		add_action( 'admin_print_scripts', array( &$this, 'editor_vars' ) );
 		
-		if ( is_admin() ) 
-		add_action( 'admin_footer', array( &$this, 'wpui_editor_dialogs' ) );
+		if ( is_admin() )
+			@include_once wpui_dir( 'inc/editor-dialogs.php' );
+		
 		
 		parent::__construct();
 	}
@@ -794,7 +783,7 @@ class wpUI_options extends quark_admin_options
 		/**
 		 * Options page only thickbox.
 		 */
-		if ( wpui_less_33() ) {
+/*		if ( wpui_less_33() ) {
 		wp_deregister_script( 'thickbox' );
 		wp_enqueue_script( 'thickbox' , $plugin_url . 'js/thickbox.js' );
 		} else {
@@ -805,8 +794,10 @@ class wpUI_options extends quark_admin_options
 			'pluginUrl' 		=>	plugins_url('/wp-ui/')				
 		));
 
-		wp_enqueue_style('thickbox');
+		wp_enqueue_style('thickbox');*/
 
+		wp_deregister_script( 'colorbox' );
+		wp_enqueue_script( 'colorbox', $plugin_url . 'js/jquery.colorbox-min.js', array( 'jquery' ) );
 	
 		} // end the $_GET page conditional.
 
@@ -831,6 +822,7 @@ class wpUI_options extends quark_admin_options
 	
 	public function validate_options( $input ) {
 		$new_input = $input;
+		$db_options = get_option( 'wpUI_options' );
 		$reset = ( ! empty( $input['reset'] )) ? true : false;
 		if ( $reset ) {
 			$defaults = get_wpui_default_options();
@@ -844,6 +836,25 @@ class wpUI_options extends quark_admin_options
 				unset( $new_input[ $template_num ] );
 			}
 		}
+		
+		if ( ! empty( $input[ 'script_conditionals' ] ) ) {
+			$cond = $input[ 'script_conditionals' ];
+			if (preg_match('/(x=x\s--|1=1|Or\s?1=1\s--|$_GET|SELECT|DROP\sTABLE|base64)/im', $cond ))
+				wp_die( 'UN SAFE code detected in the conditionals.' );
+		}
+
+		foreach( $this->fields as $option=>$opt ) {
+			if ( $opt[ 'type' ] == 'checkbox' && ! isset($input[ $opt[ 'id' ] ]) ) {
+				$new_input[ $opt[ 'id' ] ] = 'off';
+			} 			
+		}
+		
+		$new_input[ 'version' ] = WPUI_VER;
+		
+/*		die();*/
+
+
+/*		parent::validate_options( $input );*/
 
 		return $new_input;
 	}
@@ -1003,7 +1014,10 @@ function wpui_plugin_info_above() {
 		<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fwpuiplugin&amp;send=false&amp;layout=box_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font=lucida+grande&amp;height=90" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:90px;" allowTransparency="true"></iframe>	
 	</div> -->
 	</div>
-	
+	<div id="hidden-info">
+		
+		
+	</div>
 </div><!-- end div.info-above -->
 	
 	<?php
@@ -1016,6 +1030,25 @@ function wpui_plugin_info_below() {
 	<div class="info-below">
 
 	<div id="wpui-cap-below">
+
+	<div class="actions cols cols-1">
+		<h4><span></span><?php _e( 'Actions', 'wp-ui' ); ?></h4>
+		<ul>
+			<li>
+				<a href="#" class="wpui-clean-cache"><?php _e( 'Empty cache', 'wp-ui' ) ?></a>
+				<input type="hidden" value="<?php echo wp_create_nonce( 'wpui-cache-nonce' ); ?>" />
+			</li>			
+			<li>
+				<a class="wpui-clean-meta" href="#"><?php _e( 'Clean old post meta', 'wp-ui' ) ?>			</a>
+				<input type="hidden" value="<?php echo wp_create_nonce( 'wpui-clean-meta-nonce' ); ?>" />
+				
+			</li>
+			<li>
+				<a class="wpui-clean-options" href="#"><?php _e( 'Clean options', 'wp-ui' ) ?></a>
+			</li>
+		</ul>		
+	</div><!--  end.actions -->
+
 
 	<div class="support-plugin cols">
 		<h4><span></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
@@ -1179,7 +1212,9 @@ function get_wpui_default_options() {
 			'height'	=>	'100'
 		),
 		'post_widget_number'		=>	'3',
-		'docwrite_fix'				=>	'on'
+		'jquery_disabled'			=>	'off',
+		'docwrite_fix'				=>	'on',
+		'version'					=>	WPUI_VER
 	);
 	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';
 	return $defaults;

@@ -7,7 +7,7 @@ class wpui_core_widget extends WP_Widget {
 	private $rich_editing, $wpui_opts;
 
 	function wpui_core_Widget() {
-		$widget_ops = array( 'classname' => 'wpui_core', 'description' => __( 'Display your content in Tabs/Accordions/spoilers', 'wp-ui' ) );
+		$widget_ops = array( 'classname' => 'wpui_core', 'description' => 'WP UI Widget' );
 		$control_ops = array( 'width' => 600, 'height' => 250, 'id_base' => 'wpui_core' );
 		$this->WP_Widget( 'wpui_core', 'WP UI Widget', $widget_ops, $control_ops );
 		
@@ -22,6 +22,24 @@ class wpui_core_widget extends WP_Widget {
 	function add_tabs() {
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
+	}
+
+	function mod_tinymce() {
+	 add_filter('tiny_mce_before_init', create_function('$a', '
+	    $a["theme"] = "advanced";
+	    $a["onpageload"] = "";
+	    $a["width"] = "100";
+	    $a["height"] = "300";
+	    $a["mode"] = "specific_textareas";
+	    $a["editor_selector"] = "wpui-active-edit";
+	    $a["plugins"] = "safari,inlinepopups,spellchecker";
+	    $a["forced_root_block"] = false;
+	    $a["force_br_newlines"] = true;
+	    $a["force_p_newlines"] = false;
+	    $a["convert_newlines_to_brs"] = true;
+	   	$a["setup"] = \'function(ed) { ed.onChange.add(function(ed, l){  tinymce.triggerSave(); })   }\';		
+	    return $a;'));		
+		wp_tiny_mce( false );	
 	}
 	
 	function widget( $args, $instance ) {
@@ -361,26 +379,10 @@ class wpui_posts_Widget extends WP_Widget {
 			<input type="text" class="widefat" id="<?php echo $this->get_field_id('template') ?>" name="<?php echo $this->get_field_name( 'template' ) ?>" value="<?php echo $instance['template'] ?>"/>	
 			
 		</p>
-		<p>
-			<label for="<?php echo $this->get_field_name( 'selected' ); ?>">Currently Selected</li>
-			<input type="text" class="widefat wpui-selected" id="<?php echo $this->get_field_id( 'selected' ); ?>" name="<?php echo $this->get_field_name('selected'); ?>" value="<?php echo $instance['selected'] ?>"/>
-		</p>
-		
-		
-		<!-- <h3>Usage</h3>
-		<ol>
-			<li>Select the taxonomy - Category / tag ,or by type - Recent/Popular/Random posts.</li>
-			<li>Click search and the categories or tags will be displayed in the list.</li>
-			<li>Click on any of the list item to toggle selection.</li>
-			<li>Optional : Enter the title of tabs or accordions, separated with commas ( but no spaces ) in the last box.</li>
-			<li>Click save, and check the frontpage.</li>
-		</ol> -->
-		
 		</div>
 		
 		
 		<div class="wpui-search-posts wpui-right-block">
-			<label>Search term, type and number to display</label>
 			<input type="text" length="10" id="wpui-search-field" name="wpui-search-field" value="" class="widefat" />
 			<select class="wpui-search-type" id="<?php echo $this->get_field_id( 'type' ) ?>" name="<?php echo $this->get_field_name('type') ?>" value="<?php echo $instance['type'] ?>">
 				<option value="cat" <?php selected( $instance['type'], 'cat'); ?>>Categories</option>
@@ -392,7 +394,7 @@ class wpui_posts_Widget extends WP_Widget {
 			<input type="text" id="wpui-search-number" class="widefat" name="wpui-search-number" style="width : 30px;" value="5" />
 			<?php $wpuiTNonce = wp_create_nonce( 'wpui-editor-tax-nonce' ); ?>
 			<input type="hidden" id="wpui-editor-tax-nonce" value="<?php echo $wpuiTNonce; ?>">	
-
+			<input type="text" class="wpui-selected" id="<?php echo $this->get_field_id( 'selected' ); ?>" name="<?php echo $this->get_field_name('selected'); ?>" value="<?php echo $instance['selected'] ?>"/>
 			<input type="button" id="wpui-fake-submit" value="Search" class="button-secondary" style="width : 280px; border-radius : 3px; margin:5px 0;" />
 			<div class="wpui-search-results">
 				<ul class="wpui-search-results-list"><li>Type your query and search.</li></ul>
@@ -415,174 +417,64 @@ span.info { position : absolute; top : 0; right : 0;  height: 100%; padding : 4p
 
 </style>
 <script type="text/javascript">
-	
-	jQuery.fn.wpuiGetPosts = function( ) {
-		var base = this;
-		return base.each(function() {
-			var $base = jQuery( this ),
-			searchTerm = $base.closest( '#wpui-search-field' ),
-			searchType = $base.siblings( 'select.wpui-search-type' ),
-			searchNum = $base.closest( '#wpui-search-number' ), 
-			searchSel = $base.parent().prev().find( '.wpui-selected' ),
-			prevSels,	wpuiQuery, ajaxFunc ;	
 
-			searchNum = searchNum || 5;
-
-			if ( searchTerm == '' || searchType == '' ) return false;
-			
-			function ajaxFunc( ) {
-				wpuiQuery = {
-					action : 'wpui_query_meta',
-					search : searchTerm.val(),
-					type : searchType.val(),
-					number : searchNum.val(),
-					_ajax_tax_nonce : jQuery( '#wpui-editor-tax-nonce' ).val()
-				};
-				jQuery.post( ajaxurl, wpuiQuery, function( data ) {
-					$base.next('div.wpui-search-results')
-					.find( 'ul' ).html(data);
-
-					if ( searchSel.val() != '' ) {
-						prevSels = searchSel.val().split(',');
-						for ( i=0; i < prevSels.length; i++ ) {
-
-							$base.next('div.wpui-search-results')
-							.find( 'ul li a[rel=' + searchType.val()  + '-' + prevSels[i] + ']' )
-							.parent()
-							.addClass('selected');
-						}
-					}
-
-					thisVal = '';
-					$base.next('div.wpui-search-results')
-					.find( 'ul li' )
-					.unbind( 'click' )
-					.bind( 'click', function() {
-						if ( jQuery( this ).hasClass( 'no-select') ) return false; 
-						thisVal = jQuery(this).find('a').attr('rel').replace( /(post|cat|tag)\-/, '');
-						jQuery( this ).toggleClass( 'selected' );
-						thisVal += ',';
-						alSel = searchSel.val();
-						if ( alSel.match( thisVal ) )
-							alSel = alSel.replace( thisVal, '' );
-						else
-							alSel += thisVal;
-
-						searchSel.val( alSel );
-						return false;
-					});
-
-				});
-			};
-			
-			ajaxFunc( this );
-			
-			$base.bind( 'click', function( e ) {
-				ajaxFunc();	
-				return false;
-			});	
-			
-			$base.siblings( 'select.wpui-search-type' ).bind('change', function() {
-				searchSel.val('');
-				ajaxFunc();
-			});
-
-
-
-			// jQuery( '#widgets-right #wpui-fake-submit' ).each(function() {
-			// 				if ( !scrScat ) wpuiGetPosts( this );
-			// 				scrScat = true;
-			// 				return false;
-			// 			});					
-			
-						
-			
+	var wpuiGetPosts = function( el ) {
+		var searchTerm = jQuery( el ).closest( '#wpui-search-field' ).val(), searchType=jQuery( el ).siblings( 'select.wpui-search-type' ).val(), searchNum = jQuery( el ).closest( '#wpui-search-number' ).val(), wpuiQuery;
 		
+		searchNum = searchNum || 5;
+		
+		if ( searchTerm == '' || searchType == '' ) return false;
+
+		wpuiQuery = {
+			action : 'wpui_query_meta',
+			search : searchTerm,
+			type : searchType,
+			number : searchNum,
+			_ajax_tax_nonce : jQuery( '#wpui-editor-tax-nonce' ).val()
+		}
+
+		jQuery.post( ajaxurl, wpuiQuery, function( data ) {
+			jQuery( el ).next('div.wpui-search-results')
+			.find( 'ul' ).html(data);
 			
-		});	
+			thisVal = '';
+			jQuery( el ).next('div.wpui-search-results')
+			.find( 'ul li' )
+			.unbind( 'click' )
+			.bind( 'click', function() {
+				if ( jQuery( this ).hasClass( 'no-select') ) return false; 
+				thisVal = jQuery(this).find('a').attr('rel').replace( /(post|cat|tag)\-/, '');
+				jQuery( this ).toggleClass( 'selected' );
+				thisVal += ',';
+				alSel = jQuery( el ).prev().val();
+				if ( alSel.match( thisVal ) )
+					alSel = alSel.replace( thisVal, '' );
+				else
+					alSel += thisVal;
+				
+				jQuery( el ).prev().val( alSel );
+				return false;
+			});
+		
+		});
+
 	};
 
-	// var wpuiGetPosts = function( el ) {
-	// 	var searchTerm = jQuery( el ).closest( '#wpui-search-field' ).val(),
-	// 	searchType=jQuery( el ).siblings( 'select.wpui-search-type' ).val(),
-	// 	searchNum = jQuery( el ).closest( '#wpui-search-number' ).val(), 
-	// 	searchSel = jQuery( el ).parent().prev().find( '.wpui-selected' ),
-	// 	prevSels,
-	// 	wpuiQuery;
-	// 
-	// 	searchNum = searchNum || 5;
-	// 	
-	// 	if ( searchTerm == '' || searchType == '' ) return false;
-	// 
-	// 	wpuiQuery = {
-	// 		action : 'wpui_query_meta',
-	// 		search : searchTerm,
-	// 		type : searchType,
-	// 		number : searchNum,
-	// 		_ajax_tax_nonce : jQuery( '#wpui-editor-tax-nonce' ).val()
-	// 	}
-	// 
-	// 	jQuery.post( ajaxurl, wpuiQuery, function( data ) {
-	// 		jQuery( el ).next('div.wpui-search-results')
-	// 		.find( 'ul' ).html(data);
-	// 		
-	// 		if ( searchSel.val() != '' ) {
-	// 			prevSels = searchSel.val().split(',');
-	// 			for ( i=0; i < prevSels.length; i++ ) {
-	// 				console.log( prevSels[ i ] ); 
-	// 				jQuery( el ).next('div.wpui-search-results')
-	// 				.find( 'ul li a[rel=' + searchType  + '-' + prevSels[i] + ']' )
-	// 				.parent()
-	// 				.addClass('selected');
-	// 			}
-	// 		}
-	// 		
-	// 		thisVal = '';
-	// 		jQuery( el ).next('div.wpui-search-results')
-	// 		.find( 'ul li' )
-	// 		.unbind( 'click' )
-	// 		.bind( 'click', function() {
-	// 			if ( jQuery( this ).hasClass( 'no-select') ) return false; 
-	// 			thisVal = jQuery(this).find('a').attr('rel').replace( /(post|cat|tag)\-/, '');
-	// 			jQuery( this ).toggleClass( 'selected' );
-	// 			thisVal += ',';
-	// 			alSel = searchSel.val();
-	// 			if ( alSel.match( thisVal ) )
-	// 				alSel = alSel.replace( thisVal, '' );
-	// 			else
-	// 				alSel += thisVal;
-	// 			
-	// 			searchSel.val( alSel );
-	// 			return false;
-	// 		});
-	// 	
-	// 	});
-	// 
-	// };
+
+
+
+jQuery( function() {		
+	jQuery( '#wpui-fake-submit' ).live( 'click', function( e ) {
+		wpuiGetPosts( this );	
+		return false;
+	});	
 	
-
-	jQuery( function() {		
-		// jQuery( '#wpui-fake-submit' ).live( 'click', function( e ) {
-		// 	wpuiGetPosts( this );	
-		// 	return false;
-		// });	
-		// var scrScat = false;
-		// jQuery( 'select.wpui-search-type' ).bind('change', function() {
-		// 	jQuery( this ).siblings( '.wpui-selected' ).val('');
-		// 	jQuery( this ).siblings('input#wpui-fake-submit').click();
-		// });
-		// 
-		// jQuery( '#widgets-right #wpui-fake-submit' ).each(function() {
-		// 	if ( !scrScat ) wpuiGetPosts( this );
-		// 	scrScat = true;
-		// 	return false;
-		// });
-
-
-		jQuery( '#widgets-right #wpui-fake-submit' ).wpuiGetPosts();
-
+	jQuery( 'select.wpui-search-type' ).bind('change', function() {
+		jQuery( this ).siblings( '.wpui-selected' ).val('');
+		jQuery( this ).siblings('input#wpui-fake-submit').click();
 	});
 
+});
 </script><?php 
 	}
 }

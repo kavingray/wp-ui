@@ -95,15 +95,6 @@
 	text-shadow: 0 1px 0 #FFF;
 }
 
-.wpui-macish .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active .wpui-tabs-arrow {
-/*	background: #CCC;*/
-	background: -moz-linear-gradient(top, #E5E5E5, #D0D0D0);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#FBFBFB), to(#D0D0D0));*/
-	background: -webkit-linear-gradient(top, #FBFBFB, #D0D0D0);
-/*	background: -o-linear-gradient(top, #FBFBFB, #D0D0D0);*/
-}
-
-
 .wpui-macish .ui-tabs .ui-tabs-panel .wp-tab-content > .wp-tabs .ui-tabs ul li.ui-state-active {
 	bottom: -2px;
 }

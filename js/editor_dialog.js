@@ -1,4 +1,5 @@
 jQuery( document ).ready(function() {
+
 	jQuery( '#wpui-editor-dialog' ).wpuiEditor({
 		store	: '#_wpui-editor-dialog'
 	});
@@ -9,37 +10,37 @@ jQuery( document ).ready(function() {
 		jQuery( this )
 			.siblings('.wpui-reveal' )
 			.next('div')
-			.hide();			
+			.hide();	
 	});
+	
+	
 });
 
 
 (function($){
-    if(!$.wpui){
-        $.wpui = new Object();
-    };
+    $.wpui = $.wpui || {};
     var $store;
     $.wpui.editor = function(el, options){
-        var base = this;
+        var base = this, inited, process;
         base.$el = jQuery(el);
         base.el = el;
-        // base.$el.data("wpui.editor", base);
+        base.$el.data("wpui.editor", base);
         
         base.init = function(){
-			process = {};
+			process = liveVal = {};
             base.o = $.extend({},$.wpui.editor.defaultOptions, options);
 			base.process = $.extend( {}, $.wpui.editor.process, process );
-			base.title = base.o.title;
+			base.liveVal = $.extend( {}, $.wpui.editor.liveVal, liveVal );
+			base.bindings = {};
+			base.throb = '<div style="padding: 10px; margin: 10px; text-align: center;" class="wpui-waiting">Please wait  <img src="' + pluginVars.pluginUrl + 'images/wpspin_light.gif" /></div>';
 			
             inited = base.$el.data( 'dialog' );
 			if ( ! $store ) $store = jQuery( base.o.store );
 			base.create();
-
+			
 			if ( base.o.mode != ''  && typeof(base.o.mode) != 'undefined' )
 			 	base.open( base.o.mode );	
-
-        };
-        
+       	};
 		
 		base.create = function() {
 			if ( ! base.$el.data( 'dialog' ) ) {
@@ -58,53 +59,54 @@ jQuery( document ).ready(function() {
 					}, {
 						text	: 'Insert',
 						'class'	: 'button-primary',
-						click	: function( mode ) { 
+						click	: function() { 
 							base.insert();
 						}
 					}],
-					open : function() { base.open( base.o.mode ) },
+					open : function() { base.open() },
 					close : function() { base.unbinders(); }
 				});	
 				
 			}
 		};	
 		
-        base.open = function( mode ){
-        	if ( ! mode && base.o.store == '' ) return true;			
-			base.$el.attr( 'title', base.o.title );
+        base.open = function(){
+		
+			mode = base.o.mode;
+	
+			if ( mode === '' ) return false;
 			
-			selecTxt = base.getSelection();
-			
-			wwrap = '<div class="wpui-dialog-wrapper" />';
+			base.$el.html( base.throb );			
+		
+			var selecTxt = base.getSelection(),			
+			wwrap = '<div class="wpui-dialog-wrapper" />', dtitle;
+			mode = mode || 'addtab';
 
-			if ( mode == 'addtab' ) {
-				base.$el.html( $store.find( '#wpui-new-tabset' ).html() ).wrapInner( wwrap );
-				base.$el.dialog({ title : 'Add a Tab Set' });
-				base.loadPosts();
-			} else if( mode == 'wraptab' ) {
-				base.$el.html( $store.find( '#wpui-wrap-tabs' ).html() ).wrapInner( wwrap );
+			jQuery.post( ajaxurl, {
+				action : 'wpui_get_editor_dialog',
+				nonce : jQuery( '#wpui-editor-main-nonce' ).val(),
+				panel : mode
+			}, function( data ) {
+				base.$el.html( data ).wrapInner( wwrap );
+				dTitle = base.$el.find('.wpui-dialog-title').html();
+				base.$el.find('.wpui-dialog-title').remove();
+
+				base.$el.dialog({ title : dTitle });
 				
-				base.$el.dialog({ title : 'Wrap tabs/display posts' });
-				
-				base.loadTax();
-			} else if ( mode == 'spoiler' ) {
-				base.$el.html( $store.find( '#wpui-add-spoiler' ).html() ).wrapInner( wwrap );
-				base.$el.dialog({ title : 'Add a Spoiler' });
-				
-				base.loadPosts();				
-			} else if ( mode == 'dialog' ) {
-				base.$el.html( $store.find( '#wpui-add-dialog' ).html() ).wrapInner( wwrap );
-				base.$el.dialog({ title : 'Add a dialog' });
-				
-				base.loadPosts();				
-			}
-			base.$el.find( 'textarea' ).val( selecTxt );
+				if ( mode == 'wraptab' ) base.loadTax();
+				else if( mode !== 'addfeed' ) base.loadPosts();
 			
-			if ( $store.find( '#wpui-editor-mode' ).length == 0 )
-			$store.append( '<input type="hidden" id="wpui-editor-mode" />' );
-			if ( mode != '' )$store.find( '#wpui-editor-mode' ).val( mode );
-			
-			base.$el.dialog( 'open' );
+				base.$el.find( 'textarea' ).val( selecTxt );
+				// 
+				// if ( $store.find( '#wpui-editor-mode' ).length == 0 )
+				// $store.append( '<input type="hidden" id="wpui-editor-mode" />' );
+
+				base.$el.dialog( 'open' );
+				if ( typeof( base.liveVal[ mode ] ) == 'function' ) {
+					base.liveVal[ mode ]( base );
+				}
+				
+			});
         };
 		
 		base.close = function() {
@@ -116,13 +118,13 @@ jQuery( document ).ready(function() {
 
 		base.insert = function() {
         	// mode = mode || 'addtab';
-        	var mode = $store.find( 'input#wpui-editor-mode' ).val();
+        	// var mode = $store.find( 'input#wpui-editor-mode' ).val();
 
-			if ( mode != '' ) {
+			mode = base.o.mode;
 			
 			valError = false;
 			ins = '', args = '';
-			
+
 			base.process[ mode ]( base );
 			
 			// // MODE is add new tab.
@@ -132,8 +134,29 @@ jQuery( document ).ready(function() {
 			// 	base.process.wraptab( base );
 			// }
 		
-			}
+		};
+		
+		base.binder = function( element, state ) {
+			base.bindings = base.bindings || {};
 			
+			if ( typeof(base.bindings[state]) == undefined ) {
+				var eleL = base.bindings[state].length;
+				base.bindings[state][ eleL ] = element;
+			} else {
+				base.bindings[ state ] = [];
+				base.bindings[ state ][0] = element; 
+			}
+
+		};		
+		
+		base.unbinder = function( element, state ) {
+			if ( typeof( base.bindings[ state ] ) !== 'undefined' ) {
+				for ( st in base.bindings[ state ] ) {
+					if ( base.bindings[ state ][ st ] == element ) {
+						base.bindings[ state ][ st ];
+					}
+				}
+			}
 		};
 		
 		base.commit = function( content ) {
@@ -145,11 +168,11 @@ jQuery( document ).ready(function() {
 		
 		base.loadPosts = function( ) {
 
-			if ( base.$el.find( '.wpui-search-posts' ).length == 0 ) {
-				base.$el
-					.find( '.wpui-dialog-wrapper' )
-					.append( $store.find( '.wpui-search-posts' ).clone() );
-					
+				// base.$el
+				// 	.find( '.wpui-dialog-wrapper' )
+				// 	.append( $store.find( '.wpui-search-posts' ).clone() );
+			if ( base.$el.find( '.wpui-search-posts' ).length == 1 ) {
+				
 				base.$el
 					.find( '.wpui-search-posts' )
 					.find( 'p.wpui-reveal' )
@@ -162,10 +185,13 @@ jQuery( document ).ready(function() {
 				.live('submit', function() {
 			searchStr = jQuery( '#wpui-post-search-field' ).val();
 			
+			sOff = 0;			
+			
 			wpuiQuery = {
 				action : 'wpui_query_posts',
 				search : searchStr,
 				number : 10,
+				page : 0,
 				'_ajax_post_nonce' : jQuery( '#wpui-editor-post-nonce' ).val()
 			
 			};			
@@ -174,6 +200,20 @@ jQuery( document ).ready(function() {
 			});
 				return false;
 			}).trigger( 'submit' );
+			
+			base.$el.find( 'div.wpui-search-results' )
+				.bind( 'scroll' , function() {
+				if ( searchStr != '' ) return;
+				diHeight = jQuery( this ).height() + jQuery( this ).scrollTop();
+				if ( diHeight > jQuery( this ).find('ul').height() ) {
+					wpuiQuery.page++;
+					jQuery( this ).find( '.wpui-waiting' ).show();
+					jQuery.post( ajaxurl, wpuiQuery, function( data ) {
+						base.$el.find( '.wpui-search-results ul' ).append( data );
+						jQuery( this ).find('.wpui-waiting' ).hide();
+					});
+				}					
+			});
 			
 			
 			
@@ -195,6 +235,7 @@ jQuery( document ).ready(function() {
 			}).trigger( 'submit' );		
 			
 			base.$el.find( '#wpui-tax-search-type' ).live( 'change', function() {
+				jQuery( '.wpui-selected' ).val('');
 				jQuery( this ).parent().trigger( 'submit' );
 			});
 			
@@ -203,6 +244,7 @@ jQuery( document ).ready(function() {
 		
 		base.binders = function() {
 			base.$el.find( '.wpui-search-results ul li' )
+				.die( 'click' )
 				.live('click', function() {
 				
 				if ( jQuery( this ).hasClass( 'no-select' ) ) return false;	
@@ -222,7 +264,6 @@ jQuery( document ).ready(function() {
 						alSel = alSel.replace( thisVal, '' );
 					else
 						alSel += thisVal;
-					
 				} else {
 					alSel = thisVal;
 				}
@@ -232,7 +273,15 @@ jQuery( document ).ready(function() {
 				return false;
 			});
 			
-			
+		};
+
+
+		
+		base._setMode = function( options ) {
+			if ( typeof( options ) == 'object' ) {
+				base.o = $.extend( base.o, options );
+				base.open();
+			}
 		};
 		
 		base.unbinders = function( ) {
@@ -267,15 +316,19 @@ jQuery( document ).ready(function() {
     };
     
     $.wpui.editor.defaultOptions = {
-    	kavin	: "wpui",
 		store 	: '',
 		mode : '',
-		selection : 'single',
+		selection : 'single'
     };
     
     $.fn.wpuiEditor = function(options){
-        return this.each(function(){
-            (new $.wpui.editor(this, options));
+	     return this.each(function(){
+			instance = jQuery( this ).data( 'wpui.editor' );
+			if ( instance ) {
+				instance._setMode( options );				
+			} else {		
+            	(new $.wpui.editor(this, options));
+			}
         });
     };
     
@@ -288,6 +341,7 @@ jQuery( document ).ready(function() {
 })(jQuery);
 
 jQuery.wpui.editor.process = {};
+jQuery.wpui.editor.liveVal = {};
 
 jQuery.wpui.editor.process.addtab = function( base ) {
 	
@@ -430,6 +484,57 @@ jQuery.wpui.editor.process.spoiler = function( base ) {
 	
 	
 };
+
+
+jQuery.wpui.editor.process.addfeed = function( base ) {
+	valError = valError || false;
+
+	if ( typeof( base.$el.find( '#wpui-feed-url' ) ) == 'undefined' ) 
+	valError = true;
+
+	jQuery.post( ajaxurl, {
+		action : 'wpui_validate_feed',
+		feed_url : base.$el.find( "#wpui-feed-url" ).val()
+	}, function( data ) {
+		data =  JSON.parse(data );
+		if ( typeof( data ) != 'object' ) return false;
+		if ( data.status == 'error' ) {
+			valError = false;
+			base.$el.find( '#wpui-feed-url' ).next('span.error-message' ).text( data.description );
+			jQuery( '#wpui-feed-url' ).bind( 'keydown', function() {
+				jQuery( this ).next('span.error-message').text('');
+			});
+		} else {
+			jQuery( '#wpui-feed-url' ).unbind( 'keydown' );
+			edStr = '[wpuifeeds ';
+			edStr += 'url="' + base.$el.find('#wpui-feed-url').val() + '" ';
+			edStr += 'number="' + base.$el.find( '#wpui-feed-number' ).val() + '"';
+			edStr += ']';
+			base.commit( edStr );
+			base.$el.dialog( 'close' );				
+		}				
+	
+	});
+};
+
+
+// jQuery.wpui.editor.liveVal.addfeed = function( base ) {
+// 	
+// 	var keyMap = base.$el.find( '#wpui-feed-url' ).bind( 'keyup', function() {
+// 		jQuery.post( ajaxurl, {
+// 			action : 'wpui_validate_feed',
+// 			feed_url : base.$el.find( "#wpui-feed-url" ).val()
+// 		}, function( data ) {
+// 			console.log( data ); 
+// 			base.$el.find( '#wpui-feed-url' ).next('.error-message').text(data);
+// 			if ( data !== '' ) 
+// 				valError = false;
+// 		});		
+// 	});
+// 	
+// 	base.binder( keyMap, 'keyup' );
+// 		
+// };
 
 
 jQuery.wpui.editor.process.dialog = function( base ) {

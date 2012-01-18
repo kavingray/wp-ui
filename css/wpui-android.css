@@ -72,14 +72,6 @@
 	opacity: 1;
 }
 
-.wpui-android .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active .wpui-tabs-arrow {
-    background: -moz-linear-gradient(top , #E7E7E7, #B5B5B5);
-/*    background: -webkit-gradient(linear, left top , left bottom , from(#E7E7E7), to(#B5B5B5));*/
-    background: -webkit-linear-gradient(top , #E7E7E7, #B5B5B5);
-/*    background: -o-linear-gradient(top , #E7E7E7, #B5B5B5);	*/
-}
-
-
 .wpui-android ul.ui-tabs-nav li.ui-state-active a {
 	border-top: 1px solid #FFF;
 	text-shadow: 0 1px 0 #FFF;
@@ -228,7 +220,6 @@
 .wpui-android .ui-accordion .ui-accordion-content {
 	color: #DDD;
 	background: #080808;
-	padding: 10px;
 	border: 1px solid #5A5A5A;
 	box-shadow         : 0 1px 4px #999;
 	-moz-box-shadow    : 0 1px 4px #999;

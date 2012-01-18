@@ -142,15 +142,6 @@
 	box-shadow: 1px 1px 0 #FFF inset;
 }
 
-
-.wpui-light .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active div.wpui-tabs-arrow {
-	background: -moz-linear-gradient(top, #F2F2F2, #DDD);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), to(#EEE));*/
-	background: -webkit-linear-gradient(top, #F9F9F9, #DDD);
-/*	background: -o-linear-gradient(top, #F2F2F2, #EEE);*/
-}
-
-
 .wpui-light ul.ui-tabs-nav li.ui-state-active a {
 /*	border-top: 1px solid #FFF;*/
 	text-shadow: 0 1px 0 #FFF;
@@ -298,9 +289,7 @@
 .wpui-light .ui-accordion .ui-accordion-content {
 	color: #666;
 	background: white;
-	padding: 10px;
-	border: 1px solid #DDD;
-	
+	border: 1px solid #DDD;	
 }
 
 .wpui-light span.ui-icon-triangle-1-e {

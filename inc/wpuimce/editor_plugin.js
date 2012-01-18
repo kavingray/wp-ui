@@ -75,6 +75,16 @@
 						});
 					}
 				});					
+							
+				
+				m.add({
+					title : 'Feeds',
+					onclick : function() {
+						jQuery('#wpui-editor-dialog').wpuiEditor({
+							mode : 'addfeed'				
+						});
+					}
+				});					
 			
 							
 				

@@ -58,6 +58,7 @@ ul.ui-tabs-nav li a {
 
 .ui-tabs-panel {
 	padding: 10px;
+	overflow : hidden;
 }
 
 div.tab-top-nav {
@@ -293,6 +294,13 @@ div#toolztip.bottom-tip .toolztitle:before {
 /*	border: 1px solid blue;*/
 }
 
+
+.ui-collapsible .ui-collapsible-hide {
+/*	left : -1000000px;
+	position : absolute;*/
+	display : none;
+}
+
 .ui-accordion h3.ui-accordion-header {
 	margin: 0;
 	margin-bottom: 0px !important;
@@ -307,7 +315,7 @@ div#toolztip.bottom-tip .toolztitle:before {
 
 }
 
-.ui-accordion-content,
+.ui-accordion-content .wp-tab-content-wrapper,
 .ui-collapsible-content .ui-collapsible-wrapper {
 	font-size: 12px/1.5;
 /*	font: 12px/1.5 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;*/
@@ -315,6 +323,7 @@ div#toolztip.bottom-tip .toolztitle:before {
 	overflow: hidden;
 }
 
+ 
 
 h3.ui-accordion-header {
 	cursor : pointer;
@@ -510,9 +519,6 @@ pre.wpui-pre {
 }
 
 
-
-
-
 .wp-dialog h1 { font-size: 3em; line-height: 1; margin-bottom: 0.5em; }
 .wp-dialog h2 { font-size: 2em; margin: 0.75em 0; }
 .wp-dialog h3 { font-size: 1.5em; line-height: 1; margin-bottom: 1em; }
@@ -573,13 +579,7 @@ div.wpui-post-thumbnail img {
 /*	border: 0px !important;*/
 /*	border-width : 1px 0 !important;*/
 	margin : 0px !important;
-/*	-moz-box-shadow    : none !important;
-	-webkit-box-shadow : none !important;
-	-o-box-shadow      : none !important;
-	box-shadow         : none !important;*/
-
-/*	background: none;
-*/}
+}
 
 
 .ui-tabs-vertical .ui-tabs-nav li {
@@ -742,7 +742,6 @@ span.ui-icon-newwin {
 
 .wpui-page-active {
 	border : 2px solid currentColor;
-
 }
 
 .wpui-no-background .ui-tabs,
@@ -802,35 +801,6 @@ span.ui-icon-newwin {
 	margin : 0px;
 }
 
-.ui-tabs-vertical ul.ui-tabs-nav li.ui-state-default div.wpui-tabs-arrow {
-	display : none;
-}
-
-.ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active div.wpui-tabs-arrow {
-	display: block;
-	position: absolute;
-	right: -15px;
-	top: 0;
-	cursor: auto;
-	z-index: 25000;
-	width: 20px;
-	
-/*	height: 100%;
-*/	border-bottom-width : 1px;
-	padding : 1px 0;
-	-webkit-mask-box-image: url("images/tabs-arrow.svg") 0 stretch;
-/*	mask : url("#m1" );*/
-	
-/*	-webkit-mask-box-image: url(../images/tabs-arrow.png);
-	-o-mask-image: url(../images/tabs-arrow.png);
-	-moz-mask-image: url(../images/tabs-arrow.png);
-	mask-image: url(../images/tabs-arrow.png);*/
-}
-
-.ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active div.wpui-tabs-arrow div {
-width: 15px;
-height: 30px;
-}
 
 ul.ui-tabs-nav {
 /*	padding : 0px !important;
@@ -881,85 +851,23 @@ ul.ui-tabs-nav {
 
 }
 
-
-ul.wpui-related-posts {
-	margin : 10px 0px !important;
-	padding : 0px !important;
-	float : none !important;
-	overflow : hidden;
-	list-style : none;
-/*	background : pink;*/
-}
-
-
-ul.wpui-related-posts li.row-first { border-left : none !important; }
-ul.wpui-related-posts li.row-last { border-right : none !important; }
-	
-	
-ul.wpui-related-posts li {
-	padding:10px;
-	vertical-align : top;
-	font-size : 12px;
-	text-align : center;
-/*	border-right : 1px solid #FFF;
-	border-left : 1px solid #999;*/
-	height : 100%;
-	opacity : 0.7;
-	float : left;
-	-moz-transition : all 0.6s ease-out 0.2s;
-	-moz-transition : all 0.6s ease-out 0.2s;
-	-o-transition : all 0.6s ease-out 0.2s;
-	-ms-transition : all 0.6s ease-out 0.2s;
-	-moz-border-radius     : 4px;
-	-webkit-border-radius  : 4px;
-	-o-border-radius       : 4px;
-	border-radius          : 4px;
-}
-
-/*ul.wpui-column-4 li {
-	width : 20%;
-	float : left;
-}
-
-ul.wpui-column-5 li {
-	width : 15%;
-	float : left;
-}*/
-
-
-ul.wpui-related-posts li:hover {
-	opacity : 1;
-	background : #EEE;
-	b
-	-webkit-transition : all 0.6s ease-in 0.2s;
-	-moz-transition : all 0.6s ease-in 0.2s;
-	
-}
-
-.wpui-related-posts .wpui-post-thumbnail a img {
-	padding : 10px;
-	border : 1px solid #888 !important;
-}
-
-.wpui-related-posts .wpui-rel-post-title {
+.wpui-click-handle {
+	background : #900;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
 	text-transform : uppercase;
+	font-size : 10px;
+	padding : 0px 4px;
+	display : inline-block;
+	cursor : pointer;
+	color : #FFF;
+	text-shadow : 0 -1px 0 #1E2694;
 }
 
-
-.wpui-per_2 li .wpui-rel-post-thumbnail {
-	float : left;
-	width : 100px;
+.wpui-click-reveal {
+/*	border : 1px dotted rgba( 0, 0, 255, 0.6 );*/
 }
-
-.wpui-per_2 li .wpui-rel-post-meta {
-	float : left;
-	width : 150px;
-}
-
-.wpui-per_2 li .wpui-rel-post-meta span {
-	display : block;
-}
-
-
 
 

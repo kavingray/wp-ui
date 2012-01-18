@@ -4,11 +4,14 @@ header( 'Cache-Control: must-revalidate' );
 $offset = 72000;
 header( "Expires: " . gmdate( "D, d M Y H:i:s", time() + 72000) . " GMT");
 
+
 if ( ! isset( $_GET )) exit; 
 
 if ( ! isset( $_GET[ 'scr' ] ) || $_GET[ 'scr' ] == '' ) {
 	echo "/* Uh-Oh! No scripts were needed for this page. */" ;
 	exit;
+} else {
+	$scr = addslashes( $scr );
 }
 
 $cache = ( isset( $_GET[ 'cache' ] ) && ( $_GET[ 'cache' ] == 'off' ) ) ? false : true;

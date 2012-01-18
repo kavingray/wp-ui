@@ -2,6 +2,16 @@
  *	Component - Accordion, uses same shortcode as tabs.
  */
 if ( typeof( accNames ) == 'undefined' ) accNames = [];
+if ( typeof( getNextSet ) == 'undefined' ) {
+	tabSet = 0;
+	function getNextSet() {
+		return ++tabSet;
+	}
+}
+
+/*
+ *	Component - Accordion
+ */
 jQuery.fn.wpaccord = function( options ) {
 	
 	var wrapper,
@@ -19,7 +29,7 @@ jQuery.fn.wpaccord = function( options ) {
 							
 			$this
 				.find('p, br')
-				.not( 'div.wp-tab-content br, div.wp-tab-content p' )
+				.not('div.wp-tab-content br, div.wp-tab-content p ')
 				.filter(function() {
 				return jQuery.trim(jQuery(this).html()) === ''
 			}).remove();
@@ -52,13 +62,21 @@ jQuery.fn.wpaccord = function( options ) {
 		
 		$this.find(o.h3Class).each(function() {
 			loadLinks = jQuery(this).children(o.linkAjaxClass);
-
+				dup = getNextSet();
 				
 				aparID = jQuery(this).text().replace(/\s{1,}/gm, '_');
 				aparID = aparID.replace( /[^\-A-Za-z0-9\s_]/mg, '');
 				
-				if ( jQuery.inArray( aparID, accNames ) != '-1' )
+				if ( aparID.match( /[^\x00-\x80]+/ ) ) {
+					aparID = 'acc-' + dup;
+				}
+				
+				
+				if ( jQuery.inArray( aparID, accNames ) != '-1' ) {
+					
 					aparID = aparID + '_' + dup;
+					
+				}
 				
 				jQuery(this)
 					.next()

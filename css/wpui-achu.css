@@ -122,13 +122,6 @@
 	bottom: -2px;
 }
 
-.wpui-achu .wpui-tabs-arrow {
-/*	background: #00A8C7;*/
-	background: -moz-linear-gradient(top, #2A81C9, #00A8C7);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#2A81C9), to(#00A8C7));*/
-	background: -webkit-linear-gradient(top, #2A81C9, #00A8C7);
-/*	background: -o-linear-gradient(top, #2A81C9, #00A8C7);*/
-}
 
 .wpui-achu ul.ui-tabs-nav li.ui-state-active a {
 	color: #EBD4B0;
@@ -422,8 +415,14 @@
 
 .wpui-achu .ui-accordion-content {
 	font: 12px/1.5 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;
+	padding: 0px;
+}
+
+
+.wpui-achu .ui-accordion-content .wp-tab-content-wrapper {
 	padding: 10px;
 }
+
 
 
 .wpui-achu .ui-collapsible-header,

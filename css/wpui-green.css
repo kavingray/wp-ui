@@ -270,8 +270,6 @@
 	background: -webkit-gradient(linear, left top, left bottom , from(#B3E6DC), color-stop(0.15, #FFF));
 	background: -webkit-linear-gradient(top , #B3E6DC, #FFF 15%);
 	background: -o-linear-gradient(top , #B3E6DC, #FFF 15%);
-	padding: 15px;
-
 }
 
 

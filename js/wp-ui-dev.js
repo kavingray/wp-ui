@@ -1,5 +1,5 @@
 /*!
- *	WP UI version 0.8
+ *	WP UI version 0.8.1
  *	
  *	Copyright (c) 2011, Kavin Amuthan ( http://kav.in )
  *	@license - Dual licensed under the MIT and GPL licenses.
@@ -16,7 +16,7 @@
  */
 
 
-// document.write blank page fix. Thanks to altCognito on stackoverflow. ( http://stackoverflow.com/q/761190 ) for the code from which this is adapted.
+// document.write blank page fix. Thanks to altCognito's code on stackoverflow. ( http://stackoverflow.com/q/761190 ) from which this is adapted.
 if ( typeof wpUIOpts == 'object' && wpUIOpts.docWriteFix == 'on' ) {
 var docWriteTxt = "";
 
@@ -722,13 +722,21 @@ jQuery.fn.wpaccord = function( options ) {
 		
 		$this.find(o.h3Class).each(function() {
 			loadLinks = jQuery(this).children(o.linkAjaxClass);
-
+				dup = getNextSet();
 				
 				aparID = jQuery(this).text().replace(/\s{1,}/gm, '_');
 				aparID = aparID.replace( /[^\-A-Za-z0-9\s_]/mg, '');
 				
-				if ( jQuery.inArray( aparID, accNames ) != '-1' )
+				if ( aparID.match( /[^\x00-\x80]+/ ) ) {
+					aparID = 'acc-' + dup;
+				}
+				
+				
+				if ( jQuery.inArray( aparID, accNames ) != '-1' ) {
+					
 					aparID = aparID + '_' + dup;
+					
+				}
 				
 				jQuery(this)
 					.next()
@@ -828,14 +836,13 @@ jQuery.fn.wpaccord.defaults = {
  *	Component - Spoilers/Collapsibles
  */
 jQuery.fn.wpspoiler = function( options ) {
-	
 	var o, defaults, holder, hideText, showText, currText, hideSpan;
 
 	o = jQuery.extend({}, jQuery.fn.wpspoiler.defaults, options );
 
 	this.each(function() {
 		var base = this,
-		$this = jQuery( this );
+		$this = jQuery( base );
 		
 		if ( typeof convertEntities == 'function' ) {
 			hideText = convertEntities( o.hideText );
@@ -847,8 +854,10 @@ jQuery.fn.wpspoiler = function( options ) {
 		$this.addClass( 'ui-widget ui-collapsible' );
 		
 		$header = $this.children( o.headerClass );
-		
-		$header.each(function() {
+
+		$header
+		.addClass( 'ui-collapsible-header' )
+		.each(function() {
 			jQuery( this ).prepend( '<span class="ui-icon"></span>' );
 			jQuery( this )
 				.addClass( 'ui-state-default ui-corner-all ui-helper-reset' )
@@ -880,13 +889,13 @@ jQuery.fn.wpspoiler = function( options ) {
 	
 		
 				
-		}).next( 'div.ui-collapsible-content' )
-		.addClass( 'ui-widget-content ui-corner-bottom' )
+		}).next( 'div' )
+		.addClass( 'ui-collapsible-content ui-widget-content ui-corner-bottom' )
+		.wrapInner( '<div class="ui-collapsible-wrapper" />' )
 		.find( '.close-spoiler')
 		.addClass('ui-state-default ui-widget ui-corner-all ui-button-text-only' )
 		.end()
 		.hide(); // end headerClass each.	
-
 
 		$header.hover( function() {
 			jQuery( this ).addClass( 'ui-state-hover' ).css({ cursor : 'pointer' });
@@ -948,7 +957,7 @@ jQuery.fn.wpspoiler.defaults = {
 	slide	 : true,
 	speed	 : 600,
 	spanClass: '.toggle_text',
-	headerClass : 'h3.ui-collapsible-header',
+	headerClass : 'h3.wp-spoiler-title',
 	openIconClass : 'ui-icon-triangle-1-e',
 	closeIconClass : 'ui-icon-triangle-1-s'
 };
@@ -970,7 +979,6 @@ jQuery.fn.wpDialog = function( options ) {
 	return this.each(function() {
 		var base = this;
 		$base = jQuery( base );
-	
 		// dtitle = $base.find('h4.wp-dialog-title').text();
 
 		dialogArgs = $base.find('h4.wp-dialog-title')
@@ -1045,6 +1053,7 @@ jQuery.fn.wpDialog = function( options ) {
 jQuery.fn.wpDialog.defaults = {
 	title	: 'Information'
 };
+
 
 
 
@@ -1229,6 +1238,7 @@ jQuery(document).ready(function( $ ) {
 		jQuery('.wp-dialog').wpDialog();
 	} 
 	
+	
 	jQuery( "ul.wpui-related-posts" ).each(function() {
 		allWidth = jQuery( this ).children( 'li' ).outerWidth() - jQuery( this ).children('li').width();
 
@@ -1246,12 +1256,12 @@ jQuery(document).ready(function( $ ) {
 		
 		if ( jQuery( this ).hasClass( 'wpui-per_2' ) ) {
 			jQuery( this ).children( 'li' ).find( '.wpui-rel-post-meta' ).width( liWidth  - 120 );
-			
 		}
-		var soHgt = 0;
-		jQuery( this ).children( 'li' ).each(function() {
-			soHgt = Math.max( soHgt, jQuery( this ).height());
-		}).height( soHgt );
+		
+		// var soHgt = 0;
+		// jQuery( this ).children( 'li' ).each(function() {
+		// 	soHgt = Math.max( soHgt, jQuery( this ).height());
+		// }).height( soHgt );
 
 	});	
 		

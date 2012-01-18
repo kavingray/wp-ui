@@ -142,15 +142,6 @@
 	box-shadow: 1px 1px 0 #FFF inset;
 }
 
-
-.wpui-light .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active div.wpui-tabs-arrow {
-	background: -moz-linear-gradient(top, #F2F2F2, #DDD);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), to(#EEE));*/
-	background: -webkit-linear-gradient(top, #F9F9F9, #DDD);
-/*	background: -o-linear-gradient(top, #F2F2F2, #EEE);*/
-}
-
-
 .wpui-light ul.ui-tabs-nav li.ui-state-active a {
 /*	border-top: 1px solid #FFF;*/
 	text-shadow: 0 1px 0 #FFF;
@@ -537,17 +528,6 @@
 	box-shadow : 0 1px 0 #666 inset;
 }
 
-.wpui-dark .wpui-tabs-arrow {
-/*	background: #222;*/
-	background: -moz-linear-gradient(top, #555, #444);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#444));*/
-	background: -webkit-linear-gradient(top, #555, #444);
-/*	background: -o-linear-gradient(top, #555, #444);*/
-/*	border-bottom: 1px solid #444;*/
-
-}
-
-
 .wpui-dark ul.ui-tabs-nav li.ui-state-active a {
 	color: #FFF;
 	text-shadow: 0 1px 0 #000;
@@ -917,15 +897,6 @@
 	color: #222;
 	text-shadow: 0 1px 0 #FFF;
 }
-
-.wpui-macish .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active .wpui-tabs-arrow {
-/*	background: #CCC;*/
-	background: -moz-linear-gradient(top, #E5E5E5, #D0D0D0);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#FBFBFB), to(#D0D0D0));*/
-	background: -webkit-linear-gradient(top, #FBFBFB, #D0D0D0);
-/*	background: -o-linear-gradient(top, #FBFBFB, #D0D0D0);*/
-}
-
 
 .wpui-macish .ui-tabs .ui-tabs-panel .wp-tab-content > .wp-tabs .ui-tabs ul li.ui-state-active {
 	bottom: -2px;
@@ -1666,7 +1637,7 @@
 
 
 
-.wpui-sevin .ui-button {
+.wpui-redmond .ui-button {
 	background: #D5D5D5;
 	background: -moz-linear-gradient(top, #F2F2F2, #EEE 48%, #DDDDDD 49%, #CFCFCF);
 	background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), color-stop(48%, #EEE), color-stop(49%, #DDDDDD), to(#CFCFCF));
@@ -1680,7 +1651,7 @@
 }
 
 
-.wpui-sevin .wp-tab-content a.ui-button {
+.wpui-redmond .wp-tab-content a.ui-button {
 	float: right;
 	margin: 20px 0;
 	text-decoration: none !important;
@@ -1993,14 +1964,6 @@
     background: -o-linear-gradient(top , #E7E7E7, #B5B5B5);
 	opacity: 1;
 }
-
-.wpui-android .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active .wpui-tabs-arrow {
-    background: -moz-linear-gradient(top , #E7E7E7, #B5B5B5);
-/*    background: -webkit-gradient(linear, left top , left bottom , from(#E7E7E7), to(#B5B5B5));*/
-    background: -webkit-linear-gradient(top , #E7E7E7, #B5B5B5);
-/*    background: -o-linear-gradient(top , #E7E7E7, #B5B5B5);	*/
-}
-
 
 .wpui-android ul.ui-tabs-nav li.ui-state-active a {
 	border-top: 1px solid #FFF;
@@ -2352,19 +2315,6 @@
 	color: #EBD4B0;
 	text-shadow: 0 1px 0 #000;
 }
-
-.wpui-quark .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active div.wpui-tabs-arrow {
-/*	background: #593C34;*/
-	background: -moz-linear-gradient(top, #8F675B, #6E4A40);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#8F675B), to(#6E4A40));*/
-	background: -webkit-linear-gradient(top, #8F675B, #6E4A40);
-/*	background: -o-linear-gradient(top, #8F675B, #6E4A40);*/
-/*	-moz-box-shadow    : 0 1px 0 #DB9E8C inset;
-	-webkit-box-shadow : 0 1px 0 #DB9E8C inset;
-	-o-box-shadow      : 0 1px 0 #DB9E8C inset;*/
-	box-shadow         : 0 1px 0 #DB9E8C inset;
-}
-
 
 .wpui-quark .ui-button {
 	background: #C7A777;
@@ -2989,15 +2939,6 @@
 	bottom: -2px;
 }
 
-.wpui-cyaat9 .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active .wpui-tabs-arrow {
-/*	background: #C9D0DE;*/
-	background: -moz-linear-gradient(top, #D5DCEB, #C9D0DE);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#D5DCEB), to(#C9D0DE));*/
-	background: -webkit-linear-gradient(top, #D5DCEB, #C9D0DE);
-/*	background: -o-linear-gradient(top, #D5DCEB, #C9D0DE);*/
-/*	box-shadow : 0 3px 10px #000;*/
-}
-
 .wpui-cyaat9 ul.ui-tabs-nav li.ui-state-active a {
 	color: #27292B;
 	text-shadow: 0 1px 0 #FFF;
@@ -3384,14 +3325,6 @@
 	border: 1px solid #444;
 	border-bottom: 0px !important;
 	bottom: -2px;
-}
-
-.wpui-achu .wpui-tabs-arrow {
-/*	background: #00A8C7;*/
-	background: -moz-linear-gradient(top, #2A81C9, #00A8C7);
-/*	background: -webkit-gradient(linear, left top, left bottom, from(#2A81C9), to(#00A8C7));*/
-	background: -webkit-linear-gradient(top, #2A81C9, #00A8C7);
-/*	background: -o-linear-gradient(top, #2A81C9, #00A8C7);*/
 }
 
 .wpui-achu ul.ui-tabs-nav li.ui-state-active a {
@@ -4180,11 +4113,9 @@
 	border-top: 1px solid #FFF;
 	text-shadow: none;
 }
-/*
-.wpui-blue .ui-tabs-vertical ul.ui-tabs-nav li.ui-state-active .wpui-tabs-arrow {
-	background : #FFF;
-}
-*/
+
+
+
 .wpui-blue .ui-tabs-panel .tab-top-nav a,
 .wpui-blue .ui-tabs-panel .tab-bottom-nav a {
 	background: #377AD0;

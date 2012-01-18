@@ -2,7 +2,7 @@
 .wp-accordion,
 .wp-spoiler {
 	font-size: 12px;
-	font-family: auto !important;
+	font-family: inherit !important;
 }
 
 .ui-accordion-header,

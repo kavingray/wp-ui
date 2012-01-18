@@ -4,7 +4,7 @@ header( 'Cache-Control: must-revalidate' );
 $offset = 72000;
 header( "Expires: " . gmdate( "D, d M Y H:i:s", time() + 72000) . " GMT");
 
-$load_styles = $_GET['styles'];
+$load_styles = addslashes( $_GET['styles'] );
 
 $styles_arr = explode( "|", $load_styles );
 

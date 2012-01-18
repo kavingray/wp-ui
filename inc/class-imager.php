@@ -28,6 +28,7 @@ class wpuiImager
 		$slash = ( $is_Windows ) ? '\\' : '/';
 		
 		$this->info = getimagesize( $file );
+		
 		if ( ! is_array( $this->info ) ) return;
 		
 		$this->src = $this->open( $file );
@@ -49,7 +50,7 @@ class wpuiImager
 		
 		$filestr = md5(str_replace( $slash, '', strrchr( $file, $slash ) ) . '_' . $width . '_' . $height . '_' . $mode );
 		
-		$cachedir = wpui_windows_path( WP_CONTENT_DIR . '/uploads/wp-ui/cache/' );
+		$cachedir = wpui_adjust_path( WP_CONTENT_DIR . '/uploads/wp-ui/cache/' );
 		is_dir( $cachedir ) || @mkdir( $cachedir, 0755, true );
 		
 		$storestr =  $cachedir . $filestr . '.' . $format;
@@ -245,22 +246,25 @@ class wpuiImager
 
 add_action( 'template_redirect', 'wpui_output_the_image' );		
 
-
+define( 'WPUI_IMAGE_ALLOW_CROSS_DOMAIN', FALSE );
 
 function wpui_output_the_image() {
 	$src = get_query_var( 'wpui-image' );
+	
 	if ( !empty( $src ) ) {
-	// if ( strstr( 'http', $src ) === FALSE )	
-	// $src = WP_CONTENT_DIR . '/' . $src;
-	// if ( ! filesize( $src ) ) return $src;
+	if ( ( stristr( $src, site_url() ) === FALSE ) || WPUI_IMAGE_ALLOW_CROSS_DOMAIN ) {
+		return;
+	} else {
+		if ( ( stripos( $src, 'http:') === 0 ) || ( stripos( $src, 'https:') === 0 ) ) {
+			$src = addslashes( $src );
+			$path = wpui_adjust_path( str_ireplace( site_url() . '/wp-content', WP_CONTENT_DIR,  $src ) );
+		}
+	}
 	$width = ( isset($_GET[ 'width' ]) ) ? $_GET[ 'width' ] : '100';
 	$height = ( isset($_GET[ 'height' ]) ) ? $_GET[ 'height' ] : '100';
 	$mode = ( isset($_GET[ 'mode' ]) ) ?  $_GET[ 'mode' ] : 'auto';
 	$newImg = new wpuiImager( $src, $width, $height, $mode );
-	
-	// $newImg->resize( $width, $height, $mode );
-	// $newImg->output( 'png' );
-	// exit();
+	exit();
 	}
 } // END function wpui_add_queries
 
