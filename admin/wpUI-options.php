@@ -4,49 +4,7 @@ require_once( dirname( __FILE__ ) . '/admin-options.php' );
 
 $wpui_options = get_option( 'wpUI_options' );
 
-// echo '<pre>';
-// var_export($wpui_options);
-// echo '</pre>';
-
-
 $wpui_skins_list_pre = wpui_get_skins_list();
-
-/**
- * Add any custom style found to the admin.
- */
-/*function jqui_add_to_options( $input )
-{
-	if ( ! $input ) return;
-	
-	$jsond = json_decode( $input, true );
-	if ( ! is_array( $jsond ) ) return false; 
-
-	$jquis = array_keys( $jsond );
-	
-	$output = array();
-
-	if ( ! empty( $jquis ) ) {
-		
-		$output[ 'startoptgroup3' ] = __( 'Custom themes', 'wp-ui' );
-		foreach ( $jquis as $key=>$value ) {
-			$dName = ucwords( str_ireplace( '-', ' ', $value ) );
-			// echo '<h1>' . $dName . '</h1>';
-			$output[ $value ] = $dName;
-		}
-		$output[ 'endoptgroup3'] = '';
-	}	
-	return $output;
-} // END function jqui_add_to_options
-
-
-if ( isset( $wpui_options ) ) {
-	if ( ! empty( $wpui_options[ 'jqui_custom_themes' ] ) ) {
-		$wpui_cust_thms = jqui_add_to_options( $wpui_options[ 'jqui_custom_themes' ] );
-	if ( $wpui_cust_thms ) $wpui_skins_list_pre = array_merge( $wpui_skins_list_pre, $wpui_cust_thms );
-	}
-}*/ // end isset for custom themes.
-
-
 
 
 global $wpui_options_list;
@@ -201,15 +159,6 @@ $wpui_options_list = array(
 		'type'		=>	'text',
 		'section'	=>	'style'
 	),
-	
-	
-	// 'iegrads'		=>	array(
-	// 	'id'		=>	'enable_ie_grad',
-	// 	'title'		=>	__('Enable gradients for IE?', 'wp-ui'),
-	// 	'desc'		=>	__('Check this box to enable gradients for IE ( using <code>IE filter:</code> ).', 'wp-ui'),
-	// 	'type'		=>	'checkbox',
-	// 	'section'	=>	'style'
-	// ),
 	
 	
 	// =====================
@@ -398,13 +347,16 @@ $wpui_options_list = array(
 		)
 	),
 	
-	
-	
-	
 	/**
 	 * Advanced options
 	 */
-
+	'bleeding_edge'	=> array(
+		'id'		=>	'bleeding_edge',
+		'title'		=>	__( 'Bleeding Edge', 'wp-ui' ),
+		'desc'		=>	__( 'Enable experimental features.', 'wp-ui' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
 	'alternative_codes'	=>	array(
 		'id'		=>	'alt_sc',
 		'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
@@ -692,17 +644,20 @@ class wpUI_options extends quark_admin_options
 		
 		global $wpui_options_list;
 		$this->fields = $wpui_options_list;
-
+		$this->options = get_option( 'wpUI_options', array() );
 		add_action('plugin_wpUI_load_scripts', array(&$this, 'admin_scripts_styles'));
 		add_action('plugin_wpUI_load_scripts', array(&$this, 'admin_styles'));		
 
 		add_action( 'admin_print_scripts', array( &$this, 'editor_vars' ) );
 		
 		if ( is_admin() )
-			@include_once wpui_dir( 'inc/editor-dialogs.php' );
-		
+			add_action( 'admin_init', array( &$this, 'wpui_editor_dialogs' ) );
 		
 		parent::__construct();
+	}
+	
+	function editor_buttons_check() {
+		
 	}
 
 	function editor_vars() {
@@ -716,7 +671,6 @@ class wpUI_options extends quark_admin_options
 				'pluginUrl'	=>	wpui_url()
 			));
 
-
 			if ( ! wpui_less_33( '3.1' ) ) {
 				wp_enqueue_script( 'wpui-editor-dialog', wpui_url( '/js/editor_dialog.js' ), array( 'jquery-ui-dialog' ), WPUI_VER );
 				wp_enqueue_style( 'wp-jquery-ui-dialog' );
@@ -725,11 +679,13 @@ class wpUI_options extends quark_admin_options
 	}
 
 	function wpui_editor_dialogs() {
-		 if ( in_array( basename( $_SERVER['PHP_SELF'] ),
-		 	array( 'post-new.php', 'page-new.php', 'post.php', 'page.php' ) ) ) {
-			@include wpui_dir( 'inc/editor-dialogs.php' );
-		}
+			if ( ( isset( $this->options['enable_tinymce_menu'] ) && $this->options[ 'enable_tinymce_menu' ] == 'on' ) ||
+			( isset( $this->options['enable_quicktags_buttons'] ) && $this->options[ 'enable_quicktags_buttons' ] == 'on'  ) ) {
+				@include_once wpui_dir( 'inc/editor-dialogs.php' );
+			}
 	}
+	
+	
 	
 	/**
 	 * 	Load the scripts and styles for the admin.
@@ -756,8 +712,13 @@ class wpUI_options extends quark_admin_options
 			// $admin_deps = ( floatval( get_bloginfo( 'version' ) ) >= 3.3 ) ? array( 'jquery-ui' ) : array( 'jquery-ui-tabs', 'jquery-ui-dialog' );
 			$admin_deps = array( 'jquery-ui' );
 
-			wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/select/tabs.js', $admin_deps, WPUI_VER );
-			wp_enqueue_script( 'admin-wpui-2' , $plugin_url . 'js/select/init.js', $admin_deps, WPUI_VER );
+			if ( isset( $this->options[ 'bleeding_edge' ] ) && $this->options[ 'bleeding_edge' ] == 'on' ) {
+				wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/qtabs.js', $admin_deps, WPUI_VER );
+			} else {
+				wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/select/tabs.js', $admin_deps, WPUI_VER );
+			}
+			
+			// wp_enqueue_script( 'admin-wpui-2' , $plugin_url . 'js/select/init.js', $admin_deps, WPUI_VER );
 			wp_localize_script( 'admin-wpui-1' , 'wpUIOpts' , $wp_ui_main->get_script_options() );
 			wp_enqueue_script( 'admin_wp_ui' , $plugin_url . 'js/admin.js', $admin_deps, WPUI_VER );
 			wp_localize_script('admin_wp_ui' , 'initOpts', array(
@@ -781,21 +742,8 @@ class wpUI_options extends quark_admin_options
 
 
 		/**
-		 * Options page only thickbox.
+		 * Options page only ColorBox.
 		 */
-/*		if ( wpui_less_33() ) {
-		wp_deregister_script( 'thickbox' );
-		wp_enqueue_script( 'thickbox' , $plugin_url . 'js/thickbox.js' );
-		} else {
-		wp_enqueue_script( 'thickbox' );
-		}
-		wp_localize_script( 'thickbox' , 'tbOpts', array(
-			'wpUrl'				=>	site_url(),
-			'pluginUrl' 		=>	plugins_url('/wp-ui/')				
-		));
-
-		wp_enqueue_style('thickbox');*/
-
 		wp_deregister_script( 'colorbox' );
 		wp_enqueue_script( 'colorbox', $plugin_url . 'js/jquery.colorbox-min.js', array( 'jquery' ) );
 	
@@ -1000,16 +948,12 @@ function wpui_plugin_info_above() {
 	</div><!-- end div.cap-icon -->
 	
 	<div class="wpui-desc">
-
-			<p> <?php _e( 'Support this plugin :', 'wp-ui' ); ?> <a href="http://www.facebook.com/pages/Capability/136970409692187" title="Motivate and see us performing better!" target="_blank"><?php _e( 'Like us on Facebook', 'wp-ui' ); ?></a> | <a title="Motivate and see us performing better!" href="http://twitter.com/cpblty" target="_blank"><?php _e( 'Follow us on Twitter', 'wp-ui' ); ?></a>. 
-		</p>
-		<p>
-			<?php _e( 'Help -', 'wp-ui' ); ?> <a class="wpui_options_help" href="#">Options Help</a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Plugin documentation, demo @ projects', 'wp-ui' ); ?></a>.
-		</p>
+		<p> <?php _e( 'Help -', 'wp-ui' ); ?> <a class="wpui_forums_link" href="http://kav.in/forum">Support forum</a> |<a class="wpui_options_help" href="#">Options Help ( 3.3 + )</a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Plugin documentation, demo @ projects', 'wp-ui' ); ?></a>. </p>
 		
-		<p>
-			<?php _e( 'Help improve this plugin : ', 'wp-ui' ); ?><a target="_blank" href="http://kav.in/forum" title="Improve the plugin by sharing your opinion"><?php _e( 'Suggestions? Ideas?', 'wp-ui' ); ?></a> | <?php _e( 'Report -', 'wp-ui' ); ?> <a target="_blank" title="Report the issues you find and improve the plugin!" href="http://kav.in/forum"><?php _e( 'Bugs / Issues / conflicts</a> on Support forums', 'wp-ui' ); ?></p>
+		<p> <?php _e( 'Help improve this plugin : ', 'wp-ui' ); ?><a target="_blank" href="http://kav.in/forum" title="Improve the plugin by sharing your opinion"><?php _e( 'Suggestions? Ideas?', 'wp-ui' ); ?></a> | <?php _e( 'Report -', 'wp-ui' ); ?> <a target="_blank" title="Report the issues you find and improve the plugin!" href="http://kav.in/forum"><?php _e( 'Bugs / Issues / conflicts</a> on Support forums', 'wp-ui' ); ?></p>
+				<p> <?php _e( 'Support this plugin :', 'wp-ui' ); ?> <a href="http://www.facebook.com/pages/Capability/136970409692187" title="Facebook likes!" target="_blank"><?php _e( 'Like us on Facebook', 'wp-ui' ); ?></a> | <a title="Motivate and see us performing better!" href="http://twitter.com/kavingray" target="_blank"><?php _e( 'Follow us on Twitter', 'wp-ui' ); ?></a>. </p>
 	</div><!-- end div.wpui-desc -->
+	
 	<!-- <div style="  position: absolute;right: 0;top: 25%;width: 63px;">	
 		<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fwpuiplugin&amp;send=false&amp;layout=box_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font=lucida+grande&amp;height=90" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:90px;" allowTransparency="true"></iframe>	
 	</div> -->
@@ -1044,7 +988,7 @@ function wpui_plugin_info_below() {
 				
 			</li>
 			<li>
-				<a class="wpui-clean-options" href="#"><?php _e( 'Clean options', 'wp-ui' ) ?></a>
+				<a class="wpui-no-bleeding" href="#"><?php _e( 'Toggle Bleeding Edge', 'wp-ui' ) ?></a>
 			</li>
 		</ul>		
 	</div><!--  end.actions -->
@@ -1091,43 +1035,21 @@ function wpui_plugin_info_below() {
 
 	</div>
 
-	<div class="developer cols col-2" style="line-height: 1.6 !important">
-		<h4><?php _e( 'Note from the developer', 'wp-ui' ); ?></h4>
-		<p>Hi there!</p><p>  I am <b>kavin</b>, developer of this plugin. First of all, thank you all for your support. Your feedback has been highly encouraging and i hope it continues that way for that i will strive to make this plugin even better.</p>
-		<p>Please visit the <a href="http://kav.in/forum" target="_blank">forums</a> If you have any suggestions/ideas or criticism. You can contact me <a href="http://kav.in/contact/">here</a>, or at my <a target="_blank" href="http://www.facebook.com/pixelcreator">Facebook</a> and <a target="_blank" href="http://twitter.com/cpblty">twitter</a> account.</p>
-		<p><?php _e( 'Thank you for using this plugin.', 'wp-ui' ); ?></p>
+	<div class="wpui-credits cols cols-1">
+
+		<h4><?php _e( 'Credits', 'wp-ui' ); ?></h4>
+
+
+			<p><?php _e( 'Thanks to the WordPress team and jQuery (&amp;) UI team. Also thanks to the all people out there, who spend their invaluable time for the spirit of The Open Source - Sharing and helping everyone. Icons on this page -', 'wp-ui' ); ?> <a target="_blank" rel="nofollow" href="http://www.woothemes.com/2010/08/woocons1/"><?php _e( 'GPL licensed Woocons', 'wp-ui' ); ?></a>.
+
+			</p>	
+
 	</div>
-	
-	<!-- <div class="developer cols col-2">
-		<h4>Plugin developer</h4>
-		<p>WP UI for wordpress is being developed and maintained by <a href="http://kav.in">Kavin</a>.
-		You can visit the <a target="_blank" href="http://kav.in">his blog</a> for information on his current/upcoming works. </p> 
-	<p>Or maybe you could follow/hear/discuss what he has to say on <a target="_blank" href="http://twitter.com/cpblty">Twitter</a> and <a target="_blank" href="http://www.facebook.com/pixelcreator">Facebook</a>, if you like!</a></p>
-	</div> -->
-
-	<!-- <div class="wpui-new cols col-2">
-		<h4>Fresh!</h4>
-		<p>WP UI for wordpress is quite new! So please let me know what you think about this plugin.</p>
-			
-		<p>	This plugin is 100% free and open source. This is licensed under <a target="_blank" href="http://www.gnu.org/licenses/gpl2.html">GNU Public License v2</a>, so please feel free to distribute and recommend!</p>
-
-	</div> --><!-- end div.wpui-new -->
-	
-
 	
 	
 	</div><!-- end #wpui-cap-below -->
 </div><!-- end div.info-below -->
-<div class="wpui-credits">
 
-	<h4><?php _e( 'Credits', 'wp-ui' ); ?></h4>
-	
-	
-		<p><?php _e( 'Thanks to the WordPress team and jQuery (&amp;) UI team. Also thanks to the all people out there, who spend their invaluable time for the spirit of The Open Source - Sharing and helping everyone. Icons on this page -', 'wp-ui' ); ?> <a target="_blank" rel="nofollow" href="http://www.woothemes.com/2010/08/woocons1/"><?php _e( 'GPL licensed Woocons', 'wp-ui' ); ?></a>.
-		
-		</p>	
-
-</div>
 	<?php
 }
 
@@ -1214,6 +1136,7 @@ function get_wpui_default_options() {
 		'post_widget_number'		=>	'3',
 		'jquery_disabled'			=>	'off',
 		'docwrite_fix'				=>	'on',
+		'bleeding_edge'				=>	'off',
 		'version'					=>	WPUI_VER
 	);
 	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';

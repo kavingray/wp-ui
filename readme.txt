@@ -5,13 +5,17 @@ Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, related-posts
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 0.8.1
+Stable tag: 0.8.2
 
 Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
 == Description ==
 
 WordPress is a great platform suitable for almost every case of websites out there, ranging from a personal blog to a complex CMS. This plugin started out as a snippet when i needed a way to shorten my posts and make them look more presentable. WP UI plugin for WordPress, right from its first release, is all about user experience and presentation. It takes care of all the not-needed background stuff and makes it ultimately easy to implement wp ui widgets - Tabs, accordions, spoilers, dialogs.  Real power of this plugin lies in the handy functions and shortcodes that deal with posts and feeds.
+
+
+>[Documentation](http://kav.in/projects/)  |  [Support](http://kav.in/forum/)
+
 
 = Base =
 
@@ -41,13 +45,19 @@ WP UI comes with rich documentation bundled in the options page and right within
 
 There is an active support [forum](http://kav.in/forum) available for getting quick help and support. Moreover, an user-editable wiki style documentation is coming right away. Stay tuned, friends.
 
+= Translations =
+
+Missing your language translations here? Contribute by translating your favorite plugin!
+
+* [Translations](http://kav.in/resources/translations/wp-ui/) 
+
 = Further =
 
-* [Plugin page](http://kav.in/wp-ui-for-wordpress)
-* [Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
-* [Support](http://kav.in/forum)
-* [Like us on Facebook](http://www.facebook.com/#!/pages/Capability/136970409692187)
 * [Follow @kavingray](http://twitter.com/kavingray)
+* [Support](http://kav.in/forum)
+* [Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
+* [Plugin page](http://kav.in/wp-ui-for-wordpress)
+* [Like us on Facebook](http://www.facebook.com/#!/pages/Capability/136970409692187)
 * [Help improve multi-language support](http://kav.in/forum/discussion/81/need-help-improving-multi-language-support)
 
 == Installation ==
@@ -57,6 +67,9 @@ There is an active support [forum](http://kav.in/forum) available for getting qu
 1. Add shortcodes to the post editor and enjoy!
 
 == Frequently Asked Questions ==
+
+= Where can i find a quick start guide? =
+Read the [Quick start guide](http://kav.in/projects/blog/wp-ui-quick-start/) to learn about editor interface.
 
 = Where can i find recent & up-to-date FAQ? =
 
@@ -71,11 +84,11 @@ Demo with the *style switcher* can be found [here](http://kav.in/projects/plugin
 
 = What if the user does not have Javascript enabled? =
 
-All the code will **degrade gracefully** when javascript is disabled. Try disabling the Javascript in your browser to take a look yourselves.
+All the code will **degrade gracefully** with javascript disabled. Please try disabling the Javascript in your browser to get the idea.
 
 = Can i use all the available jQuery UI themes? =
 
-Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. From Version 0.5.5, it is now possible to use multiple UI themes, with this [guide](http://kav.in/wp-ui-using-jquery-ui-custom-themes/).
+Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] style argument. From Version 0.5.5, it is now possible to use **multiple UI themes**, with this [guide](http://kav.in/wp-ui-using-jquery-ui-custom-themes/).
 
 = Why are some of my shortcodes appear on the rendered page? =
 
@@ -92,19 +105,23 @@ Make sure each one of your shortcodes is in the **separate line** but please do 
 
 Shortcodes should be entered into the wordpress post editor's HTML mode. WP Visual mode editor can insert additional paragraph `<p>` tags before and after the shortcodes, thereby rendering those invalid.
 
+= My Accordions seems to be broken, with para tags in between? =
+
+View the shortcodes in HTML editor, and remove the blank spaces/linebreaks between lines. Sometimes it might help to put the entire shortcode in a single line, but leaving a couple of spaces between each shortcode. 
+
 = How do i insert or choose posts easily? =
 
-Editor menu allows you to insert content manually and choose the posts. You will be given a list of posts you have to choose from. 
+Editor menu allows you to insert content manually and choose the posts. You can choose from a list of posts.  
 
 = How do i differentiate between a styling and javascript conflict? =
 
 Not working at all? Something other broken? It's mostly a javascript conflict. But when there is a CSS conflict - things work, but just not looking as expected.
 
-= Why does the widgets behave strangely sometimes? =
+= Why does the tabs/accordions behave strangely sometimes? =
 
 This can be related to lot of white space between the shortcodes, which are converted by wordpress into empty space enclosed within `<p>` tags. Remove the unwanted space between the shortcodes.
 
-= Where can i get help about this plugin? =
+= Where can i get help on this plugin? =
 
 Documentation is available right within the wordpress admin. It is present in the 
 
@@ -126,7 +143,7 @@ I would love to hear about it. Please drop me a mail [here](http://kav.in/contac
 * Tell others that it works, with the compatibility box on the [plugin page](http://wordpress.org/extend/plugins/wp-ui/).
 * Support us by a like on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) 
 * Tweet about the plugin or follow us on twitter [@kavingray](http://twitter.com/kavingray).
-* We'd really appreciate a review.
+* We'd really appreciate a review or a blog post.
 
 == Screenshots ==
 
@@ -136,6 +153,17 @@ I would love to hear about it. Please drop me a mail [here](http://kav.in/contac
 4. Both jQuery UI themes and WP UI CSS3 styles preview. Picture shows a full CSS3 style - wpui-sevin.
 
 == Changelog ==
+
+= 0.8.2 =
+* Support for jQuery UI buttons.
+* Rewritten Dialogs handling, Dialogs are now accessible through Image maps and links. 
+* Bleeding edge channel, for cool yet experimental features enabled through admin. 
+* Improved support for feeds with long URLs and foreign characters.
+* New Image shortcode, Easily link any media gallery image.
+* WP UI styles cleaned and updated.
+* Improved documentation and Quick start guide.
+* Serbian translation by Zoran Aksic, downloadable from plugin page.
+* Numerous performance improvements and bug fixes.
 
 = 0.8.1 =
 * BugFixes related to previous version.
@@ -239,6 +267,9 @@ I would love to hear about it. Please drop me a mail [here](http://kav.in/contac
 
 
 == Upgrade Notice ==
+
+= 0.8.2 =
+Save the options & clear the browser & page( if any ) cache. Rest should be Automagic.
 
 = 0.8.1 =
 Please save the options manually. Mostly bugfixes relating to styles, dialogs, editor menus.  

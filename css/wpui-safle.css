@@ -240,3 +240,45 @@
 	right: 5px;
 	opacity: 0.6;
 }
+
+
+
+
+
+.wpui-safle.wpui-button {
+	background: #030B1F;
+	text-shadow: 0 -1px 0 #000;
+	color: #737880;
+	border : 1px solid #1E2634;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+	-moz-transition : all 0.2s ease-in;
+	-webkit-transition : all 0.2s ease-in;
+	-o-transition : all 0.2s ease-in;
+	-ms-transition : all 0.2s ease-in;
+	transition : all 0.2s ease-in;
+}
+
+.wpui-safle.wpui-button:hover {
+	color : #FFF;
+	background: #030B1F;
+	text-shadow : 0 1px 0 #030B1F;
+	background: -moz-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -webkit-gradient(top, from(#31364C), to(#304760), color-stop(0.48, #31364C), color-stop(0.49, #272B3E));
+	background: -webkit-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+	background: -o-linear-gradient( top, #31364C 0%, #31364C 48%, #272B3E 49%, #304760);
+}
+
+
+.wpui-safle.wpui-button:active {
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	border: 1px solid #2E9AE8 !important;
+	
+}
+
+

@@ -57,10 +57,11 @@ class wpuiPosts
 		$template = str_ireplace( '{$excerpt}' , $needles[ 'excerpt' ], $template );
 		
 		$template = str_ireplace( '{$content}' , $needles[ 'content' ], $template );
-		if ( isset( $this->options[ 'relative_times' ] ) )
+		if ( isset( $this->options[ 'relative_times' ] ) && $this->options[ 'relative_times' ] == 'on' )
 			$template = str_ireplace( '{$date}' , $this->get_relative_time($needles[ 'date' ]), $template );
 		else
 			$template = str_ireplace( '{$date}' , $needles[ 'date' ], $template );
+			
 		$template = str_ireplace( '{$url}' , $needles[ 'url' ], $template );		
 		$template = str_ireplace( '{$author}' , $needles[ 'author' ], $template );
 		$author_posts_link = '<a href="' . get_author_posts_url( $needles[ 'author' ] ) . '" target="_blank" />' . $needles[ 'author' ] . '</a>';
@@ -104,28 +105,14 @@ class wpuiPosts
 		}
 		
 		
-		// $words = explode( ' ' , $text , $length + 1 );
-		
 		$words = preg_split( '/ /', $text, $length + 1 );
-
-		// if ( ! stristr( $words[ $length - 1 ], '.' ) ) {
-			// $lastC = $length - 1;
-			// $words[ $lastC  ] = preg_replace( '/([^\.]\.).+/sim' , '$1', $words[ $lastC ] );
-			// array_splice( $words, $lastC );
-		// }
 		
 		$words_limit = count($words);
 		
 		$words[ $words_limit -1 ] = preg_replace( '/([^\.]\.\s).+/sim' , '$1', $words[ $words_limit - 1] );
-	
-		// 
-		// echo '<pre>';
-		// print_r($words);
-		// echo '</pre>';		
 
 		if ( count( $words ) > $length ) {
-			// array_pop( $words );
-			// array_push( $words , $more_link );
+
 			$text = implode( ' ', $words );
 		}		
 		return $text;
@@ -186,15 +173,18 @@ class wpuiPosts
 		} else {
 			$cats = $tags = '';
 		}
-			
+		
+		// $so_content = $wpui_post->post_content;
+		$so_content = apply_filters( 'the_content', $wpui_post->post_content );
+		$so_content = str_replace(']]>', ']]&gt;', $so_content);
 		
 		$output = array(
 			'title'		=>	$wpui_post->post_title,
 			'excerpt'	=>	$post_exc,
-			'content'	=>	$wpui_post->post_content,
+			'content'	=>	$so_content,
 			'thumbnail'	=>	$p_thumb,
 			'date'		=>	$post_date,
-			'author'	=>	get_the_author_meta('display_name' ,$wpui_post->post_author),
+			'author'	=>	get_the_author_meta('display_name', $wpui_post->post_author),
 			'url'		=>	$more_link,
 			'meta'		=>	array(
 								'cat'		=>	$cats,
@@ -222,7 +212,6 @@ class wpuiPosts
 	 * 	@return array $posts 
 	 */
 	function wpui_get_posts( $args='' ) {
-		
 		$defaults = array(
 			'get'			=>	'',
 			'cat'			=>	'',
@@ -299,7 +288,7 @@ class wpuiPosts
 				$qquery[ 'category__not_in' ] = $excl_array;
 			}
 		}
-		
+
 		// Tags
 		if ( $r[ 'tag' ] != '' || $r[ 'tag_name' ] != '' ) {
 			
@@ -442,7 +431,8 @@ class wpuiPosts
 		
 		$r = wp_parse_args( $args, $defaults );
 		
-		$feed = fetch_feed( $r[ 'url' ] );
+		// Fix URLS with special characters.		
+		$feed = fetch_feed( wp_specialchars_decode(esc_url( $r[ 'url' ] ) ) );
 
 		if ( is_wp_error( $feed ) )
 			return false;
@@ -456,14 +446,13 @@ class wpuiPosts
 
 		$format_opt = get_option( 'date_format' );
 		$date_format = ( $format_opt ) ? $format_opt : 'l, F jS, Y';
-
 	
 		foreach( $items as $item ) {
 			$thisArr[ 'title' ] = $item->get_title();
 			$thisArr['url'] = $item->get_permalink();
 			$thisArr[ 'date' ] = $item->get_date( $date_format );
 			$thisArrAuth = $item->get_author();
-			$thisArr[ 'author' ] = $thisArrAuth->get_name();
+			$thisArr[ 'author' ] = ( $thisArrAuth ) ? $thisArrAuth->get_name() : '';
 
 			$thisArr[ 'content' ] = $item->get_content();
 			
@@ -494,27 +483,26 @@ class wpuiPosts
 	 * 	Get the thumbnail from a post using ID. Use the default image if there is none.
 	 * 
 	 * @param $ID - integer ID of post.
-	 * @return $img string
+	 * @return $img HTML tag string
 	 */
 	function get_thumbnail( $ID ) {
-		$cache = ( isset( $this->options['enable_cache' ] ) && isset( $this->options[ 'enable_cache' ] ) ) ? true : false;
+		$cache = ( isset( $this->options ) && isset( $this->options[ 'enable_cache' ] ) && $this->options[ 'enable_cache' ] == true ) ? true : false;
 		
 		$width = ( isset( $this->options['post_default_thumbnail' ] ) &&
-		 	( $this->options[ 'post_default_thumbnail' ][ 'width' ] !== '' ) ) ?
+		 	( $this->options[ 'post_default_thumbnail' ][ 'width' ] != '' ) ) ?
 		 $this->options[ 'post_default_thumbnail']['width'] : 100;
 		
 		$height = ( isset( $this->options['post_default_thumbnail' ] ) &&
-		 	( $this->options[ 'post_default_thumbnail' ][ 'height' ] !== '' ) ) ?
+		 	( $this->options[ 'post_default_thumbnail' ][ 'height' ] != '' ) ) ?
 		 $this->options[ 'post_default_thumbnail']['height'] : 100;
 		
 		if ( function_exists( 'has_post_thumbnail' ) &&
 			has_post_thumbnail( $ID ) ) {
 			$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'full' );
 			if ( $cache )
-				$thumb_src = get_bloginfo( 'url' ) . '?wpui-image=' . $thumbnail[0] . '&width=100&height=100';
-			else $thumb_src = $thumbnail[ 0 ];
-		
-					
+				$thumb_src = get_bloginfo( 'url' ) . '?wpui-image=' . $thumbnail[0] . '&width=' . $width . '&height=' . $height;
+			else
+				$thumb_src = $thumbnail[ 0 ];
 		} else {
 			if ( isset( $this->options[ 'post_default_thumbnail' ] ) && $this->options[ 'post_default_thumbnail' ][ 'url' ] != '' )
 				$thumb_url = $this->options['post_default_thumbnail']['url'];
@@ -522,10 +510,11 @@ class wpuiPosts
 				// $thumb_url = wpui_url( 'images/wp-light.png' );
 			
 			if ( $cache )
-			$thumb_src = get_bloginfo( 'url' ) . '?wpui-image=' . $thumb_url .  '&width=100&height=100';
+			$thumb_src = get_bloginfo( 'url' ) . '?wpui-image=' . $thumb_url .  '&width=' . $width . '&height=' . $height;
 			else return '';
 						
 		}
+
 		$title = get_the_title( $ID );
 		
 		return '<img src="' . $thumb_src . '" width="' . $width . '" height="' . $height . '" alt="' . $title . '" />';
@@ -616,8 +605,7 @@ class wpuiPosts
 		} else {
 			$pst_wid = array( 'title' => $title, 'number' => $number, 'per_row' => $per_row, 'type' => $type ); 
 		}
-
-			
+		
 			$num =  $pst_wid[ 'number' ];
 			$get = $pst_wid[ 'type' ];
 			
@@ -627,10 +615,6 @@ class wpuiPosts
 			$rel_opts[ 'exclude' ] = $pst_id;
 			
 			$rel_posts = $this->wpui_get_posts( $rel_opts );
-			// echo '<pre>';
-			// 	var_export($rel_posts);
-			// 	echo '</pre>';
-
 
 			$output = '';
 			
@@ -662,9 +646,7 @@ class wpuiPosts
 				}	
 				$output .= '</ul>';			
 			}
-			
-			// $content = apply_filters( 'the_content', $content . $output );
-				
+							
 			return $output;	
 				
 			// return apply_filters( 'the_content', $content );
@@ -673,6 +655,46 @@ class wpuiPosts
 	
 
 } // end class wpuiPosts;
+
+
+/*$wpui_posts = new wpuiPosts();
+$wpui_opts = get_option( 'wpUI_Options' );
+
+function wpui_get_my_post( $id=null, $template=1, $type="post" ) {
+	if ( ! $id ) return;
+	global $wpui_posts, $wpui_opts;
+	
+	$tmpl = $wpui_opts[ 'post_template_' . $template ];
+	
+	$post_content = $wpui_posts->wpui_get_post( $id, 'more', $type );
+	
+	$post_content = $wpui_posts->replace_tags( $post_content, $tmpl );
+	echo do_shortcode( $post_content );	
+}
+
+function wpui_get_my_posts_spoiler( $args ) {
+	if ( ! $args || ( $args['cat'] == '' || $args['tag'] == '' ) ) return;
+	global $wpui_posts, $wpui_opts;
+	
+	$defaults = array(
+		'cat'		=>	'',
+		'tag'		=>	'',
+		'number'	=>	'5',
+		'template'	=>	'1',
+		'length'	=>	
+	);
+	
+	$args = wp_parse_args( $args, $defaults );	
+	
+	$get_my_posts = $wpui_posts->wpui_get_posts( $args );	
+	
+	foreach( $get_my_posts as $get=>$posts ) {
+		
+	}	
+	
+}
+*/
+
 
 
 

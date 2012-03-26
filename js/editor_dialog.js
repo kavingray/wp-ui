@@ -54,7 +54,7 @@ jQuery( document ).ready(function() {
 						text : 'close',
 						'class' : 'button-secondary',
 						click : function() {
-							jQuery( this ).dialog( 'close' )
+							jQuery( this ).dialog( 'close' );
 						}
 					}, {
 						text	: 'Insert',
@@ -63,7 +63,7 @@ jQuery( document ).ready(function() {
 							base.insert();
 						}
 					}],
-					open : function() { base.open() },
+					open : function() { base.open(); },
 					close : function() { base.unbinders(); }
 				});	
 				
@@ -123,7 +123,8 @@ jQuery( document ).ready(function() {
 			mode = base.o.mode;
 			
 			valError = false;
-			ins = '', args = '';
+			ins = '';
+			args = '';
 
 			base.process[ mode ]( base );
 			
@@ -299,7 +300,7 @@ jQuery( document ).ready(function() {
 
 		base.isQT = function() {
 			return ( typeof edCanvas != 'undefined' && edCanvas.value != '' );
-		}
+		};
 
 		base.getSelection = function() {
 			rtina = '';
@@ -384,7 +385,8 @@ jQuery.wpui.editor.process.wraptab = function( base ) {
 	selT = '';
 	selT += base.getSelection();
 	
-	wrArgs = '', wrStr = '';
+	wrArgs = '';
+	wrStr = '';
 	
 	if ( base.$el.find( '#tabs-type' ).val() !== 'undefined' )
 		wrArgs += base.$el.find( '#tabs-type').val() == 'accordion' ? ' type="accordion"' : '';	
@@ -432,7 +434,9 @@ jQuery.wpui.editor.process.wraptab = function( base ) {
 };
 
 jQuery.wpui.editor.process.spoiler = function( base ) {
-	valError = false, spls = '', selP = '';
+	valError = false;
+	spls = '';
+	selP = '';
 	
 	if ( base.$el.find( '#wpui-selected-post' ) )
 		selP += base.$el.find( '#wpui-selected-post' ).val();
@@ -558,7 +562,7 @@ jQuery.wpui.editor.process.dialog = function( base ) {
 	if ( ( dialC == '' || dialC == 'undefined' ) && selP == '' ) {
 		base.$el.find( 'span.error-message' ).eq( 1 )
 			.addClass( 'active' )
-			.text( 'Content is required.' )
+			.text( 'Content is required.' );
 		valError = true;
 	}
 
@@ -579,7 +583,7 @@ jQuery.wpui.editor.process.dialog = function( base ) {
 		dialogArgs += ' height="' + base.$el.find( '#dialog-height' ).val() + '"';
 
 	if ( selP == '' ) {
-		edStr = ' [wpdialog title="' + dialT + '"' + dialogArgs + '] ' + dialC + ' [/wpdialog] '
+		edStr = ' [wpdialog title="' + dialT + '"' + dialogArgs + '] ' + dialC + ' [/wpdialog] ';
 	} else {
 		dialogArgs += ' post="' + selP + '"';
 		edStr = ' [wpdialog' + dialogArgs + ']';

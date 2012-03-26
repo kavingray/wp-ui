@@ -72,7 +72,6 @@ jQuery.fn.wptabs = function( options ) {
 				.filter(function() {
 				return jQuery.trim(jQuery(this).html()) === ''
 			}).remove();
-
 		}
 		
 		
@@ -1234,8 +1233,8 @@ jQuery(document).ready(function( $ ) {
 	if ( wpUIOpts.enableAccordion == 'on')
 		jQuery('.wp-accordion').wpaccord();
 	
-	if ( wpUIOpts.enableDialogs == 'on' )
-		jQuery('.wp-dialog').wpDialog();
+	// if ( wpUIOpts.enableDialogs == 'on' )
+		// jQuery('.wp-dialog').wpDialog();
 	} 
 	
 	

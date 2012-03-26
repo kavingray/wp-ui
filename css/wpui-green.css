@@ -280,6 +280,8 @@
 	border-radius          : 6px;
 	font-family: 'Lucida Grande', 'Arial', sans-serif;
 	color: #282828;
+	background: white;
+	
 }
 
 .wpui-green .ui-dialog-titlebar {
@@ -304,7 +306,6 @@
 .wpui-green .ui-dialog-content {
 	padding: 10px;
 	overflow:hidden;
-	background: white;
 	
 }
 
@@ -332,4 +333,40 @@
 	top: 5px;
 	right: 5px;
 	opacity: 1;
+}
+
+
+
+.wpui-green.wpui-button {
+	background: #559D26;
+	background: -moz-linear-gradient(top, #79B254, #559D26);
+	background: -webkit-gradient(linear, left top, left bottom, from(#79B254), to(#559D26));
+	background: -webkit-linear-gradient(top, #79B254, #559D26);
+	background: -o-linear-gradient(top, #79B254, #559D26);
+	text-shadow: 0 -1px 0 #444;
+	color: #FFF;
+	font-weight : bold;
+	border : 1px solid #284A12;
+	-moz-box-shadow    : 0 1px 0 #9DE66D inset;
+	-webkit-box-shadow : 0 1px 0 #9DE66D inset;
+	-o-box-shadow      : 0 1px 0 #9DE66D inset;
+	box-shadow         : 0 1px 0 #9DE66D inset;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+}
+
+.wpui-green.wpui-button:hover {
+	background: -moz-linear-gradient(top , #82BF5A,  #559D26);
+	background: -webkit-gradient(linear, left top, left bottom, from(#82BF5A), to(#559D26));
+	background: -webkit-linear-gradient(top , #82BF5A, #559D26);
+	background: -o-linear-gradient(top , #82BF5A, #559D26);
+
+}
+.wpui-green.wpui-button:active {
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
 }

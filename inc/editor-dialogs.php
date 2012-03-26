@@ -17,7 +17,10 @@ $wpui_skins_list = wpui_get_skins_list();
 add_action( 'admin_footer', 'wpui_editor_container_inputs' );
 
 function wpui_editor_container_inputs() {
-	if (( in_array( basename( $_SERVER['PHP_SELF'] ), array( 'post-new.php', 'page-new.php', 'post.php', 'page.php' ) ) ) && ( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) ) {
+	global $pagenow;
+	$wpui_editor_script_pages = apply_filters( 'wpui_editor_script_pages',  array( 'post-new.php', 'page-new.php', 'post.php', 'page.php' ));
+	if (( in_array( basename( $_SERVER['PHP_SELF'] ), $wpui_editor_script_pages ) ) &&
+	 ( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) ) {
 $wpuiMNonce = wp_create_nonce( 'wpui_editor_ajax_dialog_nonce' );
 $wpuiPNonce = wp_create_nonce( 'wpui-editor-post-nonce' );
 $wpuiTNonce = wp_create_nonce( 'wpui-editor-tax-nonce' );

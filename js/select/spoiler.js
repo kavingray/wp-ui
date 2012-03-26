@@ -26,8 +26,7 @@
 
 			// $.wpui.wpspoiler.instances.push( this.element );
 			$.wpui.wpspoiler.instances[ this.element.attr('id') ] = this.element;
-			
-			
+		
 			
 		},
 		
@@ -40,7 +39,7 @@
 			this.header = this.element.children( 'h3' ).first();
 			this.content = this.header.next( 'div' );
 			
-			this.header.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
+			this.header.prepend( '<span class="ui-icon ' + self.o.openIconClass + '" />' )
 					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
 								
 			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top' )
@@ -64,7 +63,7 @@
 			
 			// this.hashGo();		
 
-			if ( this.options.autoOpen || this.element.hasClass( 'open-true' ) ) this.toggle();
+			if ( this.options.autoOpen || this.header.hasClass( 'open-true' ) ) this.toggle();
 			
 			self.header.bind( 'click.wpspoiler', function() {
 				self.toggle();

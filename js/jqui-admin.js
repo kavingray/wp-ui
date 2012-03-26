@@ -17,6 +17,9 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 		
 		base.fileList = ( base.$el.val() != '' ) ? JSON.parse( base.$el.val()) : {};
 
+		base.ble = false;
+		if ( typeof( wpUIOpts ) == 'object' && wpUIOpts.bleeding == 'on' ) base.ble = true;
+
         base.$el.data("wpui.jquiThemeManage", base);
 
         base.init = function(){
@@ -86,6 +89,13 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				// .append( '<input id="jqui_theme_multiple" type="checkbox" name="theme_multiple"  class="ui-widget-content ui-corner-all" /><label for="jqui_theme_multiple">Keep on adding</label>' )
 				.end()
 				.appendTo( 'body' );
+				
+				base.infoD = jQuery( '<div class="wpui_info_box" />' )
+								.appendTo( 'body' )
+								.dialog({
+									autoOpen : false
+								});
+								
 		};
 
 
@@ -111,7 +121,8 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 								base.validate();
 								if ( base.valid )
 									base.addDetails();
-							
+								
+								base.table.trigger( 'adjust' );
 							}
 						},
 						open : function() {
@@ -154,7 +165,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 										[ newName , newUrl , editName , editUrl ]
 									);
 								}
-
+								
 							}
 						},
 						open : function() {
@@ -196,7 +207,6 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 					.removeClass( 'jqui_theme_delete' )
 					.addClass( 'action-delete-confirm' )
 					.after( '<br /><a title="Cancel the action" class="action-delete-cancel" href="#">Cancel</a>');
-					
 				
 				return false;
 				
@@ -217,7 +227,10 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 							jQuery( this ).remove();
 						});
 				}
-				jQuery( base.fileList ).trigger("change");				
+				jQuery( base.fileList ).trigger("change");	
+				
+				base.table.trigger( 'adjust' );	
+											
 				return false;
 			});
 			
@@ -229,23 +242,62 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 					.removeClass('action-delete-confirm')
 					.addClass( 'jqui_theme_delete' );
 					
-				jQuery( this ).prev().remove().end().remove();				
+				jQuery( this ).prev().remove().end().remove();	
+				
+				base.table.trigger( 'adjust' );	
+											
 				return false;
 			});
 		
 			
 			jQuery( '#jqui_scan_uploads' ).click( function() {
-				base.themeUploads();
+				base.themeUploads( function() {
+					base.table.trigger( 'adjust' );
+				});
 				return false;
 			});
 			
+			base.table.bind( 'adjust', function() {
+				if ( ! base.ble ) return false;
+				jQuery( '.ktabs' ).ktabs( 'fixheight' );
+			});
+			
+			
+			
 		};
 
+		
+		base.showInfo = function( titl, htm ) {
+			base.infoD
+					.html( htm )
+					.dialog({
+						close : function() {
+							base.infoD.html( "" );
+							base.infoD.removeClass( 'scan-error' );
+						},
+						open : function() {
+						},
+						width : ( titl == 'Error' ) ? '500' : '300',
+						dialogClass : ( titl == 'Error' ) ? 'scan-error' : '',
+						title : titl,
+						modal : true,
+						buttons : [
+						{
+							'text' : 'Ok',
+							'click' : function() { $( this ).dialog( "close" ); },
+							'class' : 'save-button'
+						}
+						]
+					})
+					.dialog( 'open' );
+		};
+		
 
 		/**
 		 *	Query the directory wp-uploads/wp-ui for themes.
 		 */	
-		base.themeUploads = function() {
+		base.themeUploads = function( callback ) {
+			callback = callback || function() {};
 			jQuery( 'div.jqui_ajax_info').remove();
 			
 			jQuery( '#jqui_scan_uploads' )
@@ -264,18 +316,26 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			}, response;			
 			
 				jQuery.post( ajaxurl, data, function( response ) {
-					// console.log( response ); 
+					
 					var resp = JSON.parse( response );
  					if ( typeof( resp ) != 'object' ) return false;
 
 					$msg.find( 'span' ).remove();
 					if ( resp.status == 'error' ) {
-						$msg.hide()
-							.append( '<span class="ajax_error" />')
-							.find( 'span.ajax_error' )
-							.html( resp.description + "<br /><code>" + resp.link + '</code>' )
-							.end()
-							.slideDown( 500 );
+						// $msg.hide()
+						// 	.append( '<span class="ajax_error" />')
+						// 	.find( 'span.ajax_error' )
+						// 	.html( resp.description + "<br /><code>" + resp.link + '</code>' )
+						// 	.end()
+						// 	.slideDown( 500 );
+							
+						msg = '<span class="ajax_error">';
+						msg += resp.description + "<br /><code>" + resp.link + '</code>';
+						msg += '</span>';
+						
+						base.showInfo( "Error", msg );
+						
+							
 					// }
 					// 
 					// 				
@@ -313,7 +373,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 					for ( keyss in upList ) {
 						// Check if the file already exists
 						if( typeof base.fileList[ keyss ] == "undefined" ) {
-							vales = upList[ keyss ]
+							vales = upList[ keyss ];
 							base.fileList[ keyss ] = vales;
 							base.table
 								.append('<tr />')
@@ -333,46 +393,58 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 						
 						jQuery( 'div.jqui_ajax_info span.ajax_info' ).html('');
 						
+						msg = '';
+						
 						// Display the files added
 						if ( ! jQuery.isEmptyObject( upList ) ) {
-						$msg
-							.hide()
-							.append( '<span class="ajax_success">The following styles found were added successfully to the list. Click "Save Changes" to save them.<ol /></span>');
+						// $msg
+							// .hide()
+							msg += '<span class="ajax_success">The following styles found were added successfully to the list. Click "Save Changes" to save them.';
+							msg += '<ol>';
 							for( keysz in upList ) {
-								jQuery( 'div.jqui_ajax_info ol')
-									.append('<li>' + keysz + '</li>' );
+								msg += '<li>' + keysz + '</li>';
 							}
+							msg += '</ol>';
+							msg += '</span>';
 						}
 						
 						// display the rejected files
 						if ( typeof base.rej != "undefined" ) {
 							// console.log( $msg ); 
-							$msg
-								.append('<span class="ajax_info" />')
-								.find( 'span.ajax_info' )
-								.html( 'The following styles are already on the list, hence were not added.' );
-							for ( rejKeys in base.rej ) {
-								$msg
-								.find( 'span.ajax_info' )
-									.append('<li>' + rejKeys + '</li>' );
-							}						
+							// $msg
+							// 	.append('<span class="ajax_info" />')
+							// 	.find( 'span.ajax_info' )
+								
+								msg += '<span class="ajax_info">The following styles are already on the list, hence were not added.';
+								msg += '<ol>';
+								for ( rejKeys in base.rej ) {
+									msg += '<li>' + rejKeys + '</li>';
+								}								
+								msg += '</ol></span>';							
 							
 						}
 						
-						$msg.slideDown( 300 );
+						base.showInfo( "Success", msg );
+												
+						// $msg.slideDown( 300 );
 						jQuery( base.fileList ).trigger( "change" );
 						
 						setTimeout( function() {
-							jQuery( 'div.jqui_ajax_info' ).slideUp(300, function() {
-								jQuery( 'div.jqui_ajax_info').remove();
-							});
+							// jQuery( 'div.jqui_ajax_info' ).slideUp(300, function() {
+								
+							base.infoD.dialog( 'close' );	
+							// jQuery( 'div.jqui_ajax_info').remove();
+							callback();
+								
+							// });
 							delete base.rej;
 							delete upList;
 							delete base.ajaxError;
-						}, 10000);					
+						}, 10000 );		
 						
 						// console.log( upList ); 
 						
+						callback();
 						
 						// // console.log( base.rej ); 
 					}
@@ -393,7 +465,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			if ( theme_name == '' ) {
 				base.valid = false;
 				base.validMsg.name = "Name(CSS scope) must not be empty.";
-			} else if ( ! /^[\w\-_]*$/im.test( theme_name ) ) {
+			} else if ( !( /^[\w\-_]*$/im ).test( theme_name ) ) {
 				base.valid = false;
 				base.validMsg.name = "Name shall contain only alphabets, digits, hyphens and underscore. It is the CSS scope you selected while downloading the theme.";
 			}
@@ -401,7 +473,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			if ( theme_url == '' ) {
 				base.valid = false;
 				base.validMsg.url = "Link to the stylesheet is needed.";
-			} else if ( ! /\b(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)[\-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&@#\/%=~_|$]/i.test(theme_url) ) {
+			} else if ( ! (/\b(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)[\-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&@#\/%=~_|$]/i).test(theme_url) ) {
 				base.valid = false;
 				base.validMsg.url = "Please verify the link.";
 			}
@@ -419,7 +491,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				tempOl = theme_notes.find('ol');
 				for ( zeus in base.validMsg ) {
 					tempOl
-						.append( '<li>' + base.validMsg[zeus] + '</li>' )
+						.append( '<li>' + base.validMsg[zeus] + '</li>' );
 				}
 				tempOl.animate({
 					height : 'toggle',
@@ -451,7 +523,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			// console.log( base.fileList ); 
 			}
 			base.themeForm.attr( 'title' , '' );
-			base.themeForm.dialog('destroy');		
+			base.themeForm.dialog( 'destroy' );		
 
 		};
 
@@ -514,13 +586,16 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
         base.$el = $(el);
         base.el = el;
 
-        base.$el.data("wpui.jquiThemeManage", base);
+        base.$el.data("wpui.selectStyles", base);
 		
 		base.init = function( ) {
 			base.o = $.extend( {}, $.wpui.selectStyles.defaults , options );
 			
 			base.addForm();
 			base.formBinders();
+			
+			base.stylesList = [];
+			
 			
 			
 			
@@ -542,9 +617,18 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				.appendTo( 'body' );
 			
 			
-			// jQuery.post(ajaxurl, data, function( response ) {
-				if ( response == '404' ) return false;		
-				base.stylesList = ["wpui-gene", "wpui-light", "wpui-blue", "wpui-red", "wpui-green", "wpui-dark", "wpui-quark", "wpui-cyaat9", "wpui-android", "wpui-safle", "wpui-alma", "wpui-macish", "wpui-achu", "wpui-redmond", "wpui-sevin"];
+			jQuery.post( ajaxurl, data, function( response ) {
+				if ( response == '404' ) return false;	
+
+				try {
+					base.stylesList = JSON.parse(response);
+				} catch ( err ) {
+					base.stylesList = response || ["wpui-gene", "wpui-light", "wpui-blue", "wpui-red", "wpui-green", "wpui-dark", "wpui-quark", "wpui-cyaat9", "wpui-android", "wpui-safle", "wpui-alma", "wpui-macish", "wpui-achu", "wpui-redmond", "wpui-sevin"];					
+				}
+
+				
+				
+				
 				
 				base.storedList = [];
 				if ( jQuery( '#selected_styles' ).val() )
@@ -575,7 +659,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 					.append( liDStr );
 				
 				
-			// });
+			});
 			
 			
 			base.formBinders = function() {
@@ -674,11 +758,12 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 
 jQuery( document ).ready(function() {
 	// jQuery( '#optionsform input[type=checkbox]' ).wpuiToggleSwitch();
+
+	jQuery( 'textarea#selected_styles' ).parent().parent().hide();
 	
-	// jQuery( '#optionsform select' ).selectBox();
+
 	
 	jQuery( '#jqui_custom_themes' ).wpui_jquiThemeManage();
-	jQuery( 'textarea#selected_styles' ).parent().parent().hide();
 	jQuery( '#wpui-combine-css3-files' ).wpui_selectStyles();
 	
 
@@ -695,7 +780,8 @@ jQuery( document ).ready(function() {
 			speed : 300,
 			easing: 'swing',
 			event : 'drag',
-			threshold : 10
+			threshold : 10,
+			classes	: false
 		},
 		_create	 : function() {
 			var el = this.element, elID = el.attr( 'id' ), self = this;
@@ -738,7 +824,7 @@ jQuery( document ).ready(function() {
 			this.switchHandle
 			.siblings()
 			.css({
-				width : ( this.switchHandle.width() + 10 + 5 ),
+				width : ( this.switchHandle.width() + this.thr ),
 				position : 'static'
 			}).disableSelection();		
 		
@@ -752,6 +838,8 @@ jQuery( document ).ready(function() {
 			this.element.bind( 'change', function() {
 				self._toggle();
 			});	
+			
+			if ( this.options.classes ) this.switche.addClass( this.options.classes );
 			
 			if ( this.options.event == 'drag' ) {
 				this._mouseInit();
@@ -768,7 +856,7 @@ jQuery( document ).ready(function() {
 			var self = this, state = self._getState();
 
 			// state is gonna be on.
-			lEfT = ( state == 'off' ) ? ( ( self.swWidth * -1 ) - 10 ) : 0;
+			lEfT = ( state == 'off' ) ? ( ( self.swWidth * -1 ) - self.thr ) : 0;
 			
 			// ( state == 'off' ) ? self.switchHandle.next().show() : self.switchHandle.prev().show();
 			
@@ -951,14 +1039,23 @@ jQuery( document ).ready(function() {
 						}) );
 	
 					},
+					position : {
+						my : 'left top',
+						at : 'left bottom',
+						collision : 'none',
+						offset : "-5 0"
+						
+					},
 					create : function() {
 						self.maxLength = 1;
 						select.find( 'option' ).each(function() {
 							var text = jQuery( this ).text();
 							if ( text.length > self.maxLength )
 								self.maxLength = text.length;
+							if ( self.maxLength < 5 )
+								self.maxLength = 5;
 						});
-						
+
 						selectDiv
 							.width( self.maxLength * 10 )
 							.find( 'input' )
@@ -1017,7 +1114,7 @@ jQuery( document ).ready(function() {
 						if ( ul.height() > 300 ) ul.css({
 							height : '300px',
 							overflowY : 'scroll'
-						})
+						});
                     });
              };
 
@@ -1057,7 +1154,6 @@ jQuery( document ).ready(function() {
 			input.val( select.val() );
 
 		},
-
 		destroy: function() {
 			this.input.remove();
 			this.button.remove();

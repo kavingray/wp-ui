@@ -118,7 +118,7 @@
 		});		
 		
 		return this;
-	} // end wpuiHilite
+	}; // end wpuiHilite
 	
 	jQuery.fn.wpuiHilite.options = {
 		color	: 'lime'

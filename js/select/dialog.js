@@ -61,8 +61,6 @@ jQuery.fn.wpDialog = function( options ) {
 			kel[ 'dialogClass' ] = kel.dialogClass.replace(/_/gm, ' ');
 		}
 
-		// console.log( kel ); 
-		
 		$base.dialog( kel );
 
 		jQuery( '[class*=dialog-opener]' ).button({

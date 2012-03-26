@@ -364,3 +364,40 @@
 	right: 5px;
 	opacity: 1;
 }
+
+
+
+
+.wpui-cyaat9.wpui-button {
+	background: #90959E;
+	background: -moz-linear-gradient(top , #90959E, #666970);
+	background: -webkit-gradient(linear, left top, left bottom, from(#90959E), to(#666970));
+	background: -o-linear-gradient(top, #90959E, #666970);
+	color: #DFEAF5 !important;
+	text-shadow: 0 1px 0 #1C3747;
+	border: 1px solid #414347;
+	border-top: 2px groove #A6B0B8;
+	border-bottom: 2px solid #414347;
+	border-radius          :  3px;
+	-moz-border-radius     :  3px;
+	-webkit-border-radius  :  3px;
+	-o-border-radius       :  3px;
+}
+
+.wpui-cyaat9.wpui-button:hover {
+	background: -moz-linear-gradient(top , #A5B1C0, #80878E);
+	background: -webkit-gradient(linear, left top, left bottom, from(#A5B1C0), to(#80878E));
+	background: -webkit-linear-gradient(top , #A5B1C0, #80878E);
+	background: -o-linear-gradient(top , #A5B1C0, #80878E);
+	color: #DFEAF5 !important;
+	text-shadow: 0 -1px 0 #1C3747;
+}
+
+
+.wpui-cyaat9.wpui-button:active {
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+}
+

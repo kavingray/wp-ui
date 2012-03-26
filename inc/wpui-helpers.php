@@ -18,7 +18,7 @@ function wpui_get_jqui_themes_list()
 		'sunny', 'overcast', 'le-frog',	'flick', 'pepper-grinder', 'eggplant',
 		'dark-hive', 'cupertino', 'south-street', 'blitzer', 'humanity',
 		'hot-sneaks', 'excite-bike', 'vader', 'dot-luv', 'mint-choc',
-		'black-tie', 'trontastic', 'swanky-purse', 'base'		
+		'black-tie', 'trontastic', 'swanky-purse'	
 	);	
 } // END function wpui_get_jqui_themes_list
 	
@@ -28,9 +28,9 @@ function wpui_get_jqui_themes_list()
 function wpui_get_css3_styles_list()
 {
 	return array( 
-			'wpui-light', 'wpui-blue', 'wpui-red', 'wpui-green', 'wpui-dark',
-			'wpui-quark', 'wpui-cyaat9', 'wpui-android', 'wpui-safle', 'wpui-alma',
-			'wpui-macish', 'wpui-achu', 'wpui-redmond', 'wpui-sevin', 'wpui-gene'
+		'wpui-light', 'wpui-blue', 'wpui-red', 'wpui-green', 'wpui-dark', 'wpui-quark',
+		'wpui-cyaat9', 'wpui-android', 'wpui-safle', 'wpui-alma', 'wpui-macish',
+		'wpui-achu', 'wpui-redmond', 'wpui-sevin', 'wpui-gene', 'wpui-narrow'
 	);
 } // END function wpui_get_css3_styles_list
 
@@ -151,13 +151,20 @@ function wpui_clean_cache_images_scripts()
 	// } else {
 		try {
 			system( '/bin/rm -rf ' . escapeshellarg( $cudir ) );
-			mkdir( $cudir, 0755 );
+			// mkdir( $cudir, 0755 );
+			if (!@mkdir($cudir, 0755)) {
+			    $error = error_get_last();
+			    echo "Error - <code>" . $error['message'] . '</code>. Try creating the directory manually with permissions ( 755 ).';
+			} else {
+				echo "Cache files were cleaned successfully.";
+				
+			}
+			
 		} catch( Exception $e ) {
-			echo "Error : " . $e->getMessage() . "\n";
+			// echo "Error : " . $e->getMessage() . "\n";
 			die ();
 		}
 	// }
-	echo "Cache files were cleaned successfully.";
 	
 
 	die();
@@ -444,58 +451,36 @@ function wpui_selectstyles_list() {
  * 	WP UI get skins list.
  */
 function wpui_get_skins_list() {
-	$wpui_skins_list_pre = array(
-		
-		'startoptgroup1'=>	'WP UI CSS3 Themes',
-			'wpui-light'		=>	'WPUI - light',
-			'wpui-blue'			=>	'WPUI - Blue',
-			'wpui-red'			=>	'WPUI - Red',
-			'wpui-green'		=>	'WPUI - Green',
-			'wpui-dark'			=>	'WPUI - Dark',	
-			'wpui-quark'		=>	'WPUI - Quark',
-			'wpui-cyaat9'		=>	'WPUI - See ya at 9',
-			'wpui-android'		=>	'WPUI - Android',
-			'wpui-safle'		=>	'WPUI - safle',
-			'wpui-alma'			=>	'WPUI - Alma',
-			'wpui-macish'		=>	'WPUI - Macish',
-			'wpui-achu'			=>	'WPUI - Achu',
-			'wpui-redmond'		=>	'WPUI - Redmond',
-			'wpui-sevin'		=>	'WPUI - Sevin',
-			'wpui-gene'			=>	'WPUI - Gene',
-		'endoptgroup1'	=>	'',		
-		
-		'startoptgroup2'=>	'jQuery UI Themes',
-			'ui-lightness'	 =>	'UI-Lightness',
-			'ui-darkness'	 =>	'UI-Darkness',
-			'smoothness'	 =>	'Smoothness',
-			'start'			 =>	'start',
-			'redmond'		 =>	'Redmond',
-			'sunny'			 =>	'Sunny',
-			'overcast'		 =>	'Overcast',
-			'le-frog'		 =>	'Le Frog',
-			'flick'			 =>	'Flick',
-			'pepper-grinder' => 'Pepper Grinder',
-			'eggplant'		 => 'Eggplant',
-			'dark-hive'		 => 'Dark Hive',
-			'cupertino'		 => 'Cupertino',
-			'south-street'	 => 'South St',
-			'blitzer'		 => 'Blitzer',
-			'humanity'		 => 'Humanity',
-			'hot-sneaks'	 => 'Hot Sneaks',
-			'excite-bike'	 => 'Excite Bike',
-			'vader'			 => 'Vader',
-			'dot-luv'		 => 'Dot Luv',
-			'mint-choc'		 => 'Mint Choc',
-			'black-tie'		 => 'Black Tie',
-			'trontastic'	 => 'Trontastic',
-			'swanky-purse'	 => 'Swanky Purse',
-			'base'			 => 'Base', 
-			'black-tie'		 => 'Black Tie',
-		'endoptgroup2'	=>	''
-	);
 	
-	return apply_filters( 'wpui_get_skins_list', $wpui_skins_list_pre );
+	$wpui_skins = array(
+		'startoptgroup1'=>	'WP UI CSS3 Themes',
+	);
+
+	// $css3_list = 
+	
+	$css3_list = wpui_get_css3_styles_list();
+	
+	foreach ( $css3_list as $list=>$css ) {
+		$wpui_skins[ $css ] = ucwords( str_ireplace( '-', ' ', $css ) );
+	}	
+	
+
+	$wpui_skins['endoptgroup1'] = '';
+	
+	$wpui_skins[ 'startoptgroup2'] = 'jQuery UI Themes';
+
+
+	$jq_list = wpui_get_jqui_themes_list();
+
+	foreach ( $jq_list as $list=>$jq ) {
+		$wpui_skins[ $jq ] = ucwords( str_ireplace( '-', ' ', $jq ) );
+	}
+	
+	$wpui_skins['endoptgroup2'] = '';
+	
+	return apply_filters( 'wpui_get_skins_list', $wpui_skins );
 } // END function wpui_get_skins_list
+
 
 
 add_filter( 'wpui_get_skins_list', 'wpui_add_custom_skins' );
@@ -503,6 +488,7 @@ add_filter( 'wpui_get_skins_list', 'wpui_add_custom_skins' );
 function wpui_add_custom_skins( $skins ) {
 	$opts = get_option( 'wpUI_options' );
 	if ( ! $skins || ! is_array( $skins ) || ! isset( $opts ) ) return $skins;
+	
 	if ( ! empty( $opts[ 'jqui_custom_themes' ] ) ) {
 		$customs = json_decode( $opts[ 'jqui_custom_themes'], true );
 		if ( ! is_array( $customs ) || empty( $customs ) ) return $skins;
@@ -512,8 +498,10 @@ function wpui_add_custom_skins( $skins ) {
 			$dName = ucwords( str_ireplace( '-', ' ', $value ) );
 			$skins[ $value ] = $dName;
 		}
+		$skins = array_merge( $skins, apply_filters( 'wpui_custom_skins', array() ) );
 		$skins[ 'endoptgroup3'] = '';	
 	} // end isset for custom themes.	
+	
 	return $skins;
 }
 
@@ -617,6 +605,65 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 	// } else {
 	// }		
 } // END update CSS dirs.
+
+
+
+add_shortcode('wimg', 'wpui_img_shortcode' );
+
+function wpui_img_shortcode( $atts, $content=null ) {
+	extract( shortcode_atts( array(
+		'title'		=>	false,
+	), $atts ) );
+	
+	if ( ! $title ) return false;
+
+	$img = wpui_get_media_item( $title );
+	
+	if ( ! is_array( $img ) ) return false;	
+	
+	$output = '<img src="' . $img[ 'image' ] . '" title="' . $img[ 'title' ] . '">';
+
+	return $output;
+
+} // 
+
+
+function wpui_get_media_item( $title ) {
+
+	$get_media_items = array(
+	 	'post_type' => 'attachment',
+	 	'post_mime_type' =>'image',
+		'post_status' => 'inherit',
+		'posts_per_page' => -1,
+	);
+
+	$output = array(
+			'image'		=> '',
+			'title'		=>	'',
+			'size'		=>	array()
+			
+			);
+
+	$media_items = new WP_Query( $get_media_items );
+	$images = array();
+	$i = 0;
+	
+	foreach ( $media_items->posts as $image ) {
+		if ( $i > 0 ) break;
+		if ( $image->post_title != $title ) continue;
+		else {
+			$output[ 'image' ] .= $image->guid;
+			$output[ 'title' ] .= $image->post_title;
+			break;
+		}
+		$i++;
+	}	
+	
+	return $output;	
+} // function get_media_item.
+
+
+
 
 
 

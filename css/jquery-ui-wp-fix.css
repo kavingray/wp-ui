@@ -392,3 +392,111 @@ div.tab-bottom-nav {
 
 
 
+/*
+ *	Alternate framework.
+ */
+
+.ktabs.ui-tabs {
+	font-size : 12px;
+	overflow : hidden;
+}
+
+
+.ktabs ul.ul-vertical {
+	list-style : none;
+
+}
+
+.ktabs ul.ul-vertical {
+	width : 150px;
+/*	height : 100%;*/
+
+}
+
+.ktabs ul li {
+	display : inline-block;
+	vertical-align : bottom;
+	
+}
+
+.ktabs ul li img,
+.ktabs li:hover img,
+.ktabs li img:hover,
+.ktabs li img:active {
+	border : 0px !important;
+	background : none !important;
+	vertical-align : middle;
+}
+
+
+
+
+.ktabs ul.ul-vertical li {
+	float : left;
+	width : 100%;
+}
+
+.ktabs ul.ul-vertical li a {
+	width : 98%;
+}
+
+
+.ktabs .panels {
+	float : left;
+	overflow : hidden;
+	width : 100%;
+}
+
+.ktabs .panel {
+	float : left;
+	padding : 1em;
+	border : 0px solid transparent;
+}
+
+.ktabs .panel-navigation {
+	font-size : 12px !important;
+	background : rgba( 255, 255, 255, 0.2 );
+	background: -moz-linear-gradient(bottom , rgba( 0, 0, 0, 0.1 ),  rgba( 255, 255, 255, 0 ));
+	background: -webkit-gradient(linear, left bottom, left top, from(rgba( 0, 0, 0, 0.1 )), to(rgba( 255, 255, 255, 0 )));
+	background: -webkit-linear-gradient(bottom , rgba( 0, 0, 0, 0.1 ), rgba( 255, 255, 255, 0 ));
+	background: -o-linear-gradient(bottom , rgba( 0, 0, 0, 0.1 ), rgba( 255, 255, 255, 0 ));
+	background: -ms-linear-gradient(bottom , rgba( 0, 0, 0, 0.1 ), rgba( 255, 255, 255, 0 ));
+	background: linear-gradient(bottom , rgba( 0, 0, 0, 0.1 ), rgba( 255, 255, 255, 0 ));
+	-moz-transition : all 0.3s ease-in-out;
+	-webkit-transition : all 0.3s ease-in-out;
+	-o-transition : all 0.3s ease-in-out;
+	-ms-transition : all 0.3s ease-in-out;
+	transition : all 0.3s ease-in-out;
+	width : 99%;
+	padding : 4px;
+	opacity : 0.4;
+	
+}
+
+
+.ktabs.mode-vertical .panel-navigation {
+	width : 150px;
+	margin : 4px;
+	position : absolute;
+	bottom : -50px;
+	left : 0;
+}
+
+
+.ktabs.mode-vertical:hover > .panel-navigation  {
+	bottom : 0;
+}
+
+.panel-navigation:hover {
+	opacity : 1;
+}
+
+.ktabs .panel-navigation a {
+	float : left;
+
+}
+
+.ktabs .panel-navigation a.wpui-nav-next {
+	float : right;
+}
+

@@ -298,3 +298,52 @@
 .wpui-android h5 {
 	color: #FFF;
 }
+
+
+
+
+.wpui-android.wpui-button {
+	background: #AAA;
+	background: -moz-linear-gradient(top , #CFCFCF,  #AAA);
+	background: -webkit-gradient(linear, left top, left bottom, from(#CFCFCF), to(#AAA));
+	background: -webkit-linear-gradient(top , #CFCFCF, #AAA);
+	background: -o-linear-gradient(top , #CFCFCF, #AAA);
+	text-shadow: 0 1px 0 #FFF;
+	font-weight : bold;
+	color: #666;
+	border: 1px solid #999;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+	box-shadow : 1px 1px 0 #DDD inset, -1px -1px 0 #CCC inset;
+	-moz-transition : all 0.2s ease-in;
+	-webkit-transition : all 0.2s ease-in;
+	-o-transition : all 0.2s ease-in;
+	-ms-transition : all 0.2s ease-in;
+	transition : all 0.2s ease-in;
+	
+}
+
+.wpui-android.wpui-button:hover {
+	background: -moz-linear-gradient(top , #E5E5E5,  #B5B5B5);
+	background: -webkit-gradient(linear, left top, left bottom, from(#E5E5E5), to(#B5B5B5));
+	background: -webkit-linear-gradient(top , #E5E5E5, #B5B5B5);
+	background: -o-linear-gradient(top , #E5E5E5, #B5B5B5);
+	color : #333;
+}
+
+
+.wpui-android.wpui-button:active {
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	background: -moz-linear-gradient(top , #FF9E08,  #FFA208);
+	background: -webkit-gradient(linear, left top, left bottom, from(#FF9E08), to(#FFA208));
+	background: -webkit-linear-gradient(top , #FF9E08, #FFA208);
+	background: -o-linear-gradient(top , #FF9E08, #FFA208);
+	border: 1px solid #FFBA39;
+	text-shadow: 0 1px 0 #FFBA39;
+}
+

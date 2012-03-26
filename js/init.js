@@ -66,7 +66,6 @@ jQuery.fn.tabsThemeSwitcher = function(classArr) {
 };
 
 var tb_remove = function() {
-	// console.log( "Thickbox close fix" );
  	jQuery("#TB_imageOff").unbind("click");
 	jQuery("#TB_closeWindowButton").unbind("click");
 	jQuery("#TB_window")
@@ -83,5 +82,5 @@ var tb_remove = function() {
 	}
 	jQuery(document).unbind('.thickbox');
 	return false;
-} // END function tb_remove()
+}; // END function tb_remove()
 

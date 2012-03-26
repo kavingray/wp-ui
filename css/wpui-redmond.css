@@ -367,3 +367,50 @@
 .wpui-redmond .ui-dialog-titlebar-close:focus {
     background: -moz-linear-gradient(top , #CEA994, #9F644E 42%, #6E0F0D 43%, #551D0D);	
 }
+
+
+
+.wpui-redmond.wpui-button {
+	background: #D5D5D5;
+	background: -moz-linear-gradient(top, #F2F2F2, #EEE 48%, #DDDDDD 49%, #CFCFCF);
+	background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), color-stop(48%, #EEE), color-stop(49%, #DDDDDD), to(#CFCFCF));
+	background: -webkit-linear-gradient(top, #F2F2F2, #EEE 48%, #DDDDDD 49%, #CFCFCF);
+	background: -o-linear-gradient(top, #F2F2F2, #EEE 48%, #DDDDDD 49%, #CFCFCF);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#F2F2F2', endColorStr='#C2C2C2');
+	border: 1px groove #AAA;
+	text-shadow: 0 1px 0 #FFF;
+	color: #000;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+	font-weight : bold;
+}
+
+.wpui-redmond.wpui-button:hover {
+	border: 1px groove #3C7FB1;
+	background: -moz-linear-gradient(top, #FAFDFE, #D9F0FC 48%, #BCE5FC 49%, #A7D9F5);
+	background: -webkit-gradient(linear, left top, left bottom, from(#FAFDFE), color-stop(48%, #D9F0FC), color-stop(49%, #BCE5FC), to(#A7D9F5));
+	background: -webkit-linear-gradient(top, #FAFDFE, #D9F0FC 48%, #BCE5FC 49%, #A7D9F5);
+	background: -o-linear-gradient(top, #FAFDFE, #D9F0FC 48%, #BCE5FC 49%, #A7D9F5);
+	-moz-box-shadow: 0 -4px 2px #7ACCFF inset;
+	-webkit-box-shadow: 0 -4px 2px #7ACCFF inset;
+	-o-box-shadow: 0 -4px 2px #7ACCFF inset;
+	box-shadow: 0 -4px 2px #7ACCFF inset;
+}
+
+
+.wpui-redmond.wpui-button:active {
+	background: -moz-linear-gradient(top, #FAFDFE, #D9F0FC 48%, #BCE5FC 49%, #A7D9F5);
+	background: -webkit-gradient(linear, left top, left bottom, from(#FAFDFE), color-stop(48%, #D9F0FC), color-stop(49%, #BCE5FC), to(#A7D9F5));
+	background: -webkit-linear-gradient(top, #FAFDFE, #D9F0FC 48%, #BCE5FC 49%, #A7D9F5);
+	background: -o-linear-gradient(top, #FAFDFE, #D9F0FC 48%, #BCE5FC 49%, #A7D9F5);
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 31, 0.4) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 31, 0.4) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 31, 0.4) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 31, 0.4) inset;
+
+}
+
+
+

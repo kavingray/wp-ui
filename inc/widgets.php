@@ -54,9 +54,8 @@ class wpui_core_widget extends WP_Widget {
 				echo '<div class="ui-collapsible-content">' . do_shortcode( $item[ 'panel' ] ) . '</div>';
 				echo '<div><!-- end .wp-spoiler -->';				
 			}	
-			
 		}	
-		
+	
 		echo $after_widget;
 	}
 
@@ -76,6 +75,10 @@ class wpui_core_widget extends WP_Widget {
 			'item'		=>	array()
 		);
 		
+		static $wpui_widget_inst = 0;		
+		$wpui_widget_inst++;
+		
+		
 		// prevent undefined index notice.
 		for ( $i = 0; $i <= 4; $i++ ) {
 			$defaults['item'][$i] = array('title' => '', 'panel' => '' );
@@ -88,13 +91,13 @@ class wpui_core_widget extends WP_Widget {
 			$instance['item'][$i] = array('title' => '', 'panel' => '' );
 		}
 		
-		
 		$instance = wp_parse_args( (array) $instance, $defaults ); ?>
 		<div class="wpui-widget-left-block">
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e("Title"); ?>:</label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
 		</p>
+
 
 		<p>		
 			<label>Type and number of panels</label>
@@ -114,7 +117,6 @@ class wpui_core_widget extends WP_Widget {
 		<select id="<?php echo $this->get_field_id( 'style' ) ?>" name="<?php echo $this->get_field_name( 'style' ) ?>">	
 			<option value="default">Default</option>
 			<?php	
-
 			foreach( $skins_list as $skin=>$name ) {
 				if ( stristr( $skin, 'startoptgroup' ) ) {
 					echo '<optgroup label="' . $name . '">';
@@ -128,11 +130,15 @@ class wpui_core_widget extends WP_Widget {
 			?>		
 		</select>
 		</p>
-		<!-- <h3>Notes</h3> -->
-		<!-- <ul>If the rich text editor does not display straight away, please try saving the widget once. Reloading the page always does wonders.
+		<h4>Notes</h4>
+		<ul style="list-style : disc inside none;">
+		<li>Please save the widget once, right after adding it.</li>
+		<li>Please do so when increasing the number of panels.</li>
+		<li>Shortcodes can be used inside the content.</li>
+		<li>Panels with empty content are not shown.</li>
 		</ul>
-		<ul>You might get an occasional flickering when widget is added, this is normal.</ul> -->
 		</div>
+		
 		<div class="wpui-accordion">
 			
 		<?php for( $k=1; $k <= $instance['number' ]; $k++ ) { ?>
@@ -140,15 +146,17 @@ class wpui_core_widget extends WP_Widget {
 		<div class="wp-tab-content" style="position : relative;">
 			<p>
 			<label for="<?php echo $this->get_field_id( 'item-' . $k . '-title' ) ?>">Title</label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'item' . $k . '-title' ) ?>" name="<?php echo $this->get_field_name( 'item][' . $k . '][title]' ) ?>" value="<?php echo $instance[ 'item' ][ $k ][ 'title' ] ?>">
-			<label for="<?php echo $this->get_field_id('item-' . $k  . '-panel') ?>" >Contents of Panel <?php echo $k ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'item' . $k . '-title' ) ?>" name="<?php echo $this->get_field_name( 'item][' . $k . '][title]' ) ?>" value="<?php echo htmlspecialchars($instance[ 'item' ][ $k ][ 'title' ]); ?>">
+			<label for="<?php echo $this->get_field_id('item-' . $k  . '-panel') ?>" >Contents of Panel <?php echo $k ?> ( Shortcodes allowed. )</label>
 			<textarea cols="5" rows="15" class="widefat wpui-edit" id="<?php echo $this->get_field_id( 'item-' . $k . '-panel' ); ?>" name="<?php echo $this->get_field_name( 'item][' . $k  . '][panel]' ); ?>"><?php echo $instance[ 'item'][$k]['panel'] ?></textarea>
-			
 		</p>
 		</div>
 		<?php } ?>
 		</div><!-- end .wpui-accordion -->
+		<?php
 		
+		if ( $wpui_widget_inst <= 1 ) {
+		?>
 		<script type="text/javascript">
 		function array_diff( arr1, arr2 ) {
 			var same = [],diff = [];
@@ -161,11 +169,9 @@ class wpui_core_widget extends WP_Widget {
 			}
 			return diff;			
 		}
-	
 		
 		// All ready.
 		jQuery( function() {
-		
 			
 			jQuery( 'h3.wpui-hide-handle' ).each(function() {
 				jQuery( this ).appendTo( jQuery( this ).next() ).hide();
@@ -197,9 +203,11 @@ class wpui_core_widget extends WP_Widget {
 			});
 			
 		
-			$tabs = jQuery( '.wpui-accordion' ).tabs();	
+			$tabs = jQuery( '.wpui-accordion' ).tabs({
+				fx : { opacity : 'toggle' }
+			});	
 			$tabs.tabs( "option", "disabled", true );
-		
+
 			
 			$tabs.tabs();
 
@@ -227,26 +235,101 @@ class wpui_core_widget extends WP_Widget {
 		
 		</script>
 		<style type="text/css">
-.wpui-hide-handle{background-color:whiteSmoke;background-image:-ms-linear-gradient(top,#f9f9f9,#f5f5f5);background-image:-moz-linear-gradient(top,#f9f9f9,#f5f5f5);background-image:-o-linear-gradient(top,#f9f9f9,#f5f5f5);background-image:-webkit-gradient(linear,left top,left bottom,from(#f9f9f9),to(#f5f5f5));background-image:-webkit-linear-gradient(top,#f9f9f9,#f5f5f5);background-image:linear-gradient(top,#f9f9f9,#f5f5f5);-moz-box-shadow:inset 0 1px 0 #fff;-webkit-box-shadow:inset 0 1px 0 #fff;box-shadow:inset 0 1px 0 #fff;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;border:1px solid #DFDFDF;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;padding:5px;margin-bottom :0px;}
-.wp-tab-content{padding:10px;}
-div.wpui-widget-left-block{/* background :red;*/
-width:180px;display :inline-block;vertical-align :top;}
-div.wpui-accordion{display :inline-block;width :400px;margin-left :20px;}
-div.ui-tabs-hide{display :none;}
-.wpui-widget-ul{/* background :red;*/
-/* padding:5px 0;*/
-text-align :center;}
-.wpui-widget-ul li{/* background :black;*/
-color :#FFF;padding :5px;margin:5px;display :inline-block;}
-.wpui-widget-ul li:hover{background :#DFDFDF;-moz-border-radius :3px;-webkit-border-radius :3px;-o-border-radius :3px;border-radius :3px;color :#FFF;text-shadow :0 1px 0 #FFF;}
-.wpui-widget-ul li a{color :#333;text-decoration :none;}
-.wpui-widget-ul li.ui-tabs-selected{background:-moz-linear-gradient(top,#F2F2F2,#DADADA);background:-webkit-linear-gradient(top,#F2F2F2,#DADADA);background:-o-linear-gradient(top,#F2F2F2,#DADADA);border:1px solid white;color:#333;text-shadow:0 1px 0 white;-moz-border-radius :3px;-webkit-border-radius :3px;-o-border-radius :3px;border-radius :3px;-moz-box-shadow :0 -1px 0 #EEE inset,0 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow :0 -1px 0 #EEE inset,0 1px 2px rgba(0,0,0,0.3);-o-box-shadow :0 -1px 0 #EEE inset,0 1px 2px rgba(0,0,0,0.3);box-shadow :0 -1px 0 #EEE inset,0 1px 2px rgba(0,0,0,0.3);}
-.wpui-widget-ul li.ui-tabs-selected .panel-num{background:#D00;box-shadow :0 2px 0 rgba( 0,0,0,0.3 ) inset;color:white;text-shadow:0 1px 0 black;padding:3px 7px;border-radius:15px;}
+		.wpui-hide-handle {
+			background-color: whiteSmoke;
+			background-image: -ms-linear-gradient(top,#f9f9f9,#f5f5f5);
+			background-image: -moz-linear-gradient(top,#f9f9f9,#f5f5f5);
+			background-image: -o-linear-gradient(top,#f9f9f9,#f5f5f5);
+			background-image: -webkit-gradient(linear,left top,left bottom,from(#f9f9f9),to(#f5f5f5));
+			background-image: -webkit-linear-gradient(top,#f9f9f9,#f5f5f5);
+			background-image: linear-gradient(top,#f9f9f9,#f5f5f5);
+			-moz-box-shadow: inset 0 1px 0 #fff;
+			-webkit-box-shadow: inset 0 1px 0 #fff;
+			box-shadow: inset 0 1px 0 #fff;
+			-moz-border-radius: 3px;
+			-khtml-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			border: 1px solid #DFDFDF;
+			-moz-border-radius: 3px;
+			-khtml-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			padding: 5px;margin-bottom :0px;
+		}
+		.wp-tab-content {
+			padding: 10px;
+			background : #F4F2F4;
+			border: 1px solid #DEDEDE;
+			-moz-border-radius     : 4px;
+			-webkit-border-radius  : 4px;
+			-o-border-radius       : 4px;
+			border-radius          : 4px;
+			-moz-box-shadow : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 2px 4px rgba( 0, 0, 0, 0.1 );
+			-webkit-box-shadow : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 2px 4px rgba( 0, 0, 0, 0.1 );
+			-o-box-shadow : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 2px 4px rgba( 0, 0, 0, 0.1 );
+			box-shadow : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 2px 4px rgba( 0, 0, 0, 0.1 );
+		}
+		div.wpui-widget-left-block {/* background :red;*/
+			width:180px;display :inline-block;vertical-align :top;
+		}
+		div.wpui-accordion {display :inline-block;width :400px;margin-left :20px;
+		}
+		div.ui-tabs-hide {display :none;
+		}
+		.wpui-widget-ul {/* background :red;*/
+			/* padding:5px 0;*/
+			text-align :center;
+			word-spacing : -1em;
+			position : relative;
+			z-index : 1000;
+			bottom : -1px;
+		}
+		.wpui-widget-ul *{
+			word-spacing : normal;
+		}
+		.wpui-widget-ul li {/* background :black;*/
+			color :#FFF;
+			margin: 5px; display :inline-block;
+			margin-bottom : 0px;
+			padding : 0.5em;
+		}
+/*		.wpui-widget-ul li:hover {background :#DFDFDF;-moz-border-radius :3px;-webkit-border-radius :3px;-o-border-radius :3px;border-radius :3px;color :#FFF;text-shadow :0 1px 0 #FFF;
+		}*/
+		.wpui-widget-ul li a {color :#333;text-decoration :none;
+			padding : 0.5em;
+		}
+		.wpui-widget-ul li.ui-tabs-selected {
+			background : #F4F2F4;
+			background: -moz-linear-gradient(top,#FAFAFA,  #F4F2F4 );
+			background: -webkit-linear-gradient(top,#FAFAFA,#F4F2F4);
+			background: -o-linear-gradient(top,#FAFAFA,#F4F2F4);
+			background: -ms-linear-gradient(top,#FAFAFA,#F4F2F4);
+			border: 1px solid #DEDEDE;
+			border-bottom-width : 0px;
+			position : relative;
+			bottom : -1px;
+			color: #333;
+			text-shadow: 0 1px 0 white;
+			-moz-border-radius     : 3px 3px 0 0;
+			-webkit-border-radius  : 3px 3px 0 0;
+			-o-border-radius       : 3px 3px 0 0;
+			border-radius          : 3px 3px 0 0;
+		}
+		.wpui-widget-ul li.ui-tabs-selected .panel-num {
+			background: #D00;box-shadow :0 2px 0 rgba( 0,0,0,0.3 ) inset;
+			color: white;
+			text-shadow: 0 1px 0 black;
+			padding: 3px 7px;
+			border-radius: 15px;
+		}
+
 
 
 		</style>
 	<?php 
-	}
+		} // end wpui_widget_inst if conditional
+	} // end form method
 
 
 } // END class wpui_core_Widget
@@ -277,7 +360,6 @@ class wpui_posts_Widget extends WP_Widget {
 		
 		if ( ! isset( $instance[ 'type' ] ) ) return;
 
-
 		$inst_args = '';
 		
 		if ( $instance['type' ] == 'cat' || $instance['type'] == 'tag' ) {
@@ -298,6 +380,10 @@ class wpui_posts_Widget extends WP_Widget {
 		}  
 		if ( isset( $instance[ 'names' ] ) && $instance['names'] != '' ) {
 			$inst_args .= ' tab_names="' . $instance[ 'names' ] . '"';
+		}
+		
+		if ( isset( $instance[ 'number' ] ) && $instance['number'] != '' ) {
+			$inst_args .= ' number="' . $instance[ 'number' ] . '"';
 		}
 
 		echo do_shortcode( '[wptabposts' . $inst_args . ']' );
@@ -322,6 +408,7 @@ class wpui_posts_Widget extends WP_Widget {
 			'selected'	=>	'',
 			'names'		=>	'',
 			'template'	=>	1,
+			'number'	=>	5,
 			'style'		=>	'default'
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults ); ?>
@@ -331,12 +418,14 @@ class wpui_posts_Widget extends WP_Widget {
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" class="widefat" />
 		</p>
 		<p>
+			<label for="<?php echo $this->get_field_id( 'wid_type' ) ?>" title="Type of widget">Type</label>
 			<select id="<?php echo $this->get_field_id( 'wid_type' ) ?>" name="<?php echo $this->get_field_name( 'wid_type' ); ?>">
 				<option value="tabs" <?php selected( $instance['wid_type'], 'tabs') ?>>Tabs</option>
 				<option value="accordion"<?php selected( $instance['wid_type'], 'accordion') ?>>Accordion</option>
 			</select>
 		</p>
 		<p>
+			<label for="<?php echo $this->get_field_name( 'style' ) ?>" title="Styling for this widget. Default is the one selected on the options page.">Style</label>
 			<?php $skins_list = wpui_get_skins_list(); ?>
 		<select id="<?php echo $this->get_field_name( 'style' ) ?>" name="<?php echo $this->get_field_id( 'style' ) ?>">	
 			<option value="default">Default</option>
@@ -357,12 +446,12 @@ class wpui_posts_Widget extends WP_Widget {
 		</p>
 		
 		<p>
-			<label for="<?php echo $this->get_field_name( 'template' ); ?>">Template no.</label>
+			<label title="Found on Options page -> Posts -> Template no." for="<?php echo $this->get_field_name( 'template' ); ?>">Template no.</label>
 			<input type="text" class="widefat" id="<?php echo $this->get_field_id('template') ?>" name="<?php echo $this->get_field_name( 'template' ) ?>" value="<?php echo $instance['template'] ?>"/>	
 			
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_name( 'selected' ); ?>">Currently Selected</li>
+			<label title="Please don't alter this, unless you are sure. This will be the selected Taxonomy items separated with commas." for="<?php echo $this->get_field_name( 'selected' ); ?>">Currently Selected</label>
 			<input type="text" class="widefat wpui-selected" id="<?php echo $this->get_field_id( 'selected' ); ?>" name="<?php echo $this->get_field_name('selected'); ?>" value="<?php echo $instance['selected'] ?>"/>
 		</p>
 		
@@ -389,7 +478,8 @@ class wpui_posts_Widget extends WP_Widget {
 				<option value="popular" <?php selected( $instance['type'], 'popular'); ?>>Popular</option>
 				<option value="random" <?php selected( $instance['type'], 'random'); ?>>Random</option>
 			</select>
-			<input type="text" id="wpui-search-number" class="widefat" name="wpui-search-number" style="width : 30px;" value="5" />
+			<!-- <input type="text" id="wpui-search-number" class="widefat" name="wpui-search-number" style="width : 30px;" value="5" /> -->
+			<input type="text" id="<?php echo $this->get_field_id( 'number' ); ?>" class="widefat" name="<?php echo $this->get_field_name( 'number' ) ?>" style="width : 30px;" value="<?php echo $instance[ 'number' ]; ?>" />
 			<?php $wpuiTNonce = wp_create_nonce( 'wpui-editor-tax-nonce' ); ?>
 			<input type="hidden" id="wpui-editor-tax-nonce" value="<?php echo $wpuiTNonce; ?>">	
 
@@ -422,7 +512,7 @@ span.info { position : absolute; top : 0; right : 0;  height: 100%; padding : 4p
 			var $base = jQuery( this ),
 			searchTerm = $base.closest( '#wpui-search-field' ),
 			searchType = $base.siblings( 'select.wpui-search-type' ),
-			searchNum = $base.closest( '#wpui-search-number' ), 
+			searchNum = $base.closest( '#<?php echo $this->get_field_id( "number" ); ?>' ), 
 			searchSel = $base.parent().prev().find( '.wpui-selected' ),
 			prevSels,	wpuiQuery, ajaxFunc ;	
 
@@ -486,98 +576,15 @@ span.info { position : absolute; top : 0; right : 0;  height: 100%; padding : 4p
 				searchSel.val('');
 				ajaxFunc();
 			});
-
-
-
-			// jQuery( '#widgets-right #wpui-fake-submit' ).each(function() {
-			// 				if ( !scrScat ) wpuiGetPosts( this );
-			// 				scrScat = true;
-			// 				return false;
-			// 			});					
-			
-						
-			
+		
 		
 			
 		});	
 	};
 
-	// var wpuiGetPosts = function( el ) {
-	// 	var searchTerm = jQuery( el ).closest( '#wpui-search-field' ).val(),
-	// 	searchType=jQuery( el ).siblings( 'select.wpui-search-type' ).val(),
-	// 	searchNum = jQuery( el ).closest( '#wpui-search-number' ).val(), 
-	// 	searchSel = jQuery( el ).parent().prev().find( '.wpui-selected' ),
-	// 	prevSels,
-	// 	wpuiQuery;
-	// 
-	// 	searchNum = searchNum || 5;
-	// 	
-	// 	if ( searchTerm == '' || searchType == '' ) return false;
-	// 
-	// 	wpuiQuery = {
-	// 		action : 'wpui_query_meta',
-	// 		search : searchTerm,
-	// 		type : searchType,
-	// 		number : searchNum,
-	// 		_ajax_tax_nonce : jQuery( '#wpui-editor-tax-nonce' ).val()
-	// 	}
-	// 
-	// 	jQuery.post( ajaxurl, wpuiQuery, function( data ) {
-	// 		jQuery( el ).next('div.wpui-search-results')
-	// 		.find( 'ul' ).html(data);
-	// 		
-	// 		if ( searchSel.val() != '' ) {
-	// 			prevSels = searchSel.val().split(',');
-	// 			for ( i=0; i < prevSels.length; i++ ) {
-	// 				console.log( prevSels[ i ] ); 
-	// 				jQuery( el ).next('div.wpui-search-results')
-	// 				.find( 'ul li a[rel=' + searchType  + '-' + prevSels[i] + ']' )
-	// 				.parent()
-	// 				.addClass('selected');
-	// 			}
-	// 		}
-	// 		
-	// 		thisVal = '';
-	// 		jQuery( el ).next('div.wpui-search-results')
-	// 		.find( 'ul li' )
-	// 		.unbind( 'click' )
-	// 		.bind( 'click', function() {
-	// 			if ( jQuery( this ).hasClass( 'no-select') ) return false; 
-	// 			thisVal = jQuery(this).find('a').attr('rel').replace( /(post|cat|tag)\-/, '');
-	// 			jQuery( this ).toggleClass( 'selected' );
-	// 			thisVal += ',';
-	// 			alSel = searchSel.val();
-	// 			if ( alSel.match( thisVal ) )
-	// 				alSel = alSel.replace( thisVal, '' );
-	// 			else
-	// 				alSel += thisVal;
-	// 			
-	// 			searchSel.val( alSel );
-	// 			return false;
-	// 		});
-	// 	
-	// 	});
-	// 
-	// };
 	
 
 	jQuery( function() {		
-		// jQuery( '#wpui-fake-submit' ).live( 'click', function( e ) {
-		// 	wpuiGetPosts( this );	
-		// 	return false;
-		// });	
-		// var scrScat = false;
-		// jQuery( 'select.wpui-search-type' ).bind('change', function() {
-		// 	jQuery( this ).siblings( '.wpui-selected' ).val('');
-		// 	jQuery( this ).siblings('input#wpui-fake-submit').click();
-		// });
-		// 
-		// jQuery( '#widgets-right #wpui-fake-submit' ).each(function() {
-		// 	if ( !scrScat ) wpuiGetPosts( this );
-		// 	scrScat = true;
-		// 	return false;
-		// });
-
 
 		jQuery( '#widgets-right #wpui-fake-submit' ).wpuiGetPosts();
 

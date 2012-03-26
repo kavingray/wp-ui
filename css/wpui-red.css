@@ -264,6 +264,8 @@
 	-o-border-radius       : 8px;
 	border-radius          : 8px;
 	font-family: 'Lucida Grande', 'Arial', sans-serif;
+	background: #FFF;
+	
 }
 
 .wpui-red .ui-dialog-titlebar {
@@ -290,7 +292,6 @@
 .wpui-red .ui-dialog-content {
 	padding: 10px;
 	overflow:hidden;
-	background: #FFF;
 	
 }
 
@@ -318,4 +319,43 @@
 	top: 5px;
 	right: 5px;
 	opacity: 1;
+}
+
+
+
+.wpui-red.wpui-button {
+	background: #AA2626;
+	background: -moz-linear-gradient(top, #BD5454, #AA2626);
+	background: -webkit-gradient(linear, left top, left bottom, from(#BD5454), to(#AA2626));
+	background: -webkit-linear-gradient(top, #BD5454, #AA2626);
+	background: -o-linear-gradient(top, #BD5454, #AA2626);
+	text-shadow: 0 -1px 0 #444;
+	color: #FFF;
+	font-weight : bold;
+	border-radius          : 4px;
+	-moz-border-radius     : 4px;
+	-webkit-border-radius  : 4px;
+	-webkit-border-radius  : 4px;
+	font: Arial, Helvetica , Verdana, sans-serif;
+	border : 1px solid #3D1B1B;
+	-moz-box-shadow    : 0 1px 0 #E78281 inset,  0 -1px 0 #E78281 inset;
+	-moz-transition : all 0.2s ease-in;
+	-webkit-transition : all 0.2s ease-in;
+	-o-transition : all 0.2s ease-in;
+	-ms-transition : all 0.2s ease-in;
+	transition : all 0.2s ease-in;	
+}
+
+.wpui-red.wpui-button:hover {
+	background : #D46254;
+	background: -moz-linear-gradient(top, #D46254, #AA2626);
+	background: -webkit-gradient(linear, left top, left bottom, from(#BD5454), to(#AA2626));
+	background: -webkit-linear-gradient(top, #BD5454, #AA2626);
+	background: -o-linear-gradient(top, #BD5454, #AA2626);
+}
+.wpui-red.wpui-button:active {
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 0, 0.3) inset;
 }

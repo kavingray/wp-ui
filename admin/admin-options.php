@@ -15,7 +15,7 @@
 /**
 *	Plugin Options class.
 */
-// if ( ! class_exists( 'quark_admin_options') ) {
+if ( ! class_exists( 'quark_admin_options') ) {
 class quark_admin_options
 {
 	
@@ -80,7 +80,7 @@ class quark_admin_options
 		 * Hook for inserting info *above* your plugin's option page.
 		 * 	Can be used for information about the plugin, warnings etc.
 		 */
-		do_meta_boxes( 'top-' . $this->db_prefix, 'normal', null );
+		// do_meta_boxes( 'top-' . $this->db_prefix, 'normal', null );
 		do_action( $this->page_prefix . '_above_options_page' );
 
 		/**
@@ -106,7 +106,7 @@ class quark_admin_options
 		 * Hook for inserting info *below* your plugin's option page.
 		 * 	Useful for credits and similar.
 		 */
-		do_meta_boxes( 'below-' . $this->db_prefix, 'normal', null );
+		// do_meta_boxes( 'below-' . $this->db_prefix, 'normal', null );
 		do_action( $this->page_prefix . '_below_options_page' );
 			
 	}
@@ -700,5 +700,5 @@ class quark_admin_options
 
 
 
-// } // END if class_exists check for quark_admin_options.
+} // END if class_exists check for quark_admin_options.
 ?>

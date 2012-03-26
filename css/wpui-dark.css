@@ -45,6 +45,7 @@
 	background: url("../images/dark-resize-se.png") no-repeat;
 }
 
+.wpui-dark.ui-tabs,
 .wpui-dark .ui-tabs {
 	background: #151515;
 	background: -moz-linear-gradient( top, #444, #000);
@@ -399,4 +400,61 @@
 	top: 5px;
 	right: 5px;
 	opacity: 1;
+}
+
+.wpui-dark .ui-dialog-buttonpane {
+	border-top : 1px solid #000;
+	-moz-box-shadow    : 0 1px 0 #444 inset;
+	-webkit-box-shadow : 0 1px 0 #444 inset;
+	-o-box-shadow      : 0 1px 0 #444 inset;
+	box-shadow         : 0 1px 0 #444 inset;
+}
+
+
+.wpui-dark.wpui-button {
+	background: #666;
+	background: -moz-linear-gradient(top, #666, #454545);
+	background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#454545));
+	background: -webkit-linear-gradient(top, #666, #454545);
+	background: -o-linear-gradient(top, #666, #454545);
+	text-shadow: 0 -1px 0 #000;
+	font-weight : bold;
+	padding: 4px 10px;
+	text-decoration : none;
+	-moz-box-shadow    : 1px 1px 0 #888 inset, -1px -1px 0 #666 inset;
+	-webkit-box-shadow : 1px 1px 0 #888 inset, -1px -1px 0 #666 inset;
+	-o-box-shadow      : 1px 1px 0 #888 inset, -1px -1px 0 #666 inset;
+	box-shadow         : 1px 1px 0 #888 inset, -1px -1px 0 #666 inset;
+	border : 0px;
+	border : 1px solid #333;
+	color : #DDD !important;
+	-moz-border-radius     : 3px;
+	-webkit-border-radius  : 3px;
+	-o-border-radius       : 3px;
+	border-radius          : 3px;
+}
+
+.wpui-dark.wpui-button span.ui-icon {
+
+
+}
+
+
+.wpui-dark.wpui-button:hover {
+	background: -moz-linear-gradient(top , #888,  #666);
+	background: -webkit-gradient(linear, left top, left bottom, from(#888), to(#666));
+	background: -webkit-linear-gradient(top , #888, #666);
+	background: -o-linear-gradient(top , #888, #666);
+	-moz-box-shadow    : 1px 1px 0 #999 inset, -1px -1px 0 #777 inset;
+	-webkit-box-shadow : 1px 1px 0 #999 inset, -1px -1px 0 #777 inset;
+	-o-box-shadow      : 1px 1px 0 #999 inset, -1px -1px 0 #777 inset;
+	box-shadow         : 1px 1px 0 #999 inset, -1px -1px 0 #777 inset;
+	color : #EEE;
+
+}
+.wpui-dark.wpui-button:active {
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
 }

@@ -349,3 +349,47 @@
 	left: 6px;
 	top : 4px;
 }
+
+
+
+
+.wpui-macish.wpui-button {
+	background: #D5D5D5;
+	background: -moz-linear-gradient(top, #E2E2E2, #B7B7B7);
+	background: -webkit-gradient(linear, left top, left bottom, from(#E2E2E2), to(#B7B7B7));
+	background: -webkit-linear-gradient(top, #E2E2E2, #B7B7B7);
+	background: -o-linear-gradient(top, #E2E2E2, #B7B7B7);
+	border: 1px solid #898989;
+	text-shadow: 0 1px 0 #FFF;
+	color: #000;
+	border-radius          : 4px;
+	-moz-border-radius     : 4px;
+	-webkit-border-radius  : 4px;
+	-webkit-border-radius  : 4px;
+	box-shadow : 0 1px 0 #FFF inset, 0 -1px 0 #CCC inset;
+	-moz-transition : all 0.2s ease-in;
+	-webkit-transition : all 0.2s ease-in;
+	-o-transition : all 0.2s ease-in;
+	-ms-transition : all 0.2s ease-in;
+	transition : all 0.2s ease-in;
+}
+
+.wpui-macish.wpui-button:hover {
+	color : #444;
+	background: -moz-linear-gradient(top, #E5E5E5, #D0D0D0);
+	background: -webkit-gradient(linear, left top, left bottom, from(#FBFBFB), to(#D0D0D0));
+	background: -webkit-linear-gradient(top, #FBFBFB, #D0D0D0);
+	background: -o-linear-gradient(top, #FBFBFB, #D0D0D0);
+}
+
+
+.wpui-macish.wpui-button:active {
+	-moz-box-shadow    : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-webkit-box-shadow : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	-o-box-shadow      : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+	box-shadow         : 0 2px 7px rgba( 0, 0, 0, 0.4) inset;
+
+}
+
+
+

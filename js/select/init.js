@@ -184,9 +184,9 @@ if ( typeof wpUIOpts == 'object' ) {
 		 	typeof jQuery.fn.wpaccord == 'function')
 		jQuery('.wp-accordion').wpaccord();
 	
-	if ( wpUIOpts.enableDialogs == 'on' &&
-		 	typeof jQuery.fn.wpDialog == 'function')
-		jQuery('.wp-dialog').wpDialog();
+	// if ( wpUIOpts.enableDialogs == 'on' &&
+	// 	 	typeof jQuery.fn.wpDialog == 'function')
+	// 	jQuery('.wp-dialog').wpDialog();
 }
 
 jQuery( "ul.wpui-related-posts" ).each(function() {
