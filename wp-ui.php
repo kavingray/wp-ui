@@ -867,6 +867,8 @@ class wpUI {
 			
 			static $wpui_spoiler_id = 0;
 			$wpui_spoiler_id++;
+
+			$scheme = $style;
 			
 			$style = ( $background != 'true' ) ? $background : $style;
 			
@@ -874,6 +876,14 @@ class wpUI {
 			$h3class .= ( $fade == 'true' ) ? ' fade-true' : ' fade-false'; 
 			$h3class .= ( $slide == 'true' ) ? ' slide-true' : ' slide-false';
 			$h3class .= ( $open == 'true' ) ? ' open-true' : ' open-false';
+
+			$jqui_cust = isset( $this->options[ 'jqui_custom_themes' ] ) ? @json_decode( $this->options[ 'jqui_custom_themes' ] , true ) : array();	
+
+			if ( stristr( $style, 'wpui-' ) && ! isset( $jqui_cust[ $scheme ] ) ) {
+				$style .= ' wpui-styles';
+			} else {
+				$style .= ' jqui-styles';
+			}
 			
 			$h3class .= ( $speed ) ? ' speed-' . $speed : '';
 			

@@ -13,9 +13,7 @@ Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fres
 
 WordPress is a great platform suitable for almost every case of websites out there, ranging from a personal blog to a complex CMS. This plugin started out as a snippet when i needed a way to shorten my posts and make them look more presentable. WP UI plugin for WordPress, right from its first release, is all about user experience and presentation. It takes care of all the not-needed background stuff and makes it ultimately easy to implement wp ui widgets - Tabs, accordions, spoilers, dialogs.  Real power of this plugin lies in the handy functions and shortcodes that deal with posts and feeds.
 
-
 >[Documentation](http://kav.in/projects/)  |  [Support](http://kav.in/forum/)
-
 
 = Base =
 
@@ -47,9 +45,11 @@ There is an active support [forum](http://kav.in/forum) available for getting qu
 
 = Translations =
 
-Missing your language translations here? Contribute by translating your favorite plugin!
+Missing your language here? Contribute by translating your favorite plugin!
 
-* [Translations](http://kav.in/resources/translations/wp-ui/) 
+* [All Translations](http://kav.in/resources/translations/wp-ui/) 
+* [Serbian](http://kav.in/resources/translations/wp-ui/serbian) by Zoran Aksic.
+* [Send your translations](http://kav.in/contact/)
 
 = Further =
 
