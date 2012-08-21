@@ -69,11 +69,11 @@ jQuery(function() {
 		});
 	}	
 
-	if ( jQuery( '.ktabs' ).length > 0 ) {
-		jQuery.wpuiGetScript( wpUIOpts.pluginUrl + 'js/qtabs.js', function() {
-			scr_nee.ktabs = true;
-		});
-	}
+	// if ( jQuery( '.ktabs' ).length > 0 ) {
+	// 	jQuery.wpuiGetScript( wpUIOpts.pluginUrl + 'js/qtabs.js', function() {
+	// 		scr_nee.ktabs = true;
+	// 	});
+	// }
 
 });
 

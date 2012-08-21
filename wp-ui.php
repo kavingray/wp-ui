@@ -4,7 +4,7 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles and multiple jQuery UI custom themes.
 Author:	Kavin
-Version: 0.8.2
+Version: 0.8.5
 Author URI: http://kav.in
 
 Copyright (c) 2011 Kavin ( http://kav.in/contact )
@@ -28,28 +28,28 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 Script: WP UI for Wordpress 
 
 About: Version
-	0.8.1
+	0.8.5
 
 About: License 
 	The PHP files are licensed under GPLv2. Javascript files as specified in their file header ( Or their *.dev.js ). Included scripts come under their respective licenses.
 
 About: Wordpress versions supported.
-	This version is supported from WordPress 3.1 through 3.3.1. 
+	This version is supported from WordPress 3.1 through 3.4.1. 
 
 About: Download
 	Download the plugin from wordpress Extend, http://wordpress.org/extend/plugins/wp-ui
 
 About: Support
-	Active support forum is available at http://kav.in/forum .
+	Support
 
 About: Copyright
-	Copyright 2012 - Kavin Amuthan
+	Copyright 2012 - Kavin
 
 */
 
 
 
-define( 'WPUI_VER', '0.8.2' );
+define( 'WPUI_VER', '0.8.5' );
 
 // $opts = get_option( 'wpUI_options');
 // echo '<pre>';
@@ -115,9 +115,7 @@ class wpUI {
 		// Feeds support.
 		include_once( ABSPATH . WPINC . '/feed.php' );
 		
-		/**
-		 * Helper functions !!
-		 */
+		// Helpers
 		include_once( 'inc/wpui-helpers.php' );
 
 
@@ -138,7 +136,6 @@ class wpUI {
 		if ( function_exists( 'gd_info' ) )
 			include_once( 'inc/class-imager.php' );
 
-
 		/**
 		 * Posts module. 
 		 * @todo move into modules dir.
@@ -153,23 +150,23 @@ class wpUI {
 		
 		if ( ! is_admin() ) include_once( wpui_dir( 'inc/wpui-buttons.php' ));
 
-
-		if ( isset( $this->options[ 'alt_sc' ] ) && $this->options[ 'alt_sc' ] == 'on' )
-		{
-			// alternative shortcodes.
-			add_shortcode( 'tabs', array(&$this, 'sc_wptabs'));
-			add_shortcode( 'tabname', array(&$this, 'sc_wptabtitle'));
-			add_shortcode( 'tabcont', array(&$this, 'sc_wptabcontent'));
-			add_shortcode( 'spoiler', array(&$this, 'sc_wpspoiler'));
-			add_shortcode( 'dialog', array(&$this, 'sc_wpdialog'));
-		}
+		// 
+		// if ( isset( $this->options[ 'alt_sc' ] ) && $this->options[ 'alt_sc' ] == 'on' )
+		// {
+		// 	// alternative shortcodes.
+		// 	add_shortcode( 'tabs', array(&$this, 'sc_wptabs'));
+		// 	add_shortcode( 'tabname', array(&$this, 'sc_wptabtitle'));
+		// 	add_shortcode( 'tabcont', array(&$this, 'sc_wptabcontent'));
+		// 	add_shortcode( 'spoiler', array(&$this, 'sc_wpspoiler'));
+		// 	add_shortcode( 'dialog', array(&$this, 'sc_wpdialog'));
+		// }
 		
 		
 		// Related posts widget. to be removed.
-		if ( isset( $this->options[ 'enable_post_widget' ] ) && ( $this->options['enable_post_widget'] == 'on' ) ) {
+		// if ( isset( $this->options[ 'enable_post_widget' ] ) && ( $this->options['enable_post_widget'] == 'on' ) ) {
 			add_shortcode( 'wpui_related_posts', array( $this->wpuiPosts, 'insert_related_posts' ) );
-			add_filter( 'the_content', array( $this->wpuiPosts, 'put_related_posts' ));
-		}
+			// add_filter( 'the_content', array( $this->wpuiPosts, 'put_related_posts' ));
+		// }
 		
 		
 		$this->plugin_dir = plugin_dir_path( __FILE__ );
@@ -229,12 +226,14 @@ class wpUI {
 			// Let's use Wordpress bundled jQuery.
 			// wp_enqueue_script( 'jquery' );
 			
-			// Will be gradually moved to wordpress bundled UI ( >= 3.3)
-			wp_deregister_script( 'jquery-ui' );
-			wp_register_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js', array( 'jquery' ), '1.8.16' );
+			
+			// if ( isset( $this->options[ 'jquery_disabled' ]  ) ) {
+				// Will be gradually moved to wordpress bundled UI ( >= 3.3)
+				wp_deregister_script( 'jquery-ui' );
+				wp_register_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js', array( 'jquery' ), '1.8.21' );
 
-			wp_register_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js', array( 'jquery', 'jquery-ui') );			
-
+				wp_register_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js', array( 'jquery', 'jquery-ui') );			
+			// }
 		}
 		
 		/**
@@ -242,14 +241,18 @@ class wpUI {
 		 */
 		if ( isset( $this->options[ 'load_scripts_on_demand' ] ) &&
 		 	$this->options[ 'load_scripts_on_demand' ] == 'on' ) {
-			wp_enqueue_script( 'wp-ui-async', wpui_url( 'js/async.js' ), array( 'jquery', 'jquery-ui' ) );
+			wp_enqueue_script( 'wp-ui-async', wpui_url( 'js/async.js' ), array( 'jquery', 'jquery-ui' ), WPUI_VER );
 			wp_localize_script( 'wp-ui-async', 'wpUIOpts', $this->get_script_options());
 			return;
 		}
 		
-		wp_enqueue_script( 'wp-ui-min', $plugin_url . 'js/wp-ui.js', array( 'jquery', 'jquery-ui'), WPUI_VER );
+		
 		if ( $this->bleeding ) {
-			wp_enqueue_script( 'wp-ui-alt', $plugin_url . 'js/qtabs.js', array( 'jquery', 'jquery-ui'), WPUI_VER );
+			wp_enqueue_script( 'wp-ui-min', $plugin_url . 'js/wp-ui-old.js', array( 'jquery', 'jquery-ui'), WPUI_VER );
+			
+		} else {
+			wp_enqueue_script( 'wp-ui-min', $plugin_url . 'js/wp-ui.js', array( 'jquery', 'jquery-ui'), WPUI_VER );
+			
 		}
 		wp_localize_script( 'wp-ui-min', 'wpUIOpts', $this->get_script_options());
 		
@@ -288,7 +291,7 @@ class wpUI {
 			'enableAccordion' =>	isset($this->options['enable_accordion']) ? $this->options['enable_accordion'] : '',
 			'enableSpoilers'  =>	isset($this->options['enable_spoilers']) ?	$this->options['enable_spoilers'] : '' ,	
 			'enableDialogs'	  =>	isset($this->options['enable_dialogs']) ?	$this->options['enable_dialogs'] : '' ,	
-			'enablePagination' =>	isset($this->options['enable_pagination']) ?	$this->options['enable_pagination'] : '' ,
+			// 'enablePagination' =>	isset($this->options['enable_pagination']) ?	$this->options['enable_pagination'] : '' ,
 			'tabsEffect'      =>	isset($this->options['tabsfx']) ? $this->options['tabsfx'] : '',
 			'effectSpeed'     =>	isset($this->options['fx_speed']) ? $this->options['fx_speed'] : '',
 			'accordEffect'    =>	isset($this->options['tabsfx']) ? $this->options['tabsfx'] : '',
@@ -309,7 +312,9 @@ class wpUI {
 			"cookies"			=>	isset( $this->options['use_cookies'] ) ? $this->options['use_cookies'] : '',
 			"hashChange"		=> isset( $this->options['linking_history'] ) ? $this->options['linking_history'] : '',
 			"docWriteFix"		=> isset( $this->options['docwrite_fix'] ) ? $this->options['docwrite_fix'] : '',
-			'bleeding'			=>	isset( $this->options[ 'bleeding_edge' ] ) ?  $this->options[ 'bleeding_edge' ]  : 'off'
+			'bleeding'			=>	isset( $this->options[ 'bleeding_edge' ] ) ?  $this->options[ 'bleeding_edge' ]  : 'off',
+			'linking_history'			=>	isset( $this->options[ 'linking_history' ] ) ?  $this->options[ 'linking_history' ]  : 'off',
+			'misc_options'		=>	isset( $this->options[ 'misc_options' ] ) ?  $this->options[ 'misc_options' ]  : 'hello=world'
 		);
 		return $wpui_opts;
 	}
@@ -348,6 +353,7 @@ class wpUI {
 			
 			// Load the jQuery UI theme from the Google CDN.
 			wp_enqueue_style( 'jquery-ui-css-' . $this->options['tab_scheme'], 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/' . $this->options['tab_scheme'] . '/jquery.ui.all.css');
+			// wp_enqueue_style( 'jquery-ui-css-' . $this->options['tab_scheme'], 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/' . $this->options['tab_scheme'] . '/jquery-ui.css' );
 		} 
 
 		/**
@@ -416,28 +422,8 @@ class wpUI {
 			}
 /*			$oldopts = array_merge( $oldopts, $newdefs );*/
 			update_option( 'wpUI_options', $oldopts );
-			$this->clean_up_post_meta();
 		} // End if ( !this->options )
 	} // END set defaults.
-
-	/**
-	 * Clean the old post meta, as the demand loading in done with jQuery.
-	 * 
-	 * @since 0.8
-	 * @todo - remove in > 0.8.1
-	 * 
-	 */
-	function clean_up_post_meta()
-	{
-		$get_posts = get_posts('numberposts=-1&post_type=post&post_status=any');
-		
-		foreach( $get_posts as $gps ) {
-			delete_post_meta( $gps->ID, 'wp-ui-load' );
-			delete_post_meta( $gps->ID, '_wp-ui-load' );
-		}
-		
-	} // END function clean_up_post_meta
-
 
 	/**
 	 * 
@@ -464,7 +450,9 @@ class wpUI {
 			// Accordion only options below
 			'active'		=>	false,
 			'background'	=>	'true',
-			'engine'		=>	'ui'
+			'engine'		=>	'ui',
+			'autoheight'	=>	'off',
+			'sortable'		=>	'false'
 		), $atts));
 		
 		$output  = '';
@@ -492,7 +480,13 @@ class wpUI {
 
 		if ( $background == 'false' )
 			$style .= ' wpui-no-background';
-	
+		
+		if ( $autoheight == 'true' ) 
+			$style .= ' wpui-autoheight';
+		
+		if ( $sortable == 'true' ) 
+			$style .= ' wpui-sortable';
+		
 		// Default : tabs. Change type for accordion.
 		// $class  = ($type == 'accordion') ? 'wp-accordion' : 'wp-tabs';
 		
@@ -598,7 +592,7 @@ class wpUI {
 			}			
 		} // END foreach.
 		
-		if ( $num_page ) {
+		if ( $num_per_page ) {
 			$output .= '</div><!-- end wpui-page -->';
 			$output .= '</div><!-- end wpui-pages-holder -->';
 		}
@@ -684,8 +678,13 @@ class wpUI {
 			
 			$tmpl = $this->wpuiPosts->replace_tags( $ptempl , $item );
 			$tab_content = $before_post . $tmpl . $after_post;
-			$each_tabs .= do_shortcode( '[wptabtitle] ' . $tab_name . ' [/wptabtitle] [wptabcontent] ' . $tab_content  . ' [/wptabcontent]' . "\n" );
+
+			if ( $item[ 'thumbnail' ] )
+				$tab_title_args = ' icon="' . htmlspecialchars( $item[ 'thumbnail' ] ) . '"';
+			
+			$each_tabs .= do_shortcode( '[wptabtitle ' . $tab_title_args . '] ' . $tab_name . ' [/wptabtitle] [wptabcontent] ' . $tab_content  . ' [/wptabcontent]' . "\n" );
 		} // END foreach.
+		
 		
 		$wptabsargs = '';
 		
@@ -735,96 +734,83 @@ class wpUI {
 			'elength'	=>	$this->options['excerpt_length'],
 			'before_post'	=>	'',
 			'after_post'	=>	'',
-			'template'	=>	'1'
+			'template'		=>	'1',
+			'title_template'=> false,
+			'icon'		=>	false
 		), $atts));
-		
+
+
 		$tmpl = ( isset( $this->options[ 'post_template_' . $template ] ) ) ?
 					$this->options[ 'post_template_' . $template ] :
 					$this->options[ 'post_template_1' ];		
 		
+		if ( ! $title_template ) {
+			$title_template = ( isset( $this->options[ 'title_template' ] ) && $this->options[ 'title_template' ] != '' ) ? $this->options[ 'title_template' ] : '<' . $header . ' class="' . $hclass . '">{$title}</' . $header . '>'; 
+		} 
+		
 		if ( $hide == "true" ) $hclass .= ' wpui-hidden-tab';
 		
-		if( $post != '' ) {
-			// No ajax load if a post is specified.
-			$load = '';	
-			$post_cont = $this->wpuiPosts->wpui_get_post( $post, $elength );
-			
-			if ( ! is_array( $post_cont ) ) :
-				$post_content = $post_cont;
-			else :
-			$post_content = $before_post . $this->wpuiPosts->replace_tags( $tmpl, $post_cont ) . $after_post;
-			endif;
-			$output  = '<' . $header . ' class="' . $hclass . '">';
-			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
-			$output .= do_shortcode( '[wptabcontent]' .  $post_content . '[/wptabcontent]');
+		$data = false;
 
-		} elseif( $page != '' ) { 
-			$load = '';
-			$post_cont = $this->wpuiPosts->wpui_get_post( $page, $elength, 'page' );
-			if ( ! is_array( $post_cont ) ) :
-				$post_content = $post_cont;
-			else :			
-			$post_cont[ 'excerpt' ] = $post_cont[ 'content' ];
-			$post_content = $before_post . $this->wpuiPosts->replace_tags( $tmpl, $post_cont ) . $after_post;
-			$post_cont[ 'excerpt' ] = $post_cont[ 'content' ];
-			endif;
-			
-			$output  = '<' . $header . ' class="' . $hclass . '">';
-			$output .= do_shortcode( $content ) . '</' . $header . '>';
-			$output .= do_shortcode( ' [wptabcontent] ' .  $post_content . ' [/wptabcontent] ');			
-			
-		} elseif( $cat != '' || $category_name != '' || $tag != '' || $tag_name != '' ) {
-			$load = '';
-			
-			$get_cat_posts = $this->wpuiPosts->wpui_get_posts( array( 
-									'cat'		=>	$cat,
-									'category_name' => $category_name,
-									'tag'		=>	$tag,
-									'tag_name'	=>	$tag_name,
-									'number'	=>	$number,
-									'exclude'	=>	$exclude,
-									'length'	=>	$elength								
-									));
-			
-			// echo '<pre>';
-			// print_r($get_cat_posts);
-			// echo '</pre>';
-			
-			$posts_group = '';
-			
-			foreach( $get_cat_posts as $index=>$values ) {
-				$posts_group .= $this->wpuiPosts->replace_tags( $tmpl, $values );	
-			}
-			
-			$output = '<' . $header . ' class="' . $hclass . '">';
-			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
-			$output .= do_shortcode( '[wptabcontent]' . $posts_group . '[/wptabcontent]' );			
-			
-		} elseif( $feed != '' ) { 
-			$get_feeds = $this->wpuiPosts->wpui_get_feeds( array( 
+		// Get the post contents.
+		if ( $post != '' ) {
+			$data = $this->wpuiPosts->wpui_get_post( $post, $elength );
+		} elseif ( $page != '' ) {
+			$data = $this->wpuiPosts->wpui_get_post( $page, $elength );
+		} elseif ( $feed != '' ) {
+			$data = $this->wpuiPosts->wpui_get_feeds( array( 
 							'url'		=>	$feed,
 							'number'	=>	$number	
 						));
-			$feeds_list = '';
-			foreach( $get_feeds as $index=>$item ) {
-				$feeds_list .= $this->wpuiPosts->replace_tags( $tmpl, $item );
-			}
-			
-			$output = '<' . $header . ' class="' . $hclass . '">';
-			$output .= do_shortcode( __( $content ) ) . '</' . $header . '>';
-			$output .= do_shortcode( '[wptabcontent]' . $feeds_list . '[/wptabcontent]' );			
-			
-		} elseif ( $load != '' ) {
-			$output  = '<' . $header . ' class="' . $hclass . '">';
-			$output .= '<a class="wp-tab-load" href="' . $load . '">';
-			$output .= do_shortcode($content);
-			$output .= '</a>';
-			$output .= '</' . $header . '>';
-		} else {	
-			$output = '<' . $header . ' class="' . $hclass . '">' . do_shortcode( __( $content ) ) . '</' . $header . '>';
+
+		} elseif ( $cat != '' || $category_name != '' || $tag != '' || $tag_name != '' ) {
+			$data = $this->wpuiPosts->wpui_get_posts( array( 
+										'cat'		=>	$cat,
+										'category_name' => $category_name,
+										'tag'		=>	$tag,
+										'tag_name'	=>	$tag_name,
+										'number'	=>	$number,
+										'exclude'	=>	$exclude,
+										'length'	=>	$elength								
+									));
+		} 
+		
+		if ( $load != '' ) {
+			$content = '<a class="wp-tab-load" href="' . $load . '">' . $content . '</a>';
+		} 
+		
+		$title_str = str_ireplace( '{$title}', $content, $title_template );
+
+
+		if ( $icon && $icon != '' ) {
+			$title_str = str_replace( '{$thumbnail}', htmlspecialchars_decode( $icon ), $title_str );
 		}
 		
-		return $output;
+		if ( is_array( $data ) ) {
+			if ( isset( $data[ 'title' ] ) ) {
+				$title_str = $this->wpuiPosts->replace_tags( $title_template, $data );
+				$data = $before_post . $this->wpuiPosts->replace_tags( $tmpl, $data ) . $after_post;
+			} else {
+				$scra = '';
+				foreach( $data as $index=>$values ) {
+					$scra .= $this->wpuiPosts->replace_tags( $tmpl, $values );
+				}
+				$data = $before_post . $scra . $after_post;
+			}
+		} 
+
+
+		$title_str = preg_replace( '/\{.*\}/', '', $title_str );
+
+		$output = $title_str;
+
+		if ( $data ) {
+			$output .= do_shortcode( "[wptabcontent]" . $data . "[/wptabcontent]" );
+		} 
+		
+		return $output;		
+		
+	
 	} // END function sc_wptabtitle
 
 	
@@ -853,8 +839,8 @@ class wpUI {
 				'slide'		=>	'true',
 				'speed'		=>	false,
 				'closebtn'	=>	false,
-				'showText'	=>	'Click to show',
-				'hideText'	=>	'Click to hide',
+				'showtext'	=>	false,
+				'hidetext'	=>	false,
 				'open'		=>	'false',
 				'post'		=>	'',
 				'page'		=>	'',
@@ -906,8 +892,16 @@ class wpUI {
 			if ( $closebtn )
 				$out_content .= '<a class="close-spoiler ui-button ui-corner-all" href="#">' . $closebtn . '</a>';
 			
+			$textdata = '';
+			
+			if ( $showtext )
+				$textdata .= ' data-showtext="' . $showtext . '"';
+			if ( $hidetext )
+				$textdata .= ' data-hidetext="' . $hidetext . '"';
+			
+			
 /*			return '<div class="wp-spoiler ' . $style . '"><h3 class="ui-collapsible-header' . $h3class . '">' .$name . '</h3><div class="ui-collapsible-content"><div class="ui-collapsible-wrapper">'  . $out_content . '</div></div></div><!-- end div.wp-spoiler -->';			*/
-			return '<div id="wp-spoiler-' . $wpui_spoiler_id . '" class="wp-spoiler ' . $style . '">  <h3 class="wp-spoiler-title' . $h3class . '">' .$name . '</h3><div class="wp-spoiler-content">'  . $out_content . '</div>  </div><!-- end div.wp-spoiler -->';
+			return '<div id="wp-spoiler-' . $wpui_spoiler_id . '" class="wp-spoiler wpui-hashable ' . $style . '">  <h3 id="' . wpui_get_id( $name ) . '" class="wp-spoiler-title wpui-hashable' . $h3class . '"' . $textdata . '>' .$name . '</h3><div class="wp-spoiler-content">'  . $out_content . '</div>  </div><!-- end div.wp-spoiler -->';
 	} // END function sc_wptabcontent
 
 
@@ -987,8 +981,8 @@ class wpUI {
 			} else {
 				$output .= '<a href="#" class="wpui-open-dialog dialog-opener-' . $dia_inst . '" rel="wp-dialog-' . $dia_inst . '">' . $openlabel . '</a>';
 			}
-
-		} 
+		}
+		
 		$output .= '<div id="wp-dialog-' . $dia_inst . '" class="wp-dialog wp-dialog-' . $dia_inst . ' ' . $style . '" title="' . $title . '">';
 		
 		$output .= do_shortcode( $out_content ) . '</div><!-- end .wp-dialog -->';
@@ -1098,6 +1092,7 @@ class wpUI {
 	{
 		$query_vars[] = 'wpui-css';
 		$query_vars[] = 'wpui-image';
+		$query_vars[] = 'wpui-tour';
 		return $query_vars;
 	} // END function wpui_add_query
 
@@ -1124,7 +1119,7 @@ class wpUI {
 		
 	} // END function wpui_add_queries
 
-
+	
 	
 	function assess_needed_scripts( $posts ) {
 		if ( empty( $posts ) ) return $posts;

@@ -41,6 +41,11 @@
 	padding-bottom: 15px !important;
 }
 
+
+.wpui-safle.wpui-tabs-vertical ul.ui-tabs-nav {
+	padding : 0px !important;
+}
+
 .wpui-safle ul.ui-tabs-nav li {
 	background: none;
 	border: none;

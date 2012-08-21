@@ -319,14 +319,14 @@ function wpui_query_meta()
 		$getArr = get_categories();
 		foreach( $getArr as $get ) {
 			if ( $sear && ( strpos( $get->category_nicename, $sear ) === FALSE ) ) continue;
-			$retStr .= '<li><a href="#" title="Select the category ' . $get->category_nicename . '" rel="cat-' . $get->term_id . '">' . $get->category_nicename . '</a></li>';		
+			$retStr .= '<li><a href="#" title="Select the category ' . $get->category_nicename . '" rel="cat-' . $get->term_id . '">' . $get->category_nicename . ' <span class="wpui-post-count">' . $get->count . '</span></a></li>';	
 		}
-	
+		
 	} elseif ( $type == 'tag' ) {
 		$getArr = get_tags();
 		foreach( $getArr as $get ) {
 			if ( $sear && ( strpos( $get->name, $sear ) === FALSE ) ) continue;
-			$retStr .= '<li><a href="#" title="select the tag ' . $get->name . '" rel="tag-' . $get->term_id . '">' . $get->name . '</a></li>';		
+			$retStr .= '<li><a href="#" title="select the tag ' . $get->name . '" rel="tag-' . $get->term_id . '">' . $get->name. ' <span class="wpui-post-count">' . $get->count . '</span></a></li>';		
 		}			
 		
 	} elseif ( $type == 'recent' ) {
@@ -663,6 +663,36 @@ function wpui_get_media_item( $title ) {
 } // function get_media_item.
 
 
+/**
+ * Get clean id format string.
+ *
+ * @return void
+ * @author Kavin Gray
+ **/
+function wpui_get_id( $str )
+{	
+	return preg_replace( array( '/\s{1,}/m', '/[^\-A-Za-z0-9\s_]/m' ), array( '_','' ) , trim( strtolower( $str ) ) );
+}
+
+/**
+ * Get a Miscellaneous option.
+ *
+ * @return void
+ * @author Kavin Gray
+ **/
+function wpui_misc_opt( $name )
+{
+	$miscs = get_wpui_option('misc_options');
+	$miscs = explode( "\n", $miscs);
+	for ( $i = 0; $i < count( $miscs ); $i++ ) {
+		$temp_arr = explode( '=', $miscs[ $i ] );
+		unset( $miscs[ $i ] );
+		$miscs[ $temp_arr[ 0 ] ] = $temp_arr[ 1 ];
+	}
+	
+	if ( isset( $miscs[ $name ] ) ) return $miscs[ $name ];
+	else return false;
+}
 
 
 

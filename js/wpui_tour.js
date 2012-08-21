@@ -33,7 +33,7 @@
 			it = self.items[ self.instance ];
 
 			}
-			
+
 			self.pointer( it );
 			
 			
@@ -45,6 +45,10 @@
 		
 		close : function() {
 			
+		},
+		plzW8 : function( ms ) {
+			ms += new Date().getTime();
+			while ( new Date() < ms ) {}
 		},
 		pointer : function( it ) {
 			it['pcall'] = it['pcall'] || false;
@@ -65,6 +69,9 @@
 				});
 				return cbutton;
 			};
+			
+			if ( ! jQuery( it['id'] ).length ) self.plzW8( 1250 );
+			
 			jQuery( it['id'] ).pointer({
 				content	: it['content'],
 				position: it['position'],
@@ -74,12 +81,16 @@
 
 		        }
 				
-			}).pointer( 'open' );
+			}).pointer( 'open' ).pointer('show');
+			
 			
 			if ( it['button'] != '' ) {
-			jQuery( '#close-pointer' ).after( '<a class="button-primary" style="margin-right: 10px;" id="button-next">Next</a>' );			
+			jQuery( '#close-pointer' )
+				.after( '<a class="button-primary" style="margin-right: 10px;" id="button-next">Next</a>' );			
 			jQuery( '#button-next' ).bind( 'click', function() {
-				eval( it['callback'] ); self.instance++; self.next( self.instance );		
+				eval( it['callback'] );
+				self.instance++;
+				self.next( self.instance );		
 			});
 
 			jQuery( '#dismiss-tour' ).click(function() {
@@ -109,7 +120,8 @@
 			var self = this; self.$el = jQuery( this );
 			self.atarget = self.$el.attr( 'rel' );
 			self.$el.hover(function() {
-				jQuery( self.atarget ).toggleClass( 'highlighted-item', 1000 );
+				jQuery( self.atarget )
+					.toggleClass( 'highlighted-item', 1000 );
 				return false;
 			}, function() {
 				jQuery( self.atarget).toggleClass( 'highlighted-item' , 1000 );

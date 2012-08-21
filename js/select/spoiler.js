@@ -1,4 +1,8 @@
 (function( $ ) {
+	
+	////////////////////////////////////////////////////
+	//////////////////// WP Spoilers ///////////////////
+	///////////////////////////////////////////////////
 	if ( ! $.wpui ) $.wpui = {};
 	
 	$.wpui._spoilerHashSet = false;
@@ -12,8 +16,8 @@
 			speed	 : 600,
 			spanClass: '.toggle_text',
 			headerClass : 'h3.ui-collapsible-header',
-			openIconClass : 'ui-icon-triangle-1-e',
-			closeIconClass : 'ui-icon-triangle-1-s',
+			openIconClass : 'ui-icon-triangle-1-s',
+			closeIconClass : 'ui-icon-triangle-1-e',
 			autoOpen : false
 		},
 				
@@ -26,8 +30,6 @@
 
 			// $.wpui.wpspoiler.instances.push( this.element );
 			$.wpui.wpspoiler.instances[ this.element.attr('id') ] = this.element;
-		
-			
 		},
 		
 		_spoil : function( init ) {
@@ -42,7 +44,7 @@
 			this.header.prepend( '<span class="ui-icon ' + self.o.openIconClass + '" />' )
 					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
 								
-			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top' )
+			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
 					.children( self.o.spanClass )
 					.html( self.o.showText );
 
@@ -61,6 +63,11 @@
 			var self = this;
 			this._isOpen = false;
 			
+			if ( this.header.data('showtext') )
+				this.options.showText = this.header.data( 'showtext' );
+			if ( this.header.data('hidetext') )
+				this.options.hideText = this.header.data( 'hidetext' );
+
 			// this.hashGo();		
 
 			if ( this.options.autoOpen || this.header.hasClass( 'open-true' ) ) this.toggle();
@@ -68,28 +75,29 @@
 			self.header.bind( 'click.wpspoiler', function() {
 				self.toggle();
 			})
-			.hover( function() { $( this ).toggleClass( 'ui-state-hover' ) });
+			.hover( function() { $( this ).toggleClass( 'ui-state-hover' ); });
 
 			this.content.find( '.close-spoiler' )
-			.wrapInner( '<span class="ui-button-text" />')
-			.addClass('ui-state-default ui-widget ui-corner-all ui-button-text-only' )
-			.click(function() {
-				self.toggle(); return false;
-			});			
+				.wrapInner( '<span class="ui-button-text" />')
+				.addClass('ui-state-default ui-widget ui-corner-all ui-button-text-only' )
+				.click(function() {
+					self.toggle(); return false;
+				});			
+			
+			self.toggle();
 			
 		},
 		_stripPre : function( str ) {
 			return str.replace( /^(\.|#)/, '' );
 		},		
 		toggle : function() {
-			var TxT = ( this.isOpen() ) ? this.options.showText : this.options.hideText;
+			var TxT = ( ! this.isOpen() ) ? this.options.showText : this.options.hideText;
+			
 			this.header
 				.toggleClass( 'ui-corner-top ui-corner-all ui-state-active' )
 				.children( '.ui-icon' )
-				// .removeClass( this.options.closeIconClass )
-				// .addClass( this.options.openIconClass )
 				.toggleClass( this.options.openIconClass + ' ' + this.options.closeIconClass )
-				.siblings('span')
+				.siblings( 'span' )
 				.html( TxT );
 				
 			this.animate();
@@ -104,7 +112,6 @@
 		},
 		open : function() {
 			if ( this.isOpen() ) this.toggle();
-			
 		},
 		close : function() {
 			if ( ! this.isOpen() ) this.toggle();
@@ -161,7 +168,7 @@
 					this.destroy();
 					break;
 				case 'status':
-					return (this._isOpen() ? 'Open' : 'closed' );
+					return (this._isOpen() ? 'open' : 'closed' );
 					break;
 				case 'goto':
 					return this.hashGo( value );
@@ -256,10 +263,6 @@
 	
 })( jQuery );
 jQuery( document ).ready(function() {
-	// jQuery( '.wp-spoiler' ).bind( 'wpspoilercreate', function() {
-		jQuery( '.wp-spoiler' ).wpspoilerHash();
 		jQuery( '.wpui-click-reveal' ).wpuiClickReveal();
-	// });
-
-
 });
+

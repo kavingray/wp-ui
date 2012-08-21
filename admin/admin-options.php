@@ -35,7 +35,7 @@ class quark_admin_options
 		'enclose'	=>	array( 'before' => '', 'after' => '' )
 	);
 	
-	function __construct( array $plugin_details=array() )
+	function __construct( $plugin_details=array() )
 	{
 		$this->plugin_details = $plugin_details;
 		foreach ( $plugin_details as $key => $value ) {
@@ -73,8 +73,10 @@ class quark_admin_options
 	public function render_options_page() {
 
 		echo '<div class="wrap">
-				<div class="icon32" id="icon-options-general"></div>
-				<h2>' . $this->name . ' Options</h2>';
+				<div class="cap-icon" id="icon-options-general"></div>
+				
+				<h2 style="font-size : 35px;"><a href="http://kav.in">
+					<img width="32px" style="display: inline" src="' . plugins_url( "/wp-ui/images/cap-badge.png" ) . '" /></a>  ' . $this->name . '</h2>';
 
 		/**
 		 * Hook for inserting info *above* your plugin's option page.

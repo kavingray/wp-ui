@@ -2,6 +2,24 @@
  *	The included files and init below. 
  */
 
+if(typeof String.prototype.trim !== 'function') {
+  String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g, ''); 
+  }
+}
+
+if(!Array.indexOf){
+	Array.prototype.indexOf = function(obj){
+		for(var i=0; i<this.length; i++){
+			if(this[i]==obj){
+				return i;
+			}
+		}
+	}
+}
+
+	
+
 /**
  * jQuery Cookie plugin
  *
@@ -93,24 +111,39 @@ jQuery.cookie = function (key, value, options) {
 
 
 
+if ( typeof wpUIOpts == 'object' && wpUIOpts.docWriteFix == 'on' ) {
+var docWriteTxt = "";
+
+jQuery(function() {
+  document.write = function( dWT ) {
+    docWriteTxt += dWT;
+  }
+  // document.write("");
+  jQuery( docWriteTxt ).appendTo( 'body' );
+
+});
+} // END doc write fix.
+
+
+
 /*
- * jQuery BBQ: Back Button & Query Library - v1.2.1 - 2/17/2010
+ * jQuery BBQ: Back Button & Query Library - v1.3pre - 8/26/2010
  * http://benalman.com/projects/jquery-bbq-plugin/
  * 
  * Copyright (c) 2010 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
-(function($,p){var i,m=Array.prototype.slice,r=decodeURIComponent,a=$.param,c,l,v,b=$.bbq=$.bbq||{},q,u,j,e=$.event.special,d="hashchange",A="querystring",D="fragment",y="elemUrlAttr",g="location",k="href",t="src",x=/^.*\?|#.*$/g,w=/^.*\#/,h,C={};function E(F){return typeof F==="string"}function B(G){var F=m.call(arguments,1);return function(){return G.apply(this,F.concat(m.call(arguments)))}}function n(F){return F.replace(/^[^#]*#?(.*)$/,"$1")}function o(F){return F.replace(/(?:^[^?#]*\?([^#]*).*$)?.*/,"$1")}function f(H,M,F,I,G){var O,L,K,N,J;if(I!==i){K=F.match(H?/^([^#]*)\#?(.*)$/:/^([^#?]*)\??([^#]*)(#?.*)/);J=K[3]||"";if(G===2&&E(I)){L=I.replace(H?w:x,"")}else{N=l(K[2]);I=E(I)?l[H?D:A](I):I;L=G===2?I:G===1?$.extend({},I,N):$.extend({},N,I);L=a(L);if(H){L=L.replace(h,r)}}O=K[1]+(H?"#":L||!K[1]?"?":"")+L+J}else{O=M(F!==i?F:p[g][k])}return O}a[A]=B(f,0,o);a[D]=c=B(f,1,n);c.noEscape=function(G){G=G||"";var F=$.map(G.split(""),encodeURIComponent);h=new RegExp(F.join("|"),"g")};c.noEscape(",/");$.deparam=l=function(I,F){var H={},G={"true":!0,"false":!1,"null":null};$.each(I.replace(/\+/g," ").split("&"),function(L,Q){var K=Q.split("="),P=r(K[0]),J,O=H,M=0,R=P.split("]["),N=R.length-1;if(/\[/.test(R[0])&&/\]$/.test(R[N])){R[N]=R[N].replace(/\]$/,"");R=R.shift().split("[").concat(R);N=R.length-1}else{N=0}if(K.length===2){J=r(K[1]);if(F){J=J&&!isNaN(J)?+J:J==="undefined"?i:G[J]!==i?G[J]:J}if(N){for(;M<=N;M++){P=R[M]===""?O.length:R[M];O=O[P]=M<N?O[P]||(R[M+1]&&isNaN(R[M+1])?{}:[]):J}}else{if($.isArray(H[P])){H[P].push(J)}else{if(H[P]!==i){H[P]=[H[P],J]}else{H[P]=J}}}}else{if(P){H[P]=F?i:""}}});return H};function z(H,F,G){if(F===i||typeof F==="boolean"){G=F;F=a[H?D:A]()}else{F=E(F)?F.replace(H?w:x,""):F}return l(F,G)}l[A]=B(z,0);l[D]=v=B(z,1);$[y]||($[y]=function(F){return $.extend(C,F)})({a:k,base:k,iframe:t,img:t,input:t,form:"action",link:k,script:t});j=$[y];function s(I,G,H,F){if(!E(H)&&typeof H!=="object"){F=H;H=G;G=i}return this.each(function(){var L=$(this),J=G||j()[(this.nodeName||"").toLowerCase()]||"",K=J&&L.attr(J)||"";L.attr(J,a[I](K,H,F))})}$.fn[A]=B(s,A);$.fn[D]=B(s,D);b.pushState=q=function(I,F){if(E(I)&&/^#/.test(I)&&F===i){F=2}var H=I!==i,G=c(p[g][k],H?I:{},H?F:2);p[g][k]=G+(/#/.test(G)?"":"#")};b.getState=u=function(F,G){return F===i||typeof F==="boolean"?v(F):v(G)[F]};b.removeState=function(F){var G={};if(F!==i){G=u();$.each($.isArray(F)?F:arguments,function(I,H){delete G[H]})}q(G,2)};e[d]=$.extend(e[d],{add:function(F){var H;function G(J){var I=J[D]=c();J.getState=function(K,L){return K===i||typeof K==="boolean"?l(I,K):l(I,L)[K]};H.apply(this,arguments)}if($.isFunction(F)){H=F;return G}else{H=F.handler;F.handler=G}}})})(jQuery,this);
+(function($,r){var h,n=Array.prototype.slice,t=decodeURIComponent,a=$.param,j,c,m,y,b=$.bbq=$.bbq||{},s,x,k,e=$.event.special,d="hashchange",B="querystring",F="fragment",z="elemUrlAttr",l="href",w="src",p=/^.*\?|#.*$/g,u,H,g,i,C,E={};function G(I){return typeof I==="string"}function D(J){var I=n.call(arguments,1);return function(){return J.apply(this,I.concat(n.call(arguments)))}}function o(I){return I.replace(H,"$2")}function q(I){return I.replace(/(?:^[^?#]*\?([^#]*).*$)?.*/,"$1")}function f(K,P,I,L,J){var R,O,N,Q,M;if(L!==h){N=I.match(K?H:/^([^#?]*)\??([^#]*)(#?.*)/);M=N[3]||"";if(J===2&&G(L)){O=L.replace(K?u:p,"")}else{Q=m(N[2]);L=G(L)?m[K?F:B](L):L;O=J===2?L:J===1?$.extend({},L,Q):$.extend({},Q,L);O=j(O);if(K){O=O.replace(g,t)}}R=N[1]+(K?C:O||!N[1]?"?":"")+O+M}else{R=P(I!==h?I:location.href)}return R}a[B]=D(f,0,q);a[F]=c=D(f,1,o);a.sorted=j=function(J,K){var I=[],L={};$.each(a(J,K).split("&"),function(P,M){var O=M.replace(/(?:%5B|=).*$/,""),N=L[O];if(!N){N=L[O]=[];I.push(O)}N.push(M)});return $.map(I.sort(),function(M){return L[M]}).join("&")};c.noEscape=function(J){J=J||"";var I=$.map(J.split(""),encodeURIComponent);g=new RegExp(I.join("|"),"g")};c.noEscape(",/");c.ajaxCrawlable=function(I){if(I!==h){if(I){u=/^.*(?:#!|#)/;H=/^([^#]*)(?:#!|#)?(.*)$/;C="#!"}else{u=/^.*#/;H=/^([^#]*)#?(.*)$/;C="#"}i=!!I}return i};c.ajaxCrawlable(0);$.deparam=m=function(L,I){var K={},J={"true":!0,"false":!1,"null":null};$.each(L.replace(/\+/g," ").split("&"),function(O,T){var N=T.split("="),S=t(N[0]),M,R=K,P=0,U=S.split("]["),Q=U.length-1;if(/\[/.test(U[0])&&/\]$/.test(U[Q])){U[Q]=U[Q].replace(/\]$/,"");U=U.shift().split("[").concat(U);Q=U.length-1}else{Q=0}if(N.length===2){M=t(N[1]);if(I){M=M&&!isNaN(M)?+M:M==="undefined"?h:J[M]!==h?J[M]:M}if(Q){for(;P<=Q;P++){S=U[P]===""?R.length:U[P];R=R[S]=P<Q?R[S]||(U[P+1]&&isNaN(U[P+1])?{}:[]):M}}else{if($.isArray(K[S])){K[S].push(M)}else{if(K[S]!==h){K[S]=[K[S],M]}else{K[S]=M}}}}else{if(S){K[S]=I?h:""}}});return K};function A(K,I,J){if(I===h||typeof I==="boolean"){J=I;I=a[K?F:B]()}else{I=G(I)?I.replace(K?u:p,""):I}return m(I,J)}m[B]=D(A,0);m[F]=y=D(A,1);$[z]||($[z]=function(I){return $.extend(E,I)})({a:l,base:l,iframe:w,img:w,input:w,form:"action",link:l,script:w});k=$[z];function v(L,J,K,I){if(!G(K)&&typeof K!=="object"){I=K;K=J;J=h}return this.each(function(){var O=$(this),M=J||k()[(this.nodeName||"").toLowerCase()]||"",N=M&&O.attr(M)||"";O.attr(M,a[L](N,K,I))})}$.fn[B]=D(v,B);$.fn[F]=D(v,F);b.pushState=s=function(L,I){if(G(L)&&/^#/.test(L)&&I===h){I=2}var K=L!==h,J=c(location.href,K?L:{},K?I:2);location.href=J};b.getState=x=function(I,J){return I===h||typeof I==="boolean"?y(I):y(J)[I]};b.removeState=function(I){var J={};if(I!==h){J=x();$.each($.isArray(I)?I:arguments,function(L,K){delete J[K]})}s(J,2)};e[d]=$.extend(e[d],{add:function(I){var K;function J(M){var L=M[F]=c();M.getState=function(N,O){return N===h||typeof N==="boolean"?m(L,N):m(L,O)[N]};K.apply(this,arguments)}if($.isFunction(I)){K=I;return J}else{K=I.handler;I.handler=J}}})})(jQuery,this);
 /*
- * jQuery hashchange event - v1.2 - 2/11/2010
+ * jQuery hashchange event - v1.3 - 7/21/2010
  * http://benalman.com/projects/jquery-hashchange-plugin/
  * 
  * Copyright (c) 2010 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
-(function($,i,b){var j,k=$.event.special,c="location",d="hashchange",l="href",f=$.browser,g=document.documentMode,h=f.msie&&(g===b||g<8),e="on"+d in i&&!h;function a(m){m=m||i[c][l];return m.replace(/^[^#]*#?(.*)$/,"$1")}$[d+"Delay"]=100;k[d]=$.extend(k[d],{setup:function(){if(e){return false}$(j.start)},teardown:function(){if(e){return false}$(j.stop)}});j=(function(){var m={},r,n,o,q;function p(){o=q=function(s){return s};if(h){n=$('<iframe src="javascript:0"/>').hide().insertAfter("body")[0].contentWindow;q=function(){return a(n.document[c][l])};o=function(u,s){if(u!==s){var t=n.document;t.open().close();t[c].hash="#"+u}};o(a())}}m.start=function(){if(r){return}var t=a();o||p();(function s(){var v=a(),u=q(t);if(v!==t){o(t=v,u);$(i).trigger(d)}else{if(u!==t){i[c][l]=i[c][l].replace(/#.*/,"")+"#"+u}}r=setTimeout(s,$[d+"Delay"])})()};m.stop=function(){if(!n){r&&clearTimeout(r);r=0}};return m})()})(jQuery,this);
+(function($,e,b){var c="hashchange",h=document,f,g=$.event.special,i=h.documentMode,d="on"+c in e&&(i===b||i>7);function a(j){j=j||location.href;return"#"+j.replace(/^[^#]*#?(.*)$/,"$1")}$.fn[c]=function(j){return j?this.bind(c,j):this.trigger(c)};$.fn[c].delay=50;g[c]=$.extend(g[c],{setup:function(){if(d){return false}$(f.start)},teardown:function(){if(d){return false}$(f.stop)}});f=(function(){var j={},p,m=a(),k=function(q){return q},l=k,o=k;j.start=function(){p||n()};j.stop=function(){p&&clearTimeout(p);p=b};function n(){var r=a(),q=o(m);if(r!==m){l(m=r,q);$(e).trigger(c)}else{if(q!==m){location.href=location.href.replace(/#.*/,"")+q}}p=setTimeout(n,$.fn[c].delay)}$.browser.msie&&!d&&(function(){var q,r;j.start=function(){if(!q){r=$.fn[c].src;r=r&&r+a();q=$('<iframe tabindex="-1" title="empty"/>').hide().one("load",function(){r||l(a());n()}).attr("src",r||"javascript:0").insertAfter("body")[0].contentWindow;h.onpropertychange=function(){try{if(event.propertyName==="title"){q.document.title=h.title}}catch(s){}}}};j.stop=k;o=function(){return a(q.location.href)};l=function(v,s){var u=q.document,t=$.fn[c].domain;if(v!==s){u.title=h.title;u.open();t&&u.write('<script>document.domain="'+t+'"<\/script>');u.close();q.location.hash=v}}})();return j})()})(jQuery,this);
 
 jQuery.fn.extend({
     hashchange : function(fn) {
@@ -167,122 +200,76 @@ throw new SyntaxError('JSON.parse');};}}());
  */
 jQuery(document).ready(function( $ ) {
 
-if ( typeof wpUIOpts == 'object' ) {	
-	if ( wpUIOpts.enablePagination == 'on' &&
-	 	typeof jQuery.fn.wpuiPager == 'function' )
-		jQuery( 'div.wpui-pages-holder' ).wpuiPager();
+	if ( typeof wpUIOpts == 'object' ) {	
+		if ( wpUIOpts.enablePagination == 'on' &&
+		 	typeof jQuery.fn.wpuiPager == 'function' )
+			jQuery( 'div.wpui-pages-holder' ).wpuiPager();
 	
-	if ( wpUIOpts.enableTabs == 'on' &&
-		 	typeof jQuery.fn.wptabs == 'function')
-		jQuery('div.wp-tabs').wptabs();
+		if ( wpUIOpts.enableTabs == 'on' &&
+			 	typeof jQuery.fn.wptabs == 'function')
+			jQuery('div.wp-tabs').wptabs();
 	
-	if ( wpUIOpts.enableSpoilers == 'on' &&
-		 	typeof jQuery.fn.wpspoiler == 'function')
-		jQuery('.wp-spoiler').wpspoiler();
+		if ( wpUIOpts.enableSpoilers == 'on' &&
+			 	typeof jQuery.fn.wpspoiler == 'function')
+			jQuery('.wp-spoiler').wpspoiler();
 	
-	if ( wpUIOpts.enableAccordion == 'on' &&
-		 	typeof jQuery.fn.wpaccord == 'function')
-		jQuery('.wp-accordion').wpaccord();
-	
-	// if ( wpUIOpts.enableDialogs == 'on' &&
-	// 	 	typeof jQuery.fn.wpDialog == 'function')
-	// 	jQuery('.wp-dialog').wpDialog();
-}
-
-jQuery( "ul.wpui-related-posts" ).each(function() {
-	allWidth = jQuery( this ).children( 'li' ).outerWidth() - jQuery( this ).children('li').width();
-
-	if ( jQuery( this ).hasClass( 'wpui-per_3' ) ) {
-		liWidth = ( jQuery( this ).innerWidth() / 3 ) - allWidth;
-	} else if ( jQuery( this ).hasClass( 'wpui-per_4' ) ) {
-		liWidth = ( jQuery( this ).innerWidth() / 4 ) - allWidth;
-		
-	} else if ( jQuery( this ).hasClass( 'wpui-per_2' ) ) {
-		liWidth = ( jQuery( this ).innerWidth() / 2 ) - allWidth;
+		if ( wpUIOpts.enableAccordion == 'on' &&
+			 	typeof jQuery.fn.wpaccord == 'function')
+			jQuery('.wp-accordion').wpaccord();
 	}
 
-	if ( typeof( liWidth ) != 'undefined' )
-	jQuery( this ).children( 'li' ).width( liWidth - 1 );
-	
-	if ( jQuery( this ).hasClass( 'wpui-per_2' ) ) {
-		jQuery( this ).children( 'li' ).find( '.wpui-rel-post-meta' ).width( liWidth  - 120 );
-		
-	}
-	var soHgt = 0;
-	jQuery( this ).children( 'li' ).each(function() {
-		soHgt = Math.max( soHgt, jQuery( this ).height());
-	}).height( soHgt );
-
-});
-
-	
 });
 
 
 
+(function( $ ) {
 
-// jQuery.fn.tabsThemeSwitcher = function(classArr) {
-// 	return this.each(function() {
-// 		var $this = jQuery(this);
-// 
-// 		$this.prepend('<div class="selector_tab_style">Switch Theme : <select id="tabs_theme_select" /></div>');
-// 	
-// 	for( i=0; i< classArr.length; i++) {
-// 		jQuery('#tabs_theme_select', this).append('<option value="' + classArr[i] + '">' + classArr[i] + '</option');
-// 		
-// 	} // END for loop.
-// 	
-// 
-// 	if ( jQuery.cookie && jQuery.cookie('tab_demo_style') != null ) {
-// 		currentVal = jQuery.cookie('tab_demo_style');
-// 		$this.find('select#tabs_theme_select option').each(function() {
-// 			if ( currentVal == jQuery(this).attr("value") ) {
-// 			 	jQuery(this).attr( 'selected', 'selected' );
-// 			}
-// 		});
-// 	} else {
-// 		currentVal = classArr[0];
-// 	} // END cookie value check.
-// 
-// 	
-// 	$this.children('.wp-tabs').attr('class', 'wp-tabs wpui-styles').addClass(currentVal, 500);
-// 	$this.children('.wp-accordion').attr('class', 'wp-accordion wpui-styles').addClass(currentVal, 500);
-// 	$this.children('.wp-spoiler').attr('class', 'wp-spoiler wpui-styles').addClass(currentVal, 500);
-// 
-// 	
-// 	jQuery('#tabs_theme_select').change(function(e) {
-// 		newVal = jQuery(this).val();
-// 		
-// 		$this.children('.wp-tabs, .wp-accordion, .wp-spoiler').switchClass(currentVal, newVal, 1500);
-// 		
-// 		currentVal = newVal;
-// 		
-// 		if ( jQuery.cookie ) jQuery.cookie('tab_demo_style', newVal, { expires : 2 });
-// 	}); // END on select box change.
-// 	
-// 
-// 	}); // END each function.	
-// 	
-// };
-// 
-// var tb_remove = function() {
-// 	// console.log( "Thickbox close fix" );
-//  	jQuery("#TB_imageOff").unbind("click");
-// 	jQuery("#TB_closeWindowButton").unbind("click");
-// 	jQuery("#TB_window")
-// 		.fadeOut("fast",function(){
-// 				jQuery('#TB_window,#TB_overlay,#TB_HideSelect')
-// 					.unload("#TB_ajaxContent")
-// 					.unbind()
-// 					.remove();
-// 		});
-// 	jQuery("#TB_load").remove();
-// 	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
-// 		jQuery("body","html").css({height: "auto", width: "auto"});
-// 		jQuery("html").css("overflow","");
-// 	}
-// 	jQuery(document).unbind('.thickbox');
-// 	return false;
-// } // END function tb_remove()
-// 
-// 
+
+	if ( ! $.wpui ) $.wpui = {};
+	if ( ! $.wpui.ids ) $.wpui.ids = {};
+	if ( ! $.wpui.tabsNo ) $.wpui.tabsNo = 0;
+	var wpUIOpts = window.wpUIOpts || {}, console = window.console;
+	
+	
+	/// Enable Misc options. 
+	if ( typeof( wpUIOpts.misc_options ) != 'undefined' ) {
+		var misc_opts = wpUIOpts.misc_options.split( "\n" ), misc_opts1={};
+		for ( var i=0; i<misc_opts.length; i++ ) {
+			doo = misc_opts[ i ].split('=');
+			misc_opts1[ doo[ 0 ] ] = doo[ 1 ]; 
+		}
+		wpUIOpts.misc_opts = misc_opts1;	
+	}
+
+	
+	// Return treated ID strings.
+	if ( typeof( $.wpui.getIds ) == 'undefined' ) {
+		$.wpui.getIds = function( str, par ) {
+			var num = $.wpui.tabsNo, dup;
+	
+			if ( typeof($.wpui.ids[ par ] ) == 'undefined' )
+					$.wpui.ids[ par ] = [];
+	
+			str = $.trim(str).replace(/\s{1,}/gm, '_')
+					.replace( /[^\-A-Za-z0-9\s_]/mg, '')
+					.toLowerCase();
+		
+			for ( dup in $.wpui.ids ) {
+				if ( $.inArray( str, $.wpui.ids[ dup ] ) != '-1' || $( '#' + str ).length ) {
+					str = str + '-' + num;
+				}
+			}
+				
+			// characters.
+			if ( str.match( /[^\x00-\x80]+/ ) ) {
+				str = 'tabs-' + num;
+			}
+	
+			$.wpui.ids[ par ].push( str );
+			$.wpui.tabsNo++;
+	
+			return str;
+		};
+	}
+
+})( jQuery );
