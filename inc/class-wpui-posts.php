@@ -490,34 +490,28 @@ class wpuiPosts
 		
 		$width = ( isset( $this->options['post_default_thumbnail' ] ) &&
 		 	( $this->options[ 'post_default_thumbnail' ][ 'width' ] != '' ) ) ?
-		 $this->options[ 'post_default_thumbnail']['width'] : 100;
+		 $this->options[ 'post_default_thumbnail']['width'] : get_option( 'thumbnail_size_w' );
 		
 		$height = ( isset( $this->options['post_default_thumbnail' ] ) &&
 		 	( $this->options[ 'post_default_thumbnail' ][ 'height' ] != '' ) ) ?
-		 $this->options[ 'post_default_thumbnail']['height'] : 100;
-		
-		if ( function_exists( 'has_post_thumbnail' ) &&
-			has_post_thumbnail( $ID ) ) {
-			$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'full' );
-			if ( $cache )
-				$thumb_src = get_bloginfo( 'url' ) . '?wpui-image=' . $thumbnail[0] . '&width=' . $width . '&height=' . $height;
-			else
-				$thumb_src = $thumbnail[ 0 ];
-		} else {
-			if ( isset( $this->options[ 'post_default_thumbnail' ] ) && $this->options[ 'post_default_thumbnail' ][ 'url' ] != '' )
-				$thumb_url = $this->options['post_default_thumbnail']['url'];
-			else return '';
-				// $thumb_url = wpui_url( 'images/wp-light.png' );
-			
-			if ( $cache )
-			$thumb_src = get_bloginfo( 'url' ) . '?wpui-image=' . $thumb_url .  '&width=' . $width . '&height=' . $height;
-			else return '';
-						
-		}
+		 $this->options[ 'post_default_thumbnail']['height'] : get_option( 'thumbnail_size_h' );
 
 		$title = get_the_title( $ID );
 		
-		return '<img src="' . $thumb_src . '" width="' . $width . '" height="' . $height . '" alt="' . $title . '" />';
+		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $ID ) ) {
+			// $thumbs = wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), array( $width, $height ), true );
+			$thumbs = get_the_post_thumbnail( $ID , array( $width, $height ), true );
+		
+		} else {
+			$thumbs = ( isset( $this->options[ 'post_default_thumbnail' ] ) && $this->options[ 'post_default_thumbnail' ][ 'url' ] != '' ) ? 
+			 $this->options['post_default_thumbnail']['url'] : false;
+			$thumbs = '<img src="' . $thumbs . '" width="' . $width . '" height="' . $height . '" alt="' . $title . '" />';
+		}
+		
+		if ( $thumbs ) {
+			return $thumbs; 
+		}
+
 	}
 	
 	/**

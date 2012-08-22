@@ -2,12 +2,14 @@
 Contributors: kavingray
 Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
-Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, dialogs, custom themes, themeroller, CSS3, pagination, related-posts
+Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, widget, dialogs, custom themes, themeroller, CSS3, pagination, related-posts
 Requires at least: 3.1
-Tested up to: 3.3.1
+Tested up to: 3.4.1
 Stable tag: 0.8.2
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Easily add Tabs, Accordion, dialogs and collapsibles to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
+Easily add Tabs, Accordion, dialogs and spoilers to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
 
 == Description ==
 
@@ -39,9 +41,9 @@ Including posts and feeds have never been more easier. With a single post shortc
 
 WP UI comes with rich documentation bundled in the options page and right within the editor. While they work great for a quick reference on shortcodes or arguments, there is a [dedicated documentation](http://kav.in/projects/) site, built and updated every day.
 
-= Support =
+== Status on Support ( Aug 2012 ) ==
 
-There is an active support [forum](http://kav.in/forum) available for getting quick help and support. Moreover, an user-editable wiki style documentation is coming right away. Stay tuned, friends.
+Recent struggles on work-life imbalance has greatly reduced my available time providing full time support. While I will try my best on keeping up the previous levels of support, please bear with me. Yet, **I highly encourage & request help from loyal users of WP UI, who can help new users as well share their experiences & solutions**. And Never worry, Plugin will be maintained definitely.
 
 = Translations =
 
@@ -49,16 +51,16 @@ Missing your language here? Contribute by translating your favorite plugin!
 
 * [All Translations](http://kav.in/resources/translations/wp-ui/) 
 * [Serbian](http://kav.in/resources/translations/wp-ui/serbian) by Zoran Aksic.
+* [Brazilian Portuguese](http://wordpress.org/support/topic/plugin-wp-ui-tabs-accordions-sliders-brazilian-portuguese-translation) by Paulino Michelazzo
 * [Send your translations](http://kav.in/contact/)
 
 = Further =
 
-* [Follow @kavingray](http://twitter.com/kavingray)
-* [Support](http://kav.in/forum)
+* [Support the plugin](http://kav.in/donation)
+* [Follow @kavingray on Twitter](http://twitter.com/kavingray)
 * [Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
 * [Plugin page](http://kav.in/wp-ui-for-wordpress)
 * [Like us on Facebook](http://www.facebook.com/#!/pages/Capability/136970409692187)
-* [Help improve multi-language support](http://kav.in/forum/discussion/81/need-help-improving-multi-language-support)
 
 == Installation ==
 
@@ -68,8 +70,17 @@ Missing your language here? Contribute by translating your favorite plugin!
 
 == Frequently Asked Questions ==
 
-= Where can i find a quick start guide? =
+= Where can i find a Tutorial/quick start guide? =
 Read the [Quick start guide](http://kav.in/projects/blog/wp-ui-quick-start/) to learn about editor interface.
+
+= How do i get some feature working in this plugin? =
+Most likely there is an option exactly for the purpose you are searching for. Please check the options page.
+
+= Your plugin is awesome! Do you provide CSS customization services? =
+Yes, you can request a quote through my [Contact page](http://kav.in/contact).
+
+= How do i get regular updates? =
+[Like Us on Facebook](http://www.facebook.com/pages/Capability/136970409692187) and stay updated. or Follow [@kavingray](http://twitter.com/kavingray) on twitter!
 
 = Where can i find recent & up-to-date FAQ? =
 
@@ -131,14 +142,15 @@ Documentation is available right within the wordpress admin. It is present in th
 Help 
 
 * [Detailed Documentation & Demos](http://kav.in/projects/).
-* [Support forums ](http://kav.in/forum)
+* [Support forums](http://wordpress.org/support/plugin/wp-ui)
 
 = I have some exciting idea/suggestion about this plugin! =
 
-I would love to hear about it. Please drop me a mail [here](http://kav.in/contact).
+I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 = How can i support this plugin? =
 
+* Support the plugin by considering a [donation](http://kav.in/donation).
 * Give this plugin a nice 5 star rating on the [plugin page](http://wordpress.org/extend/plugins/wp-ui/).
 * Tell others that it works, with the compatibility box on the [plugin page](http://wordpress.org/extend/plugins/wp-ui/).
 * Support us by a like on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) 
@@ -153,6 +165,15 @@ I would love to hear about it. Please drop me a mail [here](http://kav.in/contac
 4. Both jQuery UI themes and WP UI CSS3 styles preview. Picture shows a full CSS3 style - wpui-sevin.
 
 == Changelog ==
+
+= 0.8.5 =
+* Completely rewritten Tabs, accordions, spoilers using jQuery UI widget factory.
+* Support for use on Dynamic pages.
+* Linking to tabs and accordion panels from other pages and the same page finally available.
+* Support for nested linking.
+* Editor panel now displays post counts with categories and tags.
+* Improved compatibility with WordPress >= 3.4.1.
+* Some styles tweaked and perfected.Check out the dialog styles. :)
 
 = 0.8.2 =
 * Support for jQuery UI buttons.

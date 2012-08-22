@@ -27,6 +27,7 @@ class wpui_core_widget extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract( $args );
+
 		echo $before_widget;
 		$title = apply_filters('widget_title', $instance['title'] );
 		if ( $title ) {
@@ -338,6 +339,7 @@ background-color:whiteSmoke;background-image:-ms-linear-gradient(top,#f9f9f9,#f5
 /*			background : red;*/
 /*			padding: 5px 0;*/
 			text-align : center;
+			margin-bottom : 0px;
 		}
 		.wpui-widget-ul li {
 /*			background : black;*/

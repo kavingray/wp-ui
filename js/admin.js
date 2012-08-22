@@ -231,10 +231,10 @@ jQuery(document).ready(function() {
 						
 		}); // end add templates click
 	
-
-		if ( wpUIOpts.bleeding == 'off' ) {
-			$admin_tabs = jQuery('#optionsform #options-wrap').addClass('d-tabs').wptabs({
-				 					h3Class: 'h3',
+			$admin_tabs = jQuery('#optionsform #options-wrap')
+								.addClass('d-tabs')
+								.wptabs({
+				 					header: 'h3',
 				 					effect: 'fade',
 				 					topNav: false,
 				 					botNav: true,
@@ -243,54 +243,56 @@ jQuery(document).ready(function() {
 									wpuiautop : false,
 									collapsibleTabs : false
 			});
+		if ( wpUIOpts.bleeding == 'ofsdsdsdsdf' ) {
+
 		} else {
-			jQuery( '#optionsform table.form-table:not(:last) input[type=checkbox]').wpuiToggleSwitch();
-			jQuery( '#optionsform table.form-table:last input[type=checkbox]').wpuiToggleSwitch({
-				classes : 'advanced'
-			});
+			// jQuery( '#optionsform table.form-table:not(:last) input[type=checkbox]').wpuiToggleSwitch();
+			// jQuery( '#optionsform table.form-table:last input[type=checkbox]').wpuiToggleSwitch({
+			// 	classes : 'advanced'
+			// });
 			
 			// jQuery( '#optionsform table.form-table:last').wpuiToggleSwitch();
 
 
 
 			
-			setTimeout(function() {
-				$admin_tabs = jQuery('#optionsform #options-wrap').ktabs({
-								// direction	: 'vertical',
-								// mode		: 'vertical',
-								easing : 'easeInQuart',
-								scrollTop : true,
-								elements : {
-									header : 'h3',
-									content : '.form-table'
-								},
-								autoPlayConf : {
-									navigation:false
-								}
-							});
-				
-				jQuery( "<span class='toggle_slider_settings' />" )
-					.append( '<a title="Experimental - Click to toggle mode. Shift+Click to toggle direction." href="#"></a>' )
-					.appendTo( $admin_tabs );
-				
-				jQuery( 'span.toggle_slider_settings a').click(function( e ) {
-					if ( typeof( e.shiftKey ) != 'undefined' && e.shiftKey ) {
-						jQuery( '.ktabs' ).ktabs( 'direction', 'shuffle' );
-					} else {
-						jQuery( '.ktabs' ).ktabs( 'mode', 'shuffle' );
-					}					
-					return false;					
-					
-				});
-
-				$admin_tabs.live( 'ktabscreate', function() {
-					jQuery( '#optionsform input[type=text]' ).addClass( 'textinput' );	
-
-					jQuery( '#optionsform select' ).selectBox();
-				});
-
-
-				}, 500);
+			// setTimeout(function() {
+			// 	$admin_tabs = jQuery('#optionsform #options-wrap').ktabs({
+			// 					// direction	: 'vertical',
+			// 					// mode		: 'vertical',
+			// 					easing : 'easeInQuart',
+			// 					scrollTop : true,
+			// 					elements : {
+			// 						header : 'h3',
+			// 						content : '.form-table'
+			// 					},
+			// 					autoPlayConf : {
+			// 						navigation:false
+			// 					}
+			// 				});
+			// 	
+			// 	jQuery( "<span class='toggle_slider_settings' />" )
+			// 		.append( '<a title="Experimental - Click to toggle mode. Shift+Click to toggle direction." href="#"></a>' )
+			// 		.appendTo( $admin_tabs );
+			// 	
+			// 	jQuery( 'span.toggle_slider_settings a').click(function( e ) {
+			// 		if ( typeof( e.shiftKey ) != 'undefined' && e.shiftKey ) {
+			// 			jQuery( '.ktabs' ).ktabs( 'direction', 'shuffle' );
+			// 		} else {
+			// 			jQuery( '.ktabs' ).ktabs( 'mode', 'shuffle' );
+			// 		}					
+			// 		return false;					
+			// 		
+			// 	});
+			// 
+			// 	$admin_tabs.live( 'ktabscreate', function() {
+			// 		jQuery( '#optionsform input[type=text]' ).addClass( 'textinput' );	
+			// 
+			// 		jQuery( '#optionsform select' ).selectBox();
+			// 	});
+			// 
+			// 
+			// 	}, 500);
 
 			
 		}

@@ -21,9 +21,8 @@ class WPUITour
 	function __construct( $items ) {
 		$this->items = $items;
 		$wpui_opts = get_option( 'wpUI_options' );
-		
-		
-		if ( isset( $wpui_opts ) && $wpui_opts['tour'] == 'on' ) {
+		$this->show = ( isset( $_GET ) && isset( $_GET[ 'wpui-tour' ] ) ) ? $_GET[ 'wpui-tour' ] : 'hide';
+		if (( isset( $wpui_opts ) && $wpui_opts['tour'] == 'on' ) || $this->show == 'show' ) {
 		add_action( 'admin_print_scripts', array( &$this, 'enqueue_pointer' ), 10, 2);
 		add_action( 'admin_print_scripts', array( &$this, 'show_item' ), 999);
 		}
@@ -43,6 +42,7 @@ class WPUITour
 		global $pagenow;
 		$item = $this->items[ 0 ];
 		$tour_items = json_encode( $this->items );
+
 		$this->show_pointer( $tour_items );
 	}	
 	
@@ -71,6 +71,7 @@ class WPUITour
 				jQuery( '#wpui-editor-dialog' ).dialog( 'close' );
 			};
 			jQuery.wpui.tour.closeContent = '<p>You can view this tour by enabling <code>View Tour</code> on <a href="<?php echo admin_url("options-general.php?page=wpUI-options") ?>">WP UI options</a> page.</p>'
+			// Init the presentation!
 			jQuery.wpui.tour.init( Titems );
 			clearInterval( w84TMCE );
 		}
@@ -125,12 +126,12 @@ $wpui_tourz_items = array(
 			'align'		=> 'top',
 			'offset'	=>	 10
 		),
-		'callback'	=>	'tinyMCE.activeEditor.controlManager.get("wpuimce").showMenu()'	
+		'callback'	=>	'tinyMCE.activeEditor.controlManager.get("wpuimce").showMenu();'	
 		
 	),
 	array(
 		'id'		=>	'#menu_content_content_wpuimce_menu',
-		'content'	=>	'<h3>Tabs/Accordions</h3><p>WP UI menu turns implementing widgets super easy!</p><h4 class="wpuih">Adding Tabs/Accordion</h4><p>The <span class="hiliters" rel="tr#mce_3, tr#mce_4" id="menu_tabs_buttons">first and second menu buttons</span> allow you to insert tabs. Use <span class="hiliters" rel="tr#mce_3">Add tab set</span> to insert multiple tab set, that are finally wrapped as tabs with the <span class="hiliters" rel="tr#mce_4">Wrap tab set</span>.</p>',
+		'content'	=>	'<h3>Tabs/Accordions</h3><p>WP UI menu turns implementing widgets super easy!</p><h4 class="wpuih">Adding Tabs/Accordion</h4><p>The <span class="hiliters" rel="#menu_content_content_wpuimce_menu_tbl tr:eq(1), #menu_content_content_wpuimce_menu_tbl tr:eq(2) " id="menu_tabs_buttons">first and second menu buttons</span> allow you to insert tabs. Click <span class="hiliters" rel="#menu_content_content_wpuimce_menu_tbl tr:eq(1)">Add tab set</span> to insert individual tabs, that can be finally wrapped as tabs with the <span class="hiliters" rel="#menu_content_content_wpuimce_menu_tbl tr:eq(2)">Wrap tab set</span>.</p><p>Behind the scenes, you basically use [wptabtitle] and [wptabcontent] shortcodes in the first step (Add tab set)  and [wptabs] wrapper shortcode in the "Wrap tab set".</p>',
 		'position'	=>	'left',
 		'addl'		=>	'jQuery( ".hiliters" ).wpuiHilite();',
 		'callback'	=>	'tinyMCE.activeEditor.controlManager.get("wpuimce").showMenu()'	
@@ -138,7 +139,7 @@ $wpui_tourz_items = array(
 	),
 	array(
 		'id'		=>	'#menu_content_content_wpuimce_menu',
-		'content'	=>	'<h3>Spoilers and dialogs</h3><h4 class="wpuih">Spoilers</h4><p>Spoilers aka. collapsibles are ready to add with the <span rel="tr#mce_5" class="hiliters">Spoilers button</span>. Select some text, click the button, Enter a title -> Insert -> Save. That\'s all!</p>',
+		'content'	=>	'<h3>Spoilers and dialogs</h3><h4 class="wpuih">Spoilers</h4><p>Spoilers aka. collapsibles are ready to add with the <span rel="#menu_content_content_wpuimce_menu_tbl tr:eq(3)" class="hiliters">Spoilers button</span>. Select some text, click the button, Enter a title -> Insert -> Save. That\'s all!</p>',
 		'position'	=>	'left',
 		'addl'		=>	'jQuery( ".hiliters" ).wpuiHilite();',
 		'callback'	=>	'tinyMCE.activeEditor.controlManager.get("wpuimce").showMenu()'	
@@ -146,26 +147,27 @@ $wpui_tourz_items = array(
 	),
 	array(
 		'id'		=>	'#menu_content_content_wpuimce_menu',
-		'content'	=>	'<h3>Spoilers and dialogs</h3><h4 class="wpuih">Dialogs</h4><p>Dialogs or inline modal windows can be implemented with the <span rel="tr#mce_6" class="hiliters">Dialogs button</span>. Select some text, click the button, Enter a title -> Insert -> Save. That should take totally 2 seconds. Fun, isn\'t it!</p>',
+		'content'	=>	'<h3>Spoilers and dialogs</h3><h4 class="wpuih">Dialogs</h4><p>Dialogs or inline modal windows can be implemented with the <span rel="#menu_content_content_wpuimce_menu_tbl tr:eq(4)" class="hiliters">Dialogs button</span>. Select some text, click the button, Enter a title -> Insert -> Save. That should take totally 2 seconds. Fun, isn\'t it!</p>',
 		'position'	=>	'left',
 		'addl'		=>	'jQuery( ".hiliters" ).wpuiHilite();',
-		'callback'	=>	'jQuery( "#wpui-editor-dialog").wpuiEditor({ mode : "addtab" }); jQuery( "#wpui-editor-dialog").find("p.wpui-reveal").eq( 1 ).click();'	
+		'callback'	=>	'jQuery( "#wpui-editor-dialog").wpuiEditor({ mode : "addtab", callback : function() { jQuery( "#wpui-editor-dialog").find("p.wpui-reveal").eq( 1 ).click(); } }); '	
 		
 	),
 	array(
-		'id'		=>	'#wpui-editor-dialog .wpui-search-posts',
+		'id'		=>	'#wp-content-editor-container',
+		// 'id'		=>	'#wpui-editor-dialog .wpui-search-posts',
 		'content'	=>	'<h3>Posts</h3><p>Now, the unique feature of WP UI - Post widgets. So what exactly does this do?</p><p><code class="wpbut">Add tab set</code>, <code class="wpbut">spoilers</code> and <code class="wpbut">dialog</code> buttons has <span class="hiliters" rel="#wpui-editor-dialog p.wpui-reveal:eq(1)">an option</span> to choose the post</a> you wish to display inside either of them. All that\'s needed is click the post, <span class="hiliters" rel="#wpui-editor-dialog #wpui-tab-name">input a title</span> and Click insert.</p><p>But what if we want to display multiple posts from category or tag? Click <code class="wpbut">Next</code> to find out how easy it is.</p>',
 		'position'	=>	'left',
-		'addl'		=>	'jQuery( ".hiliters" ).wpuiHilite();',
-		'callback'	=>	'jQuery( "#wpui-editor-dialog").dialog("close"); jQuery( "#wpui-editor-dialog").wpuiEditor({ mode : "wraptab" }); jQuery( "#wpui-editor-dialog").find("p.wpui-reveal").eq( 1 ).click(); '	
+		'addl'		=>	'jQuery( ".hiliters" ).wpuiHilite(); jQuery( "#wpui-editor-dialog .wpui-search-posts" ).pointer("repoint")',
+		'callback'	=>	'jQuery( "#wpui-editor-dialog").dialog("close"); jQuery( "#wpui-editor-dialog").wpuiEditor({ mode : "wraptab" }); jQuery( "#wpui-editor-dialog").find("p.wpui-reveal").eq( 1 ).click();'	
 		
 	),
 	array(
-		'id'		=>	'#wpui-editor-dialog #wpui-search-tax',
+		'id'		=>	'#wp-content-editor-container',
 		'content'	=>	'<h3>Multiple posts</h3><p>Implement tabs/accordions automatically from selected categories/tags. More, you can choose to display recent, popular or random posts.</p><p>Click on any <span class="hiliters" rel="#wpui-editor-dialog .wpui-search-results ul li">list items</span> on the left to toggle selection. <span class="hiliters" rel="#wpui-editor-dialog #wpui-tax-number">Enter the number</span> of posts, and finally click insert.</p>',
 		'position'	=>	'left',
 		'addl'		=>	'jQuery( ".hiliters" ).wpuiHilite();',
-		'callback'	=>	'jQuery( "#wpui-editor-dialog").wpuiEditor({ mode : "wraptab", selection : "multiple" }); jQuery( "#wpui-editor-dialog").find("p.wpui-reveal").eq( 1 ).click(); '		
+		// 'callback'	=>	'jQuery( "#wpui-editor-dialog").wpuiEditor({ mode : "wraptab", selection : "multiple" }); jQuery( "#wpui-editor-dialog").find("p.wpui-reveal").eq( 1 ).click(); '		
 	),
 	
 	

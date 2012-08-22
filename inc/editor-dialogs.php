@@ -211,6 +211,7 @@ function wpui_editor_html_wraptab() {
 	#wpui-editor-dialog ul.wpui-tax-list li.selected {  background : #DDD; font-weight : bold !important; }
 	#wpui-editor-dialog ul.wpui-tax-list li a { text-decoration : none; color : #777; text-shadow: 0 1px 0 #FFF; display : block; width : 300px; overflow : hide;}
 	span.info { position : absolute; top : 0; right : 0;  height: 100%; padding : 4px; }
+	span.wpui-post-count { float:right; background: #868686; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); border-radius: 15px; padding : 0 6px; color: #EEE; text-shadow : 0 1px 0 #222;}
 	</style>		
 			<!-- <?php $wpui_cats = get_categories( array( 'taxonomy' => 'tag') ); ?>
 

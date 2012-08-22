@@ -5,7 +5,7 @@
 .d-tabs .ui-tabs {
 	margin:20px 0;
 	float:left;
-	width:96%;
+	width:86%;
 	padding-right:20px;
 
 }
@@ -240,7 +240,7 @@ p.switch-editors a.active {
 	-moz-border-radius     : 6px;
 	-webkit-border-radius  : 6px;
 	-o-border-radius       : 6px;
-	width:960px;
+	width:900px;
 }
 
 div#wpui-cap {
@@ -267,7 +267,8 @@ div#wpui-cap .cap-icon img {
 
 div#wpui-cap .wpui-desc {
     border-radius: 4px 4px 4px 4px;
-    padding: 20px 10px 10px 120px;
+/*    padding: 20px 10px 10px 120px;*/
+	padding : 20px;
 }
 
 div#wpui-cap .wpui-desc p {
@@ -278,8 +279,8 @@ div#wpui-cap .wpui-desc p {
 
 #options-wrap {
 	clear:left;
-	max-width: 900px;
-	margin: 40px auto;
+	max-width: 700px;
+	margin: 20px auto;
 }
 
 a.cap-icon-link {

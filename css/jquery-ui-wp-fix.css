@@ -500,3 +500,17 @@ div.tab-bottom-nav {
 	float : right;
 }
 
+
+span.toggle_text {
+	display: block !important;
+	float: right;
+	font-size: 10px;
+	height: 12px;
+}
+span.toggle_text {
+	opacity: 0;
+}
+
+h3.ui-collapsible-header:hover span.toggle_text {
+	opacity: 1;
+}

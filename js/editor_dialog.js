@@ -1,22 +1,3 @@
-jQuery( document ).ready(function() {
-
-	jQuery( '#wpui-editor-dialog' ).wpuiEditor({
-		store	: '#_wpui-editor-dialog'
-	});
-	
-	jQuery( '#wpui-editor-dialog .wpui-reveal' ).live('click', function() {  
-		jQuery( this ).next('div').slideToggle( 'fast' );
-		jQuery( this ).toggleClass( 'toggle-arrow-active' );
-		jQuery( this )
-			.siblings('.wpui-reveal' )
-			.next('div')
-			.hide();	
-	});
-	
-	
-});
-
-
 (function($){
     $.wpui = $.wpui || {};
     var $store;
@@ -32,6 +13,7 @@ jQuery( document ).ready(function() {
 			base.process = $.extend( {}, $.wpui.editor.process, process );
 			base.liveVal = $.extend( {}, $.wpui.editor.liveVal, liveVal );
 			base.bindings = {};
+			
 			base.throb = '<div style="padding: 10px; margin: 10px; text-align: center;" class="wpui-waiting">Please wait  <img src="' + pluginVars.pluginUrl + 'images/wpspin_light.gif" /></div>';
 			
             inited = base.$el.data( 'dialog' );
@@ -106,6 +88,8 @@ jQuery( document ).ready(function() {
 					base.liveVal[ mode ]( base );
 				}
 				
+				if ( typeof( base.o.callback == 'function' ) )
+					base.o.callback();
 			});
         };
 		
@@ -134,7 +118,9 @@ jQuery( document ).ready(function() {
 			// } else if ( mode == 'wraptab' ) {
 			// 	base.process.wraptab( base );
 			// }
-		
+			
+
+			
 		};
 		
 		base.binder = function( element, state ) {
@@ -319,7 +305,8 @@ jQuery( document ).ready(function() {
     $.wpui.editor.defaultOptions = {
 		store 	: '',
 		mode : '',
-		selection : 'single'
+		selection : 'single',
+		callback : function() {}
     };
     
     $.fn.wpuiEditor = function(options){
@@ -338,8 +325,7 @@ jQuery( document ).ready(function() {
     $.fn.getwpuiEditor = function(){
         this.data("wpui.editor");
     };
-    
-})(jQuery);
+
 
 jQuery.wpui.editor.process = {};
 jQuery.wpui.editor.liveVal = {};
@@ -599,6 +585,17 @@ jQuery.wpui.editor.process.dialog = function( base ) {
 	
 };
 
-
-
-
+})(jQuery);
+jQuery( document ).ready(function() {
+	jQuery( '#wpui-editor-dialog' ).wpuiEditor({
+		store	: '#_wpui-editor-dialog'
+	});
+	jQuery( '#wpui-editor-dialog .wpui-reveal' ).live('click', function() {  
+		jQuery( this ).next('div').slideToggle( 'fast' );
+		jQuery( this ).toggleClass( 'toggle-arrow-active' );
+		jQuery( this )
+			.siblings('.wpui-reveal' )
+			.next('div')
+			.hide();	
+	});
+});

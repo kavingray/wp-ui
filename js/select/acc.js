@@ -1,171 +1,169 @@
-/*
- *	Component - Accordion, uses same shortcode as tabs.
- */
-if ( typeof( accNames ) == 'undefined' ) accNames = [];
-if ( typeof( getNextSet ) == 'undefined' ) {
-	tabSet = 0;
-	function getNextSet() {
-		return ++tabSet;
-	}
-}
+(function( $ ) {
 
-/*
- *	Component - Accordion
- */
-jQuery.fn.wpaccord = function( options ) {
-	
-	var wrapper,
-	loadLinks,
-	getAjaxUrl, 
-	o = jQuery.extend({} , jQuery.fn.wpaccord.defaults, options );
-	
-	
-	this.each(function() {
-		var $this = jQuery(this);
-		
-		$this.append('<p id="jqtemp" />');
-		
-		if ( o.wpuiautop ) {
-							
-			$this
-				.find('p, br')
-				.not('div.wp-tab-content br, div.wp-tab-content p ')
-				.filter(function() {
-				return jQuery.trim(jQuery(this).html()) === ''
-			}).remove();
-
-		}
-		
-		// var wrapcontent = $this.find('h3').next().wrap('<div class="accordion-pre">');
-		wrapper = $this.find('h3:first').wrap('<div class="accordion">');
-		
-		// $this.find('p, br').filter(function() {
-		// 	return jQuery.trim(jQuery(this).text()) === ''
-		// }).remove();
-		
-		if ( o.wpuiautop ) {
-							
-			$this
-				.find('p, br')
-				.not('div.wp-tab-content br, div.wp-tab-content p ')
-				.filter(function() {
-				return jQuery.trim(jQuery(this).html()) === ''
-			}).remove();
-
-		}		
-		
-		wrapper.each(function() {
-			jQuery(this).parent().append( jQuery(this).parent().nextUntil( 'p#jqtemp' ));
-		});
-		
-	
-		
-		$this.find(o.h3Class).each(function() {
-			loadLinks = jQuery(this).children(o.linkAjaxClass);
-				dup = getNextSet();
-				
-				aparID = jQuery(this).text().replace(/\s{1,}/gm, '_');
-				aparID = aparID.replace( /[^\-A-Za-z0-9\s_]/mg, '');
-				
-				if ( aparID.match( /[^\x00-\x80]+/ ) ) {
-					aparID = 'acc-' + dup;
-				}
-				
-				
-				if ( jQuery.inArray( aparID, accNames ) != '-1' ) {
+	////////////////////////////////////////////////////
+	//////////////////// WP Accordion //////////////////
+	///////////////////////////////////////////////////	
+	$.widget( 'wpui.wpaccord', {
+		options			: {
+			header			: 	'h3.wp-tab-title',
+			content			: 	'div.wp-tab-content',
+			ajaxClass		: 	'a.wp-tab-load',
+			effect			: 	(typeof wpUIOpts != "undefined") ? wpUIOpts.accordEffect : '',
+			autoHeight		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? true : false,
+			collapse		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordCollapsible == 'on' ) ? true : false,
+			easing			: 	(typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEasing : '',
+			accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : '',
+			wpuiautop		: 	true,
+			hashChange 		: 	true,
+			template		: 	'<div class="wp-tab-content"><div class="wp-tab-content-wrapper">{$content}</div></div>'		
+		},
+		_create			: function() {
+			self = this;
+			$this = this.element;
+			this.o = this.options;
+			this.header = $this.find( this.o.header );
+			this.id = $this.attr( 'id' );
+			
+			
+			if ( this.o.wpuiautop ) {
+				$this.find('p, br')
+					.not( this.o.content + ' > br, ' + this.o.content + '.wp-tab-content > p' )
+					.filter(function() {
+						return( $.trim( $(this).html() ) === '' );
+				}).remove();
+			}
+			
+			$this.find( this.o.header + ',' + this.o.content ).wrapAll( '<div class="accordion" />' );
+			
+			this.header.each( function() {
+				var elId = $( this ).text(),
+					toLoad = $( this ).children( self.o.ajaxClass ),
+					img = $( this ).find( 'img' ),
+					linkStr = '';
 					
-					aparID = aparID + '_' + dup;
-					
+		
+				elId = $.wpui.getIds( elId, self.id );
+				
+				$( this )
+					// .next()
+					.attr( 'id', elId );
+				
+				if ( toLoad.length ) {
+					$( '<div />' )
+					.load( toLoad.attr( 'href' ), function( data ) {
+						$( this ).html( self.o.template.replace( /\{\$content\}/, data ) );
+					})
+					.insertAfter( this );
 				}
-				
-				jQuery(this)
-					.next()
-					.attr('id', aparID);			
-
-		if ( loadLinks.length != 0) {
-				getAjaxUrl = loadLinks.attr("href");
 			
-				loadLinks.parent().after('<div></div>');
-			
-				jQuery(this).next().load(wpUIOpts.wpUrl + "/" + getAjaxUrl);
-			
-				
-				jQuery(this).text(jQuery(this).children().text());
-				
-			} // END check loadLinks.length
-
-			accNames = accNames.concat( aparID );
-
-		}); // END $this h3class.
-
-	
-		accordOpts = {};
-
-		if ( o.autoHeight ) {
-			accordOpts.autoHeight = true;
-		} else {
-			accordOpts.autoHeight = false;
-		}
-		
-
-
-		// console.log( accClass.match(/acc-active-(\d){1}/im) ); 
-		
-		if ( o.collapse ) {
-			accordOpts.collapsible = true;
-			accordOpts.active = false;
-		}
-		
-		accordOpts.animated = o.easing;
-		
-		accordOpts.event = o.accordEvent;
-
-		$wpAccord = jQuery( '.accordion' ).accordion(accordOpts);
-
-		accClass = $this.attr( 'class' );
-
-		if ( activePanel = accClass.match(/acc-active-(\d){1}/im) ) {
-			$wpAccord.accordion( 'activate', parseInt( activePanel[ 1 ] ) );
-		}
-				
-		jQuery('.accordion h3.ui-accordion-header:last').addClass('last-child');
-
-
-		// if ( o.hashChange && typeof jQuery.event.special.hashchange != "undefined" ) {
-
-			jQuery( window ).hashchange(function() {
-				aHash = window.location.hash;	
-				if ( ( jQuery( aHash ).length != 1 ) || 
-				   ( jQuery.inArray( aHash.replace( /^#/, '' ) , accNames ) == -1 )
-				)
-					return false;
-				
-				hashed = jQuery(window.location.hash).prevAll( o.h3Class ).length - 1;
-				jQuery( window.location.hash ).parent().accordion( 'activate', hashed );
-				
-				return false;
+								
 			});
+			
+			
+		},
+		_init			: function() {
+			var options = {}, accClass;
+			
+			options.autoHeight = this.o.autoHeight ? true : false;
+			
+				
+			if ( this.o.collapsible ) {
+				options.collapsible = true;
+				options.active = false;
+			}
+			
+			if ( this.o.easing ) options.animated = this.o.easing;
+			
+			options.event = this.o.accordEvent;
+			
+		
+			this.accordion = $this.children( '.accordion' ).accordion( options );
+			
+			accClass = $this.attr( 'class' );
+						
+			if ( activePanel = accClass.match(/acc-active-(\d){1}/im) ) {
+				this.accordion.accordion( 'activate', parseInt( activePanel[ 1 ], 10 ) );
+			}			
+			
+			if ( $this.hasClass( 'wpui-sortable' ) ) {
+				this.header.each(function() {
+					$( this ).wrap( '<div class="acc-group" />' );
+					$( this ).parent().next().insertAfter( this );
+				});
 
-			jQuery( window ).hashchange();
+				this.accordion
+				.accordion({
+					header: "> div.acc-group > " + self.o.header
+				}).sortable({
+					handle : self.o.header,
+					axis	: 'y',
+					stop: function( event, ui ) {
+							ui.item.children( "h3" ).triggerHandler( "focusout" );
+						}
+				});
+				
+			}
+			
+			// Auto rotate the accordions
+			this.rotate();
+			
+			
+			if ( typeof( $.wpui.ids.children ) == 'undefined' )
+				$.wpui.ids.children = {};
+			$this.find( '.wp-tab-content-wrapper' ).contents().each(function() {
+				if ( this.id )
+					$.wpui.ids.children[ this.id ] = $( this ).closest( '.ui-accordion-content' ).attr('id');
 
-		// }
-		// $this.find('p#jqtemp').remove();
-	
+			});		
 
-	});	
 	
-	
-	
-}; // END Function wpaccord. 
+		},
+		_setOption		: function( key, value ) {
+			switch( key ) {
+				case "destroy":
+					this.destroy();
+					break;
 
-jQuery.fn.wpaccord.defaults = {
-	h3Class			: 	'h3.wp-tab-title',
-	linkAjaxClass	: 	'a.wp-tab-load',
-	effect			: 	(typeof wpUIOpts != "undefined") ? wpUIOpts.accordEffect : '',
-	autoHeight		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? true : false,
-	collapse		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordCollapsible == 'on' ) ? true : false,
-	easing			: 	(typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEasing : '',
-	accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : '',
-	wpuiautop		: 	true,
-	hashChange 		: 	true
-}; // END wpaccord defaults.
+			}
+			
+			$.Widget.prototype._setOption.apply( this, arguments );
+		},
+		rotate		: function() {
+			
+			var self = this, rSpeed = this.element.attr( 'class' ).match( /tab-rotate-(.*)/, "$1" ), aRot, rotac;
+			
+			if ( rSpeed ) {
+				rSpeed =  rSpeed[1];
+				if ( rSpeed.match(/(\d){1,2}s/, "$1") ) rSpeed = rSpeed.replace(/s$/, '') * 1000;				
+				cPanel = this.accordion.accordion( 'option', 'active' );
+				tPanel = this.accordion.children().length / 2 -1;
+				
+				rotac = setInterval(function() {
+					self.accordion.accordion( 'activate', ( cPanel > tPanel ) ? 0 : cPanel++ );
+				}, rSpeed );
+				
+				self.accordion.children(":nth-child(odd)").bind( 'click', function() {
+					clearInterval( rotac );
+				});
+			}
+			
+		},
+		destroy		: function() {
+			
+			this.header.unwrap();
+			
+			this.header.attr( 'class', this.o.header.replace( /.{1,6}\./, '' ) );
+			this.header.siblings( this.o.content ).attr( 'class', this.o.content.replace( /.{1,6}\./, '' ) ).removeAttr( 'id' ).show();
+			
+			
+			
+			
+			$.Widget.prototype.destroy.call( this );
+		}
+		
+		
+	});
+	
+	
+	
+})( jQuery );

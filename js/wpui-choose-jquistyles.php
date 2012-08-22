@@ -27,9 +27,16 @@ jQuery().ready(function($) {
 		slide	 : true,
 	});
 	
-	jQuery( '.wp-dialog' ).wpDialog();
+	jQuery( '.wp-dialog' ).dialog({
+		autoOpen : false,
+		
+	});
 	
-
+	jQuery( '.dialog-opener-3' ).button({
+		icons : {
+			primary : 'ui-icon-newwin'
+		}
+	});
 	
   	jQuery('#chosentab').themeswitcher({
 		loadTheme : 'Start',
@@ -264,7 +271,7 @@ function submit_form() {
 <h3 class="section-header">Dialog</h3>
 
 <div class="dialog-button">
-<p class="dialog-opener-container wpui-macish"><a href="#" class="dialog-opener-3">Open Dialog</a></p>
+<p class="dialog-opener-container wpui-macish"><a onclick="jQuery( '.wp-dialog').dialog('open');" href="javascript:void(0)" class="dialog-opener-3">Open Dialog</a></p>
 </div>
 <div class="wp-dialog wp-dialog-3 dialog-number-3" title="UI dialog"><h4 class="wp-dialog-title wpui-dialogClass:dialog-number-3-arg wpui-width:300-arg wpui-height:auto-arg wpui-autoOpen:false-arg wpui-show:drop-arg wpui-hide:fade-arg wpui-modal:false-arg wpui-closeOnEscape:true-arg wpui-position:center-arg wpui-modal:true-arg wpui-zIndex:1000-arg"></h4> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus, tellus at sagittis imperdiet, turpis augue rutrum lacus, ut tincidunt ligula mi vitae nibh. Praesent nisl velit, pellentesque in semper quis, pretium nec massa. </div>
 

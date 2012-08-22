@@ -14,7 +14,8 @@ class wpui_editor_buttons
 			// Do Tinymce
 			if ( isset( $options['enable_tinymce_menu'] ) && $options['enable_tinymce_menu'] == 'on' ) {
 				add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
-				add_filter( 'mce_buttons', array( &$this, 'mce_buttons' ) );
+				$tmrow = wpui_misc_opt( 'tinymce_icon_row' ) ? '_' . wpui_misc_opt( 'tinymce_icon_row' ) : '';
+				add_filter( 'mce_buttons' . $tmrow, array( &$this, 'mce_buttons' ) );
 			}
 			
 			// Do QTags.
@@ -28,12 +29,14 @@ class wpui_editor_buttons
 			}
 			
 			// get and set tour.
-			if ( ! $this->ls3point3()
+			if (( ! $this->ls3point3()
 				&& isset( $options['tour'] ) 
 				&& $options['tour'] == 'on'
-				) {
+				) || ( isset( $_GET ) 
+				&& isset( $_GET[ 'wpui-tour' ] ) ) ) {
 				@include wpui_dir( 'inc/wpui_tour.php' );
 			}
+			
 	}
 	
 	// Is the wordpress version - less than 3.3?
@@ -52,7 +55,8 @@ class wpui_editor_buttons
 	}
 	
 	function mce_buttons( $buttons ) {
-		array_push( $buttons, 'separator', 'wpuimce');
+		// array_push( $buttons, 'separator', 'wpuimce');
+		$buttons[] = 'wpuimce';
 		return $buttons;
 	}
 	

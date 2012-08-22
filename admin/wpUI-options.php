@@ -39,13 +39,13 @@ $wpui_options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	'enable_pagination'	=>	array(
-		'id'		=>	'enable_pagination',
-		'title'		=>	__('Pagination support', 'wp-ui'),
-		'desc'		=>	__('Enable', 'wp-ui'),
-		'type'		=>	'checkbox',
-		'section'	=>	'general',
-	),
+	// 'enable_pagination'	=>	array(
+	// 	'id'		=>	'enable_pagination',
+	// 	'title'		=>	__('Pagination support', 'wp-ui'),
+	// 	'desc'		=>	__('Enable', 'wp-ui'),
+	// 	'type'		=>	'checkbox',
+	// 	'section'	=>	'general',
+	// ),
 	'enable_quicktags_buttons'	=>	array(
 		'id'		=>	'enable_quicktags_buttons',
 		'title'		=>	__('HTML editor buttons', 'wp-ui'),
@@ -81,13 +81,13 @@ $wpui_options_list = array(
 		'section'	=>	'general',
 		'type'		=>	'checkbox'	
 	),
-	'enablePostWi'	=>	array(
-		'id'		=>	'enable_post_widget',
-		'title'		=>	__('Post bottom widget', 'wp-ui'),
-		'desc'		=>	__('Enable the popular/recent/random/related posts shown at the end of each post. Requires cache option to be set.', 'wp-ui'),
-		'section'	=>	'general',
-		'type'		=>	'checkbox'	
-	),	
+	// 'enablePostWi'	=>	array(
+	// 	'id'		=>	'enable_post_widget',
+	// 	'title'		=>	__('Post bottom widget', 'wp-ui'),
+	// 	'desc'		=>	__('Enable the popular/recent/random/related posts shown at the end of each post. Requires cache option to be set.', 'wp-ui'),
+	// 	'section'	=>	'general',
+	// 	'type'		=>	'checkbox'	
+	// ),	
 	'enableCacheWi'	=>	array(
 		'id'		=>	'enable_cache',
 		'title'		=>	__( 'Cache images and scripts', 'wp-ui'),
@@ -352,18 +352,18 @@ $wpui_options_list = array(
 	 */
 	'bleeding_edge'	=> array(
 		'id'		=>	'bleeding_edge',
-		'title'		=>	__( 'Bleeding Edge', 'wp-ui' ),
-		'desc'		=>	__( 'Enable experimental features.', 'wp-ui' ),
+		'title'		=>	__( 'Old version', 'wp-ui' ),
+		'desc'		=>	__( 'Use old scripts instead of the rewritten API.', 'wp-ui' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
-	'alternative_codes'	=>	array(
-		'id'		=>	'alt_sc',
-		'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
-		'desc'		=>	__( 'Use shorter codes. ', 'wp-ui' ) . 'ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] => [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>',
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),
+	// 'alternative_codes'	=>	array(
+	// 	'id'		=>	'alt_sc',
+	// 	'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
+	// 	'desc'		=>	__( 'Use shorter codes. ', 'wp-ui' ) . 'ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] => [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>',
+	// 	'type'		=>	'checkbox',
+	// 	'section'	=>	'advanced'
+	// ),
 	'jquery_include'	=>	array(
 		'id'		=>	'jquery_disabled',
 		'title'		=>	__('Donot load the jQuery copy', 'wp-ui'),
@@ -401,7 +401,7 @@ $wpui_options_list = array(
 	"link_hist"		=>	array(
 		'id'		=>	'linking_history',
 		'title'		=>	__(	'Linking and History', 'wp-ui' ),
-		'desc'		=>	__( 'Uncheck here to disable history and linking. jQuery hashchange plugin by Ben Alman.'),
+		'desc'		=>	__( 'Uncheck here to disable history and linking. jQuery BBQ plugin by Ben Alman.'),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),	
@@ -535,7 +535,18 @@ $wpui_options_list = array(
 		
 	),
 	
-	
+	'title_templateu'	=>	array(
+		'id'		=>	'title_template',
+		'title'		=>	__('Title template', 'wp-ui' ) . '<br /><small>' . __( 'Tabs/accordion/spoiler title template.', 'wp-ui') . '</small>',
+		'desc'		=> __( 'Modify the template structure here. Use the variables within curled brackets. Click the top-right [help] link->Posts for reference.'),
+		'type'		=>	'textarea',
+		'section'	=>	'posts',
+	'textarea_size'	=>	array(
+		'cols'	=>	'60',
+		'rows'	=>	'1',
+		'autocomplete'	=>	'off'
+	)
+	),	
 	
 	'post_template_one'	=>	array(
 		'id'		=>	'post_template_1',
@@ -562,6 +573,18 @@ $wpui_options_list = array(
 		'autocomplete'	=>	'off'
 	)
 	),
+	'miscellaneous'		=>	array(
+		'id'			=>	'misc_options',
+		'title'			=>	__( 'Other options', 'wp-ui' ),
+		'desc'			=>	__( 'Newline separated options', 'wp-ui' ),
+		'type'			=>	'textarea',
+		'section'		=>	'advanced',
+		'textarea_size'	=>	array(
+			'cols'	=>	'50',
+			'rows'	=>	'5',
+			'autocomplete'	=>	'off'
+		)
+	)	
 
 );
 
@@ -712,27 +735,18 @@ class wpUI_options extends quark_admin_options
 			// $admin_deps = ( floatval( get_bloginfo( 'version' ) ) >= 3.3 ) ? array( 'jquery-ui' ) : array( 'jquery-ui-tabs', 'jquery-ui-dialog' );
 			$admin_deps = array( 'jquery-ui' );
 
-			if ( isset( $this->options[ 'bleeding_edge' ] ) && $this->options[ 'bleeding_edge' ] == 'on' ) {
-				wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/qtabs.js', $admin_deps, WPUI_VER );
-			} else {
+			// if ( isset( $this->options[ 'bleeding_edge' ] ) && $this->options[ 'bleeding_edge' ] == 'on' ) {
+			// 	wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/wp-ui-old.js', $admin_deps, WPUI_VER );
+			// } else {
 				wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/select/tabs.js', $admin_deps, WPUI_VER );
-			}
+			// }
 			
-			// wp_enqueue_script( 'admin-wpui-2' , $plugin_url . 'js/select/init.js', $admin_deps, WPUI_VER );
+			wp_enqueue_script( 'admin-wpui-2' , $plugin_url . 'js/select/init.js', $admin_deps, WPUI_VER );
 			wp_localize_script( 'admin-wpui-1' , 'wpUIOpts' , $wp_ui_main->get_script_options() );
 			wp_enqueue_script( 'admin_wp_ui' , $plugin_url . 'js/admin.js', $admin_deps, WPUI_VER );
 			wp_localize_script('admin_wp_ui' , 'initOpts', array(
 				'wpUrl'				=>	site_url(),
 				'pluginUrl' 		=>	plugins_url('/wp-ui/'),
-				// 'queryVars1'	=>	add_query_arg( array(
-				// 	 	'action' => 'WPUIstyles',
-				// 	 	'height' => '200',
-				// 	 	'width' => '300'
-				// 	 ), 'admin-ajax.php' ),
-				// 	
-				// 'queryVars2'	=>	add_query_arg( array(
-				// 	 	'action' => 'jqui_custom_css',
-				// 	 ), 'admin-ajax.php' )
 				));
 			
 		wp_enqueue_script( 'admin_jq_ui' , $plugin_url . 'js/jqui-admin.js', $admin_deps, WPUI_VER);
@@ -823,7 +837,7 @@ $wpui_admin_help_tabs = array(
 	'main'	=>	array(
 		'id'		=>	'wpui_general',
 		'title'		=>	'General',
-		'content'	=>	"<h3>" . __('WP UI - General options', 'wp-ui') . "</h3><p>Enable/disable the plugin components.  </p><h4><strong>Tabs</strong></h4>
+		'content'	=>	"<a class='button-secondary' href='" . admin_url( 'post-new.php?wpui-tour=show') . "'>Take a tour</a> <h3>" . __('WP UI - General options', 'wp-ui') . "</h3><p>Enable/disable the plugin components.  </p><h4><strong>Tabs</strong></h4>
 		<p>Uncheck the box to disable tabs. <em>Default is enabled</em>. Tabs are used to present content in separate parallel views ( panels ), that can be clicked open to reveal content</p><p><strong>Accordion</strong></p><p>Uncheck the box to disable accordions. <em>Default is enabled</em>. Accordions are vertically stacked list of items each of which can be clicked to expand the content associated with that item.</p>
 		<p><strong>Collapsibles/Spoilers</strong></p>
 		<p>Spoilers are widgets that are used to hide content at load, that can later be clicked open. In short - Click to reveal content.</p>
@@ -942,16 +956,17 @@ function wpui_plugin_info_above() {
 	</noscript>
 	
 	<div id="wpui-cap" style="position: relative">
-	<div class="cap-icon">
+	<!-- <div class="cap-icon">
 		<img width="50px" src="<?php echo plugins_url( '/wp-ui/images/cap-badge.png' ) ?>" />
 
-	</div><!-- end div.cap-icon -->
+	</div><!-- end div.cap-icon --> 
 	
 	<div class="wpui-desc">
-		<p> <?php _e( 'Help -', 'wp-ui' ); ?> <a class="wpui_forums_link" href="http://kav.in/forum">Support forum</a> |<a class="wpui_options_help" href="#">Options Help ( 3.3 + )</a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Plugin documentation, demo @ projects', 'wp-ui' ); ?></a>. </p>
+		<p> <b><?php _e( 'Help -', 'wp-ui' ); ?></b> <a style="color: green;" href="<?php echo admin_url( 'post-new.php?wpui-tour=show' ); ?>"><?php _e( 'Take a tour', 'wp-ui' ); ?></a> |  <a href="http://wordpress.org/support/plugin/wp-ui">WP.org support forum</a> |  <a class="wpui_forums_link" href="http://kav.in/forum"> Support forum</a>  |  <a class="wpui_options_help" href="#">Options Help </a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Plugin documentation, demo @ projects', 'wp-ui' ); ?></a>. </p>
+		<p> <b><?php _e( 'Documentation -', 'wp-ui' ); ?></b> <a class="wpui_options_help" href="#">Help on using options page</a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Plugin documentation, demo @ projects', 'wp-ui' ); ?></a>. </p>
 		
-		<p> <?php _e( 'Help improve this plugin : ', 'wp-ui' ); ?><a target="_blank" href="http://kav.in/forum" title="Improve the plugin by sharing your opinion"><?php _e( 'Suggestions? Ideas?', 'wp-ui' ); ?></a> | <?php _e( 'Report -', 'wp-ui' ); ?> <a target="_blank" title="Report the issues you find and improve the plugin!" href="http://kav.in/forum"><?php _e( 'Bugs / Issues / conflicts</a> on Support forums', 'wp-ui' ); ?></p>
-				<p> <?php _e( 'Support this plugin :', 'wp-ui' ); ?> <a href="http://www.facebook.com/pages/Capability/136970409692187" title="Facebook likes!" target="_blank"><?php _e( 'Like us on Facebook', 'wp-ui' ); ?></a> | <a title="Motivate and see us performing better!" href="http://twitter.com/kavingray" target="_blank"><?php _e( 'Follow us on Twitter', 'wp-ui' ); ?></a>. </p>
+		<p> <b><?php _e( 'Help improve this plugin : ', 'wp-ui' ); ?></b> <a target="_blank" href="http://kav.in/forum" title="Improve the plugin by sharing your opinion"><?php _e( 'Suggestions? Ideas?', 'wp-ui' ); ?></a> | <?php _e( 'Report -', 'wp-ui' ); ?> <a target="_blank" title="Report the issues you find and improve the plugin!" href="http://kav.in/forum"><?php _e( 'Bugs / Issues / conflicts</a> on Support forums', 'wp-ui' ); ?></p>
+				<p> <b> <?php _e( 'Support this plugin :', 'wp-ui' ); ?> </b> <a href="http://kav.in/donation" style="color : magenta" title="Consider a donation to support the plugin development and site costs."> Donate!</a> |  <a href="http://www.facebook.com/pages/Capability/136970409692187" title="Facebook likes!" target="_blank"><?php _e( 'Like us on Facebook', 'wp-ui' ); ?></a> | <a title="Motivate and see us performing better!" href="http://twitter.com/kavingray" target="_blank"><?php _e( '@Follow us on Twitter', 'wp-ui' ); ?></a>. </p>
 	</div><!-- end div.wpui-desc -->
 	
 	<!-- <div style="  position: absolute;right: 0;top: 25%;width: 63px;">	
@@ -998,20 +1013,23 @@ function wpui_plugin_info_below() {
 		<h4><span></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
 		<ul>
 		<li>
+			<a target="_blank" href="http://kav.in/donation"><?php _e( 'Consider a donation.', 'wp-ui' ); ?></a>
+		</li>
+		<li>
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a nice rating at Wordpress.org', 'wp-ui' ); ?></a>
 		</li>
 		<li>
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/" title="<?php _e( 'Please login and choose It \'works\' at wordpress.org', 'wp-ui' ); ?>"><?php _e( 'Tell others that it works!', 'wp-ui' ) ?></a>
 		</li>
-		
-		<!-- <li>
-			<i><a target="_blank" href="http://www.facebook.com/WPUIplugin" title="Show us your support by liking the plugin on Facebook.">Like the plugin on FaceBook!<span class="wpui-new-feature">NEW</span></a></i>
-		</li> -->		
+			
 		<li>
 			<a target="_blank" href="http://www.facebook.com/#!/pages/Capability/136970409692187" title="Encourage/Motivate me on making more plugins!"><?php _e( 'Like us on facebook!', 'wp-ui' ); ?></a>				
 			</li>
 		<li>
 			<a href="http://twitter.com/kavingray" title="Follow Kavin on twitter."><?php _e( '@Kavingray on Twitter', 'wp-ui' ); ?></a>
+		</li>
+		<li>
+			<i><a target="_blank" href="http://www.facebook.com/WPUIplugin" title="Show us your support by liking the plugin on Facebook.">Like the plugin's Facebook page<span class="wpui-new-feature">NEW</span></a></i>
 		</li>
 
 			</ul>
@@ -1021,6 +1039,9 @@ function wpui_plugin_info_below() {
 		<div class="help cols col-1">
 			<h4><span></span><?php _e( 'Get Support!', 'wp-ui' ); ?></h4>
 			<ul>
+    		<li>
+				<i><a target="_blank" href="http://wordpress.org/support/plugin/wp-ui" title="<?php _e( 'Wordpress.org Plugin support forum', 'wp-ui' ); ?>"><?php _e( 'gsupport forum', 'wp-ui' ); ?></a></i>
+			</li>
 		<li>
 			<a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Documentation', 'wp-ui' ); ?></a>
 		</li>
@@ -1076,11 +1097,11 @@ function get_wpui_default_options() {
 	$defaults = array(
 	    "enable_tabs" 				=>	"on",
 	    "enable_accordion"			=>	"on",
-	    "enable_pagination"			=>	"on",
+	    // "enable_pagination"			=>	"on",
 	    "enable_tinymce_menu"		=>	"on",
 	    "enable_quicktags_buttons"	=>	"on",
 	    "enable_widgets"			=>	"on",
-	    "enable_post_widget"		=>	"off",
+	    // "enable_post_widget"		=>	"off",
 		"topnav"					=>	"",
 	    "bottomnav"					=>	"on",
 		"enable_spoilers"			=>	"on",
@@ -1112,6 +1133,7 @@ function get_wpui_default_options() {
 		"load_scripts_on_demand"	=>	"off",
 		"linking_history"			=>	"on",
 		"widget_rich_text"			=>	"off",
+		'title_template'			=>	'{$title}',
 		'post_template_1'			=>	'<h2 class="wpui-post-title">{$title}</h2>
 		<div class="wpui-post-meta">{$date} |  {$author}</div>
 		<div class="wpui-post-thumbnail">{$thumbnail}</div>
@@ -1137,6 +1159,7 @@ function get_wpui_default_options() {
 		'jquery_disabled'			=>	'off',
 		'docwrite_fix'				=>	'on',
 		'bleeding_edge'				=>	'off',
+		'misc_options'				=>	"hashing_method=1\ntinymce_icon_row=3",
 		'version'					=>	WPUI_VER
 	);
 	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';

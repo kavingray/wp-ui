@@ -7,7 +7,7 @@
 <script type="text/javascript" src="../wp-content/plugins/wp-ui/js/jquery.min.js"></script>
 <script type="text/javascript" src="../wp-content/plugins/wp-ui/js/jquery-ui.min.js"></script>
 
-<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/wp-ui.js"></script>
+<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/wp-ui-old.js"></script>
 <link rel="stylesheet" href="../wp-content/plugins/wp-ui/wp-ui.css" media="screen">
 <link rel="stylesheet" href="../wp-content/plugins/wp-ui/css/wpui-all.css" media="screen">
 <script type="text/javascript">
@@ -26,8 +26,16 @@ jQuery(document).ready(function($) {
 		slide	 : true,
 	});
 	
-	jQuery( '.wp-dialog' ).wpDialog();
+	jQuery( '.wp-dialog' ).dialog({
+		autoOpen : false,
+		dialogClass : 'wpui-light'
+	});
 
+	jQuery( '.dialog-opener-3' ).button({
+		icons : {
+			primary : 'ui-icon-newwin'
+		}
+	});
 
 	var i = 0;
 	classList = new Array;
@@ -365,11 +373,9 @@ function submit_form() {
 
 <div class="holster dialog-holder">
 
-<div class="dialog-button">
-<!-- <p class="dialog-opener-container wpui-macish"> -->
-<a class="dialog-opener wpui-macish dialog-opener-3" href="#" class="">Open Dialog</a>
-
-</div>
+	<div class="dialog-button">
+	<p class="dialog-opener-container wpui-macish"><a onclick="jQuery( '.wp-dialog').dialog('open');" href="javascript:void(0)" class="dialog-opener-3">Open Dialog</a></p>
+	</div>
 <div class="wp-dialog wp-dialog-3 wpui-macish%wp-ui-styles%dialog-number-3" title="UI dialog"><h4 class="wp-dialog-title  wpui-dialogClass:wpui-macish%wp-ui-styles%dialog-number-3-arg wpui-width:300-arg wpui-height:auto-arg wpui-autoOpen:false-arg wpui-show:drop-arg wpui-hide:fade-arg wpui-modal:false-arg wpui-closeOnEscape:true-arg wpui-position:center-arg wpui-modal:true-arg wpui-zIndex:1000-arg"></h4> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus, tellus at sagittis imperdiet, turpis augue rutrum lacus, ut tincidunt ligula mi vitae nibh. Praesent nisl velit, pellentesque in semper quis, pretium nec massa. </div>
 
 </div><!-- end holder -->
