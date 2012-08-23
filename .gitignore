@@ -1,0 +1,5 @@
+.DS_Store
+.svn
+svn-prop.tmp
+*.svn
+thumbs.db
