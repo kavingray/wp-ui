@@ -1109,6 +1109,9 @@ class wpUI {
 	} // END function wpui_add_queries
 
 
+	/**
+	 * 	Can the user edit?
+	 */
 	private function do_edit() {
 		$cond = false;
 		if (
