@@ -1124,10 +1124,63 @@ class wpUI {
 		
 	} // END function wpui_add_queries
 
+	
+	
+	function assess_needed_scripts( $posts ) {
+		if ( empty( $posts ) ) return $posts;
+		$sc_pat = get_shortcode_regex();
+		foreach( $posts as $post ) {
+			if ( get_post_meta( $post->ID, 'wp-ui-load', true ) )
+					delete_post_meta( $post->ID, 'wp-ui-load' );
+			$comp = array();
+			// preg_match( '/' . $sc_pat . '/s', $post->post_content, $matches );
+			if ( stripos( $post->post_content, '[wptabs' ) !== false ||
+			 	stripos( $post->post_content, '[wptabposts' ) !== false ||
+				stripos( $post->post_content, '[wpuifeeds' ) !== false  ) {
+					$comp[] = 'tabs';
+				if(stripos ( $post->post_content, 'type="accordion"')  !== false)
+					$comp[] = 'acc';			
+			}
+			if ( stripos( $post->post_content, '[wpspoiler') !== false )
+				$comp[] = 'spoiler';
+			if ( stripos( $post->post_content, '[wpdialog' ) !== false )
+				$comp[] = 'dialog';
+			if ( stripos( $post->post_content, '[wploop' ) !== false )
+				$comp[] = 'pager';
+			if ( count( $comp ) ) {
+				$comp[] = 'init';
+				$post->post_wpui = $comp;
+				// add_post_meta( $post->ID, 'wp-ui-load', $comp, true ) or update_post_meta( $post->ID, 'wp-ui-load', $comp );
+			}
+			
+			
+		}
+		return $posts;
+	}
+	
+	function sc_wpuicomp($atts, $content = null ) {
+		extract( shortcode_atts( array( 
+			'debug'	=>	'false',
+			'set'	=>	''
+			), $atts));
+		if ( $debug == 'true' ) {
+			global $post;
+			if ( isset( $post->post_wpui ) )
+			$post_meta = $post->post_wpui;
 
-	/**
-	 * 	Can the user edit?
-	 */
+		}
+		if ( $set != '' ) {
+			$setA = explode( ',', $set );
+			if ( !is_array( $setA) && empty( $setA ) ) 
+				return 'Invalid Set argument : Example <code>[wpuicomp set="tabs,spoiler,dialog"]</code> will load tabs, spoiler and dialog scripts. If you just want to view the arguments, input <code>debug="true"</code>';
+			else {
+				global $post;
+				$post->post_wpui = $setA;
+				// add_post_meta( $post->ID , '_wp-ui-load', $setA , true);
+			}
+		}		
+	}
+	
 	private function do_edit() {
 		$cond = false;
 		if (
