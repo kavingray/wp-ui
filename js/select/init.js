@@ -18,7 +18,6 @@ if(!Array.indexOf){
 	}
 }
 
-	
 
 /**
  * jQuery Cookie plugin
