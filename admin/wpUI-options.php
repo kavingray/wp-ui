@@ -1016,7 +1016,7 @@ function wpui_plugin_info_below() {
 			<a target="_blank" href="http://kav.in/donation"><?php _e( 'Consider a donation.', 'wp-ui' ); ?></a>
 		</li>
 		<li>
-			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a nice rating at Wordpress.org', 'wp-ui' ); ?></a>
+			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 Star rating at Wordpress.org', 'wp-ui' ); ?></a>
 		</li>
 		<li>
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/" title="<?php _e( 'Please login and choosing It \'works\' at wordpress.org.', 'wp-ui' ); ?>"><?php _e( 'Tell others that it works!', 'wp-ui' ) ?></a>
@@ -1135,7 +1135,7 @@ function get_wpui_default_options() {
 		"load_scripts_on_demand"	=>	"off",
 		"linking_history"			=>	"on",
 		"widget_rich_text"			=>	"off",
-		'title_template'			=>	'{$title}',
+		'title_template'			=>	'',
 		'post_template_1'			=>	'<h2 class="wpui-post-title">{$title}</h2>
 		<div class="wpui-post-meta">{$date} |  {$author}</div>
 		<div class="wpui-post-thumbnail">{$thumbnail}</div>
