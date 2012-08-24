@@ -15,7 +15,7 @@ Easily add Tabs, Accordion, dialogs and spoilers to your posts. With 14 fresh & 
 
 WordPress is a great platform suitable for almost every case of websites out there, ranging from a personal blog to a complex CMS. This plugin started out as a snippet when i needed a way to shorten my posts and make them look more presentable. WP UI plugin for WordPress, right from its first release, is all about user experience and presentation. It takes care of all the not-needed background stuff and makes it ultimately easy to implement wp ui widgets - Tabs, accordions, spoilers, dialogs.  Real power of this plugin lies in the handy functions and shortcodes that deal with posts and feeds.
 
->[Documentation](http://kav.in/projects/)  |  [Support](http://kav.in/forum/)
+>[Documentation](http://kav.in/projects/)  |  [Plugin page](http://kav.in/wp-ui-for-wordpress/)
 
 = Base =
 
@@ -41,9 +41,9 @@ Including posts and feeds have never been more easier. With a single post shortc
 
 WP UI comes with rich documentation bundled in the options page and right within the editor. While they work great for a quick reference on shortcodes or arguments, there is a [dedicated documentation](http://kav.in/projects/) site, built and updated every day.
 
-== Status on Support ( Aug 2012 ) ==
+= Status on Support ( .. Aug 2012 ) =
 
-Recent struggles on work-life imbalance has greatly reduced my available time providing full time support. While I will try my best on keeping up the previous levels of support, please bear with me. Yet, **I highly encourage & request help from loyal users of WP UI, who can help new users as well share their experiences & solutions**. And Never worry, Plugin will be maintained definitely.
+Recent struggles on work-life imbalance has greatly reduced my available time providing full time support. While I will try my best on keeping up the previous levels of support, **I highly encourage & request help from loyal users of WP UI, who can help new users as well share their experiences & solutions**. And Never worry, Plugin will be maintained definitely. 
 
 = Translations =
 
@@ -59,6 +59,7 @@ Missing your language here? Contribute by translating your favorite plugin!
 * [Support the plugin](http://kav.in/donation)
 * [Follow @kavingray on Twitter](http://twitter.com/kavingray)
 * [Documentation/Usage/Demo](http://kav.in/projects/blog/tag/wp-ui/)
+* [GitHub Project page](https://github.com/kavingray/WP-UI)
 * [Plugin page](http://kav.in/wp-ui-for-wordpress)
 * [Like us on Facebook](http://www.facebook.com/#!/pages/Capability/136970409692187)
 
@@ -167,13 +168,15 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 == Changelog ==
 
 = 0.8.5 =
+* Plugin is now on [GitHub](https://github.com/kavingray/WP-UI).
 * Completely rewritten Tabs, accordions, spoilers using jQuery UI widget factory.
 * Support for use on Dynamic pages.
 * Linking to tabs and accordion panels from other pages and the same page finally available.
 * Support for nested linking.
 * Editor panel now displays post counts with categories and tags.
 * Improved compatibility with WordPress >= 3.4.1.
-* Some styles tweaked and perfected.Check out the dialog styles. :)
+* Vastly unused Post widget, pagination, scroller functions were removed.
+* Some styles tweaked and perfected. Check out the dialog styles. :)
 
 = 0.8.2 =
 * Support for jQuery UI buttons.
@@ -289,6 +292,9 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 == Upgrade Notice ==
 
+= 0.8.5 =
+Save the options and clear the cache. That should do it.
+
 = 0.8.2 =
 Save the options & clear the browser & page( if any ) cache. Rest should be Automagic.
 
@@ -334,7 +340,7 @@ This is the first stable version to be released.
 = Demos =
 * [complete demo](http://kav.in/projects/blog/wp-ui-tabs-accordion-sliders-demo/)
 * [styles demo ](http://kav.in/projects/blog/wp-ui-css3-styles-demo/)
-* [ Including the posts ](http://kav.in/projects/blog/wp-ui-display-posts-wordpress/)
+* [Including the posts](http://kav.in/projects/blog/wp-ui-display-posts-wordpress/)
 
 Please **rate** the plugin if you find it useful.
 
@@ -344,7 +350,7 @@ Following scripts have been included with this plugin.
 
 Includes
 * jQuery cookie plugin by Klaus Hartl.
-* Hashchange event plugin by Ben Alman.
+* jQuery BBQ plugin by Ben Alman.
 * Mousewheel event plugin by Brandon Aaron.
 * Image resizer inspired from work by Jarrod Oberto.
 

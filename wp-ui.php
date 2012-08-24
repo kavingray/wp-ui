@@ -110,6 +110,7 @@ class wpUI {
 		add_shortcode( 'wploop',		array(&$this, 'sc_wpui_loop'));
 		add_shortcode( 'wpuifeeds',		array(&$this, 'sc_wpuifeeds'));
 		add_shortcode( 'wpuicomp',		array( &$this, 'sc_wpuicomp' ) );
+		add_shortcode( 'wpui_related_posts', array( $this->wpuiPosts, 'insert_related_posts' ) );
 		
 		
 		// Feeds support.
@@ -150,23 +151,6 @@ class wpUI {
 		
 		if ( ! is_admin() ) include_once( wpui_dir( 'inc/wpui-buttons.php' ));
 
-		// 
-		// if ( isset( $this->options[ 'alt_sc' ] ) && $this->options[ 'alt_sc' ] == 'on' )
-		// {
-		// 	// alternative shortcodes.
-		// 	add_shortcode( 'tabs', array(&$this, 'sc_wptabs'));
-		// 	add_shortcode( 'tabname', array(&$this, 'sc_wptabtitle'));
-		// 	add_shortcode( 'tabcont', array(&$this, 'sc_wptabcontent'));
-		// 	add_shortcode( 'spoiler', array(&$this, 'sc_wpspoiler'));
-		// 	add_shortcode( 'dialog', array(&$this, 'sc_wpdialog'));
-		// }
-		
-		
-		// Related posts widget. to be removed.
-		// if ( isset( $this->options[ 'enable_post_widget' ] ) && ( $this->options['enable_post_widget'] == 'on' ) ) {
-			add_shortcode( 'wpui_related_posts', array( $this->wpuiPosts, 'insert_related_posts' ) );
-			// add_filter( 'the_content', array( $this->wpuiPosts, 'put_related_posts' ));
-		// }
 		
 		
 		$this->plugin_dir = plugin_dir_path( __FILE__ );
@@ -1005,7 +989,12 @@ class wpUI {
 	} // END method sc_wpdialog	
 
 
-	
+	/**
+	 * WP UI Feeds - Parse a feed articles into tabs/accordions.
+	 *
+	 * @return void
+	 * @author Kavin
+	 **/
 	function sc_wpuifeeds( $atts, $content = null ) {
 		extract( shortcode_atts( array( 
 				'url'			=>	'',
@@ -1119,63 +1108,10 @@ class wpUI {
 		
 	} // END function wpui_add_queries
 
-	
-	
-	function assess_needed_scripts( $posts ) {
-		if ( empty( $posts ) ) return $posts;
-		$sc_pat = get_shortcode_regex();
-		foreach( $posts as $post ) {
-			if ( get_post_meta( $post->ID, 'wp-ui-load', true ) )
-					delete_post_meta( $post->ID, 'wp-ui-load' );
-			$comp = array();
-			// preg_match( '/' . $sc_pat . '/s', $post->post_content, $matches );
-			if ( stripos( $post->post_content, '[wptabs' ) !== false ||
-			 	stripos( $post->post_content, '[wptabposts' ) !== false ||
-				stripos( $post->post_content, '[wpuifeeds' ) !== false  ) {
-					$comp[] = 'tabs';
-				if(stripos ( $post->post_content, 'type="accordion"')  !== false)
-					$comp[] = 'acc';			
-			}
-			if ( stripos( $post->post_content, '[wpspoiler') !== false )
-				$comp[] = 'spoiler';
-			if ( stripos( $post->post_content, '[wpdialog' ) !== false )
-				$comp[] = 'dialog';
-			if ( stripos( $post->post_content, '[wploop' ) !== false )
-				$comp[] = 'pager';
-			if ( count( $comp ) ) {
-				$comp[] = 'init';
-				$post->post_wpui = $comp;
-				// add_post_meta( $post->ID, 'wp-ui-load', $comp, true ) or update_post_meta( $post->ID, 'wp-ui-load', $comp );
-			}
-			
-			
-		}
-		return $posts;
-	}
-	
-	function sc_wpuicomp($atts, $content = null ) {
-		extract( shortcode_atts( array( 
-			'debug'	=>	'false',
-			'set'	=>	''
-			), $atts));
-		if ( $debug == 'true' ) {
-			global $post;
-			if ( isset( $post->post_wpui ) )
-			$post_meta = $post->post_wpui;
 
-		}
-		if ( $set != '' ) {
-			$setA = explode( ',', $set );
-			if ( !is_array( $setA) && empty( $setA ) ) 
-				return 'Invalid Set argument : Example <code>[wpuicomp set="tabs,spoiler,dialog"]</code> will load tabs, spoiler and dialog scripts. If you just want to view the arguments, input <code>debug="true"</code>';
-			else {
-				global $post;
-				$post->post_wpui = $setA;
-				// add_post_meta( $post->ID , '_wp-ui-load', $setA , true);
-			}
-		}		
-	}
-	
+	/**
+	 * 	Can the user edit?
+	 */
 	private function do_edit() {
 		$cond = false;
 		if (

@@ -1019,7 +1019,7 @@ function wpui_plugin_info_below() {
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a nice rating at Wordpress.org', 'wp-ui' ); ?></a>
 		</li>
 		<li>
-			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/" title="<?php _e( 'Please login and choose It \'works\' at wordpress.org', 'wp-ui' ); ?>"><?php _e( 'Tell others that it works!', 'wp-ui' ) ?></a>
+			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/" title="<?php _e( 'Please login and choosing It \'works\' at wordpress.org.', 'wp-ui' ); ?>"><?php _e( 'Tell others that it works!', 'wp-ui' ) ?></a>
 		</li>
 			
 		<li>
@@ -1031,7 +1031,9 @@ function wpui_plugin_info_below() {
 		<li>
 			<i><a target="_blank" href="http://www.facebook.com/WPUIplugin" title="Show us your support by liking the plugin on Facebook.">Like the plugin's Facebook page<span class="wpui-new-feature">NEW</span></a></i>
 		</li>
-
+		<li>
+			<i><a target="_blank" href="https://github.com/kavingray/WP-UI" title="Project on GitHub.">WP UI on GitHub<span class="wpui-new-feature">NEW</span></a></i>
+		</li>
 			</ul>
 
 		</div>		
@@ -1040,7 +1042,7 @@ function wpui_plugin_info_below() {
 			<h4><span></span><?php _e( 'Get Support!', 'wp-ui' ); ?></h4>
 			<ul>
     		<li>
-				<i><a target="_blank" href="http://wordpress.org/support/plugin/wp-ui" title="<?php _e( 'Wordpress.org Plugin support forum', 'wp-ui' ); ?>"><?php _e( 'gsupport forum', 'wp-ui' ); ?></a></i>
+				<i><a target="_blank" href="http://wordpress.org/support/plugin/wp-ui" title="<?php _e( 'Wordpress.org Plugin support forum', 'wp-ui' ); ?>"><?php _e( 'Wp.org support forum', 'wp-ui' ); ?></a></i>
 			</li>
 		<li>
 			<a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Documentation', 'wp-ui' ); ?></a>
