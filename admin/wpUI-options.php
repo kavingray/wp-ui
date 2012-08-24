@@ -1016,7 +1016,7 @@ function wpui_plugin_info_below() {
 			<a target="_blank" href="http://kav.in/donation"><?php _e( 'Consider a donation.', 'wp-ui' ); ?></a>
 		</li>
 		<li>
-			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 Star rating at Wordpress.org', 'wp-ui' ); ?></a>
+			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 &#9733; rating at Wordpress.org', 'wp-ui' ); ?></a>
 		</li>
 		<li>
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/" title="<?php _e( 'Please login and choosing It \'works\' at wordpress.org.', 'wp-ui' ); ?>"><?php _e( 'Tell others that it works!', 'wp-ui' ) ?></a>
