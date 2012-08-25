@@ -241,6 +241,7 @@ p.switch-editors a.active {
 	-webkit-border-radius  : 6px;
 	-o-border-radius       : 6px;
 	width:900px;
+	min-height : 1400px;
 }
 
 div#wpui-cap {
@@ -980,15 +981,21 @@ div#TB_overlay,
 	margin-left : 10px;
 }
 
+div.check_styles_lists {
+	color : #999;
+	line-height : 18px;
+}
+
 li.checkbox-holder {
-	background : #111;
-	background : rgba( 0, 0, 0, 0.4 );
-	box-shadow : 0 1px 3px #000;
-	-moz-border-radius     : 3px;
-	-webkit-border-radius  : 3px;
-	-o-border-radius       : 3px;
-	border-radius          : 3px;
-	padding : 5px 10px;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.4);
+    border: 1px solid #555555;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 3px #000000;
+    float: left;
+    margin: 0.2em;
+    min-width: 145px;
+    padding: 5px 10px;
+	color : #DDD;
 }
 
 li.checkbox-holder.ui-state-disabled {
