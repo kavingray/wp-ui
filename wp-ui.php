@@ -210,7 +210,6 @@ class wpUI {
 			// Let's use Wordpress bundled jQuery.
 			// wp_enqueue_script( 'jquery' );
 			
-			
 			// if ( isset( $this->options[ 'jquery_disabled' ]  ) ) {
 				// Will be gradually moved to wordpress bundled UI ( >= 3.3)
 				wp_deregister_script( 'jquery-ui' );
