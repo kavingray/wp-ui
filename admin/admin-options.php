@@ -1,12 +1,12 @@
 <?php
 /**
  *	Plugin Options template
- *	
- *	Plugin options class using WP Settings API. 
- * 
+ *
+ *	Plugin options class using WP Settings API.
+ *
  * 	Initially derived from the theme options class works by Alison
- * 	Barret( @alisothegeek @link: http://alisothegeek.com ). Much Thanks to her. 
- *		
+ * 	Barret( @alisothegeek @link: http://alisothegeek.com ). Much Thanks to her.
+ *
  * @since $Id$
  * @package wp-ui
  * @subpackage admin-options
@@ -18,9 +18,9 @@
 if ( ! class_exists( 'quark_admin_options') ) {
 class quark_admin_options
 {
-	
+
 	public $sections, $fields, $page_id, $admin_scripts, $plugin_details, $plugin_db_prefix, $plugin_page_prefix, $help_tabs, $options;
-	
+
 	private $defaults = array(
 		'id'		=>	'default_field',
 		'title'		=>	'Default Field',
@@ -34,7 +34,7 @@ class quark_admin_options
 		'fields'	=>	array(),
 		'enclose'	=>	array( 'before' => '', 'after' => '' )
 	);
-	
+
 	function __construct( $plugin_details=array() )
 	{
 		$this->plugin_details = $plugin_details;
@@ -42,22 +42,22 @@ class quark_admin_options
 			$this->{$key} = $value;
 		}
 		$this->quark_admin_options();
-		
+
 		$this->options = get_option( $this->db_prefix . '_options' );
 	}
-	
-	
+
+
 	public function quark_admin_options() {
 		add_action( 'admin_menu' , array(&$this, 'menu_admin'));
 		add_action( 'admin_init' , array(&$this, 'init_admin'));
-		$this->set_page_id($this->page_id);	
+		$this->set_page_id($this->page_id);
 	}
 
 
 	public function init_admin() {
 		$this->register_options();
 	}
-	
+
 	public function menu_admin() {
 		$page_str = add_options_page( $this->name . ' Options', $this->name, 'manage_options', $this->page_prefix . '-options', array(&$this, 'render_options_page') );
 		if ( floatval( get_bloginfo( 'version' ) ) >= 3.3 )
@@ -65,16 +65,16 @@ class quark_admin_options
 		$this->page_id = $page_str;
 		add_action( 'admin_print_styles-' . $page_str , array( &$this, 'script_action' ) );
 	}
-	
+
 	function script_action() {
 		do_action( 'plugin_' . $this->page_prefix . '_load_scripts' );
 	}
-	
+
 	public function render_options_page() {
 
 		echo '<div class="wrap">
 				<div class="cap-icon" id="icon-options-general"></div>
-				
+
 				<h2 style="font-size : 35px;"><a href="http://kav.in">
 					<img width="32px" style="display: inline" src="' . plugins_url( "/wp-ui/images/cap-badge.png" ) . '" /></a>  ' . $this->name . '</h2>';
 
@@ -96,7 +96,7 @@ class quark_admin_options
 			 */
 			settings_fields( $this->db_prefix . '_options');
 			do_settings_sections( $_GET['page'] );
-			
+
 		echo '</div><!-- end #options-wrap -->
 				<p class="submit">
 					<input name="' . $this->db_prefix . '_options[submit]" type="submit" class="button-primary" value="' . __( 'Save Options' ) . '" />
@@ -110,38 +110,38 @@ class quark_admin_options
 		 */
 		// do_meta_boxes( 'below-' . $this->db_prefix, 'normal', null );
 		do_action( $this->page_prefix . '_below_options_page' );
-			
+
 	}
 
 	public function register_options() {
 		register_setting( $this->db_prefix . '_options', $this->db_prefix . '_options', array(&$this, 'validate_options'));
-		
+
 		foreach( $this->sections as $slug => $title ) {
 			add_settings_section( $slug, $title , array( &$this, 'display_section'), $this->page_prefix . '-options');
 		}
-			
+
 		foreach ( $this->fields as $field ) {
 			$this->create_option( $field );
 		}
-		
+
 	} // END method register_options.
-	
+
 	public function display_section() {
-		
+
 	}
-	
+
 	function postbox( $id, $title, $content ) {
 		?>
 			<div id="<?php echo $id; ?>" class="postbox wpui-postbox">
 				<div class="handlediv" title="Click To Toggle"><br /></div>
 				<h3 class="hndle"><span><?php echo $title ?></span></h3>
-				<div class="inside"><?php echo $content ?></div>				
+				<div class="inside"><?php echo $content ?></div>
 			</div><!-- end .wpui-postbox -->
 		<?php
-	}	
-	
+	}
+
 	public function create_option( $args = array() ) {
-		
+
 		$defaults = array(
 			'id'			=>	'default_field',
 			'title'			=>	'Default Field',
@@ -159,9 +159,9 @@ class quark_admin_options
 			'fields'		=>	array(),
 			'enclose'		=>	array( 'before' => '', 'after' => '' )
 		);
-		
+
 		extract( wp_parse_args( $args, $defaults) );
-		
+
 		$option_args = array(
 			'type'					=>	$type,
 			'subtype'				=>	$subtype,
@@ -179,9 +179,9 @@ class quark_admin_options
 		);
 
 		add_settings_field( $id, $title, array( &$this, 'display_option'), $this->page_prefix . '-options', $section, $option_args);
-		
-		
-		
+
+
+
 	} // END method create_option.
 
 
@@ -193,15 +193,15 @@ class quark_admin_options
 				'id'	=>	'',
 				'name'	=>	'',
 				'desc'	=>	'',
-				'nested'=>	false );	
+				'nested'=>	false );
 		extract(wp_parse_args( $args, $defs ));
 
 		$checked = '';
 		if( isset( $this->options ) && $this->opt( $id ) == 'on' ) $checked = ' checked="checked"';
 		echo '<input id="' . $id . '" type="checkbox" name="' . $name . '" value="on"' . $checked . '/><label for="' . $id . '"> ' . $desc . '</label>';
 	} // end checkbox.
-	
-	
+
+
 	/**
 	 * 	Select or Combo box.
 	 */
@@ -212,14 +212,14 @@ class quark_admin_options
 				'desc'		=>	'',
 				'choices'	=> array(),
 				'extras'	=>	'',
-				'nested'	=>	false );	
+				'nested'	=>	false );
 		extract(wp_parse_args( $args, $defs ));
-		
+
 		echo '<select id="' . $id . '" name="' . $name . '">';
 		foreach ( $choices as $value=>$label ) {
 			$selected = '';
 			if ( $this->opt($id) == $value ) $selected = ' selected';
-			
+
 			if ( stristr( $value, 'startoptgroup' ) ) {
 				echo '<optgroup label="' . $label . '">';
 			} else if ( stristr( $value, 'endoptgroup') ) {
@@ -232,10 +232,10 @@ class quark_admin_options
 		if ( $extras != '' && ! $nested )
 			echo $extras;
 		if( $desc != '' && ! $nested )
-			echo '<br /> ' . $desc;		
+			echo '<br /> ' . $desc;
 	}
-	
-	
+
+
 	/**
 	 * Radio boxes
 	 */
@@ -248,9 +248,9 @@ class quark_admin_options
 				'extras'	=>	'',
 				'subtype'	=>	'normal',
 				'nested'	=>	false
-				);	
+				);
 			extract(wp_parse_args( $args, $defs ));
-		
+
 		if ( $subtype == 'descriptive' ) {
 			if( $desc != '' )
 				echo $desc . '<br /><br />';
@@ -279,14 +279,14 @@ class quark_admin_options
 		echo '<input type="radio" name="' . $name . '" value="' . $value . '"' . $selected . '><label for="' . $id . $i . '">' . $label . '</label>';
 		if ( $i < count( $choices ) -1 )
 			echo '<br />';
-		$i++;	
+		$i++;
 		}
 		if( $desc != '' && ! $nested  )
 			echo '<br /> ' . $desc;
-		}		
+		}
 	} // I am radio. End.
-	
-	
+
+
 	/**
 	 * Textareas
 	 */
@@ -296,19 +296,19 @@ class quark_admin_options
 				'name'			=>	'',
 				'desc'			=>	'',
 				'textarea_size'	=>	array(),
-				'nested'		=>	false );	
+				'nested'		=>	false );
 			extract(wp_parse_args( $args, $defs ));
-			
+
 		$text_cols = ''; $text_rows = ''; $autocomplete = 'on';
 		if (!empty($textarea_size)) {
 			$text_cols = ' cols="' . $textarea_size['cols'] . '"';
 			$text_rows = ' rows="' . $textarea_size['rows'] . '"';
 			if( isset( $textarea_size[ 'autocomplete' ] ) )
 				$autocomplete = $textarea_size[ 'autocomplete' ];
-		}	
+		}
 		echo '<textarea' . $text_cols . $text_rows . ' autocomplete="' . $autocomplete . '" id="' . $id . '" name="' .  $name . '">' . $this->opt( $id ) . '</textarea>';
 		if( $desc != ''  && ! $nested )
-			echo '<br /> ' . $desc;		
+			echo '<br /> ' . $desc;
 	} // end fun textarea.
 
 
@@ -317,7 +317,7 @@ class quark_admin_options
 				'id'	=>	'',
 				'name'	=>	'',
 				'desc'	=>	'',
-				'nested'=>	false );	
+				'nested'=>	false );
 		wp_parse_args( $args, $defs );
 		echo '<input type="file" id="' . $id . '" name="' . $id . '" />';
 		if ( $desc != ''  && ! $nested )
@@ -325,9 +325,9 @@ class quark_admin_options
 		if ( $file = $this->opt( $id ) ) {
 			// var_dump($file);
 			echo '<br /> <br /><a class="thickbox" href=' . $file['url'] . '>' .  __('Currently uploaded image', 'wp-ui' ) . '</a>';
-		}		
+		}
 	}
-	
+
 	/**
 	 * Regular text input - Default.
 	 */
@@ -338,7 +338,7 @@ class quark_admin_options
 				'desc'	=>	'',
 				'text_length'	=>	'',
 				'type'	=>	'text',
-				'nested'=>	false );	
+				'nested'=>	false );
 		extract(wp_parse_args( $args, $defs ));
 
 		$style = '';
@@ -348,12 +348,12 @@ class quark_admin_options
 			$style = ' class="color {hash:true}" ';
 		elseif ( $type == 'media-upload' )
 			$style = ' style="text-align : right;"';
-			
+
 		if ($text_length != '') {
 			$text_length = ' size="' . $text_length . '"';
 		}
 		$thisVal = ($this->opt( $id )) ? $this->opt( $id ) : '';
-		
+
 		echo '<input' . $text_length . $style  . ' type="text" id="' . $id . '" name="' . $name . '" value="' . $thisVal . '" />';
 		$nid = $id;
 
@@ -379,18 +379,18 @@ class quark_admin_options
 		} else if( $type == 'media-upload' ) {
 			echo '<input id="' . $nid . '_trigger" type="button" class="button-secondary" value="Upload" />';
 			$post_id = 0;
-			echo "<script type=\"text/javascript\">	
+			echo "<script type=\"text/javascript\">
 			instance = 0;
 			jQuery('#" . $nid . "_trigger').click(function() {
 				instance++; if ( instance > 1 ) return false;
 				backup_send = window.send_to_editor;
 				formfield = jQuery('label[for=$nid]').text();
 				window.send_to_editor = window.send_to_editor_$nid;
-				
+
 				tb_show('Upload images for ' + formfield, 'media-upload.php?post_id=0&type=image&amp;TB_iframe=true');
 				return false;
-				
-				
+
+
 			});
 			window.send_to_editor_$nid  = function(html) {
 				imgURL = jQuery('img', html).attr('src');
@@ -405,24 +405,24 @@ class quark_admin_options
 			</script>";
 			if ( $this->opt($id) != '' ) {
 				echo '<br /> <br /><a class="thickbox" href=' . $this->opt($id) . '>' .  __('Currently uploaded image') . '</a>';
-			}			
-		}	
+			}
+		}
 		if ( $desc != '' && ! $nested )
-			echo '<br /> ' . $desc;		
+			echo '<br /> ' . $desc;
 	} // END good ol` regular text input.
 
 
-	
+
 	public function display_option( $args = array() ) {
 		extract( $args );
-		
+
 		$options = get_option( $this->db_prefix . '_options');
-		
+
 		if ( !isset( $options[$id] ) && 'type' != 'checkbox' )
 			$options[$id] = $std;
-		
+
 		echo $enclose[ 'before' ];
-		switch( $type ) {		
+		switch( $type ) {
 
 			////////////////////////////////////////////////
 			//////////////// Checkbox //////////////////////
@@ -435,7 +435,7 @@ class quark_admin_options
 				 ));
 			// $this->checkbox( $id, $this->db_prefix . '_options[' . $id . ']', $desc );
 			break;
-			
+
 			////////////////////////////////////////////////
 			/////////// Combo boxes (select) ///////////////
 			////////////////////////////////////////////////
@@ -446,12 +446,12 @@ class quark_admin_options
 				'desc'	=>	$desc,
 				'choices'	=> $choices,
 				'extras'	=>	$extras
-				
+
 				 ));
 			// $this->select( $id, $this->db_prefix . '_options[' . $id . ']', $desc, $choices, $extras );
 			break;
-			
-			
+
+
 			////////////////////////////////////////////////
 			//////////////// Radio buttons /////////////////
 			////////////////////////////////////////////////
@@ -462,10 +462,10 @@ class quark_admin_options
 				'desc'	=>	$desc,
 				'choices'	=> $choices,
 				'extras'	=>	$extras
-				 ));			
+				 ));
 			break;
-			
-			
+
+
 			////////////////////////////////////////////////
 			//////////////// Text areas ////////////////////
 			////////////////////////////////////////////////
@@ -478,7 +478,7 @@ class quark_admin_options
 				 ));
 			break;
 
-			
+
 			////////////////////////////////////////////////
 			//////////////// Rich text edit ////////////////
 			////////////////////////////////////////////////
@@ -501,10 +501,10 @@ class quark_admin_options
 			// });
 			// jQuery("a.toggleHTML").click(function(){
 			// 		tinyMCE.execCommand("mceRemoveControl", false, "' . $id .'");
-			// });				
-			// 	
+			// });
+			//
 			// }); // END document ready
-			// 
+			//
 			// </script>';
 			// break;
 
@@ -515,18 +515,18 @@ class quark_admin_options
 			case 'password':
 			echo '<input id="' . $id . '" type="password" name="' . $this->db_prefix . '_options[' . $id . ']" value="' . $options[$id] . '" />';
 			if( $desc != '' )
-				echo '<br /> ' . $desc;			
+				echo '<br /> ' . $desc;
 			break;
-			
+
 
 			////////////////////////////////////////////////
 			/////////// Regular PHP file uploader //////////
 			////////////////////////////////////////////////
 			case 'file':
-			$this->fileinput( $id, $this->db_prefix . '_options[' . $id . ']', $desc, $file );			
-			break;					
-		
-		
+			$this->fileinput( $id, $this->db_prefix . '_options[' . $id . ']', $desc, $file );
+			break;
+
+
 			////////////////////////////////////////////////
 			/////////// Wordpress Media uploader ///////////
 			////////////////////////////////////////////////
@@ -537,10 +537,10 @@ class quark_admin_options
 					'desc' => $desc,
 					'text_length' => $text_length,
 					'type' => 'media-upload'
-			));		
+			));
 			break;
-		
-		
+
+
 			////////////////////////////////////////////////
 			//////////////// Color picker //////////////////
 			////////////////////////////////////////////////
@@ -556,13 +556,13 @@ class quark_admin_options
 			case 'separator':
 				echo '<br /></tr></table><hr color="#D5D5D5"><table class="form-table"><tbody><tr>';
 			break;
-			
+
 			case 'multiple':
 				foreach( $fields as $field ) {
 					if ( isset( $field[ 'enclose' ] ) )
 					echo $field[ 'enclose' ]['before' ];
-					
-					$args_arr = array( 
+
+					$args_arr = array(
 						'id' => $id . 'KKKKK' . $field[ 'idkey' ],
 						'name' => $this->db_prefix . '_options[' . $id . '][' . $field[ 'idkey' ] . ']',
 						'desc' => $field[ 'desc' ]
@@ -584,18 +584,18 @@ class quark_admin_options
 					}
 					// Nested
 					$args_arr['nested'] = true;
-					
+
 					call_user_func_array( array( &$this, $field[ 'type' ] ), array($args_arr) );
 					if ( isset( $field[ 'enclose' ] ) )
 					echo $field[ 'enclose' ]['after' ];
-					
+
 				}
 				if ( $desc != '' )
-				echo $desc;	
-											
-			break;			
-			
-			
+				echo $desc;
+
+			break;
+
+
 			////////////////////////////////////////////////
 			////////////////// Textbox /////////////////////
 			////////////////////////////////////////////////
@@ -612,14 +612,14 @@ class quark_admin_options
 
 		} // END switch $type.
 		echo $enclose[ 'after' ];
-		
+
 	}
-	
-	
+
+
 	private function opt( $id, $just=false ) {
 		if ( ! isset( $this->options ) ) return false;
 		$arr = explode( 'KKKKK', $id );
-		if ( $just && count( $arr ) > 1) return $arr[ 1 ]; 		
+		if ( $just && count( $arr ) > 1) return $arr[ 1 ];
 		if ( is_array( $arr) && count( $arr ) > 1 && isset( $this->options[ $arr[ 0 ] ]))
 			return $this->options[ $arr[ 0 ] ][ $arr[ 1 ] ];
 		else
@@ -631,17 +631,17 @@ class quark_admin_options
 	public function validate_options( $input ) {
 		// echo '<pre>';
 		// print_r($input);
-		// 
+		//
 		// echo '</pre>';
 		return $input;
 	}
-	
+
 	public function provide_help( $input ) {
-		
+
 		$screen = get_current_screen();
 
 		if ( ! is_array( $this->help_tabs ) ) return;
-		
+
 		foreach( (array)$this->help_tabs as $help=>$tab ) {
 			if ( ! isset( $tab[ 'id'] ) || !isset( $tab[ 'title' ]) || ! isset( $tab[ 'content' ] ) ) continue;
 			$screen->add_help_tab( array(
@@ -649,58 +649,56 @@ class quark_admin_options
 				'title' => $tab['title'],
 				'content' => $tab['content']
 			));
-			
+
 		}
-	
-		
+
+
 	}
 
-	
+
 	public function set_sections( $sections ) {
 		return $this->sections = $sections;
 	}
 	public function get_sections() {
 		return $this->sections;
 	}
-	
+
 	public function set_fields( $fields ) {
 		return $this->fields = $fields;
 	}
 	public function get_fields() {
 		return $this->fields;
 	}
-	
+
 	public function set_plugin_details( $plugin_details = array() ) {
 		return $this->plugin_details = $plugin_details;
 	}
 	public function get_plugin_details() {
 		return $this->plugin_details;
 	}
-	
+
 	public function set_page_id( $page_id ) {
 		return $this->page_id = $page_id;
 	}
-	
+
 	public function get_page_id() {
 		return $this->page_id;
 	}
-	
+
 	public function set_admin_scripts( $admin_scripts = array() ) {
 		return $this->admin_scripts = $admin_scripts;
 	}
-	
+
 	public function get_admin_scripts() {
 		return $this->admin_scripts;
 	}
-	
+
 	public function set_help_tabs( $help_tabs=array() ) {
 		return $this->help_tabs = $help_tabs;
 	}
 
-	
+
 } // END class quark_admin_options.
-
-
 
 } // END if class_exists check for quark_admin_options.
 ?>
