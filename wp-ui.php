@@ -97,7 +97,6 @@ class wpUI {
 		// Custom CSS query.
 		add_filter( 'query_vars', array( &$this, 'wpui_add_query') );
 		add_action( 'template_redirect', array( &$this, 'wpui_add_queries') );		
-
 		
 
 		// Shortcodes.
@@ -151,6 +150,15 @@ class wpUI {
 		
 		if ( ! is_admin() ) include_once( wpui_dir( 'inc/wpui-buttons.php' ));
 
+		if ( isset( $this->options[ 'alt_sc' ] ) && $this->options[ 'alt_sc' ] == 'on' )
+		{
+			// alternative shortcodes.
+			add_shortcode( 'tabs', array(&$this, 'sc_wptabs'));
+			add_shortcode( 'tabname', array(&$this, 'sc_wptabtitle'));
+			add_shortcode( 'tabcont', array(&$this, 'sc_wptabcontent'));
+			add_shortcode( 'spoiler', array(&$this, 'sc_wpspoiler'));
+			add_shortcode( 'dialog', array(&$this, 'sc_wpdialog'));
+		}
 		
 		
 		$this->plugin_dir = plugin_dir_path( __FILE__ );
@@ -435,7 +443,8 @@ class wpUI {
 			'background'	=>	'true',
 			'engine'		=>	'ui',
 			'autoheight'	=>	'off',
-			'sortable'		=>	'false'
+			'sortable'		=>	'false',
+			'collapsible'	=>	'true'
 		), $atts));
 		
 		$output  = '';
@@ -469,6 +478,9 @@ class wpUI {
 		
 		if ( $sortable == 'true' ) 
 			$style .= ' wpui-sortable';
+				
+		if ( $collapsible == 'true' ) 
+			$style .= ' wpui-collapsible';
 		
 		// Default : tabs. Change type for accordion.
 		// $class  = ($type == 'accordion') ? 'wp-accordion' : 'wp-tabs';

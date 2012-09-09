@@ -2,3 +2,13 @@
 .svn
 svn-prop.tmp
 *.orig
+.tm_properties
+*.log
+*.sql
+*.sqlite
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
