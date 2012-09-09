@@ -104,6 +104,15 @@
 				
 			}
 			
+			if ( $this.hasClass( 'wpui-collapsible' ) ) {
+				this.accordion
+					.accordion( 'option', {
+						collapsible : true,
+						active		: false
+					});
+			}
+			
+			
 			// Auto rotate the accordions
 			this.rotate();
 			

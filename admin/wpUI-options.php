@@ -357,13 +357,13 @@ $wpui_options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
-	// 'alternative_codes'	=>	array(
-	// 	'id'		=>	'alt_sc',
-	// 	'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
-	// 	'desc'		=>	__( 'Use shorter codes. ', 'wp-ui' ) . 'ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] => [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>',
-	// 	'type'		=>	'checkbox',
-	// 	'section'	=>	'advanced'
-	// ),
+	'alternative_codes'	=>	array(
+		'id'		=>	'alt_sc',
+		'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
+		'desc'		=>	__( 'Use shorter codes. ', 'wp-ui' ) . 'ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] => [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>',
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
 	'jquery_include'	=>	array(
 		'id'		=>	'jquery_disabled',
 		'title'		=>	__('Donot load the jQuery copy', 'wp-ui'),
@@ -1160,6 +1160,7 @@ function get_wpui_default_options() {
 		'post_widget_number'		=>	'3',
 		'jquery_disabled'			=>	'off',
 		'docwrite_fix'				=>	'on',
+		'alt_sc'					=>	'off',
 		'bleeding_edge'				=>	'off',
 		'misc_options'				=>	"hashing_method=1\ntinymce_icon_row=3",
 		'version'					=>	WPUI_VER
