@@ -7,52 +7,45 @@ jQuery(document).ready(function() {
 	});
 	jQuery( '#optionsform' ).wrap('<div class="tabwrap" />');
 
-	// $admin_tabs = jQuery('#optionsform #options-wrap').wptabs({
-	// 	 					h3Class: 'h3',
-	// 	 					effect: 'fade',
-	// 	 					topNav: false,
-	// 	 					botNav: true,
-	// 	 					cookies : false,
-	// 						hashchange : false,
-	// 						wpuiautop : false,
-	// 						collapsibleTabs : false
-	// });
-
 	jQuery( '.tab-bottom-nav a, .tab-top-nav a' ).removeClass('ui-button');	
 
-		
-		jQuery( '#wpui_styles_preview' )
-		.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles' )
-		.colorbox({
-			iframe : true,
-			innerWidth : "80%",
-			innerHeight : "80%",
-			title : false
-		});
-				
-		jQuery( '#jqui_styles_preview' )
-		.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=JQUIstyles' )
-		.colorbox({
-			iframe : true,
-			innerWidth : "80%",
-			innerHeight : "80%",
-			fastIframe : false,
-			title : false
-			
-		});
-	
-		jQuery('#wpui_styles_preview, #jqui_styles_preview').bind('cbox_open', function(){ 
-		    jQuery('body').css({overflow:'hidden'}); 
-		}).bind('cbox_closed', function(){ 
 
-		    jQuery('body').css({overflow:'auto'}); 
-		});
-	
-	
-		jQuery( 'a.thickbox' ).colorbox({
-			transition : 'elastic',
-			title : '<span>Current Thumbnail Image</span>'
-		});
+
+	/**
+	 *	Colorbox windows.
+	 **/
+	jQuery( '#wpui_styles_preview' )
+	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles' )
+	.colorbox({
+		iframe : true,
+		innerWidth : "80%",
+		innerHeight : "80%",
+		title : false
+	});
+			
+	jQuery( '#jqui_styles_preview' )
+	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=JQUIstyles' )
+	.colorbox({
+		iframe : true,
+		innerWidth : "80%",
+		innerHeight : "80%",
+		fastIframe : false,
+		title : false
+		
+	});
+
+	jQuery('#wpui_styles_preview, #jqui_styles_preview').bind('cbox_open', function(){ 
+	    jQuery('body').css({overflow:'hidden'}); 
+	}).bind('cbox_closed', function(){ 
+
+	    jQuery('body').css({overflow:'auto'}); 
+	});
+
+
+	jQuery( 'a.thickbox' ).colorbox({
+		transition : 'elastic',
+		title : '<span>Current Thumbnail Image</span>'
+	});
 
 		
 		window.ste_skins = function(skin_name) {
@@ -64,51 +57,14 @@ jQuery(document).ready(function() {
 			jQuery( 'p.submit input.button-primary' ).click();
 		};
 
+
+		/**
+		 *	Open Contextual menu.
+		 */
 		jQuery('a.wpui_options_help').click(function() {
 			jQuery('#contextual-help-link').click();
 			return false;
 		});
-		
-		jQuery( '.wpui-clean-cache' ).click(function() {
-			tisNonce = jQuery( this ).next('input').val();
-			var data = {
-				action : 'wpui_clean_cache',
-				Cnonce : tisNonce
-			}, response;			
-			
-			jQuery.post( ajaxurl, data, function( response ) {
-				// console.log( response ); 
-				jQuery.wpuiHiddenInfo( response );
-				
-			});	
-			
-			return false;
-		});
-		
-				
-		jQuery( '.wpui-clean-meta' ).click(function() {
-			tisNonce = jQuery( this ).next('input').val();
-			var data = {
-				action : 'wpui_clean_postmeta',
-				Cnonce : tisNonce
-			}, response;			
-			
-			jQuery.post( ajaxurl, data, function( response ) {
-				// console.log( response ); 
-				jQuery.wpuiHiddenInfo( response );
-			});	
-			
-			return false;
-		});
-		
-		jQuery( '.wpui-no-bleeding' ).click(function() {
-			isCheck = jQuery( '#bleeding_edge' ).is(":checked");
-			jQuery( '#bleeding_edge' ).attr( "checked", ( isCheck ) ? "null" : "checked" );	
-			jQuery( 'p.submit input.button-primary' ).click();
-			return false;
-		});
-		
-		
 		
 		/*
 		 *	Check the fields
@@ -224,81 +180,29 @@ jQuery(document).ready(function() {
 					.effect( "pulsate",{ times : 6 }, 1200 )
 					.fadeOut( 1200 );
 				
-				if ( wpUIOpts.bleeding == 'on' )
-					jQuery( '.ktabs' ).ktabs( 'fixheight' );
-				
+			
 			return false;
 						
 		}); // end add templates click
 	
-			$admin_tabs = jQuery('#optionsform #options-wrap')
-								.addClass('d-tabs')
-								.wptabs({
-				 					header: 'h3',
-				 					effect: 'fade',
-				 					topNav: false,
-				 					botNav: true,
-				 					cookies : false,
-									hashchange : false,
-									wpuiautop : false,
-									collapsibleTabs : false
-			});
-		if ( wpUIOpts.bleeding == 'ofsdsdsdsdf' ) {
-
-		} else {
-			// jQuery( '#optionsform table.form-table:not(:last) input[type=checkbox]').wpuiToggleSwitch();
-			// jQuery( '#optionsform table.form-table:last input[type=checkbox]').wpuiToggleSwitch({
-			// 	classes : 'advanced'
-			// });
-			
-			// jQuery( '#optionsform table.form-table:last').wpuiToggleSwitch();
-
-
-
-			
-			// setTimeout(function() {
-			// 	$admin_tabs = jQuery('#optionsform #options-wrap').ktabs({
-			// 					// direction	: 'vertical',
-			// 					// mode		: 'vertical',
-			// 					easing : 'easeInQuart',
-			// 					scrollTop : true,
-			// 					elements : {
-			// 						header : 'h3',
-			// 						content : '.form-table'
-			// 					},
-			// 					autoPlayConf : {
-			// 						navigation:false
-			// 					}
-			// 				});
-			// 	
-			// 	jQuery( "<span class='toggle_slider_settings' />" )
-			// 		.append( '<a title="Experimental - Click to toggle mode. Shift+Click to toggle direction." href="#"></a>' )
-			// 		.appendTo( $admin_tabs );
-			// 	
-			// 	jQuery( 'span.toggle_slider_settings a').click(function( e ) {
-			// 		if ( typeof( e.shiftKey ) != 'undefined' && e.shiftKey ) {
-			// 			jQuery( '.ktabs' ).ktabs( 'direction', 'shuffle' );
-			// 		} else {
-			// 			jQuery( '.ktabs' ).ktabs( 'mode', 'shuffle' );
-			// 		}					
-			// 		return false;					
-			// 		
-			// 	});
-			// 
-			// 	$admin_tabs.live( 'ktabscreate', function() {
-			// 		jQuery( '#optionsform input[type=text]' ).addClass( 'textinput' );	
-			// 
-			// 		jQuery( '#optionsform select' ).selectBox();
-			// 	});
-			// 
-			// 
-			// 	}, 500);
-
-			
-		}
+		$admin_tabs = jQuery('#optionsform #options-wrap')
+							.addClass('d-tabs')
+							.wptabs({
+			 					header: 'h3',
+			 					effect: 'fade',
+			 					topNav: false,
+			 					botNav: true,
+			 					cookies : false,
+								hashchange : false,
+								wpuiautop : false,
+								collapsibleTabs : false
+		});
 
 		
-	
+		jQuery( 'div.ui-tabs-panel' )
+			.wrapAll( '<div class="ui-tabs-panel-wrapper" />' );
+
+
 	
 /**
  *	Little bit outdated contextual help. :(
@@ -362,6 +266,7 @@ jQuery.wpuiHiddenInfo = function( content ) {
 	});
 	
 	
+	
 	var tClear = function() {
 		if ( jQuery('#hidden-info').data( 'active' ) ) 
 		jQuery('#hidden-info').slideToggle('slow').html('').removeData('active');	
@@ -375,3 +280,50 @@ jQuery.wpuiHiddenInfo = function( content ) {
 	return this;
 };
 
+/**
+ *	Return the prefix.
+ */
+if ( ! jQuery.css3Support ) {
+	 jQuery.css3Support = function( prop, hyph ) {
+		var b = document.body || document.documentElement,
+			k = b.style,
+			prearr = ["Moz", 'Webkit', 'O', 'KHTML', 'ms', 'Icab' ];
+
+		// What else?
+		// prop = ( prop ) ? prop : [ 'Transition', 'Perspective' ];
+
+		hyph = hyph || false;
+
+		if ( typeof( k ) == 'undefined' ) return false;
+	
+		if ( typeof( k[ prop ] ) == 'string' ) return k[ prop ];
+	
+		if ( typeof prop == 'string' )
+			prop = prop.charAt( 0 ).toUpperCase() + prop.substr( 1 );
+		
+		
+		for ( var i = 0; i < prearr.length; i++ ) {
+			if ( typeof( k[ prearr[ i ] + prop	] ) == 'string' ) {
+				if ( prearr[ i ] != '' && hyph ) {
+					return '-' + prearr[ i ].toLowerCase() + '-';
+				} else {
+					// Return the prefix.
+					return prearr[ i ];
+				}
+			}
+		}
+
+			
+		return false;		
+	}; // end function support css3 
+} // end check.
+
+jQuery( function( $ ) {
+	var biCls = ( jQuery.css3Support( 'borderImage' ) === false )? 'wpui-nobi' : 'wpui-bi';
+	jQuery( 'body' ).addClass( biCls );	
+	
+	$( '.wpui-banner a' ).each( function( index ) {
+		$( this ).prepend( '<span class="glyphicon" />' );
+	});
+	
+});

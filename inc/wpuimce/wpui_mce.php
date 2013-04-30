@@ -107,43 +107,45 @@ class wpui_editor_buttons
 		?>
 		<script type="text/javascript">
 			var ebl, ebl_t, edBar, edHTML;
-			ebl = edButtons.length;
-			ebl_t = ebl;
+			if ( typeof edButtons == "object" ) {
+				ebl = edButtons.length;
+				ebl_t = ebl;
 			
-			edHTML = '<select class="ed_button" id="ed_wpui">';
-			edHTML += '<option style="background : #C9D0DE" value="do-none">WP UI</option>';
-			edHTML += ' <option id="wpui_add_tabset" class="ed_button" value="addtab" title="Add a new tabset">Add Tabset</option>';
-			edHTML += ' <option id="wpui_wrap_tabset" class="ed_button" value="wraptab" title="Wrap the tabsets you created.">Wrap Tabs</option> | ';
-			edHTML += ' <option id="wpui_add_spoiler" class="ed_button" value="spoiler" title="Add a spoiler.">Spoiler</option>';
-			edHTML += ' <option id="wpui_add_dialog" class="ed_button" value="dialog" title="Add a Dialog.">Dialog</option>';			
+				edHTML = '<select class="ed_button" id="ed_wpui">';
+				edHTML += '<option style="background : #C9D0DE" value="do-none">WP UI</option>';
+				edHTML += ' <option id="wpui_add_tabset" class="ed_button" value="addtab" title="Add a new tabset">Add Tabset</option>';
+				edHTML += ' <option id="wpui_wrap_tabset" class="ed_button" value="wraptab" title="Wrap the tabsets you created.">Wrap Tabs</option> | ';
+				edHTML += ' <option id="wpui_add_spoiler" class="ed_button" value="spoiler" title="Add a spoiler.">Spoiler</option>';
+				edHTML += ' <option id="wpui_add_dialog" class="ed_button" value="dialog" title="Add a Dialog.">Dialog</option>';			
 			
 			
-			edHTML += '</select>';
-			jQuery( document ).ready(function() {
-				jQuery( '#ed_wpui' ).change(function( e ) {
-					valiey = jQuery( this ).val()
-					if ( valiey != 'do-none' ) {
-					wpui_qt_open_dialog( valiey );
-					jQuery( this ).val( 'do-none' );
-				}
+				edHTML += '</select>';
+				jQuery( document ).ready(function() {
+					jQuery( '#ed_wpui' ).change(function( e ) {
+						valiey = jQuery( this ).val()
+						if ( valiey != 'do-none' ) {
+						wpui_qt_open_dialog( valiey );
+						jQuery( this ).val( 'do-none' );
+					}
+					});
 				});
-			});
 			
 			
-			edBar = document.getElementById('ed_toolbar');
+				edBar = document.getElementById('ed_toolbar');
 			
-			edBar.innerHTML += edHTML;
+				edBar.innerHTML += edHTML;
 
-			function wpuiEditorHelp() {
-				editorHelp = '<?php admin_url() ?>admin-ajax.php?action=editorButtonsHelp&TB_iframe=true';
-				tb_show('WP UI - A brief guide', editorHelp);
-			}
+				function wpuiEditorHelp() {
+					editorHelp = '<?php admin_url() ?>admin-ajax.php?action=editorButtonsHelp&TB_iframe=true';
+					tb_show('WP UI - A brief guide', editorHelp);
+				}
 			
-			function wpui_qt_open_dialog( panel ) {
-				diaObj = { mode : panel };
-				if ( panel == 'wraptab' )
-					diaObj[ 'selection' ] = 'multiple';
-				jQuery('#wpui-editor-dialog').wpuiEditor( diaObj );
+				function wpui_qt_open_dialog( panel ) {
+					diaObj = { mode : panel };
+					if ( panel == 'wraptab' )
+						diaObj[ 'selection' ] = 'multiple';
+					jQuery('#wpui-editor-dialog').wpuiEditor( diaObj );
+				}				
 			}
 			
 		</script>

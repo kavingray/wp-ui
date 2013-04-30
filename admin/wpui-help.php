@@ -493,7 +493,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 
 </body>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.12/jquery-ui.min.js"></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
 var wpUIOpts = {
@@ -535,7 +535,7 @@ var initOpts = {
 /* ]]> */
 </script>
 
-<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/wp-ui.css" type="text/css">
+<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/css/wp-ui.css" type="text/css">
 <link rel="stylesheet" href="<?php echo get_plgn_url() ?>/css/wpui-all.css" type="text/css">
 
 <script type="text/javascript">

@@ -4,12 +4,12 @@
 <title>Choose your WPTabs options</title>
 
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> -->
-<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/jquery.min.js"></script>
-<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="<?php echo wpui_url(); ?>/js/jquery-ui.min.js"></script>
 
-<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/wp-ui-old.js"></script>
-<link rel="stylesheet" href="../wp-content/plugins/wp-ui/wp-ui.css" media="screen">
-<link rel="stylesheet" href="../wp-content/plugins/wp-ui/css/wpui-all.css" media="screen">
+<script type="text/javascript" src="<?php echo wpui_url(); ?>/js/wp-ui-old.js"></script>
+<link rel="stylesheet" href="<?php echo wpui_url(); ?>/css/wp-ui.css" media="screen">
+<link rel="stylesheet" href="<?php echo wpui_url(); ?>/css/wpui-all.css" media="screen">
 <script type="text/javascript">
 jQuery(document).ready(function($) {
 	jQuery('.wp-tabs').wptabs();
@@ -21,6 +21,7 @@ jQuery(document).ready(function($) {
 		easing : 'bounceslide'
 		
 	});
+
 	jQuery( '.wp-spoiler' ).wpspoiler({
 		fade	 : true,
 		slide	 : true,
@@ -30,29 +31,15 @@ jQuery(document).ready(function($) {
 		autoOpen : false,
 		dialogClass : 'wpui-light'
 	});
-
+	
 	jQuery( '.dialog-opener-3' ).button({
 		icons : {
 			primary : 'ui-icon-newwin'
 		}
 	});
 
-	var i = 0;
-	classList = new Array;
-	classList[i++] = 'wpui-light';
-	classList[i++] = 'wpui-blue';
-	classList[i++] = 'wpui-red';
-	classList[i++] = 'wpui-green';
-	classList[i++] = 'wpui-dark';
-	classList[i++] = 'wpui-achu';
-	classList[i++] = 'wpui-quark';
-	classList[i++] = 'wpui-cyaat9';
-	classList[i++] = 'wpui-redmond';
-	classList[i++] = 'wpui-sevin';
-	classList[i++] = 'wpui-alma';
-	classList[i++] = 'wpui-macish';
-	classList[i++] = 'wpui-android';
-	classList[i++] = 'wpui-safle';
+
+	classList = [ 'wpui-light', 'wpui-blue', 'wpui-red', 'wpui-green', 'wpui-dark', 'wpui-achu', 'wpui-quark', 'wpui-cyaat9', 'wpui-redmond', 'wpui-sevin', 'wpui-alma', 'wpui-macish', 'wpui-android', 'wpui-safle' ];
 	
 	jQuery('#chosentab').tabsThemeSwitcher( classList );
 	

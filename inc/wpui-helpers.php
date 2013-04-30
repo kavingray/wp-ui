@@ -8,6 +8,14 @@
  * @subpackage wpui-helper
  **/
 
+
+global $wpui_options, $wpui_custom_styles, $wpui_jquery_themes, $wpui_css3_skins;
+
+
+// Get the options.
+$wpui_options = get_option( 'wpUI_options', array());
+
+
 /**
  * Get the list of jQuery UI themes.
  */
@@ -109,7 +117,9 @@ function wpui_get_custom_themes_list( $values=false ) {
 add_action('wp_ajax_WPUIstyles', 'choose_wpui_style');
 
 function choose_wpui_style() {
-	echo wpui_get_file( wpui_url( 'js/wpui-choosestyles.php' )  );
+	// echo wpui_get_file( wpui_url( 'js/wpui-choosestyles.php' )  );
+	@include( wpui_dir( 'js/wpui-choosestyles.php' ) );
+	
 	die();
 }
 
@@ -117,7 +127,8 @@ function choose_wpui_style() {
 add_action('wp_ajax_JQUIstyles', 'choose_jqui_style');
 
 function choose_jqui_style() {
-	echo wpui_get_file( wpui_url( 'js/wpui-choose-jquistyles.php' ) );
+	// echo wpui_get_file( wpui_url( 'js/wpui-choose-jquistyles.php' ) );
+	@include( wpui_dir( 'js/wpui-choose-jquistyles.php' ) );
 	die();
 }
 
@@ -125,6 +136,7 @@ function choose_jqui_style() {
 add_action('wp_ajax_editorButtonsHelp', 'editor_buttons_help');
 
 function editor_buttons_help() {
+	// echo wpui_get_file( wpui_url( 'admin/wpui-help.php' ) );
 	echo wpui_get_file( wpui_url( 'admin/wpui-help.php' ) );
 	die();	
 }
@@ -193,15 +205,23 @@ function wpui_exception( $errnum, $errstr, $errfile, $errline ) {
 	throw new ErrorException( $errstr, 0, $errnum, $errfile, $errline );
 }
 
+
+
 add_action('wp_ajax_jqui_css', 'wpui_search_for_stylesheets');
 /**
  *	Documentation
  */
 function wpui_search_for_stylesheets() 
 {
-	$upload_dir = wp_upload_dir();
-		
-	$udir = wpui_adjust_path( WP_CONTENT_DIR . '/uploads/wp-ui/' );
+	// $upload_dir = wp_upload_dir();
+	global $wpui_options;
+	if ( !empty( $wpui_options ) && !empty( $wpui_options[ 'styles_upload_dir' ] )  ) {
+		$path = $wpui_options[ 'styles_upload_dir' ];
+	} else {
+		$path = WP_CONTENT_DIR . '/uploads/wp-ui/';
+	}
+	
+	$udir = wpui_adjust_path( $path );
 	
 	$_status = '';
 	
@@ -539,16 +559,20 @@ function add_wpui_update_notification( $output )
 
 
 
-
-function wpui_jqui_dirs( $dir, $format='array' ) {
+function wpui_jqui_dirs( $dir, $url, $format='array' ) {
 
 	$valid = array();
+	
 	$is_Windows = strtoupper( substr(php_uname('s'), 0, 3 )) == 'WIN';
 	
-	$someArr = array();
+	$sl = ( $is_Windows ) ? '\\' : '/';
 	
-	$ndir = ( $is_Windows ) ? str_ireplace( '/', '\\', $dir ) : $dir;
+	$someArr = array();
 		
+	// $ndir = ( $is_Windows ) ? str_ireplace( '/', '\\', $dir ) : $dir;
+	
+	$ndir = str_ireplace( '/', $sl, $dir );
+	
 	if ( ! is_dir( $dir ) ){
 		$someArr[ 'status' ] = 'error';
 		$someArr[ 'description' ] = __( 'No directory found.', 'wp-ui' );
@@ -557,7 +581,7 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 	}	
 	
 	try {
-		$it = new DirectoryIterator( $dir );
+		$dirit = new DirectoryIterator( $dir );
 	} catch ( Exception $e ) {
 		$someArr[ 'status' ] = 'error';
 		$someArr[ 'description' ] = $e->getMessage();
@@ -565,9 +589,9 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 		return json_encode( $someArr );
 	}
 	
-	$abspath = ABSPATH;
+	// $abspath = ABSPATH;
 	$i = 0;
-	foreach( $it as $fi ) {
+	foreach( $dirit as $fi ) {
 		if ( $fi->isDir() &&
 		 	! $fi->isDot() )
 		  {
@@ -576,18 +600,28 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 				if ( $fii->isFile() ) {
 					if( 'css' == substr( $fii->getFilename() , -3 ) ) {
 						$valid[ $fi->getBasename() ] = $fii->getPathName();
+						// $valid[ $fi->getBasename() ] = $fii->getBasename();
 						$i++;
 					}
 				}
 			}
 			$i++;
 		}
-	}	ksort( $valid );
+	}
+	ksort( $valid );
+	
 	foreach( $valid as $key=>$value ) {
-		if ( $is_Windows ) $abspath = str_ireplace( '/', '\\', ABSPATH );
-		$valURL = str_ireplace( $abspath, '', $value );
-		$valURL = ( $is_Windows ) ? str_ireplace( '\\', '/', $valURL ) : $valURL;
-		$valid[ $key ] = get_bloginfo('wpurl') . '/' . $valURL;
+		// if ( $is_Windows )
+		// 	$abspath = str_ireplace( '/', '\\', ABSPATH );
+
+		$valURL = str_ireplace( $dir, '', $value );
+		// $valURL = ( $is_Windows ) ? str_ireplace( '\\', '/', $valURL ) : $valURL;
+
+		// $valURL = str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', $valURL );
+
+		$valid[ $key ] = ABSPATH . ":::::::" . $url . $valURL;
+
+		// $valid[ $key ] = site_url() . '/' . $valURL;
 		
 	}
 
@@ -606,7 +640,11 @@ function wpui_jqui_dirs( $dir, $format='array' ) {
 	// }		
 } // END update CSS dirs.
 
-
+// echo '<pre>';
+// echo 'Exporting :  wpui_jqui_dir( WP_CONTENT_DIR . "wp-uploads/wp-ui")' . "\n";
+// echo "====================\n";
+// var_export( json_decode(wpui_jqui_dirs( WP_CONTENT_DIR . "/uploads/wp-ui", content_url() . '/uploads/wp-ui/' ) ) );
+// echo '</pre>';
 
 add_shortcode('wimg', 'wpui_img_shortcode' );
 
@@ -683,7 +721,11 @@ function wpui_get_id( $str )
 function wpui_misc_opt( $name )
 {
 	$miscs = get_wpui_option('misc_options');
+	if ( empty( $miscs ) )
+		return false;
 	$miscs = explode( "\n", $miscs);
+
+	return false;
 	for ( $i = 0; $i < count( $miscs ); $i++ ) {
 		$temp_arr = explode( '=', $miscs[ $i ] );
 		unset( $miscs[ $i ] );

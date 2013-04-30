@@ -180,7 +180,7 @@ jQuery.fn.wptabs = function( options ) {
 		});
 		
 		if ( o.alwaysRotate != 'disable' ) {
-			jQuery( this + '[class*=tab-rotate]').each(function() {
+			jQuery( '[class*=tab-rotate]').each(function() {
 				rotateSpeed = jQuery(this).attr('class').match(/tab-rotate-(.*)/, "$1");
 				if (rotateSpeed != null ) {
 					if (rotateSpeed[1].match(/(\d){1,2}s/, "$1")) rotateSpeed[1] = rotateSpeed[1].replace(/s$/, '')*1000 ;
@@ -873,7 +873,7 @@ jQuery.fn.wpspoiler = function( options ) {
 			if ( o.slide ) base.aniOpts[ 'height' ] = 'toggle';
 			
 			if ( o.slide || o.fade ) {
-				if ( jQuery(this + '[class*=speed-]').length ) {
+				if ( jQuery( '[class*=speed-]').length ) {
 					animSpeed = jQuery(this)
 									.attr('class')
 									.match(/speed-(.*)\s|\"/, "$1");

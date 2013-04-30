@@ -12,3 +12,10 @@ svn-prop.tmp
 Icon?
 ehthumbs.db
 Thumbs.db
+.tm_properties
+sass
+.sass-cache
+config.rb
+*backup*
+.watchme
+.tm_properties

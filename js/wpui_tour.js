@@ -81,7 +81,8 @@
 
 		        }
 				
-			}).pointer( 'open' ).pointer('show');
+			}).pointer( 'open' );
+			// .pointer('show');
 			
 			
 			if ( it['button'] != '' ) {

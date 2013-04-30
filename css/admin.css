@@ -7,7 +7,8 @@
 	float:left;
 	width:86%;
 	padding-right:20px;
-
+	background : none;
+	padding : 0px;
 }
 
 .d-tabs ul.ui-tabs-nav {
@@ -17,14 +18,16 @@
 	float:left;
 	width:100%;
 	margin-bottom: 0px !important;
+	text-align : center;
 }
 
 .d-tabs ul.ui-tabs-nav li {
-	float:left;
+/*	float:left;*/
 	border: 1px solid #AAA;
 	border-bottom:none;
 	margin: 0 1px;
 	font: bold 14px 'Arial', Sans-serif;
+	display : inline-block;
 }
 
 .d-tabs ul.ui-tabs-nav li a {
@@ -56,24 +59,20 @@
 
 .d-tabs ul.ui-tabs-nav {
 	padding-left: 0px;
-	background : #F1F1F1;
-	background : -moz-linear-gradient( top, #FAFAFA, #DEDEDE );
-	background : -webkit-linear-gradient( top, #FAFAFA, #DEDEDE );
-	background : -o-linear-gradient( top, #FAFAFA, #DEDEDE );
-	background : -ms-linear-gradient( top, #FAFAFA, #DEDEDE );
-	box-shadow : 0 1px 0 #FFF inset;
-	padding : 0.7em 0.8em 0 0.8em;
-	border : 1px solid #AAA;
 	border-bottom : 0px;
+}
+
+.wpui-bi .d-tabs ul.ui-tabs-nav {
+	position : relative;
+	bottom : -6px;
 }
 
 .d-tabs ul.ui-tabs-nav li:first-child {
 	margin-left:0px;
 }
 
-
 .d-tabs ul.ui-tabs-nav li {
-	padding : 0.5em;
+	padding : 0.5em 0;
 	background: #DADADA;
 	position: relative;
 	border-radius          : 2px 2px 0 0;
@@ -84,45 +83,53 @@
 	background: -webkit-gradient(linear, left top, left bottom, from(#AAA), to(#DADADA));
 	background: -webkit-linear-gradient(top, #AAA, #DADADA);
 	background: -o-linear-gradient(top, #AAA, #DADADA);
-
+	cursor: pointer;
 }
 
 .d-tabs ul.ui-tabs-nav li a {
 	color: #444;
 	text-shadow: 0 1px 0 #FFF;
-	padding : 0.5em;
+	padding : 0.5em 0.8em;
+	outline : none;
+	cursor : pointer;
+}
+
+
+.wpui-bi .d-tabs .ui-tabs-panel-wrapper {
+	background : none;
+	border-width : 16px 6px 6px 6px !important;
+	border-style : solid;
+	border-color : transparent;
+	-moz-border-image:url( "../images/border-top.png" ) 20 6 6 6 stretch stretch;
+	-webkit-border-image:url( "../images/border-top.png" ) 20 6 6 6 stretch stretch;
+	-o-border-image:url( "../images/border-top.png" ) 20 6 6 6 stretch stretch;
+	-ms-border-image:url( "../images/border-top.png" ) 20 6 6 6 stretch stretch;
+	border-image:url(  "../images/border-top.png" ) 20 6 6 6 fill stretch stretch;
+	overflow : hidden;
+	width : 100%;
+}
+
+
+.wpui-nobi .d-tabs .ui-tabs-panel {
+	border : 1px solid #AAA;
 }
 
 .d-tabs .ui-tabs-panel {
-	background: #EEE;
-	border: 1px solid #A9A9A9;
-	margin-bottom: 10px;
-	box-shadow         : 0 2px 8px #CDCDCD;
-	-moz-box-shadow    : 0 2px 8px #CDCDCD;
-	-webkit-box-shadow : 0 2px 8px #CDCDCD;
-	-o-box-shadow      : 0 2px 8px #CDCDCD;
-/*	border-radius          : 0 5px 5px 5px;
-	-moz-border-radius     : 0 5px 5px 5px;
-	-webkit-border-radius  : 0 5px 5px 5px;
-	-o-border-radius       : 0 5px 5px 5px;*/
-	background: -moz-linear-gradient(top, #EEE, #E1E1E1);
-	background: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#E1E1E1));
-	background: -webkit-linear-gradient(top, #EEE, #E1E1E1);
-	background: -o-linear-gradient(top, #EEE, #E1E1E1);
+	background: #ebe9ec;
 	text-shadow: 0 1px 0 #FFF;
-	
 }
 
 .d-tabs ul.ui-tabs-nav li.ui-state-active {
-	background: #EEE;
+	background : #ebe9ec;
 	border: 1px solid #A9A9A9;
 	border-bottom: 0px;
-	background: -moz-linear-gradient(top, #FFF, #EEE);
-	background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#EEE));
-	background: -webkit-linear-gradient(top, #FFF, #EEE);
-	background: -o-linear-gradient(top, #FFF, #EEE);
-	bottom:-1px;
+	bottom : -1px;
 }
+
+.wpui-bi .d-tabs ul.ui-tabs-nav li.ui-state-active {
+	bottom:-6px;
+}
+
 
 p.submit {
 	text-align:center;
@@ -204,7 +211,7 @@ div.tab-bottom-nav a:hover {
 	background: -o-linear-gradient(top, #EEE, #999);
 	color: #000;
 	text-shadow: 0 1px 0 #EEE;
-	
+
 }
 div.tab-bottom-nav a.backward {
 	float:left;
@@ -213,7 +220,7 @@ div.tab-bottom-nav a.backward {
 
 p.switch-editors {
 	margin-bottom: 4px;
-	
+
 }
 
 p.switch-editors a {
@@ -301,7 +308,7 @@ a.cap-icon-link {
 	width : 100%;
 	margin-right : -280px;
 	clear : left; float : left;
-	
+
 }
 
 #optionsform {
@@ -327,29 +334,26 @@ div#wpui-cap-below {
 }
 
 div.cols {
-/*	padding:10px;*/
-	float:left;
-	width: 30%;
-	margin: 10px;
-/*	min-height:190px;*/
-	border: 1px solid #DEDEDE;
-	background: #FAFAFA;
-	text-shadow: 0 1px 0 #FFF;
-	box-shadow: 0 1px 3px #DDD;
-
+    background: none repeat scroll 0 0 #202030;
+    border: 1px solid #030303;
+	float: left;
 }
 
 div.cols h4 {
-/*	text-align: center;*/
-	margin-top: 0px;
-	background: #AAA;
-	padding: 7px;
-	padding-left: 40px;
-	border-top: 1px solid #FFFFFF;
-	border-bottom: 1px solid #DEDEDE;
-	text-shadow: 0 1px 0 #EEE;
-	background: -moz-linear-gradient( top, #EAEAEA, #D2D2D2);
-	margin-bottom: 0px;
+	background : #6E7D90;
+	background: -moz-linear-gradient(top , #6E7D90,  #606080);
+	background: -webkit-gradient(linear, left top, left bottom, from(#6E7D90), to(#606080));
+	background: -webkit-linear-gradient(top , #6E7D90, #606080);
+	background: -ms-linear-gradient(top , #6E7D90, #606080);
+	background: -o-linear-gradient(top , #6E7D90, #606080);
+    border: 1px solid #000000;
+    box-shadow: 0 1px 0 #9FA4D6 inset, 0 -6px 0 #44465B inset;
+    color: #000000;
+    font-size: 14px;
+    margin-top: 0;
+    padding: 1em;
+    text-shadow: 0 1px 0 #999999;
+	margin-bottom : 0px;
 }
 
 div.cols ul {
@@ -365,6 +369,8 @@ div.cols ul li {
 	margin:0px;
 	border-top: 1px solid #FFF;
 	border-bottom: 1px solid #DADADA;*/
+	color : #FFF;
+	text-shadow : 0 1px 0 #101020;
 }
 
 div.cols ul li a {
@@ -374,8 +380,10 @@ div.cols ul li a {
     text-decoration: none;
     text-shadow: 0 1px 0 #FFFFFF;
     width: 100%;
-	border-top: 1px solid #FFF;
-	border-bottom: 1px solid #E9E9E9;	
+	border-bottom: 1px solid #000;
+	border-top: 1px solid #404050;
+	color : #FFF;
+	text-shadow : 0 1px 0 #101020;
 }
 
 div.cols ul li.last-li a {
@@ -387,36 +395,87 @@ div.cols p {
     padding-bottom: inherit;
     padding-left: 10px;
     padding-right: 10px;
+	color : #FFF;
+	text-shadow : 0 1px 0 #101020;
 /*  padding-top: 5px;*/
 }
 
-div.help h4 {
-	background: url("../images/admin-sprite.png") no-repeat -5px -172px #F2F2F2;
+
+div.cols h4 span {
+	background: url( "../images/icons/glyphicons-white-additions.png" ) no-repeat;
+	background-position : 14px 14px;
+	width : 14px;
+	height : 14px;
+	display: inline-block;
+	margin-right : 5px;
+
+	vertical-align: text-top;
 }
 
 
-div.actions h4 {
-	background: url("../images/admin-sprite.png") no-repeat -5px -84px #F2F2F2;
+/*div.accplus-banner a {
+	background : url( "../images/accplus.jpg" ) no-repeat;
+	text-indent: -100000px;
+	width : 245px;
+	height : 105px;
+	margin : 10px;
+	display:block;
+}*/
+
+
+div.accplus-banner a {
+	display: block;
+	position: relative;
+	width: 246px;
+	height: 106px;
+	margin: 10px;
+	overflow : hidden;
+}
+div.accplus-banner a span {
+	position: absolute;
+	/*	top: 0;*/
+	top : 246px;
+/*	opacity : 0;*/
+	left: 0;
+	z-index: 1000;
+	background: rgba(0, 0, 0, 0.4);
+	height: 26px;
+	width: 226px;
+	vertical-align: middle;
+	display: inline-block;
+	padding: 40px 10px;
+	color: white;
+	text-shadow: 0 1px 0 black;
+	font-size: 24px;
+	text-align: center;
+	-moz-transition : all 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550) 0.2s;
+	-webkit-transition : all 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550) 0.2s;
+	-o-transition : all 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550) 0.2s;
+	-ms-transition : all 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550) 0.2s;
+	transition : all 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550) 0.2s;
 }
 
-div.support-plugin h4 {
-	background: url("../images/admin-sprite.png") no-repeat -5px -128px #F2F2F2;
+div.accplus-banner:hover a span {
+	top : 0;
+/*	bottom : auto;*/
+/*	opacity : 1;*/
 }
 
-div.wpui-new h4 {
-	background: url("../images/admin-sprite.png") no-repeat -5px -0px #F2F2F2;
-
+div.acc-plus h4 span {
+	background-position : -433px -144px;
 }
 
-div.developer h4 {
-/*	background: url("../images/admin-sprite.png") no-repeat -5px #F2F2F2;*/
-
-}
-	
-div.wpui-credits h4 {
-	background: url("../images/admin-sprite.png") no-repeat -5px -216px #F2F2F2;
+div.support-plugin h4 span {
+	background-position : -96px 0;
 }
 
+div.help h4 span {
+	background-position : -170px 0;
+}
+
+div.wpui-credits h4 span {
+	background-position : -265px 0;
+}
 
 #optionsform {
 	float: left;
@@ -430,104 +489,6 @@ div#wpui-cap-below {
 }
 div.cols {
 	width: 259px;
-}
-
-/*div.click-for-help {
-	background: url("../images/click-for-help.png") no-repeat scroll 0 0 transparent;
-	height: 60px;
-	position: absolute;
-	right: 2px;
-	top: 50px;
-	width: 142px;
-	display: none;
-}
-*/
-p.submit input.button-primary {
-	background: -moz-linear-gradient(top , #48D3FF,  #3294B2);
-	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
-	background: -webkit-linear-gradient(top , #48D3FF, #3294B2);
-	background: -o-linear-gradient(top , #48D3FF, #3294B2);
-	-moz-border-radius     : 30px;
-	-webkit-border-radius  : 30px;
-	-o-border-radius       : 30px;
-	border-radius          : 30px;    background: -moz-linear-gradient(center top , #48D3FF, #3294B2) repeat scroll 0 0 transparent;
-    padding: 8px;
-    text-shadow: 0 -1px 0px #003;
-	-moz-box-shadow    : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
-	-webkit-box-shadow : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
-	-o-box-shadow      : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
-	box-shadow         : 0px 1px 0 #94E5FF inset, 0px -1px 0 #48D3FF inset;
-}
-/*-moz-linear-gradient(center top , #94E5FF, #48D3FF) repeat scroll 0 0 transparent*/
-
-p.submit input.button-primary:hover {
-	background: -moz-radial-gradient(bottom, rgba(255, 255, 255, 0.7), rgba(255,255,255, 0)), -moz-linear-gradient(top , #48D3FF,  #2B7E99);
-	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#2B7E99));
-	background: -webkit-radial-gradient(bottom, rgba(255, 255, 255, 0.7), rgba(255,255,255, 0)),-webkit-linear-gradient(top , #48D3FF, #2B7E99);
-	background: -o-linear-gradient(top , #48D3FF, #2B7E99);
-
-}
-
-
-
-p.submit input.button-secondary {
-	background: -moz-linear-gradient(top , #FFF,  #E4E2E4);
-	background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#E4E2E4));
-	background: -webkit-linear-gradient(top , #FFF, #E4E2E4);
-	background: -o-linear-gradient(top , #FFF, #E4E2E4);
-	-moz-border-radius     : 30px;
-	-webkit-border-radius  : 30px;
-	-o-border-radius       : 30px;
-	border-radius          : 30px;
-    padding: 8px;
-    text-shadow: 0 -1px 0px #003;
-	color: #888;
-	text-shadow: 0 1px 0 #FFF;
-	box-shadow: 0 -1px 0 #FFF inset;
-}
-
-p.submit input.button-secondary:hover {
-	background: -moz-linear-gradient(top , #FFEBE8,  #B7A9A6);
-	background: -webkit-gradient(linear, left top, left bottom, from(#FFEBE8), to(#B7A9A6));
-	background: -webkit-linear-gradient(top , #FFEBE8, #B7A9A6);
-	background: -o-linear-gradient(top , #FFEBE8, #B7A9A6);
-	color: red;
-	border-color: red;
-}
-
-p.submit input:active {
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6) inset;
-}
-
-
-.wpui-credits {
-	border: 1px solid #AAA;
-	background: #F5F5F5;
-	text-shadow: 0 1px 0 #FFF;
-	box-shadow: 0 1px 3px #DDD;
-	clear:left;
-	width: 700px;
-}
-
-
-.wpui-credits h4 {
-/*	text-align: center;*/
-	margin-top: 0px;
-	background: #AAA;
-	padding: 7px;
-	padding-left: 40px;
-	border-top: 1px solid #FFFFFF;
-	border-bottom: 1px solid #AAA;
-	text-shadow: 0 1px 0 #EEE;
-	background: -moz-linear-gradient(top , #EAEAEA,  #D2D2D2);
-	background: -webkit-gradient(linear, left top, left bottom, from(#EAEAEA), to(#D2D2D2));
-	background: -webkit-linear-gradient(top , #EAEAEA, #D2D2D2);
-	background: -o-linear-gradient(top , #EAEAEA, #D2D2D2);
-	margin-bottom: 0px;
-}
-
-.wpui-credits p {
-	padding: 10px;
 }
 
 
@@ -667,7 +628,7 @@ p.submit input:active {
 	-webkit-border-radius  : 3px;
 	-o-border-radius       : 3px;
 	border-radius          : 3px;
-}	
+}
 
 .ui-dialog-content ol li {
 	margin-top : 5px;
@@ -680,7 +641,7 @@ p.submit input:active {
 	text-shadow: 0 1px 0 #030;
 
 }
-	
+
 
 .ui-dialog-content span.ajax_info ol {
 	background : #02c;
@@ -696,7 +657,7 @@ p.submit input:active {
 }
 
 
-	
+
 .settings_page_wpUI-options .ui-dialog .ui-button {
 	background: -moz-linear-gradient(top , #F4F2F4,  #BBB);
 	background: -webkit-gradient(linear, left top, left bottom, from(#48D3FF), to(#3294B2));
@@ -788,7 +749,7 @@ p.submit input:active {
 	-moz-box-shadow    : 0px 2px 5px #100 inset;
 	-webkit-box-shadow : 0px 2px 5px #100 inset;
 	-o-box-shadow      : 0px 2px 5px #100 inset;
-	box-shadow         : 0px 2px 5px #100 inset;	
+	box-shadow         : 0px 2px 5px #100 inset;
 }
 
 .settings_page_wpUI-options .ui-dialog  .save-button:active {
@@ -807,7 +768,7 @@ p.submit input:active {
 
 }
 
-#jqui_theme_multiple, 
+#jqui_theme_multiple,
 label[for="jqui_theme_multiple"] {
 	margin: 10px 0;
 	display: inline !important;
@@ -1025,6 +986,7 @@ div#hidden-info {
 	clear : both;
 }
 
+
 /*
     ColorBox Core Style:
     The following CSS is consistent between example themes and should not be altered.
@@ -1040,7 +1002,7 @@ div#hidden-info {
 .cboxPhoto{float:left; margin:auto; border:0; display:block;}
 .cboxIframe{width:100%; height:100%; display:block; border:0;}
 
-/* 
+/*
     User Style:
     Change the following styles to modify the appearance of ColorBox.  They are
     ordered & tabbed in a way that represents the nesting of the generated HTML.
@@ -1152,7 +1114,7 @@ div#hidden-info {
 	background: -o-linear-gradient(top , #D6D6D6, #F4F2F4);
 	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#D6D6D6", endColorStr="#F4F2F4");
 	background: -webkit-gradient(linear, left top, left bottom, from(#D6D6D6), to(#F4F2F4));
-	
+
 	border : 1px solid #AAA;
 	-moz-border-radius     : 25px;
 /*	-webkit-border-radius  : 5px;*/
@@ -1170,7 +1132,7 @@ div#hidden-info {
 	box-shadow         : 0 1px 0 #FFF inset;
 /*	margin-left : 50%;*/
 	cursor : move !important;
-	
+
 }
 
 
@@ -1190,7 +1152,7 @@ div#hidden-info {
 	padding-top: 1px;
 	z-index : 1;
 	top : 0;
-	
+
 }
 
 .ui-status-on {
@@ -1214,14 +1176,14 @@ div#hidden-info {
 
 .advanced .ui-status-on {
 /*	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#e35f00", endColorStr="#FCB249");
-	
+
 	background : -moz-linear-gradient( top, #e35f00, #FF8B0D 56%, #FCA137 57%, #FCB249 );
 	background : -webkit-linear-gradient( top, #e35f00, #FF8B0D 56%, #FCA137 57%, #FCB249 );
 	background : -o-linear-gradient( top, #e35f00, #FF8B0D 56%, #FCA137 57%, #FCB249 );
 	background : -ms-linear-gradient( top, #e35f00, #FF8B0D 56%, #FCA137 57%, #FCB249 );*/
 	text-shadow : 0 -1px 0 #600;
 	background-position : 0px -40px;
-	
+
 }
 
 
@@ -1304,7 +1266,7 @@ div.ui-select-div button {
 	overflow : auto;*/
 /*	overflow-y : scroll;*/
 /*	z-index : 1000;*/
-	
+
 }
 
 .ui-menu li {
@@ -1320,7 +1282,7 @@ div.ui-select-div button {
 	-o-transition : all 0.4s ease-in;
 	-ms-transition : all 0.4s ease-in;
 	transition : all 0.4s ease-in;
-	
+
 }
 
 .ui-menu li.ui-autocomplete-category {
@@ -1346,7 +1308,7 @@ li.ui-menu-item:hover {
 }
 
 /*
- *	Neue tabs.	
+ *	Neue tabs.
  */
 
 ul.panel-list {
@@ -1424,7 +1386,7 @@ ul.ul-vertical li a {
 /*	padding : 20px;*/
 /*	padding-right : 10px;*/
 	float : left;
-	
+
 }
 
 
@@ -1456,7 +1418,7 @@ ul.ul-vertical li a {
 /*	color : #777;*/
 /*	text-shadow : 0 1px 0 #000;*/
 	text-align : right;
-	
+
 }
 
 .panels {
@@ -1649,7 +1611,7 @@ ul.ul-vertical li a {
 
 .ktabs .panel-navigation {
 	background : #DCDCDC;
-	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#DEDEDE", endColorStr="#CACACA");	
+	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#DEDEDE", endColorStr="#CACACA");
 	background: -moz-linear-gradient(top , #DEDEDE,  #CACACA);
 	background: -webkit-gradient(linear, left top, left bottom, from(#DEDEDE), to(#CACACA));
 	background: -webkit-linear-gradient(top , #DEDEDE, #CACACA);
@@ -1677,7 +1639,7 @@ ul.ul-vertical li a {
 	background: -webkit-gradient(linear, left top, left bottom, from(#CACACA), to(#D1D1D1));
 	background: -webkit-linear-gradient(top , #CACACA, #D1D1D1);
 	background: -o-linear-gradient(top , #CACACA, #D1D1D1);
-	
+
 }
 
 .ktabs .panel-navigation a.wpui-nav-button:active {
@@ -1752,4 +1714,278 @@ ul.menu_slider_settings li {
 
 
 */
+
+a.thickbox img.wpui-uploaded-image {
+	vertical-align: middle;
+	margin-right: 10px;
+	padding: 5px;
+	background: #F4F2F4;
+	border: 1px solid #DADADA;
+	box-shadow: 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset;
+}
+
+
+.wpui-donate-button {
+	background: url("../images/donate.gif" );
+	width: 147px;
+	height: 47px;
+	text-indent : -10000000px;
+}
+
+#wpbody {
+/*    background : url("../images/wood.png") repeat;*/
+	background : #000010 url( "../images/paper.png" ) repeat;
+    margin-left: -16px;
+    box-shadow : 0 6px 10px #000 inset;
+	padding-left : 20px;
+}
+
+.wrap h2 {
+	font-weight: bold;
+	color: #DEDEDE;
+	text-shadow: 0 -2px 0 #000;
+	text-align: center;
+	font-size: 36px !important;
+}
+
+ul.wpui-banner {
+	list-style: none;
+	background: #687189;
+	background: -moz-linear-gradient(top , #6E7D90,  #606080);
+	background: -webkit-gradient(linear, left top, left bottom, from(#6E7D90), to(#606080));
+	background: -webkit-linear-gradient(top , #6E7D90, #606080);
+	background: -ms-linear-gradient(top , #6E7D90, #606080);
+	background: -o-linear-gradient(top , #6E7D90, #606080);
+	border: 1px solid #000;
+	box-shadow: 0 1px 0 #9FA4D6 inset, 0 -6px 0 #44465B inset;
+	border-radius: 5px;
+}
+
+
+ul.wpui-banner:after {
+   visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+
+ul.wpui-banner li {
+	float : left;
+/*	padding: 1.2em 0 1em 0;*/
+	border-right : 1px solid #44465B;
+	border-left : 1px solid #8F99BD;
+	position:relative;
+}
+
+ul.wpui-banner li:hover {
+	background : #4980b2;
+	background: -moz-linear-gradient(top , #5290BC,  #4070A8);
+	background: -webkit-gradient(linear, left top, left bottom, from(#5290BC), to(#4070A8));
+	background: -webkit-linear-gradient(top , #5290BC, #4070A8);
+	background: -ms-linear-gradient(top , #5290BC, #4070A8);
+	background: -o-linear-gradient(top , #5290BC, #4070A8);
+/*	box-shadow: 0 1px 0 #67B8F0 inset, 0 -6px 0 #28476B inset;*/
+}
+
+ul.wpui-banner li.no-hover {
+	padding : 20px;
+}
+
+
+
+
+ul.wpui-banner li a {
+	padding: 1.1em 1.3em 1em 1.3em;
+	font-size: 14px;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #EEE;
+	text-shadow: 0 1px 0 #000;
+	display:block;
+
+}
+
+
+
+ul.wpui-banner li.first, ul.wpui-banner li.first:hover {
+	background : black;
+	background : rgba(0,0,0,0.5);
+	background: -moz-linear-gradient(bottom , #373E48,  #303040);
+	background: -webkit-gradient(linear, left top, left bottom, from(#373E48), to(#303040));
+	background: -webkit-linear-gradient(top , #373E48, #303040);
+	background: -ms-linear-gradient(top , #373E48, #303040);
+	background: -o-linear-gradient(top , #373E48, #303040);
+	position:relative;
+	border-radius: 5px 0 0 5px;
+	box-shadow: 0 1px 0 #777 inset, 0 -6px 0 #0D0D0D inset;
+	padding-left : 20px;
+	border-left : 0px;
+	margin-bottom : 0;
+/*	padding : 1.2em 0 1.3em 1.5em;*/
+}
+
+
+ul.wpui-banner li.first a {
+    font-size: 24px;
+    font-weight: bold;
+      text-shadow: 0 1px 0 #666666;
+/*    line-height: 8px;*/
+    padding: 0.7em 1em 0.8em 1.3em;
+	position: relative;
+}
+
+ul.wpui-banner li.first a span {
+	display:none;
+}
+
+ul.wpui-banner li.first a img {
+	position : absolute;
+	top : -10px;
+	left : -40px;
+}
+
+
+
+ul.wpui-banner li.last {
+	float : right;
+	background : orange;
+	background: -moz-linear-gradient(top , #F5BD12,  #F0980B);
+	background: -webkit-gradient(linear, left top, left bottom, from(#F5BD12), to(#F0980B));
+	background: -webkit-linear-gradient(top , #F5BD12, #F0980B);
+	background: -ms-linear-gradient(top , #F5BD12, #F0980B);
+	background: -o-linear-gradient(top , #F5BD12, #F0980B);
+	box-shadow: 0 1px 0 #FFF inset, 0 -6px 0 #b77407 inset;
+	border-radius: 0 5px 5px 0;
+/*	padding : 1.2em 0 1.5em;*/
+	margin-bottom : 0px;
+	border-left: none;
+}
+
+ul.wpui-banner li.last a {
+	color : #000;
+	text-shadow : 0 1px 0 yellow;
+	padding : 1.2em 1.5em 1.4em;
+}
+
+
+span.glyphicon {
+	background : url( "../images/icons/glyphicons-white-additions.png" ) no-repeat;
+	width : 14px;
+	height : 14px;
+	display : inline-block;
+	background-position : 14px 14px;
+	margin-right : 5px;
+	vertical-align : text-top;
+}
+
+.toolbar-help span.glyphicon,
+.wpui_options_help span.glyphicon {
+	background-position : -96px -96px;
+}
+
+
+.menu-tour span {
+	background-position : -72px -24px;
+}
+
+
+.menu-support span {
+	background-position : -72px 0px;
+}
+
+.toolbar-docs span {
+	background-position : -48px -48px;
+}
+.toolbar-forum span {
+	background-position : -94px -166px;
+}
+
+.toolbar-follow span,
+.menu-facebook span {
+	background-position : -96px -144px;
+}
+
+.menu-vote span {
+	background-position : -120px 0;
+}
+.menu-twitter span {
+	background-position : -24px -166px;
+}
+
+.toolbar-git span {
+	background-position : -48px -166px;
+}
+
+.toolbar-donate span {
+	background-position : -24px -120px;
+}
+
+
+
+ul.wpui-banner li ul.wpui-submenu {
+	position : absolute;
+	background : #687189;
+	width: 14em;
+	z-index: 10000;
+	left: 0;
+/*	top: 100%;*/
+	top : -100em;
+	opacity : 0;
+	box-shadow: 0 1px 0 #9FA4D6 inset, 0 2px 8px rgba( 0,0,0,0.7);
+	border : 1px solid #44465B;
+	border-radius : 5px;
+	overflow : hidden;
+	-moz-transition : 0.4s ease-in 0.2s;
+	-webkit-transition : 0.4s ease-in 0.2s;
+	-o-transition : 0.4s ease-in 0.2s;
+	-ms-transition : 0.4s ease-in 0.2s;
+	transition : 0.4s ease-in 0.2s;
+}
+
+ul.wpui-banner li:hover ul.wpui-submenu {
+	top : 100%;
+	opacity : 1;
+}
+
+
+ul.wpui-banner li ul.wpui-submenu li {
+	display:block;
+	margin : 0px;
+	float : none;
+	border-top : 1px solid #9FA4D6;
+	border-bottom : 1px solid #44465b;
+}
+
+ul.wpui-banner li ul.wpui-submenu li:hover {
+	box-shadow: 0 1px 0 #67B8F0 inset, 0 -1px 0 #28476B inset;
+}
+
+ul.wpui-banner li ul.wpui-submenu li a {
+	font-size : 12px;
+}
+
+ul.wpui-banner li.last ul.wpui-submenu {
+    left: -4.5em;
+    text-align: center;
+}
+
+ul.wpui-banner li.last ul.wpui-submenu li {
+	padding : 10px;
+	color : #FFF;
+	font-style : italic;
+	font-size : 12px;
+	text-shadow : 0 1px 0 #000;
+}
+
+
+
+ul.wpui-banner li.last:hover ul.wpui-submenu {
+	left : -3.5em;
+}
+
+
+
 

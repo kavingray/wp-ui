@@ -2,90 +2,79 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Choose your WP UI Style</title>
-
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
-<script type="text/javascript" src="../wp-content/plugins/wp-ui/js/wp-ui.js"></script>
+<script type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="<?php echo wpui_url(); ?>/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo wpui_url(); ?>/js/wp-ui.js"></script>
 <!-- <link rel="stylesheet" href="../wp-content/plugins/wp-ui/wp-ui.css" media="screen">-->
-<link rel="stylesheet" href="../wp-content/plugins/wp-ui/css/jquery-ui-wp-fix.css" media="screen">
+<link rel="stylesheet" href="<?php echo wpui_url(); ?>/css/jquery-ui-wp-fix.css" media="screen">
 <link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-lightness/jquery.ui.base.css" />
-<script type="text/javascript"  src="../wp-content/plugins/wp-ui/js/themeswitcher.js">
+<script type="text/javascript"  src="<?php echo wpui_url(); ?>/js/themeswitcher.js">
 </script>
 <!-- <script type="text/javascript" src="http://jqueryui.com/js/jquery.js"></script> -->
 <script type="text/javascript">
 jQuery().ready(function($) {
 	jQuery('.wp-tabs').wptabs();
-	
+
 	jQuery( 'div.wp-accordion' ).wpaccord({
 		h3Class			: 	'h3.wp-tab-title',
 		linkAjaxClass	: 	'a.wp-tab-load',
 		accordEvent : 'click',
-		easing : 'bounceslide'	
+		easing : 'bounceslide'
 	});
 	jQuery( '.wp-spoiler' ).wpspoiler({
 		fade	 : true,
 		slide	 : true,
 	});
-	
+
 	jQuery( '.wp-dialog' ).dialog({
 		autoOpen : false,
-		
+
 	});
-	
+
 	jQuery( '.dialog-opener-3' ).button({
 		icons : {
 			primary : 'ui-icon-newwin'
 		}
 	});
-	
-  	jQuery('#chosentab').themeswitcher({
+
+  	jQuery('#themechooser').themeswitcher({
 		loadTheme : 'Start',
+		imgPath : '<?php echo wpui_url("images/jquery-ui/") ?>',
 		height : 500,
 		width : 180,
 		buttonHeight : 18,
 		initialText : 'Select a theme',
 		onSelect : function() {
 
-			selTheme = jQuery( '.jquery-ui-themeswitcher-trigger > .jquery-ui-themeswitcher-title' ).text(); 
+			selTheme = jQuery( '.jquery-ui-themeswitcher-trigger > .jquery-ui-themeswitcher-title' ).text();
 			nowTheme = selTheme.replace( /(Theme:\s)*/im, '' ).toLowerCase().replace(/\s/, '-');
-			jQuery( '#selected_skin' ).val( nowTheme ); 
+			jQuery( '#selected_skin' ).val( nowTheme );
 			// jQuery( '#chosentab' )
 			// 	.hide('drop', {direction: 'up'}, 600);
 
 		},
 		onThemeLoad : function() {
 			// jQuery( '#chosentab' )
-			// 	.show('drop', {direction: 'up'}, 600);			
+			// 	.show('drop', {direction: 'up'}, 600);
 		}
-		
+
 	});
 
 
 
-	jQuery( '.jquery-ui-themeswitcher-trigger' ).appendTo( 'h2.styler-title span' );
-	
-	// ctWidth = jQuery( '#chosentab' ).innerWidth();
-	// console.log( ctWidth ); 
-	// compoWidth = ( ctWidth > 750 ) ?  ( (ctWidth - 80) / 2 ) : ctWidth;
-
-
-	// ctW = Math.round( cTW );
+	// jQuery( '.jquery-ui-switcher-link, .jquery-ui-switcher-list-hldr' ).appendTo( 'h2.styler-title span' );
 	var compoWidth = Math.round(( jQuery( '#chosentab' ).width() -80 ) / 2);
-	var compoPad = ( ( jQuery( window ).width() - jQuery( '#chosentab' ).width() ) / 2 ) - 10; 
+	var compoPad = ( ( jQuery( window ).width() - jQuery( '#chosentab' ).width() ) / 2 ) - 10;
 
 	jQuery( '#chosentab' ).css({ padding : '0 ' + compoPad + 'px' })
-	
+
 	jQuery( '.holster' ).width( compoWidth - (parseInt(jQuery( '.holster' ).css('paddingLeft')) + parseInt(jQuery( '.holster' ).css( 'paddingRight' )) ));
-	
-	jQuery( '.hilite-combo' ).css('text-decoration', 'underline').hover(function() {
-		jQuery( '.jquery-ui-themeswitcher-trigger' ).effect( "pulsate", { times : '3' } , 300);
-	}, function() {
-		
-	});
 
 
-	
-	
+
+
+
+
 });
 </script>
 
@@ -180,7 +169,7 @@ p.submit #submit:active {
 
 .wp-spoiler {
 	font-family : 'Arial', sans-serif !important;
-	
+
 }
 .section-header {
 	text-transform : uppercase;
@@ -199,7 +188,7 @@ function submit_form() {
 </script>
 </head>
 <body class="jqui-options-noise">
-<h2 class="styler-title">Choose a jQuery UI theme<span class="themechooserholder"></span></h2>
+<h2 class="styler-title">Choose a jQuery UI theme<span id="themechooser" class="themechooserholder"></span></h2>
 
 
 
@@ -209,10 +198,10 @@ function submit_form() {
 
 <div class="description">
 	<p style="text-align: center; padding: 5px;">Preview and choose your jQuery UI theme. Select with the <span class="hilite-combo">combo</span> button above and once done, click the choose button to select it. Visit <a href="http://jqueryui.com/themeroller/" target="_blank" rel="nofollow">jQuery Themegallery</a>. Theme might take a moment to load. </p>
-<div><!-- end description -->	
-	
-	
-	
+<div><!-- end description -->
+
+
+
 <!-- ###################### -->
 <!-- ######## Tabs ######## -->
 <!-- ###################### -->
@@ -220,13 +209,13 @@ function submit_form() {
 <div class="holster tabs-holder">
 <h3 class="section-header">Tabs</h3>
 <div class="wp-tabs">
-	
+
 <h3 class="wp-tab-title">First</h3>
 	<div class="wp-tab-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed elit ut erat viverra dapibus. Cras at blandit sem. Nullam in augue non ipsum fermentum consequat. Nulla eu orci velit. Cras eu neque non justo malesuada pretium ut nec arcu. Curabitur viverra mollis risus vel convallis. Sed et felis dolor. Mauris semper faucibus ipsum non porta. Proin erat quam, congue a venenatis nec, volutpat nec leo. Nam vehicula lorem quis nulla tristique tempor. </div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Second</h3><br>
 	<div class="wp-tab-content">Vestibulum rhoncus ligula est. Nam nisi velit, vestibulum eget fermentum vitae, bibendum vitae velit. Sed ac ante eget nisl elementum varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ut leo eget leo volutpat placerat vitae at est. Mauris vestibulum ligula vel ante rhoncus luctus. Fusce sagittis, nisi at faucibus eleifend, sapien mauris semper arcu, eget aliquam justo enim sit amet turpis. Nulla fringilla, nunc in hendrerit volutpat, massa leo laoreet lectus, a vehicula odio ligula quis metus.</div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Third</h3>
-	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content --> 
+	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content -->
 
 </div><!-- end wp-tabs -->
 </div><!-- end holder -->
@@ -241,13 +230,13 @@ function submit_form() {
 
 
 <div class="wp-accordion">
-	
+
 <h3 class="wp-tab-title">Panel 1</h3>
 	<div class="wp-tab-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed elit ut erat viverra dapibus. Cras at blandit sem. Nullam in augue non ipsum fermentum consequat. Nulla eu orci velit. Cras eu neque non justo malesuada pretium ut nec arcu. Curabitur viverra mollis risus vel convallis. Sed et felis dolor. Mauris semper faucibus ipsum non porta. Proin erat quam, congue a venenatis nec, volutpat nec leo. Nam vehicula lorem quis nulla tristique tempor. </div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Panel 2</h3><br>
 	<div class="wp-tab-content">Vestibulum rhoncus ligula est. Nam nisi velit, vestibulum eget fermentum vitae, bibendum vitae velit. Sed ac ante eget nisl elementum varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ut leo eget leo volutpat placerat vitae at est. Mauris vestibulum ligula vel ante rhoncus luctus. Fusce sagittis, nisi at faucibus eleifend, sapien mauris semper arcu, eget aliquam justo enim sit amet turpis. Nulla fringilla, nunc in hendrerit volutpat, massa leo laoreet lectus, a vehicula odio ligula quis metus.</div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Panel 3</h3>
-	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content --> 
+	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content -->
 
 </div><!-- end wp-accordion -->
 </div><!-- end holder -->
@@ -282,7 +271,7 @@ function submit_form() {
 
 
 <br />
-<input type="hidden" id="selected_skin" name="selected_skin" type="text" />		
+<input type="hidden" id="selected_skin" name="selected_skin" type="text" />
 
 </form>
 </body>

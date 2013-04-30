@@ -1,33 +1,39 @@
 (function( $ ) {
+	
+	if ( ! $.wpui ) $.wpui = {};
+	
+	var tabOpts = $.extend({}, window.wpuiOpts, {
+		header			:		'h3.wp-tab-title',
+		ajaxClass	:		'a.wp-tab-load',
+		topNav			: 	false,
+		bottomNav		: false,
+		position		: 		'top',
+		navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
+		effect			: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEffect : '', 
+		effectSpeed		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.effectSpeed : '',
+		alwaysRotate	: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.alwaysRotate : '', // True - will rotate inspite of clicks. False - will stop.
+		tabsEvent		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEvent : '',
+		collapsibleTabs	: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.collapsibleTabs == 'on' ) ? true : false,
+
+		tabPrevText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabPrevText != '' ) ? wpUIOpts.tabPrevText : '&laquo; Previous',		
+		tabNextText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabNextText != '' ) ? wpUIOpts.tabNextText : 'Next &raquo;',
+		cookies			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.cookies == 'on' ) ? true : false,
+		hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
+		mouseWheel		: 		(typeof wpUIOpts != "undefined" ) ? wpUIOpts.mouseWheelTabs : '',
+		wpuiautop		: 		true,
+		followNav: false		
+	}),
+	tabCount = 0;
+	
 
 	///////////////////////////////////////////////////
 	//////////////////// WP TABS //////////////////////
 	///////////////////////////////////////////////////		
 	// Extend the tabs proto.
-	$.widget( "wpui.wptabs", {
-		options			: {
-			header			:		'h3.wp-tab-title',
-			ajaxClass	:		'a.wp-tab-load',
-			topNav			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.topNav == 'on' ) ? true : false,
-			bottomNav		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.bottomNav == 'on' ) ? true : false,
-			position		: 		'top',
-			navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
-			effect			: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEffect : '', 
-			effectSpeed		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.effectSpeed : '',
-			alwaysRotate	: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.alwaysRotate : '', // True - will rotate inspite of clicks. False - will stop.
-			tabsEvent		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEvent : '',
-			collapsibleTabs	: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.collapsibleTabs == 'on' ) ? true : false,
-
-			tabPrevText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabPrevText != '' ) ? wpUIOpts.tabPrevText : '&laquo; Previous',		
-			tabNextText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabNextText != '' ) ? wpUIOpts.tabNextText : 'Next &raquo;',
-			cookies			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.cookies == 'on' ) ? true : false,
-			hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
-			mouseWheel		: 		(typeof wpUIOpts != "undefined" ) ? wpUIOpts.mouseWheelTabs : '',
-			wpuiautop		: 		true,
-			followNav: false			
-		},
+	$.widget( "idQrk.wptabs", {
+		options			: tabOpts,
 		_create			: function() {
-			var self = this, $this = this.element;
+			var baset = this, $this = this.element;
 			
 			this.jqui = ( this.element.hasClass( 'jqui-styles' ) ) ? true : false;
 			this.o = this.options;
@@ -39,8 +45,6 @@
 			if ( typeof($.wpui.ids[ this.id ] ) == 'undefined' )
 					$.wpui.ids[ this.id ] = [];
 
-			// Add the ul.
-			this.ul = $( '<ul class="ui-tabs-nav" />' ).prependTo( this.element );
 			
 			if ( this.o.wpuiautop ) {
 				
@@ -58,16 +62,25 @@
 				$( this ).parent().append( $( this ).parent().nextUntil( "div.ui-tabs-panel" ) );
 			});
 			
+			// this.element.wrapInner( '<div class="ui-tabs-panels-wrapper" />' );
+
+
+			// Add the list.
+			this.ul = $( '<ul class="ui-tabs-nav" />' ).prependTo( this.element );
+						
 			// Iterate through headers and add the styles.
 			this.header.each(function( index ) {
 				var elId = $( this ).text(),
-					toLoad = $( this ).find( self.o.ajaxClass ),
+					toLoad = $( this ).find( baset.o.ajaxClass ),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
-				
+					
+
 				// Get this tabs's ID.
-				elId = $.wpui.getIds( elId, self.id );
-		
+				elId = $.wpui.getIds( elId, baset.id );
+				// elId = 'wpui-tab-' + ( index + 1 );
+				
+
 				if ( toLoad.length ) {
 					// IT IS an AJAX LINK
 					linkStr = '<a href="' + toLoad.attr( 'href' ) + '">' + toLoad.text() + '</a>';
@@ -79,7 +92,7 @@
 					img.removeAttr( 'style' ).css( 'vertical-align', 'middle' );
 					// Get the id if no header text.
 					if ( img.attr( 'title' ) != 'undefined' && img.attr( 'title') != '' && $( this ).text() == '' )
-						elId = $.wpui.getIds( img.attr( 'title' ), self.id ); 
+						elId = $.wpui.getIds( img.attr( 'title' ), baset.id ); 
 					linkStr = '<a href="#' + elId + '"><img src="' + img.attr( 'src' ) + '" title="' + img.attr( 'title' ) + '" />'  + $( this ).text() + '</a>';
 				
 				} else {
@@ -89,7 +102,7 @@
 				
 				linkStr = '<li>' + linkStr + '</li>';
 				
-				self.ul.append( linkStr );
+				baset.ul.append( linkStr );
 				
 				if ( ! toLoad.length ) {
 					$( this ).parent().attr( 'id', elId );
@@ -98,7 +111,7 @@
 				}
 				
 				
-				// $.wpui.ids[ self.id ].push( elId ); 
+				// $.wpui.ids[ baset.id ].push( elId ); 
 				
 				// Another tab added.
 				// $.wpui.tabsNo++;
@@ -112,7 +125,7 @@
 
 		},
 		_init			: function() {
-			var self = this, $this = this.element, options = {};
+			var baset = this, $this = this.element, options = {};
 			
 			if ( this.o.effect == 'slideDown' ) {
 			 	options.fx = { height: 'toggle', speed: this.o.effectSpeed };
@@ -138,7 +151,11 @@
 			this.setClasses();
 			this.navigation();
 			
-			if ( this.isVertical ) this.goVertical();
+			if ( this.isVertical ) {
+				this.$tabs
+					.addClass( 'ui-tabs-vertical ui-helper-clearfix' );
+				this.goVertical();
+			}
 			
 		
 			if ( typeof( $.wpui.ids.children ) == 'undefined' )
@@ -154,7 +171,7 @@
 				this.$tabs.find( 'ul.ui-tabs-nav' ).sortable({ axis : 'x' });
 			}
 			
-			this.rotate();
+			// this.rotate();
 			
 			if ( $this.hasClass( 'tabs-bottom' ) ) {
 				this.ul.appendTo( this.ul.parent() );
@@ -162,7 +179,7 @@
 			
 		},
 		setClasses		: function() {
-			var self = this, $this = this.element;
+			var baset = this, $this = this.element;
 			
 			this.ul.children().eq(0).addClass( 'first-li' );
 			this.ul.children().last().addClass( 'last-li' );
@@ -181,7 +198,7 @@
 	
 		},
 		navigation		: function() {
-			var self = this, $this = this.element;
+			var baset = this, $this = this.element;
 			
 			// if ( this.o.topNav || this.o.bottomNav ) return false;
 
@@ -191,28 +208,28 @@
 				navNextSpan = '<span class="ui-icon ui-icon-circle-triangle-e"></span>',
 				totalLength = $( this ).parent().children('.ui-tabs-panel').length -1;
 				
-				! self.o.topNav || $( this )
+				! baset.o.topNav || $( this )
 					.prepend( '<div class="tab-top-nav" />');
 
-				! self.o.bottomNav || $( this )
+				! baset.o.bottomNav || $( this )
 					.append( '<div class="tab-bottom-nav" />' );				
 				
 				if ( i != 0 ) {
-					! self.o.topNav || $( this )
+					! baset.o.topNav || $( this )
 						.children('.tab-top-nav')
-						.prepend('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan + self.o.tabPrevText + '</a>' );
-					! self.o.bottomNav || $( this )
+						.prepend('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan + baset.o.tabPrevText + '</a>' );
+					! baset.o.bottomNav || $( this )
 						.children('.tab-bottom-nav')
-						.append('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan  + self.o.tabPrevText + '</a>');		
+						.append('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan  + baset.o.tabPrevText + '</a>');		
 				}
 
 				if ( i != totalLength ) {
-					! self.o.topNav || $( this )
+					! baset.o.topNav || $( this )
 						.children('.tab-top-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + self.o.tabNextText + navNextSpan + '</a>');
-					! self.o.bottomNav || $( this )
+						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText + navNextSpan + '</a>');
+					! baset.o.bottomNav || $( this )
 						.children('.tab-bottom-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + self.o.tabNextText +  navNextSpan + '</a>');			
+						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText +  navNextSpan + '</a>');			
 				}				
 				
 			});
@@ -225,16 +242,16 @@
 			
 			$this.find( 'a.next-tab, a.prev-tab' ).click(function() {
 				if ( $( this ).is('a.next-tab') )
-					self.goTo( "forward" );
+					baset.goTo( "forward" );
 				else	
-					self.goTo( "backward" );
+					baset.goTo( "backward" );
 				return false;
 			});		
 						
 			
 		},
 		goTo		: function( dir ) {
-			var self = this, $this = this.element, mrel;
+			var baset = this, $this = this.element, mrel;
 			
 			dir = dir || 'forward';
 			mrel = $this.find('.ui-tabs').tabs('option', 'selected');
@@ -260,32 +277,35 @@
 
 		},
 		binders			: function() {
-			if ( this.isVertical ) {
-				
-				
-				
-			}
+			// if ( this.isVertical ) {
+			// 	
+			// 	
+			// 	
+			// }
 		},
-		// goVertical		: function() {
-		// 	var self = this, $this = this.element;
-		// 	
-		// 	
-		// 	
-		// },
 		goVertical		: function() {
-			var self = this, $this = this.element,
-			ulWidth, getListWidth, ulHeight, parWidth, PaneWidth, maxPane, paneCount;
-
+			var baset = this, $this = this.element;
+			// ulWidth, getListWidth, ulHeight, parWidth, PaneWidth, maxPane, paneCount;
+			// 
 			this.$tabs
 				.addClass( 'ui-tabs-vertical ui-helper-clearfix' );
-		
-			this.adjust();
+					
+			// this.adjust();
+			listWidth = $this.attr( 'class' ).match(/listwidth-(\d{2,4})/, "$1");
 			
-		
+			if ( listWidth ) {
+				listWidth = listWidth[ 1 ];
+				this.ul.width( listWidth );
+				
+			} else {
+				listWidth = this.ul.outerWidth();
+			}			
+			
+
 						
 		},
 		adjust			: function( mode ) {
-			var self = this, $this = this.element, listWidth;
+			var baset = this, $this = this.element, listWidth;
 			
 			mode = mode || this.mode;
 			
@@ -327,11 +347,11 @@
 				this.$tabs.width( this.$tabs.parent().innerWidth() );
 
 				paneWidth = this.$tabs.width() - this.ul.width();
-
-				this.$tabs
-					.find( '.ui-tabs-panel' )
-					.css({ 'float' : 'right' })
-					.outerWidth( paneWidth );				
+				
+				// this.$tabs
+				// 	.find( '.ui-tabs-panel' )
+				// 	.css({ 'float' : 'right' })
+				// 	.width( paneWidth );				
 			
 				this.$tabs
 					.css({
@@ -588,14 +608,38 @@
 		return id;
 	};
 	
-	
+	$.fn.styleSwitcher = function() {
+		return this.each( function() {
+
+			var list = $( '<select id="wpui_style_switcher" />' )
+						.prependTo( this ),
+				stylez = [ 'wpui-achu', 'wpui-alma','wpui-android','wpui-blue','wpui-cyaat9','wpui-dark','wpui-gene','wpui-green','wpui-light','wpui-macish','wpui-narrow','wpui-quark','wpui-red','wpui-redmond','wpui-safle','wpui-sevin'],
+				clsRep = function() {
+					var cls = $( this ).attr( 'class' ).replace( /wpui\-[^\s]*\s/, $( this ).data( 'wpui-style' ) + " " ); 
+					jQuery( this ).attr( 'class', cls ); 		
+				};
+				
+			for ( i=0; i < stylez.length; i++ ) {
+				list.append( '<option value="' + stylez[ i ] + '">' + stylez[ i ] + '</option>' ); 
+			}
+			
+			list.change( function() {
+				$( '.wp-tabs' ).data( 'wpui-style', this.value ).each( clsRep );
+			}).trigger( 'change' );
+						
+			
+		});
+	};
 	
 })( jQuery );
 jQuery( function() {
-	if ( typeof( wpUIOpts ) != 'undefined' && 
-	 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
-				wpUIOpts.misc_opts.hashing_method == 2 )
-		jQuery.wpui.hasher2();
-	else
-		jQuery.wpui.hasher();
+	// if ( typeof( wpUIOpts ) != 'undefined' && 
+	//  		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
+	// 			wpUIOpts.misc_opts.hashing_method == 2 )
+	// 	jQuery.wpui.hasher2();
+	// else
+	// 	jQuery.wpui.hasher();
+});
+jQuery( function() {
+	jQuery( 'div#insert_styles' ).styleSwitcher();
 });

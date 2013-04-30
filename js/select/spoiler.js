@@ -41,10 +41,11 @@
 			this.header = this.element.children( 'h3' ).first();
 			this.content = this.header.next( 'div' );
 			
-			this.header.prepend( '<span class="ui-icon ' + self.o.openIconClass + '" />' )
+			this.header.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
 					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
 								
-			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
+			// this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
+			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-all' )
 					.children( self.o.spanClass )
 					.html( self.o.showText );
 
@@ -84,7 +85,7 @@
 					self.toggle(); return false;
 				});			
 			
-			self.toggle();
+			// self.toggle();
 			
 		},
 		_stripPre : function( str ) {
@@ -117,6 +118,7 @@
 			if ( ! this.isOpen() ) this.toggle();
 		},
 		animate : function() {
+			
 			this.content.animate( this.animOpts, this.options.speed, this.options.easing, function() {
 			});			
 		},	

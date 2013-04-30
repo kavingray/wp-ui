@@ -612,7 +612,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				.append( '<form><fieldset /></form>' )
 				.find( 'form fieldset' )
 				.append( '<div class="theme_add_notes" />')
-				.append( '<div class="check_styles_lists">Uncheck the styles you don\'t want to load. Drag to reorder the styles. These are loaded only if <b>"Load Multiple Styles" is checked</b>.<ul id="wpui-sortable"></ul></div>')
+				.append( '<div class="check_styles_lists">Uncheck the styles you don\'t want to load. These are loaded only if <b>"Load Multiple Styles" is checked</b>.<ul id="wpui-sortable"></ul></div>')
 				.end()
 				.appendTo( 'body' );
 			
@@ -663,8 +663,10 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			
 			
 			base.formBinders = function() {
-				jQuery( '#wpui-combine-css3-files' ).click(function() {
 
+				jQuery( '#wpui-combine-css3-files' ).click(function() {
+					
+					// console.log( base.selectForm ); 
 					base.selectForm
 						.attr( 'title' , 'Select multiple styles' )
 						.dialog({
@@ -692,7 +694,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 						});
 
 					return false;
-				});				
+				});			
 			};
 
 

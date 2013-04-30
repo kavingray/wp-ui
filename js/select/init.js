@@ -1,3 +1,20 @@
+/*!
+ *	WP UI version 0.8.7
+ *	
+ *	Copyright (c) 2011, Kavin ( http://kav.in )
+ *	@license - Dual licensed under the MIT and GPL licenses.
+ *	
+ *	Below components Copyright and License as per the respective authors. 
+ *	
+ *	Includes jQuery cookie plugin by Klaus Hartl.
+ *	Includes jQuery BBQ plugin by Ben Alman.
+ *	Includes Mousewheel event plugin by Brandon Aaron.
+ *	
+ *	
+ *	Requires : jQuery v1.4.2, jQuery UI v1.8 or later.
+!*/
+
+
 /**
  *	The included files and init below. 
  */
@@ -116,7 +133,8 @@ var docWriteTxt = "";
 jQuery(function() {
   document.write = function( dWT ) {
     docWriteTxt += dWT;
-  }
+  };
+  
   // document.write("");
   jQuery( docWriteTxt ).appendTo( 'body' );
 
@@ -221,6 +239,7 @@ jQuery(document).ready(function( $ ) {
 
 
 
+
 (function( $ ) {
 
 
@@ -245,12 +264,12 @@ jQuery(document).ready(function( $ ) {
 	if ( typeof( $.wpui.getIds ) == 'undefined' ) {
 		$.wpui.getIds = function( str, par ) {
 			var num = $.wpui.tabsNo, dup;
-	
+
 			if ( typeof($.wpui.ids[ par ] ) == 'undefined' )
 					$.wpui.ids[ par ] = [];
-	
+
 			str = $.trim(str).replace(/\s{1,}/gm, '_')
-					.replace( /[^\-A-Za-z0-9\s_]/mg, '')
+					.replace( /[^A-Za-z0-9\s_\-]/m, '')
 					.toLowerCase();
 		
 			for ( dup in $.wpui.ids ) {
@@ -258,10 +277,10 @@ jQuery(document).ready(function( $ ) {
 					str = str + '-' + num;
 				}
 			}
-				
+
 			// characters.
 			if ( str.match( /[^\x00-\x80]+/ ) ) {
-				str = 'tabs-' + num;
+				str = 'wpui-tabs-' + num;
 			}
 	
 			$.wpui.ids[ par ].push( str );

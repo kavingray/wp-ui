@@ -4,11 +4,8 @@
  *
  *	Plugin options class using WP Settings API.
  *
- * 	Initially derived from the theme options class works by Alison
- * 	Barret( @alisothegeek @link: http://alisothegeek.com ). Much Thanks to her.
- *
  * @since $Id$
- * @package wp-ui
+ * @package accplus
  * @subpackage admin-options
 **/
 
@@ -19,21 +16,20 @@ if ( ! class_exists( 'quark_admin_options') ) {
 class quark_admin_options
 {
 
-	public $sections, $fields, $page_id, $admin_scripts, $plugin_details, $plugin_db_prefix, $plugin_page_prefix, $help_tabs, $options;
+	public $sections,
+		 $fields,
+		 $page_id,
+		 $defaults,
+		 $admin_scripts,
+		 $plugin_details,
+		 $plugin_db_prefix,
+		 $plugin_page_prefix,
+		 $help_tabs,
+		 $options;
 
-	private $defaults = array(
-		'id'		=>	'default_field',
-		'title'		=>	'Default Field',
-		'desc'		=>	'Description',
-		'type'		=>	'text',
-		'std'		=>	'',
-		'section'	=>	'general',
-		'choices'	=>	array(),
-		'class'		=>	'',
-		'extras'	=>	'',
-		'fields'	=>	array(),
-		'enclose'	=>	array( 'before' => '', 'after' => '' )
-	);
+
+
+
 
 	function __construct( $plugin_details=array() )
 	{
@@ -41,15 +37,31 @@ class quark_admin_options
 		foreach ( $plugin_details as $key => $value ) {
 			$this->{$key} = $value;
 		}
-		$this->quark_admin_options();
+
+		if ( ! isset( $this->admin_scripts ) )
+			$this->admin_scripts = array();
+
 
 		$this->options = get_option( $this->db_prefix . '_options' );
-	}
+
+
+		add_action( 'admin_init', array( &$this, 'analyze_vars' ) );
+		// add_action( 'query_vars', array( &$this, 'add_queries' ) );
+		// add_action( 'template_redirect', array( &$this, 'download_options' ) );
+
+
+
+
+		// wp_enqueue_script( 'iris' );
+
+		$this->quark_admin_options();
+
+	} // END __construct
 
 
 	public function quark_admin_options() {
 		add_action( 'admin_menu' , array(&$this, 'menu_admin'));
-		add_action( 'admin_init' , array(&$this, 'init_admin'));
+		add_action( 'admin_init' , array(&$this, 'init_admin'), 1, 0 );
 		$this->set_page_id($this->page_id);
 	}
 
@@ -68,15 +80,27 @@ class quark_admin_options
 
 	function script_action() {
 		do_action( 'plugin_' . $this->page_prefix . '_load_scripts' );
+
+		if ( file_exists( str_ireplace( ".php", ".js", __FILE__ ) ) ) {
+			$HOST = ( is_ssl() ? 'https' : 'http' ) . '://' .  $_SERVER[ 'HTTP_HOST' ];
+			$js_file = $HOST . str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', str_ireplace( '.php', '.js', __FILE__ ) );
+
+			wp_enqueue_script( $this->page_prefix . "_option_js", $js_file );
+		}
 	}
 
+
+
 	public function render_options_page() {
+		$icon = '<div class="icon32" id="icon-options-general"></div>';
 
-		echo '<div class="wrap">
-				<div class="cap-icon" id="icon-options-general"></div>
+		echo '<div class="wrap">';
 
-				<h2 style="font-size : 35px;"><a href="http://kav.in">
-					<img width="32px" style="display: inline" src="' . plugins_url( "/wp-ui/images/cap-badge.png" ) . '" /></a>  ' . $this->name . '</h2>';
+		// echo apply_filters( $this->page_prefix . "_options_title", $icon . $page_title );
+
+		$options_title =  apply_filters( $this->page_prefix . "_options_title", '%1$s <h2>%2$s</h2>' );
+
+		echo sprintf( $options_title, $icon, $this->name );
 
 		/**
 		 * Hook for inserting info *above* your plugin's option page.
@@ -88,8 +112,11 @@ class quark_admin_options
 		/**
 		 * Start the form tag.
 		 */
-		echo '<form id="optionsform" action="options.php" method="post">
+		echo '<form id="optionsform" action="options.php"  enctype="multipart/form-data" method="post">
 				<div id="options-wrap">';
+
+			// Above options tables.
+			do_action( $this->page_prefix . '_above_options_tables' );
 
 			/**
 			 * Display the options.
@@ -97,10 +124,14 @@ class quark_admin_options
 			settings_fields( $this->db_prefix . '_options');
 			do_settings_sections( $_GET['page'] );
 
+			// Below options tables.
+			do_action( $this->page_prefix . '_below_options_tables' );
+
+
 		echo '</div><!-- end #options-wrap -->
 				<p class="submit">
-					<input name="' . $this->db_prefix . '_options[submit]" type="submit" class="button-primary" value="' . __( 'Save Options' ) . '" />
-					<input name="' . $this->db_prefix . '_options[reset]" type="submit" class="button-secondary" value="' . __( 'Reset Defaults' ) . '" />
+				<input name="' . $this->db_prefix . '_options[submit]" type="submit" class="button-primary" value="' . __( 'Save Options', 'idq-general' ) . '" />
+					<input name="' . $this->db_prefix . '_options[reset]" type="submit" class="button-secondary" value="' . __( 'Reset Defaults', 'idq-general' ) . '" />
 					</p><!-- end p.submit -->
 			</form><!-- end form#optionsform -->';
 
@@ -130,290 +161,152 @@ class quark_admin_options
 
 	}
 
-	function postbox( $id, $title, $content ) {
-		?>
-			<div id="<?php echo $id; ?>" class="postbox wpui-postbox">
-				<div class="handlediv" title="Click To Toggle"><br /></div>
-				<h3 class="hndle"><span><?php echo $title ?></span></h3>
-				<div class="inside"><?php echo $content ?></div>
-			</div><!-- end .wpui-postbox -->
-		<?php
-	}
-
 	public function create_option( $args = array() ) {
 
-		$defaults = array(
-			'id'			=>	'default_field',
-			'title'			=>	'Default Field',
-			'desc'			=>	'Description, nonetheless.',
-			'type'			=>	'text',
-			'subtype'		=>	'',
-			'std'			=>	'',
-			'section'		=>	'general',
-			'choices'		=>	array(),
-			'label_for'		=>	'',
-			'field_class'	=>	'',
-			'text_length'	=>	'',
-			'textarea_size'	=>	array(),
-			'extras'		=>	'',
-			'fields'		=>	array(),
-			'enclose'		=>	array( 'before' => '', 'after' => '' )
+		$this->defaults  = array(
+			'id'            =>	'default_field',
+			'title'         =>	'Default Field',
+			'desc'          =>	'Description, nonetheless.',
+			'type'          =>	'text',
+			'subtype'       =>	'',
+			'std'           =>	'',
+			'section'       =>	'general',
+			'choices'       =>	array(),
+			'label_for'     =>	'',
+			'field_class'   =>	'',
+			'text_length'   =>	'',
+			'textarea_size' =>	array(),
+			'driver'        =>	'iris',
+			'extras'        =>	'',
+			'fields'        =>	array(),
+			'enclose'       =>	array( 'before' => '', 'after' => '' )
 		);
 
-		extract( wp_parse_args( $args, $defaults) );
+		// extract( wp_parse_args( $args, $defaults) );
 
-		$option_args = array(
-			'type'					=>	$type,
-			'subtype'				=>	$subtype,
-			'id'					=>	$id,
-			'desc'					=>	$desc,
-			'std'					=>	$std,
-			'choices'				=>	$choices,
-			'label_for'				=>	$id,
-			'field_class'			=>	$field_class,
-			'text_length'			=>	$text_length,
-			'textarea_size'			=>	$textarea_size,
-			'extras'				=>	$extras,
-			'fields'				=>	$fields,
-			'enclose'				=>	$enclose
-		);
+		// $option_args = array(
+		// 	'type'					=>	$type,
+		// 	'subtype'				=>	$subtype,
+		// 	'id'					=>	$id,
+		// 	'desc'					=>	$desc,
+		// 	'std'					=>	$std,
+		// 	'driver'				=>	$driver,
+		// 	'choices'				=>	$choices,
+		// 	'label_for'				=>	$id,
+		// 	'field_class'			=>	$field_class,
+		// 	'text_length'			=>	$text_length,
+		// 	'textarea_size'			=>	$textarea_size,
+		// 	'extras'				=>	$extras,
+		// 	'fields'				=>	$fields,
+		// 	'enclose'				=>	$enclose
+		// );
+
+		extract( $args );
+
+		$option_args = wp_parse_args( $args, $this->defaults );
+
+		// echo '<pre>';
+		// echo 'Exporting : $args' . "\n";
+		// echo "====================\n";
+		// var_export($option_args);
+		// echo '</pre>';
+
+		$option_args[ 'label_for' ]	= $id;
 
 		add_settings_field( $id, $title, array( &$this, 'display_option'), $this->page_prefix . '-options', $section, $option_args);
-
-
 
 	} // END method create_option.
 
 
 	/**
-	 * Regular checkbox.
-	 */
-	private function checkbox( $args=array() ) {
-		$defs = array(
-				'id'	=>	'',
-				'name'	=>	'',
-				'desc'	=>	'',
-				'nested'=>	false );
-		extract(wp_parse_args( $args, $defs ));
+	 * Display the option.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function display_option( $args=array() ) {
+		extract( $args );
 
-		$checked = '';
-		if( isset( $this->options ) && $this->opt( $id ) == 'on' ) $checked = ' checked="checked"';
-		echo '<input id="' . $id . '" type="checkbox" name="' . $name . '" value="on"' . $checked . '/><label for="' . $id . '"> ' . $desc . '</label>';
-	} // end checkbox.
+		$options = get_option( $this->db_prefix . '_options');
+
+		// if ( !isset( $options[$id] ) && 'type' != 'checkbox' )
+		// 	$options[$id] = $std;
+
+		echo '<div class="option-field option-' . $args[ 'type' ] . '">';
 
 
-	/**
-	 * 	Select or Combo box.
-	 */
-	private function select($args=array()) {
-		$defs = array(
-				'id'		=>	'',
-				'name'		=>	'',
-				'desc'		=>	'',
-				'choices'	=> array(),
-				'extras'	=>	'',
-				'nested'	=>	false );
-		extract(wp_parse_args( $args, $defs ));
+		// Before the option
+		echo '<div class="encloser encloser-before">' . $enclose[ 'before' ] . '</div>';
 
-		echo '<select id="' . $id . '" name="' . $name . '">';
-		foreach ( $choices as $value=>$label ) {
-			$selected = '';
-			if ( $this->opt($id) == $value ) $selected = ' selected';
+		// echo '<pre>';
+		// echo 'Exporting :  $args ' . "\n";
+		// echo "====================\n";
+		// var_export( $args );
+		// echo '</pre>';
 
-			if ( stristr( $value, 'startoptgroup' ) ) {
-				echo '<optgroup label="' . $label . '">';
-			} else if ( stristr( $value, 'endoptgroup') ) {
-				echo '</optgroup>';
-			} else {
-				echo '<option value="' . $value . '"' . $selected . '>' . $label . '</option>';
+		$option_args = array(
+			'id'	=>	$id,
+			'name'	=>	$this->db_prefix . '_options[' . $id . ']',
+			'desc'	=>	'&nbsp;&nbsp;' . $desc
+		);
+
+		// echo '<pre>';
+		// echo 'Exporting : $option_args' . "\n";
+		// echo "====================\n";
+		// var_export($option_args);
+		// echo '</pre>';
+
+		if ( $type == 'select' || $type == 'checkbox' || $type == 'radio' ) {
+			$option_args[ 'choices' ] = $choices;
+			$option_args[ 'extras' ] = $extras;
+		}
+
+
+		// echo '<pre>';
+		// echo 'Exporting : $extras' . "\n";
+		// echo "====================\n";
+		// var_export($extras);
+		// echo '</pre>';
+		if ( $type == 'colorpicker' ) {
+			$option_args[ 'driver' ] = $driver;
+		}
+
+		if ( $type == 'text' ) {
+			$option_args[ 'text_length' ] = $text_length;
+		}
+
+		if ( $type == 'textarea' ) {
+			$option_args[ 'textarea_size' ] = $textarea_size;
+		}
+
+
+
+		if ( $type == 'multiple' ) {
+			if ( count( $args[ 'fields' ] ) ) {
+				foreach( $fields as $field ) {
+					$field = wp_parse_args( $field, $this->defaults );
+					$field[ 'id' ] = $args[ 'id' ] .  "][" . $field[ 'id' ];
+					// $field[ 'name' ] = $args[ 'name' ] . '[' . $field[ 'id' ]. ']';
+					$this->display_option( $field );
+				}
 			}
 		}
-		echo '</select>';
-		if ( $extras != '' && ! $nested )
-			echo $extras;
-		if( $desc != '' && ! $nested )
-			echo '<br /> ' . $desc;
-	}
 
 
-	/**
-	 * Radio boxes
-	 */
-	private function radio( $args=array() ) {
-		$defs = array(
-				'id'		=>	'',
-				'name'		=>	'',
-				'desc'		=>	'',
-				'choices'	=>	array(),
-				'extras'	=>	'',
-				'subtype'	=>	'normal',
-				'nested'	=>	false
-				);
-			extract(wp_parse_args( $args, $defs ));
-
-		if ( $subtype == 'descriptive' ) {
-			if( $desc != '' )
-				echo $desc . '<br /><br />';
-			$style_elem = "style='float:left;margin-right:20px;margin-bottom:20px;border: 1px solid #bbb;-moz-box-shadow: 0px 1px 2px #AAA;-webkit-box-shadow: 2px 2px 2px #777;box-shadow: 2px 2px 2px #777;'";
-		foreach ( $choices as $choice )
-		{
-			$active = ( $this->opt( $id ) == $choice['slug']) ? 'class="active-layout"' : '';
-			echo "<dl style='float:left; padding:5px; text-align:center; max-width:160px' " . $active . ">";
-			$checked = ( $this->opt( $id ) == $choice['slug']) ? ' checked ' : '';
-			echo "<dt>" . $choice['name'] . "</dt>";
-			echo "<dd style='text-align:center'><img src='". $choice['image'] ."' /></dd>";
-			echo "<dd>";
-			echo "<input name='" . $name . "' " . $checked . " id='" . $id .  "' value='" . $choice['slug'] . "' type='radio' />";
-			echo "</dd>";
-			echo "<dd>" . $choice['description'] . "</dd>";
-			echo '</dl>';
-			}
+		if ( method_exists( $this, $type ) ) {
+			call_user_func_array( array( &$this, $type ), array( $option_args ) );
 		}
-		else // Regular radio buttons.
-		{
-		$i = 0;
-		foreach( $choices as $value => $label ) {
-			$selected = '';
-			if ( $this->opt( $id ) == $value )
-				$selected = ' checked="checked"';
-		echo '<input type="radio" name="' . $name . '" value="' . $value . '"' . $selected . '><label for="' . $id . $i . '">' . $label . '</label>';
-		if ( $i < count( $choices ) -1 )
-			echo '<br />';
-		$i++;
-		}
-		if( $desc != '' && ! $nested  )
-			echo '<br /> ' . $desc;
-		}
-	} // I am radio. End.
+
+		// After the option.
+		echo '<div class="encloser encloser-after">' . $enclose[ 'after' ] . '</div>';
 
 
-	/**
-	 * Textareas
-	 */
-	private function textarea($args=array()) {
-		$defs = array(
-				'id'			=>	'',
-				'name'			=>	'',
-				'desc'			=>	'',
-				'textarea_size'	=>	array(),
-				'nested'		=>	false );
-			extract(wp_parse_args( $args, $defs ));
+		echo '</div>';
 
-		$text_cols = ''; $text_rows = ''; $autocomplete = 'on';
-		if (!empty($textarea_size)) {
-			$text_cols = ' cols="' . $textarea_size['cols'] . '"';
-			$text_rows = ' rows="' . $textarea_size['rows'] . '"';
-			if( isset( $textarea_size[ 'autocomplete' ] ) )
-				$autocomplete = $textarea_size[ 'autocomplete' ];
-		}
-		echo '<textarea' . $text_cols . $text_rows . ' autocomplete="' . $autocomplete . '" id="' . $id . '" name="' .  $name . '">' . $this->opt( $id ) . '</textarea>';
-		if( $desc != ''  && ! $nested )
-			echo '<br /> ' . $desc;
-	} // end fun textarea.
+	} // END function display_options
 
 
-	private function fileinput( $id, $name, $desc, $nested=false ) {
-		$defs = array(
-				'id'	=>	'',
-				'name'	=>	'',
-				'desc'	=>	'',
-				'nested'=>	false );
-		wp_parse_args( $args, $defs );
-		echo '<input type="file" id="' . $id . '" name="' . $id . '" />';
-		if ( $desc != ''  && ! $nested )
-			echo '<br /> ' . $desc;
-		if ( $file = $this->opt( $id ) ) {
-			// var_dump($file);
-			echo '<br /> <br /><a class="thickbox" href=' . $file['url'] . '>' .  __('Currently uploaded image', 'wp-ui' ) . '</a>';
-		}
-	}
-
-	/**
-	 * Regular text input - Default.
-	 */
-	private function textinput( $args=array() ) {
-		$defs = array(
-				'id'	=>	'',
-				'name'	=>	'',
-				'desc'	=>	'',
-				'text_length'	=>	'',
-				'type'	=>	'text',
-				'nested'=>	false );
-		extract(wp_parse_args( $args, $defs ));
-
-		$style = '';
-		if ( $type == 'farbtastic' )
-			$style = ' style="position:relative" ';
-		elseif( $type == 'jscolor' )
-			$style = ' class="color {hash:true}" ';
-		elseif ( $type == 'media-upload' )
-			$style = ' style="text-align : right;"';
-
-		if ($text_length != '') {
-			$text_length = ' size="' . $text_length . '"';
-		}
-		$thisVal = ($this->opt( $id )) ? $this->opt( $id ) : '';
-
-		echo '<input' . $text_length . $style  . ' type="text" id="' . $id . '" name="' . $name . '" value="' . $thisVal . '" />';
-		$nid = $id;
-
-		if ( $type == 'farbtastic' ) {
-			// Init farbtastic color-picker.
-			echo '<div id="colorpicker"></div>';
-			echo '<script type="text/javascript">
-				// Hide the colorpicker first.
-				jQuery("#colorpicker").hide();
-				// Open the color picker on clicking the textfield.
-				jQuery("#' . $nid . '").click(function() {
-					jQuery("#colorpicker").farbtastic("#' . $nid . '").slideDown(500);
-				});
-				// Hide the color-picker on Double click.
-				jQuery("#' . $nid . '").dblclick(function() {
-					jQuery("#colorpicker").slideUp(300);
-				});
-		</script><!-- End farbtastic init script. -->';
-		} else if( $type == 'jscolor' ) {
-			// Jscolor, chosen.
-			$optjsurl = get_bloginfo('template_url'). '/lib/options/js/';
-			wp_enqueue_script('jscolor', $optjsurl . '/jscolor/jscolor.js');
-		} else if( $type == 'media-upload' ) {
-			echo '<input id="' . $nid . '_trigger" type="button" class="button-secondary" value="Upload" />';
-			$post_id = 0;
-			echo "<script type=\"text/javascript\">
-			instance = 0;
-			jQuery('#" . $nid . "_trigger').click(function() {
-				instance++; if ( instance > 1 ) return false;
-				backup_send = window.send_to_editor;
-				formfield = jQuery('label[for=$nid]').text();
-				window.send_to_editor = window.send_to_editor_$nid;
-
-				tb_show('Upload images for ' + formfield, 'media-upload.php?post_id=0&type=image&amp;TB_iframe=true');
-				return false;
-
-
-			});
-			window.send_to_editor_$nid  = function(html) {
-				imgURL = jQuery('img', html).attr('src');
-				jQuery('#$nid').val(imgURL);
-				tb_remove();
-				reverseSend();
-				return false;
-			}
-			var reverseSend = function() {
-				window.send_to_editor = backup_send;
-			};
-			</script>";
-			if ( $this->opt($id) != '' ) {
-				echo '<br /> <br /><a class="thickbox" href=' . $this->opt($id) . '>' .  __('Currently uploaded image') . '</a>';
-			}
-		}
-		if ( $desc != '' && ! $nested )
-			echo '<br /> ' . $desc;
-	} // END good ol` regular text input.
-
-
-
-	public function display_option( $args = array() ) {
+	public function display_optsion( $args = array() ) {
 		extract( $args );
 
 		$options = get_option( $this->db_prefix . '_options');
@@ -422,6 +315,16 @@ class quark_admin_options
 			$options[$id] = $std;
 
 		echo $enclose[ 'before' ];
+
+		if ( method_exists( $this, $type ) ) {
+			call_user_func_array( array( &$this, $type ), $args );
+		}
+
+		echo $enclose[ 'after' ];
+
+
+		return;
+
 		switch( $type ) {
 
 			////////////////////////////////////////////////
@@ -480,33 +383,17 @@ class quark_admin_options
 
 
 			////////////////////////////////////////////////
-			//////////////// Rich text edit ////////////////
+			//////////////// Colorpicker ///////////////////
 			////////////////////////////////////////////////
-			// case 'richtext':
-			// if (!empty($textarea_size)) {
-			// 	$text_cols = ' cols="' . $textarea_size['cols'] . '"';
-			// 	$text_rows = ' rows="' . $textarea_size['rows'] . '"';
-			// 	if( isset( $textarea_size[ 'autocomplete' ] ) )
-			// 		$autocomplete = $textarea_size[ 'autocomplete' ];
-			// }
-			// echo '<p class="switch-editors" align="right"><a class="toggleVisual">Visual</a><a class="toggleHTML">HTML</a></p>';
-			// echo '<textarea' . $field_class . $text_cols . $text_rows . ' id="' . $id . '" class="rich-text-editor" name="' . $this->db_prefix . '_options[' . $id . ']">' . $options[$id] . '</textarea>';
-			// if( $desc != '' )
-			// 	echo '<br /> ' . $desc;
-			// if( function_exists( 'wp_tiny_mce' ) ) wp_tiny_mce(false, array( 'editor_selector' => 'rich-text-editor' , 'height' => 300, 'mce_external_plugins' => array()));
-			// echo '<script type="text/javascript">
-			// jQuery(document).ready(function() {
-			// jQuery("a.toggleVisual").click(function(){
-			// 		tinyMCE.execCommand("mceAddControl", false, "' . $id . '");
-			// });
-			// jQuery("a.toggleHTML").click(function(){
-			// 		tinyMCE.execCommand("mceRemoveControl", false, "' . $id .'");
-			// });
-			//
-			// }); // END document ready
-			//
-			// </script>';
-			// break;
+			case 'colorpicker':
+			$this->colorpicker( array(
+				'id'	=>	$id,
+				'name'	=>	$this->db_prefix . '_options[' . $id . ']',
+				'desc'	=>	$desc,
+				'textarea_length'	=> $textarea_length,
+				'driver'	=>	$driver
+				 ));
+			break;
 
 
 			////////////////////////////////////////////////
@@ -542,6 +429,32 @@ class quark_admin_options
 
 
 			////////////////////////////////////////////////
+			//////////////// Export options ////////////////
+			////////////////////////////////////////////////
+			case 'export':
+			$this->export(array(
+					'id' => $id,
+					'name' => $this->db_prefix . '_options[' . $id . ']',
+					'desc' => $desc,
+					'text_length' => $text_length,
+					'type' => 'export'
+			));
+			break;
+
+			////////////////////////////////////////////////
+			//////////////// Import options ////////////////
+			////////////////////////////////////////////////
+			case 'import':
+			$this->import(array(
+					'id' => $id,
+					'name' => $this->db_prefix . '_options[' . $id . ']',
+					'desc' => $desc,
+					'type' => 'import'
+			));
+			break;
+
+
+			////////////////////////////////////////////////
 			//////////////// Color picker //////////////////
 			////////////////////////////////////////////////
 			case 'color':
@@ -569,10 +482,10 @@ class quark_admin_options
 						);
 
 					if ( $field['type'] == 'textinput' ) {
-						$args_arr['text_length'] = $field[ 'text_length' ];
+						$args_arr['text_length'] = isset( $field[ 'text_length' ] ) ? $field[ 'text_length' ] : '';
 						$args_arr['type'] = 'text';
 					} elseif ( $field['type'] == 'media-upload' ) {
-						$args_arr['text_length'] = $field[ 'text_length' ];
+						$args_arr['text_length'] = isset( $field[ 'text_length' ] ) ? $field[ 'text_length' ] : '';
 						$args_arr['type'] = 'media-upload';
 						$field[ 'type' ] = 'textinput';
 					} elseif ( $field['type'] == 'select' ) {
@@ -582,6 +495,9 @@ class quark_admin_options
 					} elseif ( $field['type'] == 'radio' ) {
 						$args_arr['choices'] = $field[ 'choices' ];
 					}
+
+
+
 					// Nested
 					$args_arr['nested'] = true;
 
@@ -616,25 +532,593 @@ class quark_admin_options
 	}
 
 
-	private function opt( $id, $just=false ) {
-		if ( ! isset( $this->options ) ) return false;
-		$arr = explode( 'KKKKK', $id );
-		if ( $just && count( $arr ) > 1) return $arr[ 1 ];
-		if ( is_array( $arr) && count( $arr ) > 1 && isset( $this->options[ $arr[ 0 ] ]))
-			return $this->options[ $arr[ 0 ] ][ $arr[ 1 ] ];
-		else
-			return ( isset( $this->options ) && isset( $this->options[ $id ] ) )
-						? $this->options[ $id ]
-						: false;
+
+
+	/**
+	 * Regular checkbox.
+	 */
+	private function checkbox( $args=array() ) {
+		$defs = array(
+				'id'	=>	'',
+				'name'	=>	'',
+				'desc'	=>	'',
+				'nested'=>	false );
+		extract(wp_parse_args( $args, $defs ));
+
+		$checked = '';
+		if( isset( $this->options ) && $this->get_option( $id ) == 'on' ) $checked = ' checked="checked"';
+		echo '<input id="' . $id . '" type="checkbox" name="' . $name . '" value="on"' . $checked . '/><label for="' . $id . '"> ' . $desc . '</label>';
+	} // end checkbox.
+
+
+	/**
+	 * 	Select or Combo box.
+	 */
+	private function select($args=array()) {
+		$defs = array(
+				'id'		=>	'',
+				'name'		=>	'',
+				'desc'		=>	'',
+				'choices'	=> array(),
+				'extras'	=>	'',
+				'nested'	=>	false );
+		extract(wp_parse_args( $args, $defs ));
+
+		echo '<select id="' . $id . '" name="' . $name . '">';
+		foreach ( $choices as $value=>$label ) {
+			$selected = '';
+			if ( $this->get_option($id) == $value ) $selected = ' selected';
+
+			if ( stristr( $value, 'startoptgroup' ) ) {
+				echo '<optgroup label="' . $label . '">';
+			} else if ( stristr( $value, 'endoptgroup') ) {
+				echo '</optgroup>';
+			} else {
+				echo '<option value="' . $value . '"' . $selected . '>' . $label . '</option>';
+			}
+		}
+		echo '</select>';
+		if ( $extras != '' && ! $nested )
+			echo $extras;
+		if( $desc != '' && ! $nested )
+			echo $desc;
 	}
 
-	public function validate_options( $input ) {
+
+	/**
+	 * Radio boxes
+	 */
+	private function radio( $args=array() ) {
+		$defs = array(
+				'id'		=>	'',
+				'name'		=>	'',
+				'desc'		=>	'',
+				'choices'	=>	array(),
+				'extras'	=>	'',
+				'nested'	=>	false
+				);
+		extract(wp_parse_args( $args, $defs ));
+
+		$i = 0;
+		foreach( $choices as $value => $label ) {
+			$selected = '';
+			if ( $this->get_option( $id ) == $value )
+				$selected = ' checked="checked"';
+		echo '<input type="radio" name="' . $name . '" value="' . $value . '"' . $selected . '>  &nbsp;<label for="' . $id . $i . '">' . $label . '</label>';
+		if ( $i < count( $choices ) -1 )
+			echo '<br />';
+		$i++;
+		}
+		if( $desc != '' && ! $nested  )
+			echo '<br /> ' . $desc;
+
+	} // I am radio. End.
+
+
+	/**
+	 * Textareas
+	 */
+	private function textarea($args=array()) {
+		$defs = array(
+				'id'			=>	'',
+				'name'			=>	'',
+				'desc'			=>	'',
+				'textarea_size'	=>	array(),
+				'nested'		=>	false );
+			extract(wp_parse_args( $args, $defs ));
+
+		$text_cols = ''; $text_rows = ''; $autocomplete = 'on';
+		if (!empty($textarea_size)) {
+			$text_cols = ' cols="' . $textarea_size['cols'] . '"';
+			$text_rows = ' rows="' . $textarea_size['rows'] . '"';
+			if( isset( $textarea_size[ 'autocomplete' ] ) )
+				$autocomplete = $textarea_size[ 'autocomplete' ];
+		}
+		echo '<textarea' . $text_cols . $text_rows . ' autocomplete="' . $autocomplete . '" id="' . $id . '" name="' .  $name . '">' . $this->get_option( $id ) . '</textarea>';
+		if( $desc != ''  && ! $nested )
+			echo '<br /> ' . $desc;
+	} // end fun textarea.
+
+
+	private function fileinput( $id, $name, $desc, $nested=false ) {
+		$defs = array(
+				'id'	=>	'',
+				'name'	=>	'',
+				'desc'	=>	'',
+				'nested'=>	false );
+		wp_parse_args( $args, $defs );
+		echo '<input type="file" id="' . $id . '" name="' . $id . '" />';
+		if ( $desc != ''  && ! $nested )
+			echo '<br /> ' . $desc;
+		if ( $file = $this->get_option( $id ) ) {
+			// var_dump($file);
+			echo '<br /> <br /><a class="thickbox" href=' . $file['url'] . '>' .  __('Currently uploaded image', 'idq-general' ) . '</a>';
+		}
+	}
+
+
+
+	/**
+	 * Include a colorpicker widget. Based on text input.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function colorpicker( $args=array() ) {
+		$defs = array(
+				'id'	=>	'',
+				'name'	=>	'',
+				'desc'	=>	'',
+				'text_length'	=>	'',
+				'driver'	=>	'iris',
+				'nested'=>	false
+			);
+
+		extract(wp_parse_args( $args, $defs ));
+		static $colorz = 1;
+
+		$args[ 'class' ] = 'colorpicker';
 		// echo '<pre>';
-		// print_r($input);
-		//
+		// echo 'Exporting : $args' . "\n";
+		// echo "====================\n";
+		// var_export($args);
+		// echo '</pre>';
+		// if ( in_array( $driver, array( "iris", "jscolor", "farbtastic" ) ) ) {
+			// $this->admin_scripts[] = $driver;
+
+			// echo '<pre>';
+			// echo 'Exporting : microtime()' . "\n";
+			// echo "====================\n";
+			// var_export(microtime());
+			// echo '</pre>';
+
+
+			wp_enqueue_script( $driver );
+			wp_enqueue_style( $driver );
+
+			$args[ 'class' ] .= " colorpicker-" . $colorz . " colorpicker-" . $driver;
+		// } else {
+			// return;
+		// }
+
+		$this->text( $args );
+
+		if ( $driver == 'farbtastic' )
+			echo "<div id='farbtastic-" . $colorz . "' class='farbtastic'></div>";
+
+		$colorz++;
+	} // END function colorpicker
+
+
+	/**
+	 * Media Uploader.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function upload( $args=array() ) {
+		$defs = array(
+				'id'	=>	'',
+				'name'	=>	'',
+				'desc'	=>	'',
+				'text_length'	=>	'',
+				'type'	=>	'text',
+				'class'	=>	'',
+			);
+		extract(wp_parse_args( $args, $defs ));
+
+		$args[ 'class' ] = 'media-uploader media-uploader-input';
+
+
+		$args[ 'extra' ] = '<input id="' . $id . '_button" class="button-secondary media-uploader-button" value="Upload or Choose" type="button" />';
+
+		$this->text( $args );
+
+
+		if ( $this->get_option($id) != '' ) {
+			// echo '<br /> <br /><a class="thickbox" href=' . $this->get_option($id) . '>' .  __('Currently uploaded image', 'idq-general') . '</a>';
+			echo '<br /> <br /><a class="thickbox" href=' . $this->get_option($id) . '><img class="wpui-uploaded-image" src="' . $this->get_option( $id ) . '" height="40px" />' .  __('Currently uploaded image', 'idq-general') . '</a>';
+		}
+
+	} // END function upload
+
+
+	/**
+	 * Textinput.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function text( $args=array() ) {
+		$defs = array(
+				'id'	=>	'',
+				'name'	=>	'',
+				'desc'	=>	'',
+				'text_length'	=>	'',
+				'type'	=>	'text',
+				'class'	=>	'',
+				'extra'	=>	''
+			);
+		extract(wp_parse_args( $args, $defs ));
+
+		$value = ($this->get_option( $id )) ? $this->get_option( $id ) : '';
+
+		$attrs = ' type="text"';
+
+		if ( ! empty( $class ) )
+			$attrs .= ' class="' . $class . '"';
+
+		if ( ! empty( $text_length ) )
+			$attrs .= ' size="' . $text_length . '"';
+
+		echo '<input' . $attrs  . ' id="' . $id . '" name="' . $name . '" value="' . $value . '" />';
+
+		if ( $extra != '' ) echo $extra;
+
+		if ( $desc != '' )
+			echo $desc;
+	} // END function text
+
+
+
+	/**
+	 * Regular text input - Default.
+	 */
+	private function textinput( $args=array() ) {
+		$defs = array(
+				'id'	=>	'',
+				'name'	=>	'',
+				'desc'	=>	'',
+				'text_length'	=>	'',
+				'type'	=>	'text',
+				'nested'=>	false );
+		extract(wp_parse_args( $args, $defs ));
+
+		$style = '';
+		if ( $type == 'farbtastic' )
+			$style = ' style="position:relative" ';
+		elseif( $type == 'jscolor' )
+			$style = ' class="color {hash:true}" ';
+		elseif ( $type == 'media-upload' )
+			$style = ' style="text-align : right;"';
+
+		if ($text_length != '') {
+			$text_length = ' size="' . $text_length . '"';
+		}
+		$thisVal = ($this->get_option( $id )) ? $this->get_option( $id ) : '';
+
+		echo '<input' . $text_length . $style  . ' type="text" id="' . $id . '" name="' . $name . '" value="' . $thisVal . '" />';
+		$nid = $id;
+
+		if ( $type == 'farbtastic' ) {
+			// Init farbtastic color-picker.
+			echo '<div id="colorpicker"></div>';
+			echo '<script type="text/javascript">
+				// Hide the colorpicker first.
+				jQuery("#colorpicker").hide();
+				// Open the color picker on clicking the textfield.
+				jQuery("#' . $nid . '").click(function() {
+					jQuery("#colorpicker").farbtastic("#' . $nid . '").slideDown(500);
+				});
+				// Hide the color-picker on Double click.
+				jQuery("#' . $nid . '").dblclick(function() {
+					jQuery("#colorpicker").slideUp(300);
+				});
+		</script><!-- End farbtastic init script. -->';
+		} else if( $type == 'jscolor' ) {
+			// Jscolor, chosen.
+			$optjsurl = get_bloginfo('template_url'). '/lib/options/js/';
+			wp_enqueue_script('jscolor', $optjsurl . '/jscolor/jscolor.js');
+		} else if( $type == 'media-upload' ) {
+			echo '<input id="' . $nid . '_trigger" type="button" class="button-secondary" value="Upload" />';
+			$post_id = 0;
+			echo "<script type=\"text/javascript\">
+			instance = 0;
+			jQuery('#" . $nid . "_trigger').click(function() {
+				instance++; if ( instance > 1 ) return false;
+				backup_send = window.send_to_editor;
+				formfield = jQuery('label[for=$nid]').text();
+				window.send_to_editor = window.send_to_editor_$nid;
+
+				tb_show('Upload images for ' + formfield, 'media-upload.php?post_id=0&type=image&amp;TB_iframe=true');
+				return false;
+
+
+			});
+			window.send_to_editor_$nid  = function(html) {
+				imgURL = jQuery('img', html).attr('src');
+				jQuery('#$nid').val(imgURL);
+				tb_remove();
+				reverseSend();
+				return false;
+			}
+			var reverseSend = function() {
+				window.send_to_editor = backup_send;
+			};
+			</script>";
+			if ( $this->get_option($id) != '' ) {
+				echo '<br /> <br /><a class="thickbox" href=' . $this->get_option($id) . '>' .  __('Currently uploaded image', 'idq-general') . '</a>';
+			}
+		}
+		if ( $desc != '' && ! $nested )
+			echo '<br /> ' . $desc;
+	} // END good ol` regular text input.
+
+
+
+	/**
+	 * Analyse the vars.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function analyze_vars() {
+		if ( empty( $_GET ) ||  ! isset( $_GET[ 'page' ] ) || $_GET[ 'page' ] != $this->page_prefix . "-options" )
+			return;
+
+
+		if ( isset( $_GET[ $this->db_prefix . '-export-options' ] ) ) {
+			$this->download_options();
+		}
+
+	} // END function analyse_vars
+
+
+	/**
+	 * Export the options.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	private function export( $args=array() ) {
+		$nonce = wp_create_nonce( $this->db_prefix . '-export-options' );
+		echo '<a href="' . admin_url( 'options-general.php?page=' . $this->db_prefix .  '-options&' . $this->db_prefix . '-export-options=download&security=' . $nonce ) . '" class="button-secondary">' . __( 'Export Options', 'idq-general' ) . '</a>';
+
+	} // END function export
+
+	/**
+	 * Import exported options via file or text.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function import( $args='' ) {
+		$defs = array(
+				'id'	=>	$this->db_prefix . '-options-importer',
+				'name'	=>	$this->db_prefix . '-options-importer',
+				'desc'	=>	'',
+				'nested'=>	false );
+		$r = wp_parse_args( $args, $defs );
+
+		echo '<input type="file" id="' . $r['id'] . '" name="' . $r[ 'name' ] . '" />';
+		if ( $r['desc'] != ''  && ! $r['nested'] )
+			echo '<br /> ' . $r['desc'];
+
+		// echo '<pre>';
+		// var_export( $_FILES );
+		// echo '</pre>';
+
+		if ( $file = $this->get_option( $r['id'] ) ) {
+			var_dump($file);
+			echo '<br /> <br /><a class="thickbox" href=' . $file['url'] . '>' .  __('Currently uploaded image', 'idq-general' ) . '</a>';
+		}
+
+	} // END function import
+
+	/**
+	 * Add query vars.
+	 *
+	 * @return ( array ) $vars
+	 * @author Kavin Gray
+	 **/
+	function add_queries( $vars ) {
+		array_push( $vars, $this->db_prefix . '-export-options' );
+		return $vars;
+	} // END function add_queries
+
+	/**
+	 * Download options as file.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function download_options( $content=null ) {
+		// $vars = get_query_var( $this->db_prefix . '-export-options' );
+		$vars = $_GET[ $this->db_prefix . '-export-options' ];
+
+		if ( ! isset( $vars ) || $vars == '' ) return;
+
+		$sec = ( isset( $_REQUEST ) && isset( $_REQUEST[ 'security' ] )) ? $_REQUEST[ 'security' ] : false;
+
+		if ( ! isset( $_REQUEST ) || ! isset( $_REQUEST[ 'security' ] ) )
+			wp_die( '<p>' . __( 'Sorry, I\'m afraid that\'s not allowed yet.', 'idq-general' ) . '</p>' );
+
+
+		if ( $vars == 'download' ) {
+
+			if ( ! wp_verify_nonce( $sec, $this->db_prefix . '-export-options' ) ) {
+				wp_die( '<p>' . __( 'Sorry, That\'s not possible yet.', 'idq-general' ) . '</p>' );
+			}
+
+			$content = "<%" . $this->db_prefix . ":OPTIONS:start%>\n" . base64_encode( serialize( $this->options ) ) . "\n<%" . $this->db_prefix . ":OPTIONS:end%>";
+
+			$file_name = $this->db_prefix . "_options.txt";
+
+			if ( ! current_user_can( 'manage_options' ) )
+				wp_die( '<p>' . __( 'You do not appear to have sufficient permissions to export/import plugin\'s options.', 'idq-general' ) . '</p>' );
+
+			header( 'HTTP/1.1 200 O.K' );
+	    $file_size = strlen( $content );
+	    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	    header('Content-Description: File Transfer');
+			header( 'Content-Type: text/plain' );
+	    header("Content-Disposition: attachment; filename=" . $file_name );
+	    header("Content-Length: $file_size" );
+	    header("Expires: 0");
+	    header("Pragma: public");
+	    echo $content;
+	    exit;
+		}
+
+
+	} // END function download_options
+
+
+	/**
+	 * Retrieve the stored option.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	private function get_option( $id, $keyname=false ) {
+		if ( empty( $this->options ) )
+			return false;
+
+		$keyz = explode( "][", $id );
+
+		if ( $keyname && count( $keyz ) > 1 ) return $keyz[ 1 ];
+
+		if ( count( $keyz ) > 1 ) {
+			if ( ! empty( $this->options[ $keyz[ 0 ] ] ) && isset( $this->options[ $keyz[ 0 ] ][ $keyz[ 1 ] ] ) ) {
+				return $this->options[ $keyz[ 0 ] ][ $keyz[ 1 ] ];
+			}
+		} else {
+			return ( isset( $this->options[ $id ] ) ? $this->options[ $id ] : false );
+		}
+
+		return false;
+
+	} // END function get_optionn
+
+
+	public function validate_options( $input ) {
+
+		// $newinput = array();
+		// $import_fields = array();
+		// foreach( $this->fields as $option=>$field ) {
+		// 	if ( $field[ 'type' ] == 'import' ) {
+		// 		$import_fields[] = $field[ 'id' ];
+		// 	}
+		// }
+
+		// echo '<pre>';
+		// var_export($import_fields);
+		// echo '</pre>';
+
+		// echo '<pre>';
+		// var_export( $input );
+		// echo '</pre>';
+		// die();
+
+		// echo '<pre>';
+		// var_export($_REQUEST);
+		// echo '</pre>';
+		// echo '<pre>';
+		// var_export($_POST);
+		// echo '</pre>';
+
+		// echo '<pre>';
+		// var_export( $this->fields );
+		// echo '</pre>';
+
+		foreach ( $this->fields as $fields=>$field ) {
+			if ( $field[ 'type' ] == 'checkbox' ) {
+				if ( ! isset( $input[ $field[ 'id' ] ] ) )
+					$input[ $field[ 'id' ] ] = 'off';
+			}
+		}
+
+		// echo '<pre>';
+		// var_export($_POST);
+		// echo '</pre>';
+		if (
+		isset( $_REQUEST ) && $_REQUEST[ 'action' ] == 'update' &&
+			isset( $_FILES ) &&
+				$_FILES[ $this->db_prefix . '_options' ][ 'size' ][ 'options_import' ]
+		) {
+
+			$overrides = array( "test_form" => false, "mimes" => array( 'txt' => 'text/plain' ) );
+
+			$files = array(
+				"{$this->db_prefix}_options" => array(
+					'options_import' => array(
+			      'name' => false,
+			      'type' => false,
+			      'tmp_name' => false,
+			      'error' => 0,
+			      'size' => 0,
+					)
+				)
+			);
+
+			foreach( $_FILES[ $this->db_prefix . '_options' ]['error'] as $key=>$name ) {
+					$files[ $this->db_prefix . '_options' ][ $key ][ 'name' ] = $_FILES[ $this->db_prefix . '_options' ][ 'name' ][ $key ];
+					$files[ $this->db_prefix . '_options' ][ $key ][ 'type' ] = $_FILES[ $this->db_prefix . '_options' ][ 'type' ][ $key ];
+					$files[ $this->db_prefix . '_options' ][ $key ][ 'tmp_name' ] = $_FILES[ $this->db_prefix . '_options' ][ 'tmp_name' ][ $key ];
+					$files[ $this->db_prefix . '_options' ][ $key ][ 'error' ] = $_FILES[ $this->db_prefix . '_options' ][ 'error' ][ $key ];
+					$files[ $this->db_prefix . '_options' ][ $key ][ 'size' ] = $_FILES[ $this->db_prefix . '_options' ][ 'size' ][ $key ];
+				}
+
+
+			if ( isset( $files[ $this->db_prefix . '_options' ][ 'options_import' ] ) &&  $files[ $this->db_prefix . '_options' ][ 'options_import' ]['size'] > 0 ) {
+				$file = wp_handle_upload( $files[ $this->db_prefix . '_options' ][ 'options_import' ], $overrides );
+				if ( isset( $file[ 'error' ] ) )
+					wp_die( '<h2>Wait.. What??</h2><pre>' . $file[ 'error' ] . "</pre>\n\n<p>" . __( 'Please try only with exported options text file. No tricks, Mister!', 'idq-general' ) );
+
+
+				$input = $this->handle_import( $file[ 'file' ] );
+			}
+
+
+		}
+		// echo '<pre>';
+		// echo 'Exporting : $input' . "\n";
+		// echo "====================\n";
+		// var_export($input);
 		// echo '</pre>';
 		return $input;
 	}
+
+	/**
+	 *
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function handle_import( $file ) {
+		if ( ! $file ) return false;
+
+		$contents = file_get_contents( $file );
+
+		$import = str_replace( array( '<%' . $this->db_prefix .  ':OPTIONS:start%>', '<%' . $this->db_prefix .  ':OPTIONS:end%>' ), "", $contents );
+
+		$import = unserialize( base64_decode( $import ) );
+
+		if ( ! is_array( $import ) ) return false;
+
+		return $import;
+	} // END function handle_import
+
 
 	public function provide_help( $input ) {
 
