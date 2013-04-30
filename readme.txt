@@ -4,9 +4,9 @@ Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, widget, dialogs, custom themes, themeroller, CSS3
 Requires at least: 3.1
-Tested up to: 3.5
-Stable tag: 0.8.5
-License: GPLv2 or later
+Tested up to: 3.5.1
+Stable tag: 0.8.7
+License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Easily add Tabs, Accordion, dialogs and spoilers to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
@@ -41,9 +41,6 @@ Including posts and feeds have never been more easier. With a single post shortc
 
 WP UI comes with rich documentation bundled in the options page and right within the editor. While they work great for a quick reference on shortcodes or arguments, there is a [dedicated documentation](http://kav.in/projects/) site, built and updated every day.
 
-= Status on Support ( as from Aug 2012 ) =
-
-Recent struggles on work-life imbalance has greatly reduced my available time providing full time support. While I will try my best on keeping up the previous levels of support, **I highly encourage & request help from loyal users of WP UI, who can help new users as well share their experiences & solutions**. Plugin will be kept updated. Please use the WordPress support forums for help.
 
 = Translations =
 
@@ -166,6 +163,15 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 4. Both jQuery UI themes and WP UI CSS3 styles preview. Picture shows a full CSS3 style - wpui-sevin.
 
 == Changelog ==
+
+= 0.8.7 =
+* Updated for WP 3.5 and greater.
+* Now Export and import options on options page
+* Better support for IE 7 - 10, Accordions fix for IE.
+* Styles now based on scss, contact me for source files.
+* Fixed admin page buttons and dialogs.
+* Numerous performance improvements and bug fixes.
+* Updated for latest version for jQuery and jQuery UI.
 
 = 0.8.5 =
 * Plugin is now on [GitHub](https://github.com/kavingray/WP-UI).
@@ -291,6 +297,9 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 
 == Upgrade Notice ==
+
+= 0.8.7 =
+Save the options after update, Clear the caches( WP side if using Cache plugins.). Thanks.
 
 = 0.8.5 =
 Save the options and clear the cache. That should do it.

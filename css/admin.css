@@ -28,6 +28,8 @@
 	margin: 0 1px;
 	font: bold 14px 'Arial', Sans-serif;
 	display : inline-block;
+	*display : inline;
+	*zoom : 1;
 }
 
 .d-tabs ul.ui-tabs-nav li a {
@@ -361,6 +363,7 @@ div.cols ul {
 	text-align:center;
 	float:left;
 	width: 100%;
+	margin-left : 0px;
 }
 
 div.cols ul li {
@@ -1759,6 +1762,7 @@ ul.wpui-banner {
 	border: 1px solid #000;
 	box-shadow: 0 1px 0 #9FA4D6 inset, 0 -6px 0 #44465B inset;
 	border-radius: 5px;
+	*height : 1%;
 }
 
 
@@ -1929,6 +1933,7 @@ ul.wpui-banner li ul.wpui-submenu {
 	position : absolute;
 	background : #687189;
 	width: 14em;
+	margin-left : 0;
 	z-index: 10000;
 	left: 0;
 /*	top: 100%;*/
@@ -1968,8 +1973,9 @@ ul.wpui-banner li ul.wpui-submenu li a {
 }
 
 ul.wpui-banner li.last ul.wpui-submenu {
-    left: -4.5em;
-    text-align: center;
+	left: -8em;
+	text-align: center;
+	width: 18em;
 }
 
 ul.wpui-banner li.last ul.wpui-submenu li {
@@ -1980,12 +1986,12 @@ ul.wpui-banner li.last ul.wpui-submenu li {
 	text-shadow : 0 1px 0 #000;
 }
 
-
-
-ul.wpui-banner li.last:hover ul.wpui-submenu {
-	left : -3.5em;
+ul.wpui-banner li.last ul.wpui-submenu li a {
+	padding: 0.5em;
 }
 
-
+ul.wpui-banner li.last ul.wpui-submenu li a span {
+	display:none;
+}
 
 

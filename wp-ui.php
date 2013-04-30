@@ -222,7 +222,6 @@ class wpUI {
 
 		} else {
 			wp_enqueue_script( 'wp-ui-min', $plugin_url . 'js/wp-ui.js', $deps, WPUI_VER );
-			// wp_enqueue_script( 'wp-ui-min', $plugin_url . 'js/testfile.js', $deps, WPUI_VER );
 
 		}
 		wp_localize_script( 'wp-ui-min', 'wpUIOpts', $this->get_script_options());

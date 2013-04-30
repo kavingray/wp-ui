@@ -1053,7 +1053,7 @@ class quark_admin_options
 		// echo '</pre>';
 		if (
 		isset( $_REQUEST ) && $_REQUEST[ 'action' ] == 'update' &&
-			isset( $_FILES ) &&
+			! empty( $_FILES ) &&
 				$_FILES[ $this->db_prefix . '_options' ][ 'size' ][ 'options_import' ]
 		) {
 

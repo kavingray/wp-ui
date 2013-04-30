@@ -685,7 +685,6 @@ jQuery( function() {
 			this.header = $this.find( this.o.header );
 			this.id = $this.attr( 'id' );
 			
-			
 			if ( this.o.wpuiautop ) {
 				$this.find('p, br')
 					.not( this.o.content + ' > br, ' + this.o.content + '.wp-tab-content > p' )

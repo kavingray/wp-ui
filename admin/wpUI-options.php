@@ -640,14 +640,14 @@ $wpui_options_list = array(
 		'id'		=>	'options_export',
 		'title'		=>	__('Export options', 'wp-ui'),
 		'desc'		=>	__( 'Download the options as a file.', 'wp-ui' ),
-		'section'	=>	'debug',
+		'section'	=>	'advanced',
 		'type'		=>	'export'
 	),
 	'options_import'	=>	array(
 		'id'		=>	'options_import',
 		'title'		=>	__('Import options', 'wp-ui'),
 		'desc'		=>	__( 'Import exported options.', 'wp-ui' ),
-		'section'	=>	'debug',
+		'section'	=>	'advanced',
 		'type'		=>	'import'
 	),
 
@@ -1083,7 +1083,8 @@ function wpui_plugin_info_above() {
 				<!-- .wpui-submenu -->
 				<ul class="wpui-submenu">
 					<li class="no-hover">
-						<img src="<?php echo plugins_url( "/wp-ui/images/paypal-donate.gif" ) ?>" alt="Securely Donate with Paypal, and Support the development of the plugin and site!" /><p>If you like this plugin and the way it works and helps with your site, Please donate to help maintain the Plugin and server costs.<br />Thank you.</p>
+						<a href="http://kav.in/donation" target="_blank">
+						<img src="<?php echo plugins_url( "/wp-ui/images/paypal-donate.gif" ) ?>" alt="Securely Donate with Paypal, and Support the development of the plugin and site!" /></a><p>If you like this plugin and the way it works and helps with your site, Please donate to help maintain the Plugin and server costs.<br />Thank you.</p>
 					</li>
 				</ul>
 				<!-- /.wpui-submenu -->
@@ -1132,7 +1133,7 @@ function wpui_plugin_info_below() {
 	<div class="acc-plus cols">
 		<h4><span></span><?php _e( 'Our Premium Plugins', 'wp-ui' ); ?></h4>
 			<div class="accplus-banner">
-				<a target="_blank"  href="http://codecanyon.net/item/accordions-plus-for-wordpress/3684077" title="Try Accordions Plus"><img src="http://kavin.dev/resources/plugins/wp-ui/images/accplus.jpg" width="245px height="106px"><span class="wpui-onhover-text">Accordions Plus</span></a>
+				<a target="_blank"  href="http://codecanyon.net/item/accordions-plus-for-wordpress/full_screen_preview/3684077" title="Try Accordions Plus"><img src="http://kavin.dev/resources/plugins/wp-ui/images/accplus.jpg" width="245px height="106px"><span class="wpui-onhover-text">Accordions Plus</span></a>
 			</div>
 	</div>
 	<!-- /.acc-plus cols -->
@@ -1141,7 +1142,7 @@ function wpui_plugin_info_below() {
 		<h4><span></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
 		<ul>
 		<li>
-			<a target="_blank" href="http://kav.in/donation"><?php _e( 'Consider a donation.', 'wp-ui' ); ?></a>
+			<a target="_blank" href="http://kav.in/projects/blog/need-wpui-plugin-testers/"><?php _e( 'Need Beta Testers.', 'wp-ui' ); ?></a>
 		</li>
 		<li>
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 &#9733; rating at Wordpress.org', 'wp-ui' ); ?></a>
