@@ -402,7 +402,7 @@ div.cols p {
 
 
 div.cols h4 span {
-	background: url( "../images/icons/glyphicons-white-additions.png" ) no-repeat;
+	background: url( "../images/glyphicons-white-additions.png" ) no-repeat;
 	background-position : 14px 14px;
 	width : 14px;
 	height : 14px;
@@ -1872,7 +1872,7 @@ ul.wpui-banner li.last a {
 
 
 span.glyphicon {
-	background : url( "../images/icons/glyphicons-white-additions.png" ) no-repeat;
+	background : url( "../images/glyphicons-white-additions.png" ) no-repeat;
 	width : 14px;
 	height : 14px;
 	display : inline-block;
