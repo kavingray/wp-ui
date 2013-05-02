@@ -287,11 +287,6 @@ div#wpui-cap .wpui-desc p {
 }
 
 
-#options-wrap {
-	clear:left;
-	max-width: 700px;
-	margin: 20px auto;
-}
 
 a.cap-icon-link {
 	display: none;
@@ -313,11 +308,14 @@ a.cap-icon-link {
 
 }
 
-#optionsform {
+/*#optionsform {
 	float : left;
 	margin-right : 280px;
-}
+}*/
 
+#optionsform {
+	width : 700px;
+}
 
 
 div.info-below {
@@ -363,6 +361,7 @@ div.cols ul {
 	text-align:center;
 	float:left;
 	width: 100%;
+	margin : 0px;
 	margin-left : 0px;
 }
 
@@ -480,10 +479,7 @@ div.wpui-credits h4 span {
 	background-position : -265px 0;
 }
 
-#optionsform {
-	float: left;
-	width: 700px;
-}
+
 
 
 
@@ -1993,5 +1989,33 @@ ul.wpui-banner li.last ul.wpui-submenu li a {
 ul.wpui-banner li.last ul.wpui-submenu li a span {
 	display:none;
 }
+/*
+
+#options-wrap.pers {
+	-webkit-perspective : 450;
+}
+
+#options-wrap.pers .ui-tabs {
+	-webkit-transform : rotateY(20deg);
+	-webkit-transform-origin-x : 0;
+	-webkit-transition : all 0.4s ease-in;
+
+}
+
+.tabwrap {
+	width : 90%;
+}
+
+.info-below.srep {
+	-webkit-perspective : 450;
+
+}
 
 
+
+.info-below.srep #wpui-cap-below {
+	-webkit-transform : rotateY( -50deg );
+	-webkit-transform-origin-x : 70%;
+	-webkit-transition : all 0.4s ease-in;
+
+}*/

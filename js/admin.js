@@ -10,6 +10,11 @@ jQuery(document).ready(function() {
 	jQuery( '.tab-bottom-nav a, .tab-top-nav a' ).removeClass('ui-button');	
 
 
+	// jQuery( '.info-below' ).addClass( 'srep' ).hover( function() {
+	// 	jQuery( this ).toggleClass( 'srep' );
+	// 	jQuery( '#options-wrap' ).toggleClass( 'pers' );
+	// });
+
 
 	/**
 	 *	Colorbox windows.
@@ -202,6 +207,8 @@ jQuery(document).ready(function() {
 		jQuery( 'div.ui-tabs-panel' )
 			.wrapAll( '<div class="ui-tabs-panel-wrapper" />' );
 
+
+			jQuery( 'p.submit' ).appendTo( 'div.ui-tabs-panel-wrapper' );
 
 	
 /**
