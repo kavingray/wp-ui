@@ -10,17 +10,6 @@ jQuery(document).ready(function() {
 
 	jQuery( '.tab-bottom-nav a, .tab-top-nav a' ).removeClass('ui-button');	
 
-	
-	// jQuery( '#optionsform' ).addClass( 'nond3' );
-	// jQuery( '#wpui-options-sidebar' )
-	// .addClass( 'd3' )
-	// .hover( function(e ) {
-	// 	e.stopPropagation();
-	// 	jQuery( this ).toggleClass( 'd3' );
-	// 	jQuery( '#optionsform' ).toggleClass( 'nond3 d3' );
-	// 	
-	// 	return false;
-	// });
 
 
 	/**
