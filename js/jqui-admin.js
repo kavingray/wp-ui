@@ -17,9 +17,6 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 		
 		base.fileList = ( base.$el.val() != '' ) ? JSON.parse( base.$el.val()) : {};
 
-		base.ble = false;
-		if ( typeof( wpUIOpts ) == 'object' && wpUIOpts.bleeding == 'on' ) base.ble = true;
-
         base.$el.data("wpui.jquiThemeManage", base);
 
         base.init = function(){
@@ -257,10 +254,10 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				return false;
 			});
 			
-			base.table.bind( 'adjust', function() {
-				if ( ! base.ble ) return false;
-				jQuery( '.ktabs' ).ktabs( 'fixheight' );
-			});
+			// base.table.bind( 'adjust', function() {
+			// 	// if ( ! base.ble ) return false;
+			// 	// jQuery( '.ktabs' ).ktabs( 'fixheight' );
+			// });
 			
 			
 			
@@ -316,7 +313,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			}, response;			
 			
 				jQuery.post( ajaxurl, data, function( response ) {
-					console.log( response ); 
+					// console.log( response ); 
 					var resp = JSON.parse( response );
  					if ( typeof( resp ) != 'object' ) return false;
 

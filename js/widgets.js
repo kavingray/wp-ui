@@ -10,7 +10,7 @@ jQuery( function( $ ) {
 	$( '.widgets-sortables' ).on( 'sortreceive', function( e, ui ) {
 		if ( /wpui\-\manual/.test( ui.item.attr( 'id' ) ) ) {
 			el = $( this ).find( '.ui-draggable' );
-			console.log( "It is him" ); 
+
 		 // $wpuiMan = $wpuiMan.add( el );
 			
 			setTimeout(function() {

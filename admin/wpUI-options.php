@@ -539,10 +539,17 @@ $wpui_options_list = array(
 	/**
 	 * Advanced options
 	 */
-	'bleeding_edge'	=> array(
-		'id'		=>	'bleeding_edge',
+	'script_haz_compatz'	=> array(
+		'id'		=>	'use_old_scripts',
 		'title'		=>	__( 'Old version', 'wp-ui' ),
-		'desc'		=>	__( 'Use Old Scripts API. <em>Caution : Unsupported with latest versions of jQuery-UI.</em>', 'wp-ui' ),
+		'desc'		=>	__( 'Use Old Scripts API. <em>Caution : Unsupported with latest versions of jQuery-UI and subsequently current WP UI</em>. <br />Clearing the Cache should make this option unnecessary, 100%.', 'wp-ui' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	'widget_haz_compatz'	=> array(
+		'id'		=>	'use_old_widgets',
+		'title'		=>	__( 'Older WP widgets.', 'wp-ui' ),
+		'desc'		=>	__( 'Use Widgets from older version of WP UI.', 'wp-ui' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
@@ -1361,14 +1368,15 @@ function get_wpui_default_options() {
 			'width'		=>	'100',
 			'height'	=>	'100'
 		),
-		'post_widget_number'		=>	'3',
-		'jquery_disabled'			=>	'on',
-		'cdn_jquery'		=>	'off',
-		'docwrite_fix'				=>	'on',
-		'alt_sc'					=>	'off',
-		'bleeding_edge'				=>	'off',
-		'misc_options'				=>	"hashing_timeout=1000\ntinymce_icon_row=3",
-		'version'					=>	WPUI_VER
+		'post_widget_number' =>	'3',
+		'jquery_disabled'    =>	'on',
+		'cdn_jquery'         =>	'off',
+		'docwrite_fix'       =>	'on',
+		'alt_sc'             =>	'off',
+		'use_old_scripts'    =>	'off',
+		'use_old_widgets'    =>	'off',
+		'misc_options'       =>	"hashing_timeout=1000\ntinymce_icon_row=3",
+		'version'            =>	WPUI_VER
 	);
 	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';
 	return $defaults;

@@ -32,7 +32,7 @@ define( 'WPUI_VER', '0.8.7' );
 // print_r( $opts );
 // echo '</pre>';
 
-global $wp_ui, $wpui_bleeding;
+global $wp_ui;
 
 $wp_ui = new wpUI;
 
@@ -60,14 +60,6 @@ class wpUI {
 
 		// Get the options.
 		$this->options = get_option('wpUI_options', array());
-
-
-		// Bleeding edge - Experimental
-		global $wpui_bleeding;
-		$wpui_bleeding = ( isset( $this->options[ 'bleeding_edge' ] ) &&
-		 					$this->options[ 'bleeding_edge' ] == 'on' ) ?
-		 					true : false;
-		$this->bleeding = $wpui_bleeding;
 
 
 		// Translation.
@@ -146,7 +138,14 @@ class wpUI {
 
 		if ( isset( $this->options[ 'enable_widgets' ] ) && $this->options[ 'enable_widgets' ] == 'on' ) {
 /*			$widVer = ( floatval( get_bloginfo( 'version' ) ) >= 3.3 ) ? '-3.3' : '';*/
-			include_once( $this->plugin_dir . 'inc/widgets.php' );
+			if ( isset( $this->options[ 'use_old_widgets' ] ) && $this->options[ 'use_old_widgets' ] == 'on' ) {
+				include_once( $this->plugin_dir . 'inc/widgets-old.php' );
+				
+			} else {
+				include_once( $this->plugin_dir . 'inc/widgets.php' );
+				
+			}
+			
 		}
 
 
@@ -187,20 +186,8 @@ class wpUI {
 
 		// $deps = array( 'jquery', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-ui-dialog', 'jquery-ui-button' );
 
-		// wp_register_script('jquery-easing', $plugin_url . '/js/jquery.easing.1.3.js', $deps );
 		
 		$deps = array( 'jquery' );
-		
-		if ( ! is_admin() && ( isset( $this->options[ 'jquery_disabled' ] ) && $this->options[ 'jquery_disabled' ] == 'on' ) ) {
-			
-
-			
-		} else {
-			
-
-				
-		} // END check for jQuery is to be disabled.
-
 
 		if ( ! is_admin() && ( isset( $this->options[ 'cdn_jquery' ] ) && $this->options[ 'cdn_jquery' ] == 'on' ) ) {
 			wp_deregister_script( 'jquery-ui' );
@@ -228,7 +215,7 @@ class wpUI {
 		}
 
 
-		if ( $this->bleeding ) {
+		if ( isset( $this->options[ 'use_old_scripts' ] ) && $this->options[ 'use_old_scripts' ] == 'on' ) {
 			wp_enqueue_script( 'wp-ui-min', $plugin_url . 'js/wp-ui-old.js', $deps, WPUI_VER );
 
 		} else {
@@ -293,7 +280,6 @@ class wpUI {
 			"cookies"			=>	isset( $this->options['use_cookies'] ) ? $this->options['use_cookies'] : '',
 			"hashChange"		=> isset( $this->options['linking_history'] ) ? $this->options['linking_history'] : '',
 			"docWriteFix"		=> isset( $this->options['docwrite_fix'] ) ? $this->options['docwrite_fix'] : '',
-			'bleeding'			=>	isset( $this->options[ 'bleeding_edge' ] ) ?  $this->options[ 'bleeding_edge' ]  : 'off',
 			'linking_history'			=>	isset( $this->options[ 'linking_history' ] ) ?  $this->options[ 'linking_history' ]  : 'off',
 			'misc_options'		=>	isset( $this->options[ 'misc_options' ] ) ?  $this->options[ 'misc_options' ]  : 'hello=world'
 		);
@@ -438,7 +424,6 @@ class wpUI {
 			// Accordion only options below
 			'active'		=>	false,
 			'background'	=>	'true',
-			'engine'		=>	'ui',
 			'autoheight'	=>	'off',
 			'sortable'		=>	'false',
 			'collapsible'	=>	'false'
@@ -491,7 +476,7 @@ class wpUI {
 				$class .= ' acc-active-' . ( $active - 1 );
 			}
 		} else {
-			$class = ( $this->bleeding && $engine == 'wp-ui' ) ? 'ktabs' : 'wp-tabs';
+			$class = 'wp-tabs';
 		}
 
 		$class .= ' ' . $style;
@@ -501,18 +486,6 @@ class wpUI {
 		$id = ( ( $type == 'accordion' ) ? 'wp-accordion-' : 'wp-tabs-' ) . $wpui_tabs_id;
 
 		$output .= '<div id="' . $id . '" class="' . $class . '">' . do_shortcode($content) . '</div><!-- end div.wp-tabs -->';
-
-		if ( $engine == 'wp-ui' ) {
-			$output .= '<script type="text/javascript">';
-			$output .= 'thisisIT' . $wpui_tabs_id . '  = setInterval( function() { ';
-			$output .= "if ( typeof(jQuery.fn.ktabs) == 'function' ) {";
-			$output .= 'jQuery( "#wp-tabs-' . $wpui_tabs_id . '" ).ktabs({ elements : { header : ".wp-tab-title", content : ".wp-tab-content"}, animateSelect : false, mode : "' . $mode . '" ';
-			$output .= ( $mode == 'vertical' ) ? ', buffer : { height : 40 } ' : '';
-			$output .= ' });';
-			$output .= 'clearInterval( thisisIT'  . $wpui_tabs_id .  ' ); }';
-			$output .= '}, 300 );';
-			$output .= '</script>';
-		}
 
 		return $output;
 	} // END function sc_wptabs.

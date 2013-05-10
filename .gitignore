@@ -6,6 +6,7 @@ svn-prop.tmp
 *.log
 *.sql
 *.sqlite
+*.zip
 ._*
 .Spotlight-V100
 .Trashes
@@ -13,7 +14,7 @@ Icon?
 ehthumbs.db
 Thumbs.db
 .tm_properties
-#sass
+sass
 .sass-cache
 config.rb
 *backup*

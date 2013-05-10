@@ -5,7 +5,7 @@ Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, widget, dialogs, custom themes, themeroller, CSS3
 Requires at least: 3.1
 Tested up to: 3.5.1
-Stable tag: 0.8.5
+Stable tag: 0.8.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,13 +165,17 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 == Changelog ==
 
 = 0.8.7 =
-* Updated for WP 3.5 and greater.
-* Now Export and import options on options page
-* Better support for IE 7 - 10, Accordions fix for IE.
-* Styles now based on scss, contact me for source files.
+* Important : [Feature Changes](http://kav.in/u/impr).
+* Updated for WP 3.5 and above.
+* Redone Widgets and Admin page. Backup your old widget data before updating.
+* Rewritten linking support -> Now open dialogs with URL hash.
+* Loading jQuery UI from Google CDN now Optional.
+* Redone Admin options page, with added features - Import, export options.
+* Enhanced support for IE 7 - 10, Accordions fixed for IE 7-9.
+* Styles now based on scss, scss available in GitHub.
 * Fixed admin page buttons and dialogs.
 * Numerous performance improvements and bug fixes.
-* Updated for latest version for jQuery and jQuery UI.
+* Scripts updated for latest version for jQuery and jQuery UI.
 
 = 0.8.5 =
 * Plugin is now on [GitHub](https://github.com/kavingray/WP-UI).
@@ -299,7 +303,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 == Upgrade Notice ==
 
 = 0.8.7 =
-Save the options after update, Clear the caches( WP side if using Cache plugins.). Thanks.
+Visit - kav.in/u/impr. Save the options after update, Clear the caches( WP side if using Cache plugins). Thanks.
 
 = 0.8.5 =
 Save the options and clear the cache. That should do it.

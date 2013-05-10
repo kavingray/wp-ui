@@ -627,14 +627,6 @@
 	
 })( jQuery );
 jQuery( function() {
-	// if ( typeof( wpUIOpts ) != 'undefined' && 
-	//  		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
-	// 			wpUIOpts.misc_opts.hashing_method == 2 )
-	// 	jQuery.wpui.hasher2();
-	// else
-	// 	jQuery.wpui.hasher();
-});
-jQuery( function() {
 	jQuery( 'div#insert_styles' ).styleSwitcher();
 });
 (function( $ ) {
