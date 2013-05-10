@@ -1,0 +1,394 @@
+/*
+ *	Quark CSS3 additions to above simple theme
+ */
+
+.wpui-quark {
+  .ui-tabs {
+    padding: 0px !important;
+    /*	background: -moz-linear-gradient( top, #EEE, #AAA);*/
+    background: #151515;
+    background: -moz-linear-gradient(top, #6e4a40, #4a2f35);
+    background: -webkit-gradient(linear, left top, left bottom, from(#6e4a40), to(#4a2f35));
+    background: -webkit-linear-gradient(top, #6e4a40, #4a2f35);
+    background: -o-linear-gradient(top, #6e4a40, #4a2f35);
+    border: 0px !important;
+    .ui-tabs-panel {
+      .wp-tab-content > .wp-tabs .ui-tabs {
+        box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        -o-box-shadow: none !important;
+      }
+      background: #593C34;
+      background: -moz-linear-gradient(top, #6e4a40, #4a2f35);
+      background: -webkit-gradient(linear, left top, left bottom, from(#6e4a40), to(#4a2f35));
+      background: -webkit-linear-gradient(top, #6e4a40, #4a2f35);
+      background: -o-linear-gradient(top, #6e4a40, #4a2f35);
+      text-shadow: 0 1px 0 #000;
+      border-top: 1px solid #9C6C5F;
+      color: #DBCCB4;
+      padding: 10px;
+      a {
+        color: #DBCCB4;
+      }
+    }
+    > .wp-tabs .ui-tabs {
+      box-shadow: none !important;
+      -moz-box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      -o-box-shadow: none !important;
+    }
+  }
+  ul.ui-tabs-nav {
+    border-bottom: 1px solid #4A2F35;
+    background: #444;
+    background: #222;
+    background: -moz-linear-gradient(top, #222222, #333333);
+    background: -webkit-gradient(linear, left top, left bottom, from(#222222), to(#333333));
+    background: -webkit-linear-gradient(top, #222222, #333333);
+    background: -o-linear-gradient(top, #222222, #333333);
+    padding-top: 10px;
+    padding-left: 10px;
+    li {
+      background: #C7A777;
+      background: -moz-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -webkit-gradient(linear, left top, left bottom, from(#dbc6a4), to(#c7a777));
+      background: -webkit-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -o-linear-gradient(top, #dbc6a4, #c7a777);
+      border-bottom: 1px solid #4A2F35;
+      -moz-box-shadow: 0 1px 0 #FFF inset;
+      -webkit-box-shadow: 0 1px 0 #FFF inset;
+      -o-box-shadow: 0 1px 0 #FFF inset;
+      box-shadow: 0 1px 0 #FFF inset;
+      margin-right: 3px;
+    }
+    &.ul-bottom li {
+      border-radius: 0 0 5px 5px;
+      -moz-border-radius: 0 0 5px 5px;
+      -webkit-border-radius: 0 0 5px 5px;
+      -o-border-radius: 0 0 5px 5px;
+    }
+    li {
+      a {
+        color: #000;
+        text-shadow: 0 1px 0 #FFF;
+      }
+      &.ui-state-active {
+        background: #593C34;
+        background: -moz-linear-gradient(top, #8f675b, #6e4a40);
+        background: -webkit-gradient(linear, left top, left bottom, from(#8f675b), to(#6e4a40));
+        background: -webkit-linear-gradient(top, #8f675b, #6e4a40);
+        background: -o-linear-gradient(top, #8f675b, #6e4a40);
+        border: 1px solid #444;
+        border-bottom: 0px !important;
+        bottom: -2px;
+        -moz-box-shadow: 0 1px 0 #DB9E8C inset;
+        -webkit-box-shadow: 0 1px 0 #DB9E8C inset;
+        -o-box-shadow: 0 1px 0 #DB9E8C inset;
+        box-shadow: 0 1px 0 #DB9E8C inset;
+      }
+    }
+    &.ul-bottom li.ui-state-active {
+      background: -moz-linear-gradient(top, #4a2f35, #57373e);
+      background: -webkit-gradient(linear, left top, left bottom, from(#4a2f35), to(#8f675b));
+      background: -webkit-linear-gradient(top, #4a2f35, #8f675b);
+      background: -o-linear-gradient(top, #4a2f35, #8f675b);
+      border-bottom: 2px solid #000;
+      border-top: 0px;
+    }
+    li.ui-state-active a {
+      color: #EBD4B0;
+      text-shadow: 0 1px 0 #000;
+    }
+  }
+  .ui-button {
+    background: #C7A777;
+    background: -moz-linear-gradient(top, #dbc6a4, #c7a777);
+    background: -webkit-gradient(linear, left top, left bottom, from(#dbc6a4), to(#c7a777));
+    background: -webkit-linear-gradient(top, #dbc6a4, #c7a777);
+    background: -o-linear-gradient(top, #dbc6a4, #c7a777);
+    text-shadow: 0 1px 0 #EBD4B0;
+    color: #000 !important;
+    border: 1px solid #4A2F35;
+    padding: 4px 7px;
+    text-decoration: none;
+  }
+  .wp-tab-content a.ui-button {
+    float: right;
+    margin: 20px 0;
+    text-decoration: none !important;
+  }
+  .ui-tabs-panel {
+    .tab-top-nav a, .tab-bottom-nav a {
+      background: #C7A777;
+      background: -moz-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -webkit-gradient(linear, left top, left bottom, from(#dbc6a4), to(#c7a777));
+      background: -webkit-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -o-linear-gradient(top, #dbc6a4, #c7a777);
+      text-shadow: 0 1px 0 #EBD4B0;
+      color: #000;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -o-border-radius: 4px;
+      border: 1px solid #4A2F35;
+      padding: 4px 7px;
+    }
+  }
+  .ui-tabs {
+    h1, h2, h3, h4, h5 {
+      color: #F2E5D0 !important;
+      text-shadow: 0 1px 0 #000;
+    }
+  }
+  ul.ui-tabs-nav.ul-bottom {
+    border-top: 2px solid #111 !important;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 10px;
+    background: -moz-linear-gradient(top, #333333, #222222);
+    background: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#222222));
+    background: -webkit-linear-gradient(top, #333333, #222222);
+    background: -o-linear-gradient(top, #333333, #222222);
+    li {
+      vertical-align: top;
+      background: -moz-linear-gradient(top, #c7a777, #dbc6a4);
+      background: -webkit-gradient(linear, left top, left bottom, from(#c7a777), to(#dbc6a4));
+      background: -webkit-linear-gradient(top, #c7a777, #dbc6a4);
+      background: -o-linear-gradient(top, #c7a777, #dbc6a4);
+      border-bottom: 1px solid #000;
+      border-top: 0px !important;
+      top: 0px;
+      &.ui-state-active {
+        border: 1px solid #000;
+        background: none;
+        background: -moz-linear-gradient(top, #4a2f35, #57373e);
+        background: -webkit-gradient(linear, left top, left bottom, from(#4a2f35), to(#57373e));
+        background: -webkit-linear-gradient(top, #4a2f35, #57373e);
+        background: -o-linear-gradient(top, #4a2f35, #57373e);
+        border-top: 0px;
+        border-bottom: 2px solid #000 !important;
+        bottom: 0;
+        top: -2px;
+        height: 19px;
+        a {
+          border-top: 0px;
+        }
+      }
+    }
+  }
+  .wp-tabs {
+    position: relative;
+  }
+  .ui-accordion h3 {
+    margin-bottom: 0px !important;
+    margin-top: 2px !important;
+    outline: 0;
+  }
+  .ui-accordion-content {
+    font: 12px / 1.5 "Segoe UI", "Lucida Grande", "Arial", sans-serif;
+    padding: 10px;
+  }
+  .ui-accordion h3.ui-accordion-header {
+    background: #593C34;
+    background: -moz-linear-gradient(top, #8f675b, #6e4a40);
+    background: -webkit-gradient(linear, left top, left bottom, from(#8f675b), to(#6e4a40));
+    background: -webkit-linear-gradient(top, #8f675b, #6e4a40);
+    background: -o-linear-gradient(top, #8f675b, #6e4a40);
+    border: 1px solid #444;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    padding: 5px 10px;
+    font: bold 14px 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;
+    color: #000;
+    text-shadow: 0 1px 0 #BA7D6D;
+    -moz-box-shadow: 0 1px 0 #DB9E8C inset;
+    -webkit-box-shadow: 0 1px 0 #DB9E8C inset;
+    -o-box-shadow: 0 1px 0 #DB9E8C inset;
+    box-shadow: 0 1px 0 #DB9E8C inset;
+  }
+  h3 {
+    &.ui-collapsible-header {
+      background: #593C34;
+      background: -moz-linear-gradient(top, #8f675b, #6e4a40);
+      background: -webkit-gradient(linear, left top, left bottom, from(#8f675b), to(#6e4a40));
+      background: -webkit-linear-gradient(top, #8f675b, #6e4a40);
+      background: -o-linear-gradient(top, #8f675b, #6e4a40);
+      border: 1px solid #444;
+      border-radius: 3px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -o-border-radius: 3px;
+      padding: 5px 10px;
+      font: bold 14px 'Segoe UI', 'Lucida Grande', 'Arial', sans-serif;
+      color: #000;
+      text-shadow: 0 1px 0 #BA7D6D;
+      -moz-box-shadow: 0 1px 0 #DB9E8C inset;
+      -webkit-box-shadow: 0 1px 0 #DB9E8C inset;
+      -o-box-shadow: 0 1px 0 #DB9E8C inset;
+      box-shadow: 0 1px 0 #DB9E8C inset;
+      &:hover {
+        background: #C7A777;
+        background: -moz-linear-gradient(top, #dbc6a4, #c7a777);
+        background: -webkit-gradient(linear, left top, left bottom, from(#dbc6a4), to(#c7a777));
+        background: -webkit-linear-gradient(top, #dbc6a4, #c7a777);
+        background: -o-linear-gradient(top, #dbc6a4, #c7a777);
+        color: #473C2B;
+        text-shadow: 0 1px 0 #FFD698;
+        -moz-box-shadow: 0 1px 0 #E8D2AE inset;
+        -webkit-box-shadow: 0 1px 0 #E8D2AE inset;
+        -o-box-shadow: 0 1px 0 #E8D2AE inset;
+        box-shadow: 0 1px 0 #E8D2AE inset;
+      }
+    }
+    &.ui-accordion-header:hover {
+      background: #C7A777;
+      background: -moz-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -webkit-gradient(linear, left top, left bottom, from(#dbc6a4), to(#c7a777));
+      background: -webkit-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -o-linear-gradient(top, #dbc6a4, #c7a777);
+      color: #473C2B;
+      text-shadow: 0 1px 0 #FFD698;
+      -moz-box-shadow: 0 1px 0 #E8D2AE inset;
+      -webkit-box-shadow: 0 1px 0 #E8D2AE inset;
+      -o-box-shadow: 0 1px 0 #E8D2AE inset;
+      box-shadow: 0 1px 0 #E8D2AE inset;
+    }
+    &.ui-collapsible-header.ui-state-active, &.ui-accordion-header.ui-state-active {
+      background: #C7A777;
+      background: -moz-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -webkit-gradient(linear, left top, left bottom, from(#dbc6a4), to(#c7a777));
+      background: -webkit-linear-gradient(top, #dbc6a4, #c7a777);
+      background: -o-linear-gradient(top, #dbc6a4, #c7a777);
+      border-radius: 4px 4px 0 0;
+      -moz-border-radius: 4px 4px 0 0;
+      -webkit-border-radius: 4px 4px 0 0;
+      -o-border-radius: 4px 4px 0 0;
+      border-bottom: 0px;
+      color: #473C2B;
+      text-shadow: 0 1px 0 #FFD698;
+      -moz-box-shadow: 0 1px 0 #E8D2AE inset;
+      -webkit-box-shadow: 0 1px 0 #E8D2AE inset;
+      -o-box-shadow: 0 1px 0 #E8D2AE inset;
+      box-shadow: 0 1px 0 #E8D2AE inset;
+    }
+  }
+  .ui-collapsible-content, .ui-accordion .ui-accordion-content {
+    background: #FFE7CC;
+    color: #282828;
+    border: 1px solid #71757F;
+    box-shadow: 0 1px 2px #AAA;
+    -moz-box-shadow: 0 1px 2px #AAA;
+    -webkit-box-shadow: 0 1px 2px #AAA;
+    -o-box-shadow: 0 1px 2px #AAA;
+  }
+  &.ui-dialog {
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -o-border-radius: 6px;
+    border-radius: 6px;
+    font-family: 'Lucida Grande', 'Arial', sans-serif;
+    background: #FFE7CC;
+    color: #282828;
+    /*	border-top: 1px solid #DB9E8C;*/
+  }
+  .ui-dialog-titlebar {
+    font-weight: bold;
+    background: #593C34;
+    background: -moz-linear-gradient(top, #8f675b, #6e4a40);
+    background: -webkit-gradient(linear, left top, left bottom, from(#8f675b), to(#6e4a40));
+    background: -webkit-linear-gradient(top, #8f675b, #6e4a40);
+    background: -o-linear-gradient(top, #8f675b, #6e4a40);
+    color: #332520;
+    text-shadow: 0 1px 0 #9C7063;
+    padding: 6px 10px;
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    -o-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid #000;
+    -moz-box-shadow: 0 1px 0 #DB9E8C inset;
+    -webkit-box-shadow: 0 1px 0 #DB9E8C inset;
+    -o-box-shadow: 0 1px 0 #DB9E8C inset;
+    box-shadow: 0 1px 0 #DB9E8C inset;
+	padding: 0.8em;
+	font-size: 14px;
+	text-transform: uppercase;
+  }
+  .ui-dialog-content {
+    padding: 10px;
+    overflow: hidden;
+  }
+  .ui-dialog-titlebar-close {
+    background: url("../images/close-light.png") no-repeat scroll 0 0 transparent;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 18px;
+    height: 18px;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid transparent;
+    opacity: 0.6;
+    text-indent: -99999em;
+    &:hover {
+      background: url("../images/close-light.png") no-repeat scroll 0 0 transparent;
+      width: 18px;
+      height: 18px;
+      border: 1px solid transparent;
+      top: 5px;
+      right: 5px;
+      opacity: 1;
+    }
+  }
+  pre.minimal, code.minimal {
+    background: #DBC6A4;
+    text-shadow: 0 1px 0 #FFF;
+    padding: 1px;
+    color: #000;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+  }
+  &.wpui-button {
+    background: #C7A777;
+    background: -moz-linear-gradient(top, #dbc6a4, #c7a777);
+    background: -webkit-gradient(linear, left top, left bottom, from(#dbc6a4), to(#c7a777));
+    background: -webkit-linear-gradient(top, #dbc6a4, #c7a777);
+    background: -o-linear-gradient(top, #dbc6a4, #c7a777);
+    text-shadow: 0 1px 0 #E8D2AE;
+    color: #000 !important;
+    border: 1px solid #4A2F35;
+    text-decoration: none;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    font-weight: bold;
+    -moz-box-shadow: 0 1px 0 white inset, 0 -1px 0 #e8d2ae inset;
+    -webkit-box-shadow: 0 1px 0 white inset, 0 -1px 0 #e8d2ae inset;
+    -o-box-shadow: 0 1px 0 white inset, 0 -1px 0 #e8d2ae inset;
+    box-shadow: 0 1px 0 white inset, 0 -1px 0 #e8d2ae inset;
+    &:hover {
+      background: #593C34;
+      background: -moz-linear-gradient(top, #8f675b, #6e4a40);
+      background: -webkit-gradient(linear, left top, left bottom, from(#8f675b), to(#6e4a40));
+      background: -webkit-linear-gradient(top, #8f675b, #6e4a40);
+      background: -o-linear-gradient(top, #8f675b, #6e4a40);
+      box-shadow: 0 1px 0 #DB9E8C inset;
+      color: #ECD4B2 !important;
+      text-shadow: 0 -1px 0 black;
+    }
+    &:active {
+      -moz-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.4) inset;
+      -webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.4) inset;
+      -o-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.4) inset;
+      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.4) inset;
+    }
+  }
+}
+
+/* Tabs at bottom */
