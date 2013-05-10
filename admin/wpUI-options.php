@@ -1233,6 +1233,9 @@ function wpui_plugin_info_below() {
 	<div class="support-plugin wpui-columns">
 		<h4><span class="glyphicon"></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
 		<ul>
+			<li>
+				<a target="_blank" href="http://kav.in/wp-ui-changes-ahead-0-8-7/"><span style="color: red;"><?php _e( 'Important : Feature changes', 'wp-ui' ); ?></span></a>
+			</li>
 		<li>
 			<a target="_blank" href="http://kav.in/projects/blog/need-wpui-plugin-testers/"><?php _e( 'Beta Testers Needed', 'wp-ui' ); ?></a>
 		</li>
