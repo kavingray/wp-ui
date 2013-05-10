@@ -72,7 +72,7 @@
 				options.active = false;
 			}
 			
-			// if ( this.o.easing ) options.animated = this.o.easing;
+			if ( this.o.easing && this.o.easing !== 'false' ) options.animate = this.o.easing;
 			
 			options.event = this.o.accordEvent;
 			

@@ -20,9 +20,9 @@
 	
 	var tabOpts = $.extend({}, window.wpuiOpts, {
 		header			:		'h3.wp-tab-title',
-		ajaxClass	:		'a.wp-tab-load',
-		topNav			: 	false,
-		bottomNav		: false,
+		ajaxClass		:		'a.wp-tab-load',
+		topNav			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.topNav == 'on' ) ? true : false,
+		bottomNav		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.bottomNav == 'on' ) ? true : false,
 		position		: 		'top',
 		navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
 		effect			: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEffect : '', 
@@ -216,14 +216,14 @@
 		navigation		: function() {
 			var baset = this, $this = this.element;
 			
-			// if ( this.o.topNav || this.o.bottomNav ) return false;
+			if ( this.o.topNav || this.o.bottomNav ) return false;
 
 			$this.find( 'div.ui-tabs-panel' ).each( function(i) {
 				var navClass = ' ui-button ui-widget ui-state-default ui-corner-all',
 				navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>',
 				navNextSpan = '<span class="ui-icon ui-icon-circle-triangle-e"></span>',
 				totalLength = $( this ).parent().children('.ui-tabs-panel').length -1;
-				
+		
 				! baset.o.topNav || $( this )
 					.prepend( '<div class="tab-top-nav" />');
 
@@ -270,14 +270,14 @@
 			var baset = this, $this = this.element, mrel;
 			
 			dir = dir || 'forward';
-			mrel = $this.find('.ui-tabs').tabs('option', 'selected');
+			mrel = $this.find('.ui-tabs').tabs('option', 'active');
 			
 			mrel = ( dir == 'backward' ) ? mrel - 1 : mrel + 1;
 			
 			if ( dir == "forward" && mrel == $this.panelength ) mrel = 0;
 			if ( dir == "backward" && mrel < 0 ) mrel = $this.panelength - 1;
 			
-			this.$tabs.tabs( "select", mrel );
+			this.$tabs.tabs( 'option' , "active", mrel );
 		},
 		changeMode		: function( mode ) {
 			// mode = mode || this.mode;
@@ -495,117 +495,95 @@
 
 
 
-	// Common hash change function.
-	$.wpui.hasher = function() {
-		if ( typeof( $.bbq ) == 'undefined' ) return false;		
-		if ( typeof( 'wpUIOpts' ) != 'undefined' && typeof( 'wpUIOpts.linking_history' ) != 'undefined' && wpUIOpts.linking_history == 'off' ) return false;
-		
-		$( window ).bind( 'hashchange', function( e ) {
-			// this.progressed = this.progressed || false;
-			// if ( this.progressed ) return false;
-			
-			var state = [], 
-				finalT = window.location.hash.replace( /#/, '' ),
-				preT = false;
-			
-			// console.log( e.fragment ); 
-			if ( typeof( $.wpui.ids.children ) != 'undefined' && typeof( $.wpui.ids.children[ finalT ] ) != 'undefined'
-			// $.inArray( finalT, $.wpui.ids.children ) != -1 
-			) {
-				// console.log( $.wpui.ids ); 
-					// && ( $( '#' + e.fragment ).is( ':wpui-wpspoiler' ) ) ) {
-				preT = finalT;
-				finalT = $.wpui.ids.children[ finalT ];
-			}
-	
-			for ( var ins in $.wpui.ids ) {
-				if ( $.inArray( finalT, $.wpui.ids[ ins ] ) != '-1' ) {
-					// get the index.
-					var index = $.wpui.ids[ ins ].indexOf( finalT ), tab, acc;
-					
-					// Do tabs.
-					tab = $( '#' + ins ).children( ".ui-tabs" );
-					if ( tab.length ) {
-						$.wpui.scrollTo( tab, function() {
-							tab.tabs( 'select', index );
-						});
-					}
-					
-					// Do accordions
-					acc = $( '#' + ins ).children( '.ui-accordion' );
-					if ( acc.length ) {
-						$.wpui.scrollTo( acc, function() {
-							acc.accordion( 'activate', index );
-						});
-					} 
-				}			
-			}
-			
-			if ( preT ) finalT = preT;
-
-			if ( $( '#' + finalT ).parent().is( '.wp-spoiler' ) ) {
-				$( '#' + finalT ).parent().wpspoiler( 'toggle' );
-			}
-			if ( $( '#' + finalT ).is( '.wp-spoiler' ) ) {
-				$( '#' + finalT ).wpspoiler( 'toggle' );
-			}
-			
-			if ( $( '#' + finalT ).is( ':ui-dialog' ) ) {
-				if ( ! $( '#' + finalT ).dialog( 'isOpen' ) )
-				$( '#' + finalT ).dialog( 'open' );
-				return false;
-			}
-			
-			if ( typeof( finalT ) != 'undefined' && finalT != '' ) {
-				window.location.hash = finalT;
-			//	return false;
-		
-			}
-			
-			// state[ id ] = finalT;
-		}).trigger( 'hashchange' );
-	};	
-	
-	
-	$.wpui.hasher2 = function() {
+	$.idQrk.hashWatch = function() {
 		if ( typeof( $.bbq ) == 'undefined' ) return false;
 		
-	
-		$( window ).bind( 'hashchange', function() {
-			var hashObj = $.bbq.getState(), el = $({}), scrollTar = false;
-			// console.log( hashObj ); 
-			for( kin in hashObj ) {
-				el = $( '#' + kin );
-
-				if ( kin == 'scrollto' ) {
-				 	$.wpui.scrollTo( hashObj[ kin ] );
-				}
-
-				if ( el.is( '.wp-tabs' ) ) {
-					el.children( '.ui-tabs' ).tabs( 'select', parseInt( hashObj[ kin ], 10 ) );
-					scrollTar = el.children( '.ui-tabs' );
-				}
-				if ( el.is( '.wp-accordion' ) ) {
-					el.children( '.ui-accordion' ).accordion( 'activate', parseInt( hashObj[ kin ], 10 ) );
-					scrollTar = el.children( '.ui-accordion' );
-					
-				}
-				
-				if ( el.is( '.wp-spoiler' ) ) {
-					el.wpspoiler( 'toggle' );
-					scrollTar = el;
-					
-				}
-				
-			}
-			if ( scrollTar )
-				$.wpui.scrollTo( scrollTar );
-			
-		}).trigger( 'hashchange' );		
+		if ( typeof( 'wpUIOpts' ) != 'undefined' 
+			&& typeof( 'wpUIOpts.linking_history' ) != 'undefined' 
+			&& wpUIOpts.linking_history == 'off' )
+				return false;
 		
+				
+		$( window ).bind( 'hashchange', function() {
+			var hsh = $.bbq.getState(), el;
+			
+			for ( su in hsh ) {
+				var argu = [], fn_name;
+				
+				el = $( '#' + su ); 
+				aEl = el.parent();
+
+
+				// Tabs panel
+				if ( el.is( '.ui-tabs-panel' ) ) {
+					// el.parent().tabs( 'select', ( el.index() - 1 ) );
+					fn_name = 'tabs';
+					argu = [  'select', ( el.index() - 1 ) ];
+				}
+				
+				// Tabs
+				if ( el.is( ".wp-tabs" ) ) {
+					aEl = el.children( '.ui-tabs' );
+					fn_name = 'tabs';
+				}
+				
+				// Accordion header.
+				if ( el.is( 'h3.wp-tab-title.ui-accordion-header' ) ) {
+					// el.parent().accordion( 'activate', ( el.index() - 1 ) );
+					fn_name = 'accordion';
+					argu = [ 'activate', ( el.index() - 1 ) ];
+				}
+				
+				// Accordions
+				if ( el.is( '.wp-accordion' ) ) {
+					fn_name = 'accordion';
+					aEl = el.children( '.ui-accordion' );
+				}
+				
+				// Spoiler
+				if ( el.parent().is( '.wp-spoiler' ) ) {
+					// el.parent().wpspoiler( 'toggle' );
+					fn_name = 'wpspoiler';
+					argu = [ 'toggle' ];
+				}
+				
+				// Dialog		
+				if ( el.is( '.wp-dialog' ) ) {
+					aEl = el;
+					fn_name = 'dialog';
+					// el.dialog( 'close' );
+					argu = [ ( el.dialog( "isOpen" ) ) ? "close" : 'open' ];
+				}
+				
+				if ( hsh[su] != false ) {
+					argu = hsh[ su ].split( "::" );
+				}
+				
+				$.fn[ fn_name ].apply( aEl, argu );
+				
+			};
+			
+			if ( typeof el == 'object' )
+			$.wpui.scrollTo( el.attr( 'id' ) );
+			
+		}).trigger( 'hashchange' );
+
 		
 	};
 
+
+	jQuery( function() {
+		var tmout = 1000;
+		if ( typeof( wpUIOpts ) != 'undefined' && 
+		 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
+		 		typeof( wpUIOpts.misc_opts.hashing_timeout ) != 'undefined' ) {
+					tmout = wpUIOpts.misc_opts.hashing_method;
+		}
+		setTimeout(function() {
+			$.idQrk.hashWatch();
+		}, tmout);
+	
+	});
 
 
 	$.wpui.scrollTo = function( id, callback ) {
@@ -733,7 +711,7 @@ jQuery( function() {
 				options.active = false;
 			}
 			
-			// if ( this.o.easing ) options.animated = this.o.easing;
+			if ( this.o.easing && this.o.easing !== 'false' ) options.animate = this.o.easing;
 			
 			options.event = this.o.accordEvent;
 			
@@ -889,7 +867,7 @@ jQuery( function() {
 					.html( self.o.showText );
 
 			this.content
-				.addClass( 'ui-helper-reset ui-state-default ui-widget-content ui-collapsible-content ui-collapsible-hide' )
+				.addClass( 'ui-helper-reset clearfix ui-widget-content ui-collapsible-content ui-collapsible-hide' )
 				.wrapInner( '<div class="ui-collapsible-wrapper" />' );
 			
 			this.animOpts = {};
@@ -1319,6 +1297,52 @@ throw new SyntaxError('JSON.parse');};}}());
  * Requires: 1.2.2+
  */
 (function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(f){var d=[].slice.call(arguments,1),g=0,e=true;f=c.event.fix(f||window.event);f.type="mousewheel";if(f.wheelDelta){g=f.wheelDelta/120}if(f.detail){g=-f.detail/3}d.unshift(f,g);return c.event.handle.apply(this,d)}})(jQuery);
+
+/*
+ * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+ *
+ * Uses the built in easing capabilities added In jQuery 1.1
+ * to offer multiple easing options
+ *
+ * TERMS OF USE - EASING EQUATIONS
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright Ã‚Â© 2001 Robert Penner
+ * All rights reserved.
+ *
+ * TERMS OF USE - jQuery Easing
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright Ã‚Â© 2008 George McGinley Smith
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list of 
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list 
+ * of conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution.
+ * 
+ * Neither the name of the author nor the names of contributors may be used to endorse 
+ * or promote products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+*/
+jQuery.easing.jswing=jQuery.easing.swing;jQuery.extend(jQuery.easing,{def:"easeOutQuad",swing:function(e,f,a,h,g){return jQuery.easing[jQuery.easing.def](e,f,a,h,g)},easeInQuad:function(e,f,a,h,g){return h*(f/=g)*f+a},easeOutQuad:function(e,f,a,h,g){return -h*(f/=g)*(f-2)+a},easeInOutQuad:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f+a}return -h/2*((--f)*(f-2)-1)+a},easeInCubic:function(e,f,a,h,g){return h*(f/=g)*f*f+a},easeOutCubic:function(e,f,a,h,g){return h*((f=f/g-1)*f*f+1)+a},easeInOutCubic:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f+a}return h/2*((f-=2)*f*f+2)+a},easeInQuart:function(e,f,a,h,g){return h*(f/=g)*f*f*f+a},easeOutQuart:function(e,f,a,h,g){return -h*((f=f/g-1)*f*f*f-1)+a},easeInOutQuart:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f+a}return -h/2*((f-=2)*f*f*f-2)+a},easeInQuint:function(e,f,a,h,g){return h*(f/=g)*f*f*f*f+a},easeOutQuint:function(e,f,a,h,g){return h*((f=f/g-1)*f*f*f*f+1)+a},easeInOutQuint:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f*f+a}return h/2*((f-=2)*f*f*f*f+2)+a},easeInSine:function(e,f,a,h,g){return -h*Math.cos(f/g*(Math.PI/2))+h+a},easeOutSine:function(e,f,a,h,g){return h*Math.sin(f/g*(Math.PI/2))+a},easeInOutSine:function(e,f,a,h,g){return -h/2*(Math.cos(Math.PI*f/g)-1)+a},easeInExpo:function(e,f,a,h,g){return(f==0)?a:h*Math.pow(2,10*(f/g-1))+a},easeOutExpo:function(e,f,a,h,g){return(f==g)?a+h:h*(-Math.pow(2,-10*f/g)+1)+a},easeInOutExpo:function(e,f,a,h,g){if(f==0){return a}if(f==g){return a+h}if((f/=g/2)<1){return h/2*Math.pow(2,10*(f-1))+a}return h/2*(-Math.pow(2,-10*--f)+2)+a},easeInCirc:function(e,f,a,h,g){return -h*(Math.sqrt(1-(f/=g)*f)-1)+a},easeOutCirc:function(e,f,a,h,g){return h*Math.sqrt(1-(f=f/g-1)*f)+a},easeInOutCirc:function(e,f,a,h,g){if((f/=g/2)<1){return -h/2*(Math.sqrt(1-f*f)-1)+a}return h/2*(Math.sqrt(1-(f-=2)*f)+1)+a},easeInElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return -(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e},easeOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return g*Math.pow(2,-10*h)*Math.sin((h*k-i)*(2*Math.PI)/j)+l+e},easeInOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k/2)==2){return e+l}if(!j){j=k*(0.3*1.5)}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}if(h<1){return -0.5*(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e}return g*Math.pow(2,-10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j)*0.5+l+e},easeInBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*(f/=h)*f*((g+1)*f-g)+a},easeOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*((f=f/h-1)*f*((g+1)*f+g)+1)+a},easeInOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}if((f/=h/2)<1){return i/2*(f*f*(((g*=(1.525))+1)*f-g))+a}return i/2*((f-=2)*f*(((g*=(1.525))+1)*f+g)+2)+a},easeInBounce:function(e,f,a,h,g){return h-jQuery.easing.easeOutBounce(e,g-f,0,h,g)+a},easeOutBounce:function(e,f,a,h,g){if((f/=g)<(1/2.75)){return h*(7.5625*f*f)+a}else{if(f<(2/2.75)){return h*(7.5625*(f-=(1.5/2.75))*f+0.75)+a}else{if(f<(2.5/2.75)){return h*(7.5625*(f-=(2.25/2.75))*f+0.9375)+a}else{return h*(7.5625*(f-=(2.625/2.75))*f+0.984375)+a}}}},easeInOutBounce:function(e,f,a,h,g){if(f<g/2){return jQuery.easing.easeInBounce(e,f*2,0,h,g)*0.5+a}return jQuery.easing.easeOutBounce(e,f*2-g,0,h,g)*0.5+h*0.5+a}});
+
 
 
 /**

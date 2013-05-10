@@ -4,9 +4,9 @@
 	
 	var tabOpts = $.extend({}, window.wpuiOpts, {
 		header			:		'h3.wp-tab-title',
-		ajaxClass	:		'a.wp-tab-load',
-		topNav			: 	false,
-		bottomNav		: false,
+		ajaxClass		:		'a.wp-tab-load',
+		topNav			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.topNav == 'on' ) ? true : false,
+		bottomNav		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.bottomNav == 'on' ) ? true : false,
 		position		: 		'top',
 		navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
 		effect			: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEffect : '', 
@@ -200,14 +200,14 @@
 		navigation		: function() {
 			var baset = this, $this = this.element;
 			
-			// if ( this.o.topNav || this.o.bottomNav ) return false;
+			if ( this.o.topNav || this.o.bottomNav ) return false;
 
 			$this.find( 'div.ui-tabs-panel' ).each( function(i) {
 				var navClass = ' ui-button ui-widget ui-state-default ui-corner-all',
 				navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>',
 				navNextSpan = '<span class="ui-icon ui-icon-circle-triangle-e"></span>',
 				totalLength = $( this ).parent().children('.ui-tabs-panel').length -1;
-				
+		
 				! baset.o.topNav || $( this )
 					.prepend( '<div class="tab-top-nav" />');
 
@@ -254,14 +254,14 @@
 			var baset = this, $this = this.element, mrel;
 			
 			dir = dir || 'forward';
-			mrel = $this.find('.ui-tabs').tabs('option', 'selected');
+			mrel = $this.find('.ui-tabs').tabs('option', 'active');
 			
 			mrel = ( dir == 'backward' ) ? mrel - 1 : mrel + 1;
 			
 			if ( dir == "forward" && mrel == $this.panelength ) mrel = 0;
 			if ( dir == "backward" && mrel < 0 ) mrel = $this.panelength - 1;
 			
-			this.$tabs.tabs( "select", mrel );
+			this.$tabs.tabs( 'option' , "active", mrel );
 		},
 		changeMode		: function( mode ) {
 			// mode = mode || this.mode;
@@ -479,117 +479,95 @@
 
 
 
-	// Common hash change function.
-	$.wpui.hasher = function() {
-		if ( typeof( $.bbq ) == 'undefined' ) return false;		
-		if ( typeof( 'wpUIOpts' ) != 'undefined' && typeof( 'wpUIOpts.linking_history' ) != 'undefined' && wpUIOpts.linking_history == 'off' ) return false;
-		
-		$( window ).bind( 'hashchange', function( e ) {
-			// this.progressed = this.progressed || false;
-			// if ( this.progressed ) return false;
-			
-			var state = [], 
-				finalT = window.location.hash.replace( /#/, '' ),
-				preT = false;
-			
-			// console.log( e.fragment ); 
-			if ( typeof( $.wpui.ids.children ) != 'undefined' && typeof( $.wpui.ids.children[ finalT ] ) != 'undefined'
-			// $.inArray( finalT, $.wpui.ids.children ) != -1 
-			) {
-				// console.log( $.wpui.ids ); 
-					// && ( $( '#' + e.fragment ).is( ':wpui-wpspoiler' ) ) ) {
-				preT = finalT;
-				finalT = $.wpui.ids.children[ finalT ];
-			}
-	
-			for ( var ins in $.wpui.ids ) {
-				if ( $.inArray( finalT, $.wpui.ids[ ins ] ) != '-1' ) {
-					// get the index.
-					var index = $.wpui.ids[ ins ].indexOf( finalT ), tab, acc;
-					
-					// Do tabs.
-					tab = $( '#' + ins ).children( ".ui-tabs" );
-					if ( tab.length ) {
-						$.wpui.scrollTo( tab, function() {
-							tab.tabs( 'select', index );
-						});
-					}
-					
-					// Do accordions
-					acc = $( '#' + ins ).children( '.ui-accordion' );
-					if ( acc.length ) {
-						$.wpui.scrollTo( acc, function() {
-							acc.accordion( 'activate', index );
-						});
-					} 
-				}			
-			}
-			
-			if ( preT ) finalT = preT;
-
-			if ( $( '#' + finalT ).parent().is( '.wp-spoiler' ) ) {
-				$( '#' + finalT ).parent().wpspoiler( 'toggle' );
-			}
-			if ( $( '#' + finalT ).is( '.wp-spoiler' ) ) {
-				$( '#' + finalT ).wpspoiler( 'toggle' );
-			}
-			
-			if ( $( '#' + finalT ).is( ':ui-dialog' ) ) {
-				if ( ! $( '#' + finalT ).dialog( 'isOpen' ) )
-				$( '#' + finalT ).dialog( 'open' );
-				return false;
-			}
-			
-			if ( typeof( finalT ) != 'undefined' && finalT != '' ) {
-				window.location.hash = finalT;
-			//	return false;
-		
-			}
-			
-			// state[ id ] = finalT;
-		}).trigger( 'hashchange' );
-	};	
-	
-	
-	$.wpui.hasher2 = function() {
+	$.idQrk.hashWatch = function() {
 		if ( typeof( $.bbq ) == 'undefined' ) return false;
 		
-	
-		$( window ).bind( 'hashchange', function() {
-			var hashObj = $.bbq.getState(), el = $({}), scrollTar = false;
-			// console.log( hashObj ); 
-			for( kin in hashObj ) {
-				el = $( '#' + kin );
-
-				if ( kin == 'scrollto' ) {
-				 	$.wpui.scrollTo( hashObj[ kin ] );
-				}
-
-				if ( el.is( '.wp-tabs' ) ) {
-					el.children( '.ui-tabs' ).tabs( 'select', parseInt( hashObj[ kin ], 10 ) );
-					scrollTar = el.children( '.ui-tabs' );
-				}
-				if ( el.is( '.wp-accordion' ) ) {
-					el.children( '.ui-accordion' ).accordion( 'activate', parseInt( hashObj[ kin ], 10 ) );
-					scrollTar = el.children( '.ui-accordion' );
-					
-				}
-				
-				if ( el.is( '.wp-spoiler' ) ) {
-					el.wpspoiler( 'toggle' );
-					scrollTar = el;
-					
-				}
-				
-			}
-			if ( scrollTar )
-				$.wpui.scrollTo( scrollTar );
-			
-		}).trigger( 'hashchange' );		
+		if ( typeof( 'wpUIOpts' ) != 'undefined' 
+			&& typeof( 'wpUIOpts.linking_history' ) != 'undefined' 
+			&& wpUIOpts.linking_history == 'off' )
+				return false;
 		
+				
+		$( window ).bind( 'hashchange', function() {
+			var hsh = $.bbq.getState(), el;
+			
+			for ( su in hsh ) {
+				var argu = [], fn_name;
+				
+				el = $( '#' + su ); 
+				aEl = el.parent();
+
+
+				// Tabs panel
+				if ( el.is( '.ui-tabs-panel' ) ) {
+					// el.parent().tabs( 'select', ( el.index() - 1 ) );
+					fn_name = 'tabs';
+					argu = [  'select', ( el.index() - 1 ) ];
+				}
+				
+				// Tabs
+				if ( el.is( ".wp-tabs" ) ) {
+					aEl = el.children( '.ui-tabs' );
+					fn_name = 'tabs';
+				}
+				
+				// Accordion header.
+				if ( el.is( 'h3.wp-tab-title.ui-accordion-header' ) ) {
+					// el.parent().accordion( 'activate', ( el.index() - 1 ) );
+					fn_name = 'accordion';
+					argu = [ 'activate', ( el.index() - 1 ) ];
+				}
+				
+				// Accordions
+				if ( el.is( '.wp-accordion' ) ) {
+					fn_name = 'accordion';
+					aEl = el.children( '.ui-accordion' );
+				}
+				
+				// Spoiler
+				if ( el.parent().is( '.wp-spoiler' ) ) {
+					// el.parent().wpspoiler( 'toggle' );
+					fn_name = 'wpspoiler';
+					argu = [ 'toggle' ];
+				}
+				
+				// Dialog		
+				if ( el.is( '.wp-dialog' ) ) {
+					aEl = el;
+					fn_name = 'dialog';
+					// el.dialog( 'close' );
+					argu = [ ( el.dialog( "isOpen" ) ) ? "close" : 'open' ];
+				}
+				
+				if ( hsh[su] != false ) {
+					argu = hsh[ su ].split( "::" );
+				}
+				
+				$.fn[ fn_name ].apply( aEl, argu );
+				
+			};
+			
+			if ( typeof el == 'object' )
+			$.wpui.scrollTo( el.attr( 'id' ) );
+			
+		}).trigger( 'hashchange' );
+
 		
 	};
 
+
+	jQuery( function() {
+		var tmout = 1000;
+		if ( typeof( wpUIOpts ) != 'undefined' && 
+		 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
+		 		typeof( wpUIOpts.misc_opts.hashing_timeout ) != 'undefined' ) {
+					tmout = wpUIOpts.misc_opts.hashing_method;
+		}
+		setTimeout(function() {
+			$.idQrk.hashWatch();
+		}, tmout);
+	
+	});
 
 
 	$.wpui.scrollTo = function( id, callback ) {

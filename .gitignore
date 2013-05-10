@@ -13,7 +13,7 @@ Icon?
 ehthumbs.db
 Thumbs.db
 .tm_properties
-sass
+#sass
 .sass-cache
 config.rb
 *backup*

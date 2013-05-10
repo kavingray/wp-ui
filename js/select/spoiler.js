@@ -50,7 +50,7 @@
 					.html( self.o.showText );
 
 			this.content
-				.addClass( 'ui-helper-reset ui-state-default ui-widget-content ui-collapsible-content ui-collapsible-hide' )
+				.addClass( 'ui-helper-reset clearfix ui-widget-content ui-collapsible-content ui-collapsible-hide' )
 				.wrapInner( '<div class="ui-collapsible-wrapper" />' );
 			
 			this.animOpts = {};

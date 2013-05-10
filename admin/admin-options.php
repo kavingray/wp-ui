@@ -5,7 +5,7 @@
  *	Plugin options class using WP Settings API.
  *
  * @since $Id$
- * @package accplus
+ * @package wp-ui
  * @subpackage admin-options
 **/
 
@@ -231,8 +231,9 @@ class quark_admin_options
 
 		// if ( !isset( $options[$id] ) && 'type' != 'checkbox' )
 		// 	$options[$id] = $std;
-
-		echo '<div class="option-field option-' . $args[ 'type' ] . '">';
+		
+		
+		echo '<div id="option-' . $id . '" class="option-field option-' . $args[ 'type' ] . '">';
 
 
 		// Before the option

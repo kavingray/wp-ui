@@ -71,7 +71,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 						value = base.fileList[ keyz ];
 						base.table
 							.append( '<tr />' )
-							.find( '<tr:last' )
+							.find( 'tr:last' )
 							.append( '<td>' + keyz + '</td><td><a target="_blank" href="' + value + '">' + value + '</a></td><td><a class="jqui_theme_delete" title="Remove this theme" href="#">Delete</a></td>');
 					}
 			
@@ -316,7 +316,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			}, response;			
 			
 				jQuery.post( ajaxurl, data, function( response ) {
-					
+					console.log( response ); 
 					var resp = JSON.parse( response );
  					if ( typeof( resp ) != 'object' ) return false;
 

@@ -359,9 +359,11 @@ $wpui_options_list = array(
 	),
 
 
+
 	/**
 	 * Posts section
 	 */
+
 
 
 	'relative_timez'	=>	array(
@@ -379,6 +381,14 @@ $wpui_options_list = array(
 		'section'	=>	'posts'
 	),
 
+	// 'disable_warningz'	=>	array(
+	// 	'id'		=>	'disable_warnings_posts_widget',
+	// 	'title'		=>	__( 'Disable warnings', 'wp-ui' ),
+	// 	'desc'		=>	__( 'Disable confirmations on the WP UI widget - Posts <em>on the widgets page</em> ', 'wp-ui' ),
+	// 	'type'		=>	'checkbox',
+	// 	'section'	=>	'posts'
+	// ),
+
 	'postss_widgets' => array(
 		'id'		=>	'post_widget',
 		'type'		=>	'multiple',
@@ -393,7 +403,7 @@ $wpui_options_list = array(
 				'text_length' => '40',
 				'enclose'	=>	array(
 					'before'	=>	'Title : ',
-					'after'		=>	'<br /><br />'
+					'after'		=>	''
 				)
 			),
 			array(
@@ -544,9 +554,9 @@ $wpui_options_list = array(
 		'section'	=>	'advanced'
 	),
 	'jquery_include'	=>	array(
-		'id'		=>	'jquery_disabled',
-		'title'		=>	__('Disable Google CDN load', 'wp-ui'),
-		'desc'		=>	__( 'Check this box to use WordPress bundled jQuery UI Library. <br />Google CDN holds the latest copy and is recommended. But some Older/obselete Wordpress Themes/Plugins might not play along well, in which case you can disable it here.', 'wp-ui' ),
+		'id'		=>	'cdn_jquery',
+		'title'		=>	__('Load CDN jQuery', 'wp-ui'),
+		'desc'		=>	__( 'Check this box to load jQuery UI Library 1.10.2 from Google CDN. If you want assured compatibility with other plugins, Do <u>not</u> enable this.', 'wp-ui' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
@@ -1038,6 +1048,84 @@ $wpui_admin_help_tabs = array(
 
 $wpui_option_page->set_help_tabs( $wpui_admin_help_tabs );
 
+add_action('wpUI_below_options_tables', 'wpUI_add_credits');
+
+/**
+ *	wpUI : Roll credits
+ */
+function wpUI_add_credits()
+{
+?>
+<h3 class="wp-tab-title">
+	Credits
+</h3>
+<div class="wp-tab-content credits-box" style="">
+	<!-- .credits-wrapper -->
+	<div class="credits-wrapper" style="">
+		<h1>
+			Credits
+		</h1>
+		<p>
+			WP UI makes use of the following components that are copyrights of their respective authors. I sincerely thank all the Authors/Organizations for their hard work.
+		</p><!-- .credit-list -->
+		<h4>
+			Global
+		</h4>
+		<!-- /.credit-list -->
+		<ul class="credit-list">
+			<li>
+				<h4>
+					Base
+				</h4>
+				<ul>
+					<li>
+						<a target="_blank" href="http://wordpress.org/about">WordPress</a> | <a href="http://wordpress.org/about/gpl/">GPL License</a>
+					</li>
+					<li>
+						<a href="http://jquery.com" target="_blank">jQuery</a> and <a href="http://jqueryui.com" target="_blank">jQuery UI</a> | <a href="http://jquery.org/license/" target="_blank">MIT License</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h4>
+					Scripts
+				</h4>
+				<ul>
+					<li>WP UI base scripts, themes &amp; images &copy; <a href="http://kav.in/" target="_blank">Kavin Amuthan</a>
+					</li>
+					<li>jQuery Cookie plugin &copy; <a href="http://stilbuero.de" target="_blank">Klaus Hartl</a> | MIT and GPL License.
+					</li>
+					<li>jQuery BBQ Library, Hashchange and resize events &copy; <a href="http://benalman.com" target="_blank">Ben Alman</a>
+					</li>
+					<li>JSON Library by <a href="http://crockford.com" target="_blank">Douglas Crockford</a>
+					</li>
+					<li>jQuery Colorbox by <a href="http://jacklmoore.com" target="_blank">Jack Moore</a> | <a target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
+					</li>
+					<li>jQuery Mousewheel event <a href="http://brandonaaron.com" target="_blank">Brandon Aaron</a> | MIT and GPL License.
+					</li>
+					<li>CSS3PIE for IE &copy; <a href="http://twitter.com/lojjic" target="_blank">Jason Johnston</a> | <a target="_blank" href="https://raw.github.com/lojjic/PIE/master/LICENSE">License</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h4>Icons</h4>
+				<ul>
+					<li>
+						Icons on this page - <a target="_blank" href="http://www.glyphicons.com/"> GlyphIcons Halflings</a> by Jan Kovařík.
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<!-- /.credit-list -->
+	</div><!-- /.credits-wrapper -->
+</div><!-- end .wp-tab-content -->
+
+<?php
+} // END wpUI_add_credits
+
+
+
 // Insert content into the options page.
 add_action( 'wpUI_above_options_page', 'wpui_plugin_info_above' );
 add_action( 'wpUI_below_options_page', 'wpui_plugin_info_below' );
@@ -1045,18 +1133,32 @@ add_action( 'wpUI_below_options_page', 'wpui_plugin_info_below' );
 
 function wpui_plugin_info_above() {
 	?>
-	<div class="info-above">
+	<div class="wpui-options-header">
 	<noscript>
 		<p style="background: pink; border:1px solid darkred; padding: 10px; color: #600"> <?php _e( 'Please enable the javascript in your browser.', 'wp-ui' ) ?></p>
 	</noscript>
 
 	<!-- .wpui-banner -->
-	<div class="wpui-banner">
+	<div id="wpui-banner-holder">
 		<!-- .wpui-banner -->
+		<h3 id="wpui-logo"><a target="_blank" href="http://kav.in/wp-ui-for-wordpress"> <img width="48px" style="display: inline" src="<?php echo plugins_url( "/wp-ui/images/cap-watermark.png" ) ?>" />WP UI</a></h3>
 		<ul class="wpui-banner">
+
+			<li class="donate"><a class="toolbar-donate" target="_blank" href="http://kav.in/donation"><?php _e( 'Donate', 'wp-ui' ); ?></a>
+				<!-- .wpui-submenu -->
+				<ul class="wpui-submenu">
+					<li class="no-hover">
+						<a href="http://kav.in/donation" target="_blank">
+						<img src="<?php echo plugins_url( "/wp-ui/images/paypal-donate.gif" ) ?>" alt="Securely Donate with Paypal, and Support the development of the plugin and site!" /></a><p>Love the plugin? Does it help in one or more ways to make your site more Awesome? I bet it does! Please donate and help with the plugin and server maintanence costs.<br /> <span class="glyphicon"></span>Thank you <span class="glyphicon"></span></p>
+
+					</li>
+				</ul>
+				<!-- /.wpui-submenu -->
+
+			</li>
+
 			<!-- .first -->
-			<li class="first"><a target="_blank" href="http://kav.in/wp-ui-for-wordpress"> <img width="64px" style="display: inline" src="<?php echo plugins_url( "/wp-ui/images/cap-badge.png" ) ?>" />WP UI</a> </li><!-- /.first
-			--><li>
+			<li>
 				<a class="toolbar-help" title="<?php _e( 'Get Help - Immediate or through the forums!', 'wp-ui' ); ?>" href="#">Help</a>
 				<ul class="wpui-submenu">
 					<li><a class="wpui_options_help" href="#"><?php _e( 'Inline Help', 'wp-ui' ); ?></a></li>
@@ -1079,23 +1181,13 @@ function wpui_plugin_info_above() {
 			</li>
 			<li><a class="toolbar-git" target="_blank" href="https://github.com/kavingray/WP-UI"><?php _e( 'Fork', 'wp-ui' ); ?></a></li>
 
-			<li class="last"><a class="toolbar-donate" target="_blank" href="http://kav.in/donation"><?php _e( 'Donate', 'wp-ui' ); ?></a>
-				<!-- .wpui-submenu -->
-				<ul class="wpui-submenu">
-					<li class="no-hover">
-						<a href="http://kav.in/donation" target="_blank">
-						<img src="<?php echo plugins_url( "/wp-ui/images/paypal-donate.gif" ) ?>" alt="Securely Donate with Paypal, and Support the development of the plugin and site!" /></a><p>If you like this plugin and the way it works and helps with your site, Please donate to help maintain the Plugin and server costs.<br />Thank you.</p>
-					</li>
-				</ul>
-				<!-- /.wpui-submenu -->
 
-			</li>
 
 		</ul>
 		<!-- /.wpui-banner -->
 	</div>
 	<!-- /.wpui-banner -->
-
+	<h2></h2>
 
 
 </div><!-- end div.info-above -->
@@ -1105,47 +1197,40 @@ function wpui_plugin_info_above() {
 
 
 function wpui_plugin_info_below() {
+	// include_once( ABSPATH . WPINC . '/feed.php' );
+
 	?>
 
-	<div class="info-below">
+	<div id="wpui-options-sidebar">
 
-	<div id="wpui-cap-below">
+		<!-- #wpui-options-sidebar-wrap -->
+		<div id="wpui-options-sidebar-wrap">
 
-		<!-- <div class="actions cols cols-1">
-		<h4><span></span><?php _e( 'Actions', 'wp-ui' ); ?></h4>
-		<ul>
-			<li>
-				<a href="#" class="wpui-clean-cache"><?php _e( 'Empty cache', 'wp-ui' ) ?></a>
-				<input type="hidden" value="<?php echo wp_create_nonce( 'wpui-cache-nonce' ); ?>" />
-			</li>
-			<li>
-				<a class="wpui-clean-meta" href="#"><?php _e( 'Clean old post meta', 'wp-ui' ) ?>			</a>
-				<input type="hidden" value="<?php echo wp_create_nonce( 'wpui-clean-meta-nonce' ); ?>" />
 
-			</li>
-			<li>
-				<a class="wpui-no-bleeding" href="#"><?php _e( 'Toggle Bleeding Edge', 'wp-ui' ) ?></a>
-			</li>
-		</ul>
-	</div><!--  end.actions -->
 
-	<!-- .acc-plus cols -->
-	<div class="acc-plus cols">
-		<h4><span></span><?php _e( 'Our Premium Plugins', 'wp-ui' ); ?></h4>
+
+
+
+
+
+	<!-- .acc-plus wpui-columns -->
+	<div class="acc-plus wpui-columns">
+		<h4><span class="glyphicon"></span><?php _e( 'Our Premium Plugins', 'wp-ui' ); ?></h4>
 			<div class="accplus-banner">
 				<a target="_blank"  href="http://codecanyon.net/item/accordions-plus-for-wordpress/full_screen_preview/3684077" title="Try Accordions Plus"><img src="http://kavin.dev/resources/plugins/wp-ui/images/accplus.jpg" width="245px height="106px"><span class="wpui-onhover-text">Accordions Plus</span></a>
 			</div>
 	</div>
-	<!-- /.acc-plus cols -->
+	<!-- /.acc-plus wpui-columns -->
 
-	<div class="support-plugin cols">
-		<h4><span></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
+
+	<div class="support-plugin wpui-columns">
+		<h4><span class="glyphicon"></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
 		<ul>
 		<li>
-			<a target="_blank" href="http://kav.in/projects/blog/need-wpui-plugin-testers/"><?php _e( 'Need Beta Testers.', 'wp-ui' ); ?></a>
+			<a target="_blank" href="http://kav.in/projects/blog/need-wpui-plugin-testers/"><?php _e( 'Beta Testers Needed', 'wp-ui' ); ?></a>
 		</li>
 		<li>
-			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 &#9733; rating at Wordpress.org', 'wp-ui' ); ?></a>
+			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 &#x2605; rating at Wordpress.org', 'wp-ui' ); ?></a>
 		</li>
 		<li>
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/" title="<?php _e( 'Please login and choosing It \'works\' at wordpress.org.', 'wp-ui' ); ?>"><?php _e( 'Tell others that it works!', 'wp-ui' ) ?></a>
@@ -1167,8 +1252,8 @@ function wpui_plugin_info_below() {
 
 		</div>
 
-		<div class="help cols col-1">
-			<h4><span></span><?php _e( 'Get Support!', 'wp-ui' ); ?></h4>
+		<div class="help wpui-columns">
+			<h4><span class="glyphicon"></span><?php _e( 'Get Support!', 'wp-ui' ); ?></h4>
 			<ul>
     		<li>
 				<i><a target="_blank" href="http://wordpress.org/support/plugin/wp-ui" title="<?php _e( 'Wordpress.org Plugin support forum', 'wp-ui' ); ?>"><?php _e( 'Wp.org support forum', 'wp-ui' ); ?></a></i>
@@ -1187,24 +1272,14 @@ function wpui_plugin_info_below() {
 
 	</div>
 
-	<div class="wpui-credits cols cols-1">
 
-		<h4><span></span><?php _e( 'Credits', 'wp-ui' ); ?></h4>
+</div>
+<!-- /#wpui-options-sidebar-wrap -->
 
-
-			<p><?php _e( 'Thanks to the WordPress team and jQuery (&amp;) UI team. Also thanks to the all people out there, who spend their invaluable time for the spirit of The Open Source - Sharing and helping everyone. Icons on this page -', 'wp-ui' ); ?> <a target="_blank" rel="nofollow" href="http://www.glyphicons.com"><?php _e( 'GlyphIcons Halflings', 'wp-ui' ); ?> by Jan Kovařík</a>.
-
-			</p>
-
-	</div>
-
-
-	</div><!-- end #wpui-cap-below -->
-</div><!-- end div.info-below -->
+</div><!-- end div.wpui-options-sidebar -->
 
 	<?php
 }
-
 
 
 
@@ -1287,11 +1362,12 @@ function get_wpui_default_options() {
 			'height'	=>	'100'
 		),
 		'post_widget_number'		=>	'3',
-		'jquery_disabled'			=>	'off',
+		'jquery_disabled'			=>	'on',
+		'cdn_jquery'		=>	'off',
 		'docwrite_fix'				=>	'on',
 		'alt_sc'					=>	'off',
 		'bleeding_edge'				=>	'off',
-		'misc_options'				=>	"hashing_method=1\ntinymce_icon_row=3",
+		'misc_options'				=>	"hashing_timeout=1000\ntinymce_icon_row=3",
 		'version'					=>	WPUI_VER
 	);
 	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';

@@ -193,15 +193,26 @@ class wpUI {
 		
 		if ( ! is_admin() && ( isset( $this->options[ 'jquery_disabled' ] ) && $this->options[ 'jquery_disabled' ] == 'on' ) ) {
 			
-			array_push( $deps, "jquery-ui-core", "jquery-ui-tabs", "jquery-ui-accordion", "jquery-ui-dialog", "jquery-ui-sortable", "jquery-ui-draggable" );
+
 			
 		} else {
 			
-			wp_deregister_script( 'jquery-ui' );
-			wp_register_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js', array( 'jquery' ), '1.10.2' );
-			array_push( $deps, 'jquery-ui' );
+
 				
 		} // END check for jQuery is to be disabled.
+
+
+		if ( ! is_admin() && ( isset( $this->options[ 'cdn_jquery' ] ) && $this->options[ 'cdn_jquery' ] == 'on' ) ) {
+			wp_deregister_script( 'jquery-ui' );
+			wp_register_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js', array( 'jquery' ), '1.10.2' );
+			array_push( $deps, 'jquery-ui' );			
+		} else {
+			
+			array_push( $deps, "jquery-ui-core", "jquery-ui-tabs", "jquery-ui-accordion", "jquery-ui-dialog", "jquery-ui-sortable", "jquery-ui-draggable" );
+						
+		} // END check for cdn jquery need.
+
+
 
 
 
@@ -322,7 +333,8 @@ class wpUI {
 			wp_enqueue_style( 'jquery-ui-wp-fix', $plugin_url . 'css/jquery-ui-wp-fix.css' );
 
 			// Load the jQuery UI theme from the Google CDN.
-			wp_enqueue_style( 'jquery-ui-css-' . $this->options['tab_scheme'], 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/' . $this->options['tab_scheme'] . '/jquery.ui.all.css');
+			wp_enqueue_style( 'jquery-ui-css-' . $this->options['tab_scheme'], 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/' . $this->options['tab_scheme'] . '/jquery-ui.css');
+			// wp_enqueue_style( 'jquery-ui-css-' . $this->options['tab_scheme'], 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/' . $this->options['tab_scheme'] . '/jquery.ui.all.css');
 			// wp_enqueue_style( 'jquery-ui-css-' . $this->options['tab_scheme'], 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/' . $this->options['tab_scheme'] . '/jquery-ui.css' );
 		}
 
@@ -393,6 +405,8 @@ class wpUI {
 						$oldopts[ $def ] = array();
 					$oldopts[ $def ] = $newdefs[ $def ];
 				}
+				$oldopts[ 'jquery_disabled' ] = 'on';
+				$oldopts[ 'cdn_jquery' ] = 'off';
 			}
 /*			$oldopts = array_merge( $oldopts, $newdefs );*/
 			update_option( 'wpUI_options', $oldopts );

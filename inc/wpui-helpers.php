@@ -213,12 +213,24 @@ add_action('wp_ajax_jqui_css', 'wpui_search_for_stylesheets');
  */
 function wpui_search_for_stylesheets() 
 {
+	if ( ! isset( $_POST ) ) return;
+	
+	$upnonce = $_POST['upNonce'];
+
+	if ( ! wp_verify_nonce( $upnonce, 'wpui-jqui-custom-themes' ) )
+		wp_die( 'Just what do you think you\'re doing, Dave?' );
+
 	// $upload_dir = wp_upload_dir();
 	global $wpui_options;
-	if ( !empty( $wpui_options ) && !empty( $wpui_options[ 'styles_upload_dir' ] )  ) {
-		$path = $wpui_options[ 'styles_upload_dir' ];
-	} else {
-		$path = WP_CONTENT_DIR . '/uploads/wp-ui/';
+	
+	$path = WP_CONTENT_DIR . '/uploads/wp-ui/';
+	$url = content_url() . '/uploads/wp-ui/';
+	
+	if ( !empty( $wpui_options ) && ! empty( $wpui_options[ 'styles_upload_dirs' ] ) && is_array( $wpui_options[ 'styles_upload_dirs' ] ) ) {
+		if ( !empty( $wpui_options[ 'styles_upload_dirs' ][ 'dir' ] ) && !empty( $wpui_options[ 'styles_upload_dirs' ][ 'url' ] )  ) {
+			$path = $wpui_options[ 'styles_upload_dirs' ][ 'dir' ];
+			$url = $wpui_options[ 'styles_upload_dirs' ][ 'url' ];
+		} 		
 	}
 	
 	$udir = wpui_adjust_path( $path );
@@ -237,13 +249,8 @@ function wpui_search_for_stylesheets()
 		echo json_encode( $someArr );
 		die();
 	}
-	
-	$upnonce = $_POST['upNonce'];
 
-	if ( ! wp_verify_nonce( $upnonce, 'wpui-jqui-custom-themes' ) )
-		wp_die( 'Just what do you think you\'re doing, Dave?' );
-
-	$results = wpui_jqui_dirs( $udir );
+	$results = wpui_jqui_dirs( $udir, $url );
 	echo $results;
 
 	die();
@@ -327,7 +334,8 @@ function wpui_query_meta()
 {
 	$type = ( ! isset( $_POST['type'] ) ) ? 'cat' : $_POST['type' ];
 	$sear = ( isset( $_POST['search'] ) ) ? $_POST[ 'search' ] : false;
-
+	
+	
 	$nonce = $_POST[ '_ajax_tax_nonce' ];
 	if ( ! wp_verify_nonce( $nonce, 'wpui-editor-tax-nonce' ) )
 		return;
@@ -351,19 +359,19 @@ function wpui_query_meta()
 		
 	} elseif ( $type == 'recent' ) {
 		$getArr = get_posts( array( "posts_per_page" => 5 ) );
-		$retStr .= '<li class="no-select"><strong>Recent posts - Click insert button to continue.</strong></li>';
+		$retStr .= '<li class="no-select"><strong>Recent posts - Click insert or save button to continue...</strong></li>';
 		foreach( $getArr as $get ) {
 			$retStr .= '<li class="no-select"><a href="#">' . $get->post_title . '</a></li>';
 		}
 	} elseif ( $type == 'popular' ) {
 		$getArr = get_posts( array( 'orderby' => 'comment_count' ) );
-		$retStr .= '<li class="no-select"><strong>Popular posts - Click insert button to continue.</strong></li>';
+		$retStr .= '<li class="no-select"><strong>Popular posts - Click insert or save button to continue...</strong></li>';
 		foreach( $getArr as $get ) {
 			$retStr .= '<li class="no-select"><a href="#">' . $get->post_title . '</a></li>';
 		}		
 	} elseif ( $type == 'random' ) {
 		$getArr = get_posts( array( 'orderby' => 'rand' , 'posts_per_page' => 5 ) );
-		$retStr .= '<li class="no-select"><strong>Random posts - Click insert button to continue.</strong></li>';
+		$retStr .= '<li class="no-select"><strong>Random posts - Click insert or save button to continue...</strong></li>';
 		foreach( $getArr as $get ) {
 			$retStr .= '<li class="no-select"><a href="#">' . $get->post_title . '</a></li>';
 		}		
@@ -614,12 +622,15 @@ function wpui_jqui_dirs( $dir, $url, $format='array' ) {
 		// if ( $is_Windows )
 		// 	$abspath = str_ireplace( '/', '\\', ABSPATH );
 
-		$valURL = str_ireplace( $dir, '', $value );
+		$valURL = str_replace( '\\' , '/', str_ireplace( $dir, '', $value ) );
+
+		$valid[ $key ] = $url . '/' . $valURL;
+
 		// $valURL = ( $is_Windows ) ? str_ireplace( '\\', '/', $valURL ) : $valURL;
 
 		// $valURL = str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', $valURL );
 
-		$valid[ $key ] = ABSPATH . ":::::::" . $url . $valURL;
+		// $valid[ $key ] = ABSPATH . ":::::::" . $url . $valURL;
 
 		// $valid[ $key ] = site_url() . '/' . $valURL;
 		

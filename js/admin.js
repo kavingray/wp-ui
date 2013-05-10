@@ -5,14 +5,21 @@ jQuery(document).ready(function() {
 	jQuery( 'div.actions h4' ).click(function() {
 		jQuery( this ).next( 'ul' ).slideToggle(); 
 	});
-	jQuery( '#optionsform' ).wrap('<div class="tabwrap" />');
+
+	// jQuery( '#optionsform' ).wrap('<div class="tabwrap" />');
 
 	jQuery( '.tab-bottom-nav a, .tab-top-nav a' ).removeClass('ui-button');	
 
-
-	// jQuery( '.info-below' ).addClass( 'srep' ).hover( function() {
-	// 	jQuery( this ).toggleClass( 'srep' );
-	// 	jQuery( '#options-wrap' ).toggleClass( 'pers' );
+	
+	// jQuery( '#optionsform' ).addClass( 'nond3' );
+	// jQuery( '#wpui-options-sidebar' )
+	// .addClass( 'd3' )
+	// .hover( function(e ) {
+	// 	e.stopPropagation();
+	// 	jQuery( this ).toggleClass( 'd3' );
+	// 	jQuery( '#optionsform' ).toggleClass( 'nond3 d3' );
+	// 	
+	// 	return false;
 	// });
 
 
@@ -191,12 +198,11 @@ jQuery(document).ready(function() {
 		}); // end add templates click
 	
 		$admin_tabs = jQuery('#optionsform #options-wrap')
-							.addClass('d-tabs')
 							.wptabs({
 			 					header: 'h3',
 			 					effect: 'fade',
 			 					topNav: false,
-			 					botNav: true,
+			 					botNav: false,
 			 					cookies : false,
 								hashchange : false,
 								wpuiautop : false,
@@ -208,8 +214,10 @@ jQuery(document).ready(function() {
 			.wrapAll( '<div class="ui-tabs-panel-wrapper" />' );
 
 
-			jQuery( 'p.submit' ).appendTo( 'div.ui-tabs-panel-wrapper' );
+		jQuery( 'p.submit' ).appendTo( 'div.ui-tabs-panel-wrapper' );
 
+		jQuery( '#style table.form-table tr' ).eq( 1 ).appendTo( '#style table.form-table' ).hide();
+	
 	
 /**
  *	Little bit outdated contextual help. :(
@@ -326,7 +334,9 @@ if ( ! jQuery.css3Support ) {
 } // end check.
 
 jQuery( function( $ ) {
-	var biCls = ( jQuery.css3Support( 'borderImage' ) === false )? 'wpui-nobi' : 'wpui-bi';
+	var biCls = ( jQuery.css3Support( 'borderImage' ) === false )? 'wpui-no-borderimage' : 'wpui-borderimage';
+	biCls += ' ';
+	biCls += ( jQuery.css3Support( 'transition' ) === false )? 'wpui-no-transition' : 'wpui-transition';
 	jQuery( 'body' ).addClass( biCls );	
 	
 	$( '.wpui-banner a' ).each( function( index ) {
