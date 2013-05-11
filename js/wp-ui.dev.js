@@ -836,9 +836,17 @@ jQuery( function() {
 			this._trigger( 'create' );
 			this._spoil(); 
 			this._hashSet = false;
+			this.reFresh = false;
+
 
 			// $.wpui.wpspoiler.instances.push( this.element );
 			$.wpui.wpspoiler.instances[ this.element.attr('id') ] = this.element;
+			
+			setTimeout(function() {
+				if ( base.element.closest( '.ui-accordion' ).length )
+					base.reFresh = base.element.closest( '.ui-accordion' );
+			}, 300);
+			
 		},
 		
 		_spoil : function( init ) {
@@ -927,8 +935,11 @@ jQuery( function() {
 			if ( ! this.isOpen() ) this.toggle();
 		},
 		animate : function() {
-			
+			var base = this;
 			this.content.animate( this.animOpts, this.options.speed, this.options.easing, function() {
+				if ( base.reFresh != false ) {
+					base.reFresh.accordion( 'refresh' );
+				}
 			});			
 		},	
 		isOpen : function() {

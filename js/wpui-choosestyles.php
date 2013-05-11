@@ -9,29 +9,29 @@
 
 <script type="text/javascript" src="<?php echo wpui_url(); ?>/js/wp-ui-old.js"></script>
 <link rel="stylesheet" href="<?php echo wpui_url(); ?>/css/wp-ui.css" media="screen">
-<link rel="stylesheet" href="<?php echo wpui_url(); ?>/css/wpui-all.css" media="screen">
+<link rel="stylesheet" href="<?php echo wpui_url(); ?>/css/themes/wpui-all.css" media="screen">
 <script type="text/javascript">
 jQuery(document).ready(function($) {
 	jQuery('.wp-tabs').wptabs();
-	
+
 	jQuery( 'div.wp-accordion' ).wpaccord({
 		h3Class			: 	'h3.wp-tab-title',
 		linkAjaxClass	: 	'a.wp-tab-load',
 		accordEvent : 'click',
 		easing : 'bounceslide'
-		
+
 	});
 
 	jQuery( '.wp-spoiler' ).wpspoiler({
 		fade	 : true,
-		slide	 : true,
+		slide	 : true
 	});
-	
+
 	jQuery( '.wp-dialog' ).dialog({
 		autoOpen : false,
 		dialogClass : 'wpui-light'
 	});
-	
+
 	jQuery( '.dialog-opener-3' ).button({
 		icons : {
 			primary : 'ui-icon-newwin'
@@ -40,20 +40,20 @@ jQuery(document).ready(function($) {
 
 
 	classList = [ 'wpui-light', 'wpui-blue', 'wpui-red', 'wpui-green', 'wpui-dark', 'wpui-achu', 'wpui-quark', 'wpui-cyaat9', 'wpui-redmond', 'wpui-sevin', 'wpui-alma', 'wpui-macish', 'wpui-android', 'wpui-safle' ];
-	
+
 	jQuery('#chosentab').tabsThemeSwitcher( classList );
-	
+
 	var cTW = Math.round(( jQuery( '#chosentab' ).innerWidth() -80 ) / 2);
 	jQuery( '.holster' ).outerWidth( cTW );
-	
+
 	jQuery( '.hilite-combo' ).css('text-decoration', 'underline').hover(function() {
 		jQuery( '.selector_tab_style' ).effect( "pulsate", { times : '3' } , 300);
 	}, function() {
-		
+
 	});
-	
-	
-	
+
+
+
 });
 </script>
 <style type="text/css">
@@ -73,6 +73,8 @@ p.submit #submit {
 	background: -webkit-gradient(linear, left top, left bottom, from(#FFF), color-stop(0.4, #CCC), color-stop(0.41, #BBB), to(#DDD));
 	background: -webkit-linear-gradient( top, #FFF, #CCC 40%, #BBB 41%, #DDD );
 	background: -o-linear-gradient( top, #FFF, #CCC 40%, #BBB 41%, #DDD);
+	background: -ms-linear-gradient( top, #FFF, #CCC 40%, #BBB 41%, #DDD);
+	filter : progid:DXImageTransform.Microsoft.gradient( startColorStr="#F4F2F4", endColorStr="#AAAAAA");
 	color: #1E2634;
 	text-shadow: 0 1px 0 #FFF;
 	font-size: 1.1em;
@@ -110,7 +112,7 @@ p.submit #submit:active {
 	background: -webkit-gradient( linear, left bottom, left top, rgba( 250, 250, 250, 0.8 ), rgba( 175, 175, 175, 0.9 ) );
 	background: -webkit-linear-gradient( bottom, rgba( 250, 250, 250, 0.8 ), rgba( 175, 175, 175, 0.9 ) );
 	background: -o-linear-gradient( bottom, rgba( 250, 250, 250, 0.8 ), rgba( 175, 175, 175, 0.9 ) );
-	
+
 	margin-top: 0;
 	padding: 10px;
 	text-align:center;
@@ -199,9 +201,9 @@ div.tab-bottom-nav a {
 	box-shadow         : 0 2px 5px #888;
 	-moz-box-shadow    : 0 2px 5px #888;
 	-webkit-box-shadow : 0 2px 5px #888;
-	-o-box-shadow      : 0 2px 5px #888;	
+	-o-box-shadow      : 0 2px 5px #888;
 	bottom: 0;
-	
+
 }
 
 .ui-dialog-buttonset {
@@ -233,8 +235,8 @@ div.tab-bottom-nav a {
 
 .tabs-holder,
 .accordion-holder {
-	box-shadow : 0 1px 0 #FF70AA;
-	border-bottom: 1px solid #BF678B;
+	box-shadow: 0 1px 0 #FFF;
+	border-bottom: 1px solid #7D7DA5;
 }
 .spoiler-holder {
 	clear : left;
@@ -251,7 +253,7 @@ div.tab-bottom-nav a {
 	width : 100%;
 	text-align : center;
 	padding: 10px;
-	
+
 }
 
 .dialog-opener-container {
@@ -286,7 +288,13 @@ p.dialog-opener-container {
 	-o-border-radius       : 4px !important;
 	border-radius          : 4px !important;
 }
-
+.ui-accordion-header .ui-icon,
+.ui-collapsible-header .ui-icon {
+	display:inline-block;
+}
+.ui-accordion-content {
+	padding : 10px;
+}
 </style>
 <script type="text/javascript">
 function submit_form() {
@@ -308,20 +316,20 @@ function submit_form() {
 <p class="submit"><input type="submit" value="Choose this skin" id="submit"/></p>
 
 <div id="chosentab">
-	
+
 <!-- ###################### -->
 <!-- ######## Tabs ######## -->
 <!-- ###################### -->
 
 <div class="holster tabs-holder">
 <div class="wp-tabs">
-	
+
 <h3 class="wp-tab-title">First</h3>
 	<div class="wp-tab-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed elit ut erat viverra dapibus. Cras at blandit sem. Nullam in augue non ipsum fermentum consequat. Nulla eu orci velit. Cras eu neque non justo malesuada pretium ut nec arcu. Curabitur viverra mollis risus vel convallis. Sed et felis dolor. Mauris semper faucibus ipsum non porta. Proin erat quam, congue a venenatis nec, volutpat nec leo. Nam vehicula lorem quis nulla tristique tempor. </div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Second</h3><br>
 	<div class="wp-tab-content">Vestibulum rhoncus ligula est. Nam nisi velit, vestibulum eget fermentum vitae, bibendum vitae velit. Sed ac ante eget nisl elementum varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ut leo eget leo volutpat placerat vitae at est. Mauris vestibulum ligula vel ante rhoncus luctus. Fusce sagittis, nisi at faucibus eleifend, sapien mauris semper arcu, eget aliquam justo enim sit amet turpis. Nulla fringilla, nunc in hendrerit volutpat, massa leo laoreet lectus, a vehicula odio ligula quis metus.</div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Third</h3>
-	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content --> 
+	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content -->
 
 </div><!-- end wp-tabs -->
 </div><!-- end holder -->
@@ -335,13 +343,13 @@ function submit_form() {
 
 
 <div class="wp-accordion">
-	
+
 <h3 class="wp-tab-title">Panel 1</h3>
 	<div class="wp-tab-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed elit ut erat viverra dapibus. Cras at blandit sem. Nullam in augue non ipsum fermentum consequat. Nulla eu orci velit. Cras eu neque non justo malesuada pretium ut nec arcu. Curabitur viverra mollis risus vel convallis. Sed et felis dolor. Mauris semper faucibus ipsum non porta. Proin erat quam, congue a venenatis nec, volutpat nec leo. Nam vehicula lorem quis nulla tristique tempor. </div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Panel 2</h3><br>
 	<div class="wp-tab-content">Vestibulum rhoncus ligula est. Nam nisi velit, vestibulum eget fermentum vitae, bibendum vitae velit. Sed ac ante eget nisl elementum varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ut leo eget leo volutpat placerat vitae at est. Mauris vestibulum ligula vel ante rhoncus luctus. Fusce sagittis, nisi at faucibus eleifend, sapien mauris semper arcu, eget aliquam justo enim sit amet turpis. Nulla fringilla, nunc in hendrerit volutpat, massa leo laoreet lectus, a vehicula odio ligula quis metus.</div><!-- end div.wp-tab-content -->
 <h3 class="wp-tab-title">Panel 3</h3>
-	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content --> 
+	<div class="wp-tab-content">Donec non sem nibh, ut euismod urna. Morbi accumsan scelerisque est sed rutrum. In dictum tortor id ipsum tempus dictum. In laoreet tempus ante eu consectetur. Nunc auctor, orci quis aliquam rutrum, quam ligula vestibulum nunc, vestibulum laoreet enim urna in libero. Integer vitae augue at ante tristique luctus. Quisque dolor orci, aliquet a feugiat id, rhoncus non orci. Curabitur varius lectus in enim facilisis ut tincidunt nibh malesuada. Aliquam erat volutpat. Vestibulum id nibh nisl. Nam faucibus eros in quam ultricies vel accumsan neque aliquam. </div><!-- end div.wp-tab-content -->
 
 </div><!-- end wp-accordion -->
 </div><!-- end holder -->
@@ -372,7 +380,7 @@ function submit_form() {
 
 
 <br />
-<input type="hidden" id="selected_skin" name="selected_skin" type="text" />		
+<input type="hidden" id="selected_skin" name="selected_skin" type="text" />
 
 </form>
 </body>
@@ -383,11 +391,11 @@ jQuery.fn.tabsThemeSwitcher = function(classArr) {
 		var $this = jQuery(this);
 
 		jQuery( '.styler-title' ).append('<span><div class="selector_tab_style">Switch skin : <select id="tabs_theme_select" /></div></span>');
-	
+
 	for( i=0; i< classArr.length; i++) {
 		jQuery('#tabs_theme_select' ).append('<option value="' + classArr[i] + '">' + classArr[i] + '</option');
 	} // END for loop.
-	
+
 	if ( jQuery.cookie && jQuery.cookie('tab_demo_style') != null ) {
 		currentVal = jQuery.cookie('tab_demo_style');
 		jQuery('select#tabs_theme_select option').each(function() {
@@ -395,12 +403,12 @@ jQuery.fn.tabsThemeSwitcher = function(classArr) {
 			 	jQuery(this).attr( 'selected', 'selected' );
 			}
 		});
-	
+
 	} else {
 		currentVal = classArr[0];
 	} // END cookie value check.
-		
-	
+
+
 		$this.find('.wp-tabs')
 			.attr('class', 'wp-tabs')
 			.addClass(currentVal, 500);
@@ -413,49 +421,49 @@ jQuery.fn.tabsThemeSwitcher = function(classArr) {
 		$this.find( '.dialog-button' )
 			.attr( 'class', 'dialog-button' )
 			.addClass( currentVal , 500 );
-			
+
 		getDialogClass = jQuery('body').find( '.ui-dialog' ).attr( 'class').replace(/(wpui-[\w\d\-]{3,10}\s)/ig, currentVal + " " );
-		
+
 		jQuery( '.ui-dialog' ).attr('class' , getDialogClass );
-				
-		// console.log( getDialogClass ); 	
+
+		// console.log( getDialogClass );
 		// $this.find('.ui-dialog')
 		// 	.attr('class', 'ui-dialog')
 		// 	.addClass(currentVal, 500);
-	
+
 	// $this.find( '.wp-tabs, .wp-accordion, .wp-spoiler' ).addClass( currentVal, 500 );
-	
-	
+
+
 	jQuery('#tabs_theme_select').change(function(e) {
 		newVal = jQuery(this).val();
-		
+
 		$this.find('.wp-tabs, .wp-accordion, .wp-spoiler, div.dialog-button')
 			.hide('drop', {direction: 'up'}, 600)
 			.css({ '-moz-rotate' : '45deg'})
 			.switchClass(currentVal, newVal, 20)
 			.show('drop', {direction: 'up'}, 300)
 			.css({ '-moz-rotate': '0deg'});
-		
+
 			getDialogClass = jQuery('body').find( '.ui-dialog' ).attr( 'class').replace(/(wpui-[\w\d\-]{3,10}\s)/ig, newVal + " " );
 
-			jQuery( '.ui-dialog' ).attr('class' , getDialogClass );		
-		
-			
-		jQuery( 'input#selected_skin' ).val(newVal);		
+			jQuery( '.ui-dialog' ).attr('class' , getDialogClass );
+
+
+		jQuery( 'input#selected_skin' ).val(newVal);
 		currentVal = newVal;
-		
+
 		// jQuery('#choosetabs .stacklist .stacks img').each(function() {
 		// 	jQuery(this).removeClass( 'active' );
 		// 	if ( newVal.replace(/wpui\-/, '') == jQuery(this).attr('alt').replace(/wpui\-/, '') )
 		// 		jQuery(this).addClass('active');
-		// });		
-		
+		// });
+
 		if ( jQuery.cookie ) jQuery.cookie('tab_demo_style', newVal, { expires : 2 });
 	}); // END on select box change.
 
 
-	}); // END each function.	
-	
+	}); // END each function.
+
 };
 })(jQuery);
 </script>

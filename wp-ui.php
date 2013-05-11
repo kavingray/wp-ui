@@ -306,7 +306,7 @@ class wpUI {
 		 */
 		if ( in_array( $this->options[ 'tab_scheme' ] , $wpuiCss3List ) )	{
 			wp_enqueue_style( 'wp-ui', $plugin_url . 'css/wp-ui.css');
-			wp_enqueue_style($this->options['tab_scheme'], $plugin_url . 'css/' . $this->options['tab_scheme'] . '.css');
+			wp_enqueue_style($this->options['tab_scheme'], $plugin_url . 'css/themes/' . $this->options['tab_scheme'] . '.css');
 
 		} elseif( $jqui_c && in_array( $this->options[ 'tab_scheme' ] , $jqui_c ) ) {
 			wp_enqueue_style( 'jquery-ui-wp-fix', $plugin_url . 'css/jquery-ui-wp-fix.css' );
@@ -340,12 +340,12 @@ class wpUI {
 			$selQuery = implode( "|" , $sel_styles );
 			wp_enqueue_style( 'wpui-multiple' , $plugin_url . 'css/css.php?styles=' . $selQuery );
 		} else {
-			wp_enqueue_style( 'wp-ui-all' , $plugin_url . 'css/wpui-all.css');
+			wp_enqueue_style( 'wp-ui-all' , $plugin_url . 'css/themes/wpui-all.css');
 		}
 
 
 		// if ( $is_IE && $this->options['enable_ie_grad'] )
-		// wp_enqueue_style( 'wp-tabs-css-bundled-all-IE' , $plugin_url . 'css/wpui-all-ie.css');
+		// wp_enqueue_style( 'wp-tabs-css-bundled-all-IE' , $plugin_url . 'css/themes/wpui-all-ie.css');
 
 
 		/**
