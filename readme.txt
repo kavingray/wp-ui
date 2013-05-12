@@ -5,7 +5,7 @@ Plugin URI: http://kav.in/wp-ui-for-wordpress
 Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, widget, dialogs, custom themes, themeroller, CSS3
 Requires at least: 3.1
 Tested up to: 3.5.1
-Stable tag: 0.8.5
+Stable tag: 0.8.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
