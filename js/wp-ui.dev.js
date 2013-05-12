@@ -1,33 +1,55 @@
+/*!
+ *	WP UI version 0.8.7
+ *	
+ *	Copyright (c) 2011, Kavin ( http://kav.in )
+ *	@license - Dual licensed under the MIT and GPL licenses.
+ *	
+ *	Below components Copyright and License as per the respective authors. 
+ *	
+ *	Includes jQuery cookie plugin by Klaus Hartl.
+ *	Includes jQuery BBQ plugin by Ben Alman.
+ *	Includes Mousewheel event plugin by Brandon Aaron.
+ *	
+ *	
+ *	Requires : jQuery v1.4.2, jQuery UI v1.8 or later.
+!*/
+
 (function( $ ) {
+	
+	if ( ! $.wpui ) $.wpui = {};
+	
+	var tabOpts = $.extend({}, window.wpuiOpts, {
+		header			:		'h3.wp-tab-title',
+		ajaxClass		:		'a.wp-tab-load',
+		topNav			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.topNav == 'on' ) ? true : false,
+		bottomNav		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.bottomNav == 'on' ) ? true : false,
+		position		: 		'top',
+		navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
+		effect			: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEffect : '', 
+		effectSpeed		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.effectSpeed : '',
+		alwaysRotate	: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.alwaysRotate : '', // True - will rotate inspite of clicks. False - will stop.
+		tabsEvent		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEvent : '',
+		collapsibleTabs	: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.collapsibleTabs == 'on' ) ? true : false,
+
+		tabPrevText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabPrevText != '' ) ? wpUIOpts.tabPrevText : '&laquo; Previous',		
+		tabNextText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabNextText != '' ) ? wpUIOpts.tabNextText : 'Next &raquo;',
+		cookies			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.cookies == 'on' ) ? true : false,
+		hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
+		mouseWheel		: 		(typeof wpUIOpts != "undefined" ) ? wpUIOpts.mouseWheelTabs : '',
+		wpuiautop		: 		true,
+		followNav: false		
+	}),
+	tabCount = 0;
+	
 
 	///////////////////////////////////////////////////
 	//////////////////// WP TABS //////////////////////
 	///////////////////////////////////////////////////		
 	// Extend the tabs proto.
-	$.widget( "wpui.wptabs", {
-		options			: {
-			header			:		'h3.wp-tab-title',
-			ajaxClass	:		'a.wp-tab-load',
-			topNav			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.topNav == 'on' ) ? true : false,
-			bottomNav		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.bottomNav == 'on' ) ? true : false,
-			position		: 		'top',
-			navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
-			effect			: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEffect : '', 
-			effectSpeed		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.effectSpeed : '',
-			alwaysRotate	: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.alwaysRotate : '', // True - will rotate inspite of clicks. False - will stop.
-			tabsEvent		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsEvent : '',
-			collapsibleTabs	: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.collapsibleTabs == 'on' ) ? true : false,
-
-			tabPrevText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabPrevText != '' ) ? wpUIOpts.tabPrevText : '&laquo; Previous',		
-			tabNextText		: 		(typeof wpUIOpts != "undefined" && wpUIOpts.tabNextText != '' ) ? wpUIOpts.tabNextText : 'Next &raquo;',
-			cookies			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.cookies == 'on' ) ? true : false,
-			hashChange		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.hashChange == 'on' ) ? true : false,
-			mouseWheel		: 		(typeof wpUIOpts != "undefined" ) ? wpUIOpts.mouseWheelTabs : '',
-			wpuiautop		: 		true,
-			followNav: false			
-		},
+	$.widget( "idQrk.wptabs", {
+		options			: tabOpts,
 		_create			: function() {
-			var self = this, $this = this.element;
+			var baset = this, $this = this.element;
 			
 			this.jqui = ( this.element.hasClass( 'jqui-styles' ) ) ? true : false;
 			this.o = this.options;
@@ -39,8 +61,6 @@
 			if ( typeof($.wpui.ids[ this.id ] ) == 'undefined' )
 					$.wpui.ids[ this.id ] = [];
 
-			// Add the ul.
-			this.ul = $( '<ul class="ui-tabs-nav" />' ).prependTo( this.element );
 			
 			if ( this.o.wpuiautop ) {
 				
@@ -58,16 +78,25 @@
 				$( this ).parent().append( $( this ).parent().nextUntil( "div.ui-tabs-panel" ) );
 			});
 			
+			// this.element.wrapInner( '<div class="ui-tabs-panels-wrapper" />' );
+
+
+			// Add the list.
+			this.ul = $( '<ul class="ui-tabs-nav" />' ).prependTo( this.element );
+						
 			// Iterate through headers and add the styles.
 			this.header.each(function( index ) {
 				var elId = $( this ).text(),
-					toLoad = $( this ).find( self.o.ajaxClass ),
+					toLoad = $( this ).find( baset.o.ajaxClass ),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
-				
+					
+
 				// Get this tabs's ID.
-				elId = $.wpui.getIds( elId, self.id );
-		
+				elId = $.wpui.getIds( elId, baset.id );
+				// elId = 'wpui-tab-' + ( index + 1 );
+				
+
 				if ( toLoad.length ) {
 					// IT IS an AJAX LINK
 					linkStr = '<a href="' + toLoad.attr( 'href' ) + '">' + toLoad.text() + '</a>';
@@ -79,7 +108,7 @@
 					img.removeAttr( 'style' ).css( 'vertical-align', 'middle' );
 					// Get the id if no header text.
 					if ( img.attr( 'title' ) != 'undefined' && img.attr( 'title') != '' && $( this ).text() == '' )
-						elId = $.wpui.getIds( img.attr( 'title' ), self.id ); 
+						elId = $.wpui.getIds( img.attr( 'title' ), baset.id ); 
 					linkStr = '<a href="#' + elId + '"><img src="' + img.attr( 'src' ) + '" title="' + img.attr( 'title' ) + '" />'  + $( this ).text() + '</a>';
 				
 				} else {
@@ -89,7 +118,7 @@
 				
 				linkStr = '<li>' + linkStr + '</li>';
 				
-				self.ul.append( linkStr );
+				baset.ul.append( linkStr );
 				
 				if ( ! toLoad.length ) {
 					$( this ).parent().attr( 'id', elId );
@@ -98,7 +127,7 @@
 				}
 				
 				
-				// $.wpui.ids[ self.id ].push( elId ); 
+				// $.wpui.ids[ baset.id ].push( elId ); 
 				
 				// Another tab added.
 				// $.wpui.tabsNo++;
@@ -112,7 +141,7 @@
 
 		},
 		_init			: function() {
-			var self = this, $this = this.element, options = {};
+			var baset = this, $this = this.element, options = {};
 			
 			if ( this.o.effect == 'slideDown' ) {
 			 	options.fx = { height: 'toggle', speed: this.o.effectSpeed };
@@ -138,7 +167,11 @@
 			this.setClasses();
 			this.navigation();
 			
-			if ( this.isVertical ) this.goVertical();
+			if ( this.isVertical ) {
+				this.$tabs
+					.addClass( 'ui-tabs-vertical ui-helper-clearfix' );
+				this.goVertical();
+			}
 			
 		
 			if ( typeof( $.wpui.ids.children ) == 'undefined' )
@@ -154,7 +187,7 @@
 				this.$tabs.find( 'ul.ui-tabs-nav' ).sortable({ axis : 'x' });
 			}
 			
-			this.rotate();
+			// this.rotate();
 			
 			if ( $this.hasClass( 'tabs-bottom' ) ) {
 				this.ul.appendTo( this.ul.parent() );
@@ -162,7 +195,7 @@
 			
 		},
 		setClasses		: function() {
-			var self = this, $this = this.element;
+			var baset = this, $this = this.element;
 			
 			this.ul.children().eq(0).addClass( 'first-li' );
 			this.ul.children().last().addClass( 'last-li' );
@@ -181,38 +214,38 @@
 	
 		},
 		navigation		: function() {
-			var self = this, $this = this.element;
+			var baset = this, $this = this.element;
 			
-			// if ( this.o.topNav || this.o.bottomNav ) return false;
+			if ( this.o.topNav || this.o.bottomNav ) return false;
 
 			$this.find( 'div.ui-tabs-panel' ).each( function(i) {
 				var navClass = ' ui-button ui-widget ui-state-default ui-corner-all',
 				navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>',
 				navNextSpan = '<span class="ui-icon ui-icon-circle-triangle-e"></span>',
 				totalLength = $( this ).parent().children('.ui-tabs-panel').length -1;
-				
-				! self.o.topNav || $( this )
+		
+				! baset.o.topNav || $( this )
 					.prepend( '<div class="tab-top-nav" />');
 
-				! self.o.bottomNav || $( this )
+				! baset.o.bottomNav || $( this )
 					.append( '<div class="tab-bottom-nav" />' );				
 				
 				if ( i != 0 ) {
-					! self.o.topNav || $( this )
+					! baset.o.topNav || $( this )
 						.children('.tab-top-nav')
-						.prepend('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan + self.o.tabPrevText + '</a>' );
-					! self.o.bottomNav || $( this )
+						.prepend('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan + baset.o.tabPrevText + '</a>' );
+					! baset.o.bottomNav || $( this )
 						.children('.tab-bottom-nav')
-						.append('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan  + self.o.tabPrevText + '</a>');		
+						.append('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan  + baset.o.tabPrevText + '</a>');		
 				}
 
 				if ( i != totalLength ) {
-					! self.o.topNav || $( this )
+					! baset.o.topNav || $( this )
 						.children('.tab-top-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + self.o.tabNextText + navNextSpan + '</a>');
-					! self.o.bottomNav || $( this )
+						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText + navNextSpan + '</a>');
+					! baset.o.bottomNav || $( this )
 						.children('.tab-bottom-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + self.o.tabNextText +  navNextSpan + '</a>');			
+						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText +  navNextSpan + '</a>');			
 				}				
 				
 			});
@@ -225,26 +258,26 @@
 			
 			$this.find( 'a.next-tab, a.prev-tab' ).click(function() {
 				if ( $( this ).is('a.next-tab') )
-					self.goTo( "forward" );
+					baset.goTo( "forward" );
 				else	
-					self.goTo( "backward" );
+					baset.goTo( "backward" );
 				return false;
 			});		
 						
 			
 		},
 		goTo		: function( dir ) {
-			var self = this, $this = this.element, mrel;
+			var baset = this, $this = this.element, mrel;
 			
 			dir = dir || 'forward';
-			mrel = $this.find('.ui-tabs').tabs('option', 'selected');
+			mrel = $this.find('.ui-tabs').tabs('option', 'active');
 			
 			mrel = ( dir == 'backward' ) ? mrel - 1 : mrel + 1;
 			
 			if ( dir == "forward" && mrel == $this.panelength ) mrel = 0;
 			if ( dir == "backward" && mrel < 0 ) mrel = $this.panelength - 1;
 			
-			this.$tabs.tabs( "select", mrel );
+			this.$tabs.tabs( 'option' , "active", mrel );
 		},
 		changeMode		: function( mode ) {
 			// mode = mode || this.mode;
@@ -260,32 +293,35 @@
 
 		},
 		binders			: function() {
-			if ( this.isVertical ) {
-				
-				
-				
-			}
+			// if ( this.isVertical ) {
+			// 	
+			// 	
+			// 	
+			// }
 		},
-		// goVertical		: function() {
-		// 	var self = this, $this = this.element;
-		// 	
-		// 	
-		// 	
-		// },
 		goVertical		: function() {
-			var self = this, $this = this.element,
-			ulWidth, getListWidth, ulHeight, parWidth, PaneWidth, maxPane, paneCount;
-
+			var baset = this, $this = this.element;
+			// ulWidth, getListWidth, ulHeight, parWidth, PaneWidth, maxPane, paneCount;
+			// 
 			this.$tabs
 				.addClass( 'ui-tabs-vertical ui-helper-clearfix' );
-		
-			this.adjust();
+					
+			// this.adjust();
+			listWidth = $this.attr( 'class' ).match(/listwidth-(\d{2,4})/, "$1");
 			
-		
+			if ( listWidth ) {
+				listWidth = listWidth[ 1 ];
+				this.ul.width( listWidth );
+				
+			} else {
+				listWidth = this.ul.outerWidth();
+			}			
+			
+
 						
 		},
 		adjust			: function( mode ) {
-			var self = this, $this = this.element, listWidth;
+			var baset = this, $this = this.element, listWidth;
 			
 			mode = mode || this.mode;
 			
@@ -327,11 +363,11 @@
 				this.$tabs.width( this.$tabs.parent().innerWidth() );
 
 				paneWidth = this.$tabs.width() - this.ul.width();
-
-				this.$tabs
-					.find( '.ui-tabs-panel' )
-					.css({ 'float' : 'right' })
-					.outerWidth( paneWidth );				
+				
+				// this.$tabs
+				// 	.find( '.ui-tabs-panel' )
+				// 	.css({ 'float' : 'right' })
+				// 	.width( paneWidth );				
 			
 				this.$tabs
 					.css({
@@ -459,117 +495,95 @@
 
 
 
-	// Common hash change function.
-	$.wpui.hasher = function() {
-		if ( typeof( $.bbq ) == 'undefined' ) return false;		
-		if ( typeof( 'wpUIOpts' ) != 'undefined' && typeof( 'wpUIOpts.linking_history' ) != 'undefined' && wpUIOpts.linking_history == 'off' ) return false;
-		
-		$( window ).bind( 'hashchange', function( e ) {
-			// this.progressed = this.progressed || false;
-			// if ( this.progressed ) return false;
-			
-			var state = [], 
-				finalT = window.location.hash.replace( /#/, '' ),
-				preT = false;
-			
-			// console.log( e.fragment ); 
-			if ( typeof( $.wpui.ids.children ) != 'undefined' && typeof( $.wpui.ids.children[ finalT ] ) != 'undefined'
-			// $.inArray( finalT, $.wpui.ids.children ) != -1 
-			) {
-				// console.log( $.wpui.ids ); 
-					// && ( $( '#' + e.fragment ).is( ':wpui-wpspoiler' ) ) ) {
-				preT = finalT;
-				finalT = $.wpui.ids.children[ finalT ];
-			}
-	
-			for ( var ins in $.wpui.ids ) {
-				if ( $.inArray( finalT, $.wpui.ids[ ins ] ) != '-1' ) {
-					// get the index.
-					var index = $.wpui.ids[ ins ].indexOf( finalT ), tab, acc;
-					
-					// Do tabs.
-					tab = $( '#' + ins ).children( ".ui-tabs" );
-					if ( tab.length ) {
-						$.wpui.scrollTo( tab, function() {
-							tab.tabs( 'select', index );
-						});
-					}
-					
-					// Do accordions
-					acc = $( '#' + ins ).children( '.ui-accordion' );
-					if ( acc.length ) {
-						$.wpui.scrollTo( acc, function() {
-							acc.accordion( 'activate', index );
-						});
-					} 
-				}			
-			}
-			
-			if ( preT ) finalT = preT;
-
-			if ( $( '#' + finalT ).parent().is( '.wp-spoiler' ) ) {
-				$( '#' + finalT ).parent().wpspoiler( 'toggle' );
-			}
-			if ( $( '#' + finalT ).is( '.wp-spoiler' ) ) {
-				$( '#' + finalT ).wpspoiler( 'toggle' );
-			}
-			
-			if ( $( '#' + finalT ).is( ':ui-dialog' ) ) {
-				if ( ! $( '#' + finalT ).dialog( 'isOpen' ) )
-				$( '#' + finalT ).dialog( 'open' );
-				return false;
-			}
-			
-			if ( typeof( finalT ) != 'undefined' && finalT != '' ) {
-				window.location.hash = finalT;
-			//	return false;
-		
-			}
-			
-			// state[ id ] = finalT;
-		}).trigger( 'hashchange' );
-	};	
-	
-	
-	$.wpui.hasher2 = function() {
+	$.idQrk.hashWatch = function() {
 		if ( typeof( $.bbq ) == 'undefined' ) return false;
 		
-	
-		$( window ).bind( 'hashchange', function() {
-			var hashObj = $.bbq.getState(), el = $({}), scrollTar = false;
-			// console.log( hashObj ); 
-			for( kin in hashObj ) {
-				el = $( '#' + kin );
-
-				if ( kin == 'scrollto' ) {
-				 	$.wpui.scrollTo( hashObj[ kin ] );
-				}
-
-				if ( el.is( '.wp-tabs' ) ) {
-					el.children( '.ui-tabs' ).tabs( 'select', parseInt( hashObj[ kin ], 10 ) );
-					scrollTar = el.children( '.ui-tabs' );
-				}
-				if ( el.is( '.wp-accordion' ) ) {
-					el.children( '.ui-accordion' ).accordion( 'activate', parseInt( hashObj[ kin ], 10 ) );
-					scrollTar = el.children( '.ui-accordion' );
-					
-				}
-				
-				if ( el.is( '.wp-spoiler' ) ) {
-					el.wpspoiler( 'toggle' );
-					scrollTar = el;
-					
-				}
-				
-			}
-			if ( scrollTar )
-				$.wpui.scrollTo( scrollTar );
-			
-		}).trigger( 'hashchange' );		
+		if ( typeof( 'wpUIOpts' ) != 'undefined' 
+			&& typeof( 'wpUIOpts.linking_history' ) != 'undefined' 
+			&& wpUIOpts.linking_history == 'off' )
+				return false;
 		
+				
+		$( window ).bind( 'hashchange', function() {
+			var hsh = $.bbq.getState(), el;
+			
+			for ( su in hsh ) {
+				var argu = [], fn_name;
+				
+				el = $( '#' + su ); 
+				aEl = el.parent();
+
+
+				// Tabs panel
+				if ( el.is( '.ui-tabs-panel' ) ) {
+					// el.parent().tabs( 'select', ( el.index() - 1 ) );
+					fn_name = 'tabs';
+					argu = [  'select', ( el.index() - 1 ) ];
+				}
+				
+				// Tabs
+				if ( el.is( ".wp-tabs" ) ) {
+					aEl = el.children( '.ui-tabs' );
+					fn_name = 'tabs';
+				}
+				
+				// Accordion header.
+				if ( el.is( 'h3.wp-tab-title.ui-accordion-header' ) ) {
+					// el.parent().accordion( 'activate', ( el.index() - 1 ) );
+					fn_name = 'accordion';
+					argu = [ 'activate', ( el.index() - 1 ) ];
+				}
+				
+				// Accordions
+				if ( el.is( '.wp-accordion' ) ) {
+					fn_name = 'accordion';
+					aEl = el.children( '.ui-accordion' );
+				}
+				
+				// Spoiler
+				if ( el.parent().is( '.wp-spoiler' ) ) {
+					// el.parent().wpspoiler( 'toggle' );
+					fn_name = 'wpspoiler';
+					argu = [ 'toggle' ];
+				}
+				
+				// Dialog		
+				if ( el.is( '.wp-dialog' ) ) {
+					aEl = el;
+					fn_name = 'dialog';
+					// el.dialog( 'close' );
+					argu = [ ( el.dialog( "isOpen" ) ) ? "close" : 'open' ];
+				}
+				
+				if ( hsh[su] != false ) {
+					argu = hsh[ su ].split( "::" );
+				}
+				
+				$.fn[ fn_name ].apply( aEl, argu );
+				
+			};
+			
+			if ( typeof el == 'object' )
+			$.wpui.scrollTo( el.attr( 'id' ) );
+			
+		}).trigger( 'hashchange' );
+
 		
 	};
 
+
+	jQuery( function() {
+		var tmout = 1000;
+		if ( typeof( wpUIOpts ) != 'undefined' && 
+		 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
+		 		typeof( wpUIOpts.misc_opts.hashing_timeout ) != 'undefined' ) {
+					tmout = wpUIOpts.misc_opts.hashing_method;
+		}
+		setTimeout(function() {
+			$.idQrk.hashWatch();
+		}, tmout);
+	
+	});
 
 
 	$.wpui.scrollTo = function( id, callback ) {
@@ -588,16 +602,32 @@
 		return id;
 	};
 	
-	
+	$.fn.styleSwitcher = function() {
+		return this.each( function() {
+
+			var list = $( '<select id="wpui_style_switcher" />' )
+						.prependTo( this ),
+				stylez = [ 'wpui-achu', 'wpui-alma','wpui-android','wpui-blue','wpui-cyaat9','wpui-dark','wpui-gene','wpui-green','wpui-light','wpui-macish','wpui-narrow','wpui-quark','wpui-red','wpui-redmond','wpui-safle','wpui-sevin'],
+				clsRep = function() {
+					var cls = $( this ).attr( 'class' ).replace( /wpui\-[^\s]*\s/, $( this ).data( 'wpui-style' ) + " " ); 
+					jQuery( this ).attr( 'class', cls ); 		
+				};
+				
+			for ( i=0; i < stylez.length; i++ ) {
+				list.append( '<option value="' + stylez[ i ] + '">' + stylez[ i ] + '</option>' ); 
+			}
+			
+			list.change( function() {
+				$( '.wp-tabs' ).data( 'wpui-style', this.value ).each( clsRep );
+			}).trigger( 'change' );
+						
+			
+		});
+	};
 	
 })( jQuery );
 jQuery( function() {
-	if ( typeof( wpUIOpts ) != 'undefined' && 
-	 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
-				wpUIOpts.misc_opts.hashing_method == 2 )
-		jQuery.wpui.hasher2();
-	else
-		jQuery.wpui.hasher();
+	jQuery( 'div#insert_styles' ).styleSwitcher();
 });
 (function( $ ) {
 
@@ -619,12 +649,11 @@ jQuery( function() {
 			template		: 	'<div class="wp-tab-content"><div class="wp-tab-content-wrapper">{$content}</div></div>'		
 		},
 		_create			: function() {
-			self = this;
+			baset = this;
 			$this = this.element;
 			this.o = this.options;
 			this.header = $this.find( this.o.header );
 			this.id = $this.attr( 'id' );
-			
 			
 			if ( this.o.wpuiautop ) {
 				$this.find('p, br')
@@ -638,12 +667,13 @@ jQuery( function() {
 			
 			this.header.each( function() {
 				var elId = $( this ).text(),
-					toLoad = $( this ).children( self.o.ajaxClass ),
+					toLoad = $( this ).children( baset.o.ajaxClass ),
+					// toLoad = jQuery({}),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
 		
-				elId = $.wpui.getIds( elId, self.id );
+				elId = $.wpui.getIds( elId, baset.id );
 				
 				$( this )
 					// .next()
@@ -652,7 +682,7 @@ jQuery( function() {
 				if ( toLoad.length ) {
 					$( '<div />' )
 					.load( toLoad.attr( 'href' ), function( data ) {
-						$( this ).html( self.o.template.replace( /\{\$content\}/, data ) );
+						$( this ).html( baset.o.template.replace( /\{\$content\}/, data ) );
 					})
 					.insertAfter( this );
 				}
@@ -673,11 +703,10 @@ jQuery( function() {
 				options.active = false;
 			}
 			
-			if ( this.o.easing ) options.animated = this.o.easing;
+			if ( this.o.easing && this.o.easing !== 'false' ) options.animate = this.o.easing;
 			
 			options.event = this.o.accordEvent;
 			
-		
 			this.accordion = $this.children( '.accordion' ).accordion( options );
 			
 			accClass = $this.attr( 'class' );
@@ -686,7 +715,7 @@ jQuery( function() {
 				this.accordion.accordion( 'activate', parseInt( activePanel[ 1 ], 10 ) );
 			}			
 			
-			if ( $this.hasClass( 'wpui-sortable' ) ) {
+			if ( $this.hasClass( 'wpui-skkkkortable' ) ) {
 				this.header.each(function() {
 					$( this ).wrap( '<div class="acc-group" />' );
 					$( this ).parent().next().insertAfter( this );
@@ -694,9 +723,9 @@ jQuery( function() {
 
 				this.accordion
 				.accordion({
-					header: "> div.acc-group > " + self.o.header
+					header: "> div.acc-group > " + baset.o.header
 				}).sortable({
-					handle : self.o.header,
+					handle : baset.o.header,
 					axis	: 'y',
 					stop: function( event, ui ) {
 							ui.item.children( "h3" ).triggerHandler( "focusout" );
@@ -704,6 +733,16 @@ jQuery( function() {
 				});
 				
 			}
+			
+			if ( $this.hasClass( 'wpui-collapsible' ) ) {
+				this.accordion
+					.accordion( 'option', {
+						collapsible : true,
+						active		: false
+					});
+			}
+			
+			// return !1;
 			
 			// Auto rotate the accordions
 			this.rotate();
@@ -731,7 +770,7 @@ jQuery( function() {
 		},
 		rotate		: function() {
 			
-			var self = this, rSpeed = this.element.attr( 'class' ).match( /tab-rotate-(.*)/, "$1" ), aRot, rotac;
+			var baset = this, rSpeed = this.element.attr( 'class' ).match( /tab-rotate-(.*)/, "$1" ), aRot, rotac;
 			
 			if ( rSpeed ) {
 				rSpeed =  rSpeed[1];
@@ -740,10 +779,10 @@ jQuery( function() {
 				tPanel = this.accordion.children().length / 2 -1;
 				
 				rotac = setInterval(function() {
-					self.accordion.accordion( 'activate', ( cPanel > tPanel ) ? 0 : cPanel++ );
+					baset.accordion.accordion( 'activate', ( cPanel > tPanel ) ? 0 : cPanel++ );
 				}, rSpeed );
 				
-				self.accordion.children(":nth-child(odd)").bind( 'click', function() {
+				baset.accordion.children(":nth-child(odd)").bind( 'click', function() {
 					clearInterval( rotac );
 				});
 			}
@@ -797,9 +836,17 @@ jQuery( function() {
 			this._trigger( 'create' );
 			this._spoil(); 
 			this._hashSet = false;
+			this.reFresh = false;
+
 
 			// $.wpui.wpspoiler.instances.push( this.element );
 			$.wpui.wpspoiler.instances[ this.element.attr('id') ] = this.element;
+			
+			setTimeout(function() {
+				if ( base.element.closest( '.ui-accordion' ).length )
+					base.reFresh = base.element.closest( '.ui-accordion' );
+			}, 300);
+			
 		},
 		
 		_spoil : function( init ) {
@@ -811,15 +858,16 @@ jQuery( function() {
 			this.header = this.element.children( 'h3' ).first();
 			this.content = this.header.next( 'div' );
 			
-			this.header.prepend( '<span class="ui-icon ' + self.o.openIconClass + '" />' )
+			this.header.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
 					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
 								
-			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
+			// this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
+			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-all' )
 					.children( self.o.spanClass )
 					.html( self.o.showText );
 
 			this.content
-				.addClass( 'ui-helper-reset ui-state-default ui-widget-content ui-collapsible-content ui-collapsible-hide' )
+				.addClass( 'ui-helper-reset clearfix ui-widget-content ui-collapsible-content ui-collapsible-hide' )
 				.wrapInner( '<div class="ui-collapsible-wrapper" />' );
 			
 			this.animOpts = {};
@@ -854,7 +902,7 @@ jQuery( function() {
 					self.toggle(); return false;
 				});			
 			
-			self.toggle();
+			// self.toggle();
 			
 		},
 		_stripPre : function( str ) {
@@ -887,7 +935,11 @@ jQuery( function() {
 			if ( ! this.isOpen() ) this.toggle();
 		},
 		animate : function() {
+			var base = this;
 			this.content.animate( this.animOpts, this.options.speed, this.options.easing, function() {
+				if ( base.reFresh != false ) {
+					base.reFresh.accordion( 'refresh' );
+				}
 			});			
 		},	
 		isOpen : function() {
@@ -1036,6 +1088,23 @@ jQuery( document ).ready(function() {
 		jQuery( '.wpui-click-reveal' ).wpuiClickReveal();
 });
 
+/*!
+ *	WP UI version 0.8.7
+ *	
+ *	Copyright (c) 2011, Kavin ( http://kav.in )
+ *	@license - Dual licensed under the MIT and GPL licenses.
+ *	
+ *	Below components Copyright and License as per the respective authors. 
+ *	
+ *	Includes jQuery cookie plugin by Klaus Hartl.
+ *	Includes jQuery BBQ plugin by Ben Alman.
+ *	Includes Mousewheel event plugin by Brandon Aaron.
+ *	
+ *	
+ *	Requires : jQuery v1.4.2, jQuery UI v1.8 or later.
+!*/
+
+
 /**
  *	The included files and init below. 
  */
@@ -1154,7 +1223,8 @@ var docWriteTxt = "";
 jQuery(function() {
   document.write = function( dWT ) {
     docWriteTxt += dWT;
-  }
+  };
+  
   // document.write("");
   jQuery( docWriteTxt ).appendTo( 'body' );
 
@@ -1231,6 +1301,52 @@ throw new SyntaxError('JSON.parse');};}}());
  */
 (function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(f){var d=[].slice.call(arguments,1),g=0,e=true;f=c.event.fix(f||window.event);f.type="mousewheel";if(f.wheelDelta){g=f.wheelDelta/120}if(f.detail){g=-f.detail/3}d.unshift(f,g);return c.event.handle.apply(this,d)}})(jQuery);
 
+/*
+ * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+ *
+ * Uses the built in easing capabilities added In jQuery 1.1
+ * to offer multiple easing options
+ *
+ * TERMS OF USE - EASING EQUATIONS
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright Ã‚Â© 2001 Robert Penner
+ * All rights reserved.
+ *
+ * TERMS OF USE - jQuery Easing
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright Ã‚Â© 2008 George McGinley Smith
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list of 
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list 
+ * of conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution.
+ * 
+ * Neither the name of the author nor the names of contributors may be used to endorse 
+ * or promote products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+*/
+jQuery.easing.jswing=jQuery.easing.swing;jQuery.extend(jQuery.easing,{def:"easeOutQuad",swing:function(e,f,a,h,g){return jQuery.easing[jQuery.easing.def](e,f,a,h,g)},easeInQuad:function(e,f,a,h,g){return h*(f/=g)*f+a},easeOutQuad:function(e,f,a,h,g){return -h*(f/=g)*(f-2)+a},easeInOutQuad:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f+a}return -h/2*((--f)*(f-2)-1)+a},easeInCubic:function(e,f,a,h,g){return h*(f/=g)*f*f+a},easeOutCubic:function(e,f,a,h,g){return h*((f=f/g-1)*f*f+1)+a},easeInOutCubic:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f+a}return h/2*((f-=2)*f*f+2)+a},easeInQuart:function(e,f,a,h,g){return h*(f/=g)*f*f*f+a},easeOutQuart:function(e,f,a,h,g){return -h*((f=f/g-1)*f*f*f-1)+a},easeInOutQuart:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f+a}return -h/2*((f-=2)*f*f*f-2)+a},easeInQuint:function(e,f,a,h,g){return h*(f/=g)*f*f*f*f+a},easeOutQuint:function(e,f,a,h,g){return h*((f=f/g-1)*f*f*f*f+1)+a},easeInOutQuint:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f*f+a}return h/2*((f-=2)*f*f*f*f+2)+a},easeInSine:function(e,f,a,h,g){return -h*Math.cos(f/g*(Math.PI/2))+h+a},easeOutSine:function(e,f,a,h,g){return h*Math.sin(f/g*(Math.PI/2))+a},easeInOutSine:function(e,f,a,h,g){return -h/2*(Math.cos(Math.PI*f/g)-1)+a},easeInExpo:function(e,f,a,h,g){return(f==0)?a:h*Math.pow(2,10*(f/g-1))+a},easeOutExpo:function(e,f,a,h,g){return(f==g)?a+h:h*(-Math.pow(2,-10*f/g)+1)+a},easeInOutExpo:function(e,f,a,h,g){if(f==0){return a}if(f==g){return a+h}if((f/=g/2)<1){return h/2*Math.pow(2,10*(f-1))+a}return h/2*(-Math.pow(2,-10*--f)+2)+a},easeInCirc:function(e,f,a,h,g){return -h*(Math.sqrt(1-(f/=g)*f)-1)+a},easeOutCirc:function(e,f,a,h,g){return h*Math.sqrt(1-(f=f/g-1)*f)+a},easeInOutCirc:function(e,f,a,h,g){if((f/=g/2)<1){return -h/2*(Math.sqrt(1-f*f)-1)+a}return h/2*(Math.sqrt(1-(f-=2)*f)+1)+a},easeInElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return -(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e},easeOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return g*Math.pow(2,-10*h)*Math.sin((h*k-i)*(2*Math.PI)/j)+l+e},easeInOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k/2)==2){return e+l}if(!j){j=k*(0.3*1.5)}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}if(h<1){return -0.5*(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e}return g*Math.pow(2,-10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j)*0.5+l+e},easeInBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*(f/=h)*f*((g+1)*f-g)+a},easeOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*((f=f/h-1)*f*((g+1)*f+g)+1)+a},easeInOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}if((f/=h/2)<1){return i/2*(f*f*(((g*=(1.525))+1)*f-g))+a}return i/2*((f-=2)*f*(((g*=(1.525))+1)*f+g)+2)+a},easeInBounce:function(e,f,a,h,g){return h-jQuery.easing.easeOutBounce(e,g-f,0,h,g)+a},easeOutBounce:function(e,f,a,h,g){if((f/=g)<(1/2.75)){return h*(7.5625*f*f)+a}else{if(f<(2/2.75)){return h*(7.5625*(f-=(1.5/2.75))*f+0.75)+a}else{if(f<(2.5/2.75)){return h*(7.5625*(f-=(2.25/2.75))*f+0.9375)+a}else{return h*(7.5625*(f-=(2.625/2.75))*f+0.984375)+a}}}},easeInOutBounce:function(e,f,a,h,g){if(f<g/2){return jQuery.easing.easeInBounce(e,f*2,0,h,g)*0.5+a}return jQuery.easing.easeOutBounce(e,f*2-g,0,h,g)*0.5+h*0.5+a}});
+
+
 
 /**
  *	Init the scripts.
@@ -1259,6 +1375,7 @@ jQuery(document).ready(function( $ ) {
 
 
 
+
 (function( $ ) {
 
 
@@ -1283,12 +1400,12 @@ jQuery(document).ready(function( $ ) {
 	if ( typeof( $.wpui.getIds ) == 'undefined' ) {
 		$.wpui.getIds = function( str, par ) {
 			var num = $.wpui.tabsNo, dup;
-	
+
 			if ( typeof($.wpui.ids[ par ] ) == 'undefined' )
 					$.wpui.ids[ par ] = [];
-	
+
 			str = $.trim(str).replace(/\s{1,}/gm, '_')
-					.replace( /[^\-A-Za-z0-9\s_]/mg, '')
+					.replace( /[^A-Za-z0-9\s_\-]/m, '')
 					.toLowerCase();
 		
 			for ( dup in $.wpui.ids ) {
@@ -1296,10 +1413,10 @@ jQuery(document).ready(function( $ ) {
 					str = str + '-' + num;
 				}
 			}
-				
+
 			// characters.
 			if ( str.match( /[^\x00-\x80]+/ ) ) {
-				str = 'tabs-' + num;
+				str = 'wpui-tabs-' + num;
 			}
 	
 			$.wpui.ids[ par ].push( str );

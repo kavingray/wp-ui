@@ -8,7 +8,7 @@
 			case 'wpuimce' :
 			var csm = cm.createSplitButton( 'wpuimce', {
 				title	: "WP UI widgets",
-				image	: pluginVars.pluginUrl + "/images/icons/wpui_editor.png",
+				image	: pluginVars.pluginUrl + "/images/wpui_editor.png",
 				 onclick: function() {
 					// tinyMCE.activeEditor.windowManager.alert( 'Button was clicked!' );					
 				}				
@@ -167,7 +167,7 @@
 				authorurl : 'http://kav.in',
 				infourl : 'http://kav.in',
 				version : '0.1'
-			}
+			};
 		}
 		
 		

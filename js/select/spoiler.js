@@ -27,9 +27,17 @@
 			this._trigger( 'create' );
 			this._spoil(); 
 			this._hashSet = false;
+			this.reFresh = false;
+
 
 			// $.wpui.wpspoiler.instances.push( this.element );
 			$.wpui.wpspoiler.instances[ this.element.attr('id') ] = this.element;
+			
+			setTimeout(function() {
+				if ( base.element.closest( '.ui-accordion' ).length )
+					base.reFresh = base.element.closest( '.ui-accordion' );
+			}, 300);
+			
 		},
 		
 		_spoil : function( init ) {
@@ -41,15 +49,16 @@
 			this.header = this.element.children( 'h3' ).first();
 			this.content = this.header.next( 'div' );
 			
-			this.header.prepend( '<span class="ui-icon ' + self.o.openIconClass + '" />' )
+			this.header.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
 					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
 								
-			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
+			// this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
+			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-all' )
 					.children( self.o.spanClass )
 					.html( self.o.showText );
 
 			this.content
-				.addClass( 'ui-helper-reset ui-state-default ui-widget-content ui-collapsible-content ui-collapsible-hide' )
+				.addClass( 'ui-helper-reset clearfix ui-widget-content ui-collapsible-content ui-collapsible-hide' )
 				.wrapInner( '<div class="ui-collapsible-wrapper" />' );
 			
 			this.animOpts = {};
@@ -84,7 +93,7 @@
 					self.toggle(); return false;
 				});			
 			
-			self.toggle();
+			// self.toggle();
 			
 		},
 		_stripPre : function( str ) {
@@ -117,7 +126,11 @@
 			if ( ! this.isOpen() ) this.toggle();
 		},
 		animate : function() {
+			var base = this;
 			this.content.animate( this.animOpts, this.options.speed, this.options.easing, function() {
+				if ( base.reFresh != false ) {
+					base.reFresh.accordion( 'refresh' );
+				}
 			});			
 		},	
 		isOpen : function() {

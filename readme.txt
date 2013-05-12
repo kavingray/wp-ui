@@ -2,11 +2,11 @@
 Contributors: kavingray
 Donate link: http://kav.in/donation
 Plugin URI: http://kav.in/wp-ui-for-wordpress
-Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, widget, dialogs, custom themes, themeroller, CSS3, pagination, related-posts
+Tags: posts, tabs, accordion, sliders, spoilers, collapsibles, posts, feeds, rss, rss 2.0, jquery, jquery ui, widget, dialogs, custom themes, themeroller, CSS3
 Requires at least: 3.1
-Tested up to: 3.4.1
-Stable tag: 0.8.5
-License: GPLv2 or later
+Tested up to: 3.5.1
+Stable tag: 0.8.7
+License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Easily add Tabs, Accordion, dialogs and spoilers to your posts. With 14 fresh & Unique CSS3 styles and 24 multiple jQuery UI custom themes.
@@ -19,7 +19,7 @@ WordPress is a great platform suitable for almost every case of websites out the
 
 = Base =
 
-WP UI for WordPress is powered by jQuery **U**ser **I**nterface library - jQuery UI. It acts as a bridge between jQuery UI and WordPress, simplifies and manages the code structure for easy usage. 
+WP UI for WordPress is powered by jQuery **U**ser **I**nterface library - jQuery UI. It acts as a bridge between jQuery UI and WordPress, simplifies and manages the code structure for easy usage.
 
 = Styles =
 
@@ -35,21 +35,18 @@ Most common functionality in WP UI is achieved through shortcodes, that comes wi
 
 = Posts and Feeds =
 
-Including posts and feeds have never been more easier. With a single post shortcode - <code>[wptabposts]</code>, get and display posts as neatly arranged tabs or accordions, Automatically. This shortcode's counterpart that deals with feeds - <code>wpuifeeds</code>. And you can use the post argument ( <code>[wpspoiler post="3028"]</code> ) universally with most shortcodes to get a single post. 
+Including posts and feeds have never been more easier. With a single post shortcode - <code>[wptabposts]</code>, get and display posts as neatly arranged tabs or accordions, Automatically. This shortcode's counterpart that deals with feeds - <code>wpuifeeds</code>. And you can use the post argument ( <code>[wpspoiler post="3028"]</code> ) universally with most shortcodes to get a single post.
 
 = Documentation =
 
 WP UI comes with rich documentation bundled in the options page and right within the editor. While they work great for a quick reference on shortcodes or arguments, there is a [dedicated documentation](http://kav.in/projects/) site, built and updated every day.
 
-= Status on Support ( .. Aug 2012 ) =
-
-Recent struggles on work-life imbalance has greatly reduced my available time providing full time support. While I will try my best on keeping up the previous levels of support, **I highly encourage & request help from loyal users of WP UI, who can help new users as well share their experiences & solutions**. And Never worry, Plugin will be maintained definitely. 
 
 = Translations =
 
 Missing your language here? Contribute by translating your favorite plugin!
 
-* [All Translations](http://kav.in/resources/translations/wp-ui/) 
+* [All Translations](http://kav.in/resources/translations/wp-ui/)
 * [Serbian](http://kav.in/resources/translations/wp-ui/serbian) by Zoran Aksic.
 * [Brazilian Portuguese](http://wordpress.org/support/topic/plugin-wp-ui-tabs-accordions-sliders-brazilian-portuguese-translation) by Paulino Michelazzo
 * [Send your translations](http://kav.in/contact/)
@@ -81,7 +78,7 @@ Most likely there is an option exactly for the purpose you are searching for. Pl
 Yes, you can request a quote through my [Contact page](http://kav.in/contact).
 
 = How do i get regular updates? =
-[Like Us on Facebook](http://www.facebook.com/pages/Capability/136970409692187) and stay updated. or Follow [@kavingray](http://twitter.com/kavingray) on twitter!
+Give a 5 Star rating, or [Like Us on Facebook](http://www.facebook.com/pages/Capability/136970409692187) and stay updated. or Follow [@kavingray](http://twitter.com/kavingray) on twitter!
 
 = Where can i find recent & up-to-date FAQ? =
 
@@ -104,7 +101,7 @@ Yes. Just enter the name of jQuery UI theme as value to the shortcode [wptabs] s
 
 = Why are some of my shortcodes appear on the rendered page? =
 
-Make sure each one of your shortcodes is in the **separate line** but please do avoid empty lines. eg. 
+Make sure each one of your shortcodes is in the **separate line** but please do avoid empty lines. eg.
 
     [wptabs]
       [wptabtitle]Tab 1[/wptabtitle]
@@ -119,11 +116,11 @@ Shortcodes should be entered into the wordpress post editor's HTML mode. WP Visu
 
 = My Accordions seems to be broken, with para tags in between? =
 
-View the shortcodes in HTML editor, and remove the blank spaces/linebreaks between lines. Sometimes it might help to put the entire shortcode in a single line, but leaving a couple of spaces between each shortcode. 
+View the shortcodes in HTML editor, and remove the blank spaces/linebreaks between lines. Sometimes it might help to put the entire shortcode in a single line, but leaving a couple of spaces between each shortcode.
 
 = How do i insert or choose posts easily? =
 
-Editor menu allows you to insert content manually and choose the posts. You can choose from a list of posts.  
+Editor menu allows you to insert content manually and choose the posts. You can choose from a list of posts.
 
 = How do i differentiate between a styling and javascript conflict? =
 
@@ -135,12 +132,12 @@ This can be related to lot of white space between the shortcodes, which are conv
 
 = Where can i get help on this plugin? =
 
-Documentation is available right within the wordpress admin. It is present in the 
+Documentation is available right within the wordpress admin. It is present in the
 
 * Post editor - look for the menu button in Visual mode and "?" icon in the HTML mode. This opens a document with common usage of the plugin shortcodes and their arguments.
 * Contextual Help - Available on the options page on the top right corner, below the username. Click each tab and information related to that tab will appear.
 
-Help 
+Help
 
 * [Detailed Documentation & Demos](http://kav.in/projects/).
 * [Support forums](http://wordpress.org/support/plugin/wp-ui)
@@ -154,7 +151,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 * Support the plugin by considering a [donation](http://kav.in/donation).
 * Give this plugin a nice 5 star rating on the [plugin page](http://wordpress.org/extend/plugins/wp-ui/).
 * Tell others that it works, with the compatibility box on the [plugin page](http://wordpress.org/extend/plugins/wp-ui/).
-* Support us by a like on [Facebook](http://www.facebook.com/pages/Capability/136970409692187) 
+* Support us by a like on [Facebook](http://www.facebook.com/pages/Capability/136970409692187)
 * Tweet about the plugin or follow us on twitter [@kavingray](http://twitter.com/kavingray).
 * We'd really appreciate a review or a blog post.
 
@@ -166,6 +163,19 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 4. Both jQuery UI themes and WP UI CSS3 styles preview. Picture shows a full CSS3 style - wpui-sevin.
 
 == Changelog ==
+
+= 0.8.7 =
+* Important : [Feature Changes](http://kav.in/u/impr).
+* Updated for WP 3.5 and above.
+* Redone Widgets and Admin page. Backup your old widget data before updating.
+* Rewritten linking support -> Now open dialogs with URL hash.
+* Loading jQuery UI from Google CDN now Optional.
+* Redone Admin options page, with added features - Import, export options.
+* Enhanced support for IE 7 - 10, Accordions fixed for IE 7-9.
+* Styles now based on scss, scss available in GitHub.
+* Fixed admin page buttons and dialogs.
+* Numerous performance improvements and bug fixes.
+* Scripts updated for latest version for jQuery and jQuery UI.
 
 = 0.8.5 =
 * Plugin is now on [GitHub](https://github.com/kavingray/WP-UI).
@@ -180,8 +190,8 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 = 0.8.2 =
 * Support for jQuery UI buttons.
-* Rewritten Dialogs handling, Dialogs are now accessible through Image maps and links. 
-* Bleeding edge channel, for cool yet experimental features enabled through admin. 
+* Rewritten Dialogs handling, Dialogs are now accessible through Image maps and links.
+* Bleeding edge channel, for cool yet experimental features enabled through admin.
 * Improved support for feeds with long URLs and foreign characters.
 * New Image shortcode, Easily link any media gallery image.
 * WP UI styles cleaned and updated.
@@ -194,7 +204,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 * On Demand script loading using jQuery.
 * Feeds access/excerpt handling.
 * Custom themes uploading error handling and directory browsing improved.
-* Options page modal windows are now handled by colorbox, replacing thickbox. 
+* Options page modal windows are now handled by colorbox, replacing thickbox.
 * Related posts widget updated.
 * Fix regarding post meta.
 * Options handling changed and might require a manual save for upgrading users.
@@ -204,9 +214,9 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 * Lots of changes and rewrites from the last release.
 * Wordpress 3.3 compatible - Try the tour and help.
 * Completely overhauled editor interface.
-* Revamped tinyMCE and QTags buttons - ready for 3.3 . 
+* Revamped tinyMCE and QTags buttons - ready for 3.3 .
 * Load scripts on demand or use conditional logic.
-* Caching images and scripts to improve functionality. Uses **<code>wp-content/uploads/wp-ui/cache/</code>** for cache files and images. 
+* Caching images and scripts to improve functionality. Uses **<code>wp-content/uploads/wp-ui/cache/</code>** for cache files and images.
 * Display Related/Popular/Recent/Random Posts with the new posts widget.
 * WordPress widgets, manual content or posts widget.
 * Improved/revamped options page with new options added.
@@ -218,7 +228,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 
 = 0.7.5 =
-* Get and display RSS feeds inside the wp ui widgets. 
+* Get and display RSS feeds inside the wp ui widgets.
 * Rewritten documentation available right from within editor.
 * Vertical style on tabs now more sleek and compact.
 * Add unlimited post and feed templates.
@@ -227,10 +237,10 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 * TinyMCE/quicktags buttons corrected.
 
 = 0.7.4 =
-* Compatibility and bug fixes. 
+* Compatibility and bug fixes.
 * Style fixes for IE < 8.
 * Help on editor page, Style chooser on options page should now work perfectly.
-* Please remember to save the options. 
+* Please remember to save the options.
 
 
 = 0.7.3 =
@@ -239,7 +249,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 * Style Fixes - uniform feel. Use the custom css panel to enter your font size rule.
 * New shortcode wpui_loop outputs custom loop anywhere and is not limited to WP UI.
 * Pagination for retrieved posts. Basic pagination for now, to be used with the wpui_loop shortcode.
-* Twitter and e-commerce widgets blank page fix. 
+* Twitter and e-commerce widgets blank page fix.
 
 = 0.7.2 =
 * Detailed Preview of jQuery UI themes and CSS3 styles.
@@ -252,7 +262,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 = 0.7 =
 * Display post/posts and pages within Tabs/accordion/dialogs/sliders.
 * Mousewheel support and vertical styling for Tabs.
-* Dialogs completely styled and ready for action. 
+* Dialogs completely styled and ready for action.
 * Template feature for the posts.
 * Sliders/dialogs rewritten.
 * Various bugfixes.
@@ -275,7 +285,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 * Tab name special characters fix.
 
 = 0.5.1 =
-* Fixed "Unable to attach Media - Images to the post with the plugin activated" problem. 
+* Fixed "Unable to attach Media - Images to the post with the plugin activated" problem.
 * Fixed the options page contextual help and other documentation.
 * License copy added.
 
@@ -292,6 +302,9 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 == Upgrade Notice ==
 
+= 0.8.7 =
+Visit - kav.in/u/impr. Save the options after update, Clear the caches( WP side if using Cache plugins). Thanks.
+
 = 0.8.5 =
 Save the options and clear the cache. That should do it.
 
@@ -299,7 +312,7 @@ Save the options and clear the cache. That should do it.
 Save the options & clear the browser & page( if any ) cache. Rest should be Automagic.
 
 = 0.8.1 =
-Please save the options manually. Mostly bugfixes relating to styles, dialogs, editor menus.  
+Please save the options manually. Mostly bugfixes relating to styles, dialogs, editor menus.
 
 = 0.8 =
 3.3 compatible. Performance related changes, lots of conflicts fixed. New editor menus and dialogs( > 3.1 only). Split-load and cache options added. Save the options.

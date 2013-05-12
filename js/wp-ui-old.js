@@ -180,7 +180,7 @@ jQuery.fn.wptabs = function( options ) {
 		});
 		
 		if ( o.alwaysRotate != 'disable' ) {
-			jQuery( this + '[class*=tab-rotate]').each(function() {
+			jQuery( '[class*=tab-rotate]').each(function() {
 				rotateSpeed = jQuery(this).attr('class').match(/tab-rotate-(.*)/, "$1");
 				if (rotateSpeed != null ) {
 					if (rotateSpeed[1].match(/(\d){1,2}s/, "$1")) rotateSpeed[1] = rotateSpeed[1].replace(/s$/, '')*1000 ;
@@ -350,14 +350,6 @@ jQuery.fn.wptabs = function( options ) {
 			
 		});
 		
-		// $tabs.find( '.wpui-tabs-arrow' ).each(function() {
-		// 	jQuery( this ).height( 
-		// 		jQuery( this ).parent().height() // +
-		// 		 // 				parseInt( jQuery( this ).css( 'borderTopWidth' ) ) +
-		// 		 // 				parseInt( jQuery( this ).css( 'borderBottomWidth' ) )
-		// 		
-		// 		);
-		// });
 		
 		// if ( jQuery.browser.mozilla == true ) {
 		// 	jQuery( 'body' ).append( '<style type="text/css">.tabs-arrow-svg {  clip-path : url( #c1 ); }</style><svg height="0">  <clipPath id="c1" clipPathUnits="objectBoundingBox">  <polygon style="fill:#FFFFFF;" points="0,0 0,1 0.4,1 0.8,0.5 0.4,0"/> </clipPath> </svg> ' );
@@ -873,7 +865,7 @@ jQuery.fn.wpspoiler = function( options ) {
 			if ( o.slide ) base.aniOpts[ 'height' ] = 'toggle';
 			
 			if ( o.slide || o.fade ) {
-				if ( jQuery(this + '[class*=speed-]').length ) {
+				if ( jQuery( '[class*=speed-]').length ) {
 					animSpeed = jQuery(this)
 									.attr('class')
 									.match(/speed-(.*)\s|\"/, "$1");

@@ -16,14 +16,14 @@ $wpui_options_list = array(
 		'title'		=>	__('Tabs', 'wp-ui'),
 		'desc'		=>	__('Enable', 'wp-ui'),
 		'section'	=>	'general',
-		'type'		=>	'checkbox'				
+		'type'		=>	'checkbox'
 	),
 	'enable_accordion'	=>	array(
 		'id'		=>	'enable_accordion',
 		'title'		=>	__('Accordions', 'wp-ui'),
 		'desc'		=>	__('Enable', 'wp-ui'),
 		'section'	=>	'general',
-		'type'		=>	'checkbox'				
+		'type'		=>	'checkbox'
 	),
 	'enable_spoilers'	=>	array(
 		'id'		=>	'enable_spoilers',
@@ -39,19 +39,12 @@ $wpui_options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
-	// 'enable_pagination'	=>	array(
-	// 	'id'		=>	'enable_pagination',
-	// 	'title'		=>	__('Pagination support', 'wp-ui'),
-	// 	'desc'		=>	__('Enable', 'wp-ui'),
-	// 	'type'		=>	'checkbox',
-	// 	'section'	=>	'general',
-	// ),
 	'enable_quicktags_buttons'	=>	array(
 		'id'		=>	'enable_quicktags_buttons',
 		'title'		=>	__('HTML editor buttons', 'wp-ui'),
 		'desc'		=>	__('Enable', 'wp-ui'),
 		'section'	=>	'general',
-		'type'		=>	'checkbox'	
+		'type'		=>	'checkbox'
 	),
 	'topnav'	=>	array(
 		'id'		=>	'topnav',
@@ -72,34 +65,23 @@ $wpui_options_list = array(
 		'title'		=>	__('TinyMCE menu', 'wp-ui'),
 		'desc'		=>	__('Enable.', 'wp-ui'),
 		'section'	=>	'general',
-		'type'		=>	'checkbox'	
+		'type'		=>	'checkbox'
 	),
 	'enableWidgets'	=>	array(
 		'id'		=>	'enable_widgets',
 		'title'		=>	__('WP Widgets', 'wp-ui'),
 		'desc'		=>	__('Enable wordpress widgets.', 'wp-ui'),
 		'section'	=>	'general',
-		'type'		=>	'checkbox'	
+		'type'		=>	'checkbox'
 	),
-	// 'enablePostWi'	=>	array(
-	// 	'id'		=>	'enable_post_widget',
-	// 	'title'		=>	__('Post bottom widget', 'wp-ui'),
-	// 	'desc'		=>	__('Enable the popular/recent/random/related posts shown at the end of each post. Requires cache option to be set.', 'wp-ui'),
-	// 	'section'	=>	'general',
-	// 	'type'		=>	'checkbox'	
-	// ),	
+
 	'enableCacheWi'	=>	array(
 		'id'		=>	'enable_cache',
 		'title'		=>	__( 'Cache images and scripts', 'wp-ui'),
 		'desc'		=>	__( 'Uncheck to disable the cache feature for thumbnail images and scripts. ', 'wp-ui' ),
 		'section'	=>	'general',
-		'type'		=>	'checkbox'	
-	),	
-	
-	
-	
-	
-	
+		'type'		=>	'checkbox'
+	),
 	'load_all_styless'=>	array(
 		'id'		=>	'load_all_styles',
 		'title'		=>	__('Load Multiple Styles', 'wp-ui'),
@@ -117,7 +99,7 @@ $wpui_options_list = array(
 			'cols'	=>	'10',
 			'rows'	=>	'5',
 			'autocomplete'	=>	'off'
-		)		
+		)
 	),
 	'tabstyle'=>	array(
 		'id'		=>	'tab_scheme',
@@ -127,8 +109,37 @@ $wpui_options_list = array(
 		'section'	=>	'style',
 		'choices'	=>	$wpui_skins_list_pre,
 		'extras'	=>	'' . __( 'Preview ', 'wp-ui' ) . '<a id="wpui_styles_preview" href="" class="button-secondary">' . __( 'WP UI CSS3 Styles', 'wp-ui' ) . '</a>  <a id="jqui_styles_preview" href="#" class="button-secondary">' . __( 'jQuery UI themes', 'wp-ui' ) . '</a>'
-	),	
-	
+	),
+	'custom_styles_path'		=>	array(
+		'id'		=>	'styles_upload_dirs',
+		'title'		=>	__('Custom styles upload dir.', 'wp-ui'),
+		'desc'		=>	__('Input the path to scan for custom styles. If you have custom <code>wp-content</code> modifications, probably you have to change this one!', 'wp-ui'),
+		'type'		=>	'multiple',
+		'section'	=>	'style',
+		'fields'	=>	array(
+			array(
+				'id'		=>	'dir',
+				'type'		=>	'text',
+				'desc'		=>	'',
+				'text_length' => '40',
+				'enclose'	=>	array(
+					'before'	=>	'Directory path : ',
+					'after'		=>	'<br />Enter the absolute filesystem path to the dir on the server.<br /><br />'
+				)
+			),
+			array(
+				'id'		=>	'url',
+				'type'		=>	'text',
+				'desc'		=>	'',
+				'text_length' => '40',
+				'enclose'	=>	array(
+					'before'	=>	'Directory URL : ',
+					'after'		=>	'<br />Enter the URL to the same dir.<br /><br />'
+				)
+			),
+
+		)
+	),
 	'jqui_custom'	=>	array(
 		'id'		=>	'jqui_custom_themes',
 		'title'		=>	__('jQuery UI custom themes<br /><small>Manage Custom themes. Not sure? <a target="_blank" href="http://kav.in/wp-ui-using-jquery-ui-custom-themes/">follow this guide</a>.</small>'),
@@ -159,12 +170,12 @@ $wpui_options_list = array(
 		'type'		=>	'text',
 		'section'	=>	'style'
 	),
-	
-	
+
+
 	// =====================
 	// = Effects and other =
 	// =====================
-	
+
 	'tabsfx'		=>	array(
 		'id'		=>	'tabsfx',
 		'title'		=>	__('Tabs effects', 'wp-ui'),
@@ -176,7 +187,7 @@ $wpui_options_list = array(
 			'slideDown'	=> 'Slide down',
 			'fadeIn'	=>	'Fade In',
 		)
-		
+
 	),
 	'fxSpeed'	=>	array(
 		'id'		=>	'fx_speed',
@@ -194,11 +205,11 @@ $wpui_options_list = array(
 		'section'	=>	'effects',
 		'choices'	=>	array(
 			'disable'	=>	__( 'None', 'wp-ui' ),
-			'always'	=>	__( 'Keep rotating', 'wp-ui' ),			
+			'always'	=>	__( 'Keep rotating', 'wp-ui' ),
 			'stop'		=>	__( 'Stop on Click', 'wp-ui' ),
 		)
 	),
-	
+
 
 	'tabz_event'	=>	array(
 		'id'	=>	'tabs_event',
@@ -207,19 +218,19 @@ $wpui_options_list = array(
 		'type'	=>	'select',
 		'section'	=>	'effects',
 		'choices'	=>	array(
-			'click'		=>	__( 'Click', 'wp-ui' ),			
+			'click'		=>	__( 'Click', 'wp-ui' ),
 			'mouseover'	=>	__( 'Mouseover', 'wp-ui' ),
 		)
-	),	
+	),
 	'collapsible_tabbies' => array(
 		'id'		=>	'collapsible_tabs',
 		'title'		=>	__('Collapsible Tabs', 'wp-ui'),
 		'desc'		=>	__( 'Enable all panels in a tabset to be collapsed.', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'effects'
-	),		
-	
-	
+	),
+
+
 	// Accordion
 
 	'accord_event'	=>	array(
@@ -229,10 +240,10 @@ $wpui_options_list = array(
 		'type'	=>	'select',
 		'section'	=>	'effects',
 		'choices'	=>	array(
-			'click'		=>	__( 'Click', 'wp-ui' ),			
+			'click'		=>	__( 'Click', 'wp-ui' ),
 			'mouseover'	=>	__( 'Mouseover', 'wp-ui' ),
 		)
-	),	
+	),
 	'accordion_autoheight'	=>	array(
 		'id'		=>	'accord_autoheight',
 		'title'		=>	__('Accordion auto height', 'wp-ui'),
@@ -302,8 +313,8 @@ $wpui_options_list = array(
 			"panels"    =>	"On Panels"
 		)
 	),
-	
-	
+
+
 	// ================
 	// = Text options =
 	// ================
@@ -314,7 +325,7 @@ $wpui_options_list = array(
 		'section'	=>	'text',
 		'type'		=>	'text'
 	),
-		
+
 	'tab_nav_next'	=>	array(
 		'id'		=>	'tab_nav_next_text',
 		'title'		=>	__('Next tab - button text<br /><small>Tabs Navigation</small>', 'wp-ui'),
@@ -322,7 +333,7 @@ $wpui_options_list = array(
 		'section'	=>	'text',
 		'type'		=>	'text'
 	),
-	
+
 	'showtext'		=>	array(
 		'id'		=>	'spoiler_show_text',
 		'title'		=>	__('Closed WP Spoiler text', 'wp-ui'),
@@ -334,7 +345,7 @@ $wpui_options_list = array(
 			'rows'	=>	'2'
 		)
 	),
-	
+
 	'hidetext'		=>	array(
 		'id'		=>	'spoiler_hide_text',
 		'title'		=>	__('Open WP spoiler text', 'wp-ui' ),
@@ -346,72 +357,14 @@ $wpui_options_list = array(
 			'rows'	=>	'2'
 		)
 	),
-	
+
+
+
 	/**
-	 * Advanced options
+	 * Posts section
 	 */
-	'bleeding_edge'	=> array(
-		'id'		=>	'bleeding_edge',
-		'title'		=>	__( 'Old version', 'wp-ui' ),
-		'desc'		=>	__( 'Use old scripts instead of the rewritten API.', 'wp-ui' ),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),
-	// 'alternative_codes'	=>	array(
-	// 	'id'		=>	'alt_sc',
-	// 	'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
-	// 	'desc'		=>	__( 'Use shorter codes. ', 'wp-ui' ) . 'ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] => [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>',
-	// 	'type'		=>	'checkbox',
-	// 	'section'	=>	'advanced'
-	// ),
-	'jquery_include'	=>	array(
-		'id'		=>	'jquery_disabled',
-		'title'		=>	__('Donot load the jQuery copy', 'wp-ui'),
-		'desc'		=>	__('Check this box to prevent loading jQuery & UI libs from Google CDN. <br /> <br />Please note: Recent versions of jQuery and jQuery UI javascript libraries are required for the functionality of WP UI. This Plugin\'s components might <b>not</b> work as expected with the older versions of jQuery and UI.', 'wp-ui'),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),
-	'script_cond'		=>	array(
-		'id'		=>	'script_conditionals',
-		'title'		=>	__('Conditional script load logic', 'wp-ui'),
-		'desc'		=>	__( 'Use <a href="http://codex.wordpress.org/Conditional_Tags" title="Learn more on Wordpress conditional tags on Codex" target="_blank">wordpress conditional tags</a>  to load limit/prevent scripts from loading. <font style="" <br><strong>Examples</strong> - <br><ul style="list-style: disc inside none"> <li>To load only on single pages, input <code>is_single()</code>, similarly <code>is_front_page()</code> to load only on frontpage.</li> <li><code>!is_page()</code> disables it on all pages.</li><li>Use <code>||</code> (or) or <code>&&</code> operators to define a complex conditional clause. <code>is_single() && is_page( \'about\' ) && in_category( array( 1,2,3 ) ) </li></ul>', 'wp-ui'),
-		'type'		=>	'textarea',
-		'section'	=>	'advanced',
-		'textarea_size'	=>	array(
-			'cols'	=>	'60',
-			'rows'	=>	'2'
-		)
-	),	
-	
-	"scripts_adv"	=>	array(
-		'id'		=>	'load_scripts_on_demand',
-		'title'		=>	__(	'Demand load scripts', 'wp-ui' ),
-		'desc'		=>	__( 'Load needed components on demand. With jQuery. This scripts are significantly newer versions than the regular ones.' ),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),	
-	"cookies"		=>	array(
-		'id'		=>	'use_cookies',
-		'title'		=>	__(	'Use cookies for tabs', 'wp-ui' ),
-		'desc'		=>	__( 'WP UI makes use of cookies to remember the state of the selected tabs. Click here to disable the behavior. jQuery cookie plugin by Klaus Hartl.'),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),
-	
-	"link_hist"		=>	array(
-		'id'		=>	'linking_history',
-		'title'		=>	__(	'Linking and History', 'wp-ui' ),
-		'desc'		=>	__( 'Uncheck here to disable history and linking. jQuery BBQ plugin by Ben Alman.'),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),	
-	'doc_write_fix'	=>	array(
-		'id'		=>	'docwrite_fix',
-		'title'		=>	__( 'Blank page fix<br /><small>document.write issue</small>', 'wp-ui' ),
-		'desc'		=>	__( 'Enable to fix the blank page issue that results when including other scripts within tabs/accordion<br> <small>Known scripts : Twitter profile widget, e-commerce widgets. </small>', 'wp-ui'),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),
+
+
 
 	'relative_timez'	=>	array(
 		'id'		=>	'relative_times',
@@ -427,7 +380,15 @@ $wpui_options_list = array(
 		'type'		=>	'text',
 		'section'	=>	'posts'
 	),
-	
+
+	// 'disable_warningz'	=>	array(
+	// 	'id'		=>	'disable_warnings_posts_widget',
+	// 	'title'		=>	__( 'Disable warnings', 'wp-ui' ),
+	// 	'desc'		=>	__( 'Disable confirmations on the WP UI widget - Posts <em>on the widgets page</em> ', 'wp-ui' ),
+	// 	'type'		=>	'checkbox',
+	// 	'section'	=>	'posts'
+	// ),
+
 	'postss_widgets' => array(
 		'id'		=>	'post_widget',
 		'type'		=>	'multiple',
@@ -436,17 +397,17 @@ $wpui_options_list = array(
 		'section'	=>	'posts',
 		'fields'	=>	array(
 			array(
-				'idkey'		=>	'title',
+				/**/ 'id'		=>	'title',
 				'type'		=>	'textinput',
 				'desc'		=>	'',
 				'text_length' => '40',
 				'enclose'	=>	array(
 					'before'	=>	'Title : ',
-					'after'		=>	'<br /><br />'
+					'after'		=>	''
 				)
 			),
 			array(
-				'idkey'		=>	'type',
+				/**/ 'id'		=>	'type',
 				'type'		=>	'select',
 				'desc'		=>	__( 'Type of posts shown', 'wp-ui' ),
 				'choices'	=>	array(
@@ -461,7 +422,7 @@ $wpui_options_list = array(
 				)
 			),
 			array(
-				'idkey'		=>	'number',
+				/**/ 'id'		=>	'number',
 				'type'		=>	'textinput',
 				'desc'		=>	'Number',
 				'text_length'=> '3',
@@ -471,7 +432,7 @@ $wpui_options_list = array(
 				)
 			),
 			array(
-				'idkey'		=>	'per_row',
+				/**/ 'id'		=>	'per_row',
 				'type'		=>	'select',
 				'desc'		=>	'Per row',
 				'choices'	=>	array( 2 => ' 2 ', 3 => ' 3 ', 4 => ' 4 ' ),
@@ -481,7 +442,7 @@ $wpui_options_list = array(
 				)
 			),
 			// array(
-			// 	'idkey'		=> 'default_image',
+			// 	/**/ 'id'		=> 'default_image',
 			// 	'desc'		=>	'Default image',
 			// 	'type'		=>	'media-upload',
 			// 	'text_length' => 12,
@@ -501,17 +462,17 @@ $wpui_options_list = array(
 		'section'	=>	'posts',
 		'fields'	=>	array(
 			array(
-				'idkey'		=>	'url',
-				'type'		=>	'media-upload',
+				/**/ 'id'		=>	'url',
+				'type'		=>	'upload',
 				'desc'		=>	'',
 				'text_length' => 18,
 				'enclose'	=>	array(
-					'before' => 'Upload a file or select one<br />',
-					'after'	=>	'    ',
+					'before' => 'File : ',
+					'after'	=>	'<br /><br/>',
 				)
 			),
 			array(
-				'idkey'		=>	'width',
+				/**/ 'id'		=>	'width',
 				'type'		=>	'textinput',
 				'text_length'=> '3',
 				'desc'		=>	'',
@@ -521,7 +482,7 @@ $wpui_options_list = array(
 				)
 			),
 			array(
-				'idkey'		=>	'height',
+				/**/ 'id'		=>	'height',
 				'type'		=>	'textinput',
 				'text_length'=> '3',
 				'desc'		=>	'',
@@ -530,11 +491,11 @@ $wpui_options_list = array(
 					'after'	=>	'<br />',
 				)
 			)
-	
+
 		)
-		
+
 	),
-	
+
 	'title_templateu'	=>	array(
 		'id'		=>	'title_template',
 		'title'		=>	__('Title template', 'wp-ui' ) . '<br /><small>' . __( 'Tabs/accordion/spoiler title template.', 'wp-ui') . '</small>',
@@ -546,8 +507,8 @@ $wpui_options_list = array(
 		'rows'	=>	'1',
 		'autocomplete'	=>	'off'
 	)
-	),	
-	
+	),
+
 	'post_template_one'	=>	array(
 		'id'		=>	'post_template_1',
 		'title'		=>	__('Template 1', 'wp-ui' ) . '<br /><small>' . __( 'Usually the default for the Tabs and accordions on posts/feeds', 'wp-ui') . '</small>',
@@ -573,6 +534,82 @@ $wpui_options_list = array(
 		'autocomplete'	=>	'off'
 	)
 	),
+
+
+	/**
+	 * Advanced options
+	 */
+	'script_haz_compatz'	=> array(
+		'id'		=>	'use_old_scripts',
+		'title'		=>	__( 'Old version', 'wp-ui' ),
+		'desc'		=>	__( 'Use Old Scripts API. <em>Caution : Unsupported with latest versions of jQuery-UI and subsequently current WP UI</em>. <br />Clearing the Cache should make this option unnecessary, 100%.', 'wp-ui' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	'widget_haz_compatz'	=> array(
+		'id'		=>	'use_old_widgets',
+		'title'		=>	__( 'Older WP widgets.', 'wp-ui' ),
+		'desc'		=>	__( 'Use Widgets from older version of WP UI.', 'wp-ui' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	'alternative_codes'	=>	array(
+		'id'		=>	'alt_sc',
+		'title'		=>	__( 'Alternative shortcodes, Shorter.' ),
+		'desc'		=>	__( 'Use shorter codes. ', 'wp-ui' ) . 'ex.<br /><ul><li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] => [wptabcontent]</li><li>[<strong>spoiler</strong>] instead of [wpspoiler]</li><li>[<strong>dialog</strong>] instead of [wpdialog]</li></ul>',
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	'jquery_include'	=>	array(
+		'id'		=>	'cdn_jquery',
+		'title'		=>	__('Load CDN jQuery', 'wp-ui'),
+		'desc'		=>	__( 'Check this box to load jQuery UI Library 1.10.2 from Google CDN. If you want assured compatibility with other plugins, Do <u>not</u> enable this.', 'wp-ui' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	'script_cond'		=>	array(
+		'id'		=>	'script_conditionals',
+		'title'		=>	__('Conditional script load logic', 'wp-ui'),
+		'desc'		=>	__( 'Use <a href="http://codex.wordpress.org/Conditional_Tags" title="Learn more on Wordpress conditional tags on Codex" target="_blank">wordpress conditional tags</a>  to load limit/prevent scripts from loading. <font style="" <br><strong>Examples</strong> - <br><ul style="list-style: disc inside none"> <li>To load only on single pages, input <code>is_single()</code>, similarly <code>is_front_page()</code> to load only on frontpage.</li> <li><code>!is_page()</code> disables it on all pages.</li><li>Use <code>||</code> (or) or <code>&&</code> operators to define a complex conditional clause. <code>is_single() && is_page( \'about\' ) && in_category( array( 1,2,3 ) ) </li></ul>', 'wp-ui'),
+		'type'		=>	'textarea',
+		'section'	=>	'advanced',
+		'textarea_size'	=>	array(
+			'cols'	=>	'60',
+			'rows'	=>	'2'
+		)
+	),
+
+	"scripts_adv"	=>	array(
+		'id'		=>	'load_scripts_on_demand',
+		'title'		=>	__(	'Demand load scripts', 'wp-ui' ),
+		'desc'		=>	__( 'Load needed components on demand. With jQuery. This scripts are significantly newer versions than the regular ones.' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	"cookies"		=>	array(
+		'id'		=>	'use_cookies',
+		'title'		=>	__(	'Use cookies for tabs', 'wp-ui' ),
+		'desc'		=>	__( 'WP UI makes use of cookies to remember the state of the selected tabs. Click here to disable the behavior. jQuery cookie plugin by Klaus Hartl.'),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+
+	"link_hist"		=>	array(
+		'id'		=>	'linking_history',
+		'title'		=>	__(	'Linking and History', 'wp-ui' ),
+		'desc'		=>	__( 'Uncheck here to disable history and linking. jQuery BBQ plugin by Ben Alman.'),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+	'doc_write_fix'	=>	array(
+		'id'		=>	'docwrite_fix',
+		'title'		=>	__( 'Blank page fix<br /><small>document.write issue</small>', 'wp-ui' ),
+		'desc'		=>	__( 'Enable to fix the blank page issue that results when including other scripts within tabs/accordion<br> <small>Known scripts : Twitter profile widget, e-commerce widgets. </small>', 'wp-ui'),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
+
+
 	'miscellaneous'		=>	array(
 		'id'			=>	'misc_options',
 		'title'			=>	__( 'Other options', 'wp-ui' ),
@@ -584,7 +621,53 @@ $wpui_options_list = array(
 			'rows'	=>	'5',
 			'autocomplete'	=>	'off'
 		)
-	)	
+	),
+
+	/**
+	 * Debug options
+	 */
+
+	'sample_upload'	=>	array(
+		'id'	=>	'sample_upload',
+		'title'	=>	'Sample Uploader',
+		'desc'	=>	'IAsdsdsddsdsd',
+		'type'	=>	'upload',
+		'section'	=>	'debug'
+	),
+
+	'sample_Text'	=>	array(
+		'id'	=>	'sample_text',
+		'title'	=>	'Sample textbox',
+		'desc'	=>	'Text',
+		'type'	=>	'colorpicker',
+		'driver'	=>	'iris',
+		'section'	=>	'debug'
+	),
+
+
+	'sample_uploadw'	=>	array(
+		'id'	=>	'sample_uploawd',
+		'title'	=>	'Sample Uploader',
+		'desc'	=>	'IAsdsdsddsdsd',
+		'type'	=>	'upload',
+		'section'	=>	'debug'
+	),
+
+	'options_export'	=>	array(
+		'id'		=>	'options_export',
+		'title'		=>	__('Export options', 'wp-ui'),
+		'desc'		=>	__( 'Download the options as a file.', 'wp-ui' ),
+		'section'	=>	'advanced',
+		'type'		=>	'export'
+	),
+	'options_import'	=>	array(
+		'id'		=>	'options_import',
+		'title'		=>	__('Import options', 'wp-ui'),
+		'desc'		=>	__( 'Import exported options.', 'wp-ui' ),
+		'section'	=>	'advanced',
+		'type'		=>	'import'
+	),
+
 
 );
 
@@ -594,8 +677,20 @@ $wpui_options_list[ 'wpui_tour' ] = array(
 		'title'		=>	__('View Tour', 'wp-ui'),
 		'desc'		=>	__('View editor page tour to learn more about WP UI.', 'wp-ui'),
 		'section'	=>	'general',
-		'type'		=>	'checkbox'				
+		'type'		=>	'checkbox'
 );
+
+
+
+add_filter('wpUI_options_title', 'wpUI_custom_options_title');
+/**
+ *
+ */
+function wpUI_custom_options_title( $input ) {
+		$page_title = '<h2 style="font-size : 35px;"><a href="http://kav.in"> <img width="32px" style="display: inline" src="' . plugins_url( "/wp-ui/images/cap-badge.png" ) . '" /></a> %2$s </h2>';
+	return "";
+} // END wpUI_custom_options_header.
+
 
 
 
@@ -609,9 +704,9 @@ function preg_grep_keys( $pattern, $array ) {
 		return false;
 	$resultArr = array();
 	foreach( $results as $result ) {
-		$resultArr[ $result ] = $array[ $result ]; 
+		$resultArr[ $result ] = $array[ $result ];
 	}
-	return $resultArr;	
+	return $resultArr;
 } // end function preg_grep_keys
 
 
@@ -633,9 +728,9 @@ if ( isset( $wpui_options ) ) {
 				'cols'	=>	'60',
 				'rows'	=>	'10',
 				'autocomplete'	=>	'off'
-			)				
-			);			
-			
+			)
+			);
+
 		}
 	}
 }
@@ -649,55 +744,61 @@ if ( class_exists( 'quark_admin_options' ) ) {
  */
 class wpUI_options extends quark_admin_options
 {
-	
+
 	function __construct() {
-		
+
 		$this->name	= 'WP UI';
 		$this->db_prefix = 'wpUI';
 		$this->page_prefix = 'wpUI';
 
 		$this->sections = array(
-			'general'	=>	__('General', 'wp-ui'),
-			'style'		=>	__('Style', 'wp-ui'),
-			'effects'	=>	__('Effects', 'wp-ui'),
-			'text'		=>	__('Text', 'wp-ui'),
-			'posts'	=>	__('Posts', 'wp-ui'),
-			'advanced'	=>	__('Advanced', 'wp-ui')	
+			'general'      =>	__('General', 'wp-ui'),
+			'style'        =>	__('Style', 'wp-ui'),
+			'effects'      =>	__('Effects', 'wp-ui'),
+			'text'         =>	__('Text', 'wp-ui'),
+			'posts'        =>	__('Posts', 'wp-ui'),
+			'advanced'     =>	__('Advanced', 'wp-ui'),
+			// 'debug'        =>	__('Debug', 'wp-ui')
 		);
-		
+
 		global $wpui_options_list;
 		$this->fields = $wpui_options_list;
 		$this->options = get_option( 'wpUI_options', array() );
 		add_action('plugin_wpUI_load_scripts', array(&$this, 'admin_scripts_styles'));
-		add_action('plugin_wpUI_load_scripts', array(&$this, 'admin_styles'));		
 
 		add_action( 'admin_print_scripts', array( &$this, 'editor_vars' ) );
-		
+
 		if ( is_admin() )
 			add_action( 'admin_init', array( &$this, 'wpui_editor_dialogs' ) );
-		
+
 		parent::__construct();
 	}
-	
+
 	function editor_buttons_check() {
-		
+
 	}
 
 	function editor_vars() {
-		if (( in_array( basename( $_SERVER['PHP_SELF'] ), array( 'post-new.php', 'page-new.php', 'post.php', 'page.php' ) ) ) && 
-		( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) 
+		if (( in_array( basename( $_SERVER['PHP_SELF'] ), array( 'post-new.php', 'page-new.php', 'post.php', 'page.php' ) ) ) &&
+		( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) )
 		) {
 			// Editor buttons and JS vars.
 			wp_enqueue_script('editor');
-			wp_localize_script( 'editor', 'pluginVars', array(
-				'wpUrl'		=>	site_url(),
-				'pluginUrl'	=>	wpui_url()
-			));
 
-			if ( ! wpui_less_33( '3.1' ) ) {
+			// wp_enqueue_script( 'wp-ui-byte', wpui_url( '/js/byte.js' ) );
+
+
+			// if ( ! wpui_less_33( '3.1' ) ) {
 				wp_enqueue_script( 'wpui-editor-dialog', wpui_url( '/js/editor_dialog.js' ), array( 'jquery-ui-dialog' ), WPUI_VER );
+
+				wp_localize_script( 'wpui-editor-dialog', 'pluginVars', array(
+					'wpUrl'		=>	site_url(),
+					'pluginUrl'	=>	wpui_url()
+				));
+
+
 				wp_enqueue_style( 'wp-jquery-ui-dialog' );
-			}
+			// }
 		}
 	}
 
@@ -707,48 +808,72 @@ class wpUI_options extends quark_admin_options
 				@include_once wpui_dir( 'inc/editor-dialogs.php' );
 			}
 	}
-	
-	
-	
+
+
+
+	/**
+	 * Give the script options to admin screen.
+	 *
+	 * @return void
+	 * @author Kavin Gray
+	 **/
+	function get_script_options() {
+		// return
+
+
+	} // END function get_script_options
+
+
 	/**
 	 * 	Load the scripts and styles for the admin.
-	 * 
+	 *
 	 * 	@uses wp_enqueue_style and wp_enqueue_script.
 	 * 	@since 0.1
 	 */
 	function admin_scripts_styles() {
 		global $wp_version;
 		$plugin_url = plugins_url('/wp-ui/');
-		
+
 		if ( ( isset($_GET['page']) && $_GET['page'] == 'wpUI-options' )) {
-				
-			// Load newer jQuery for older versions. Will be removed in WP UI 1.0. 
-			// if ( version_compare( $wp_version, '3.0', '<' ) ) {	
 
-				wp_deregister_script( 'jquery-ui-tabs' );
-				wp_deregister_script( 'jquery-ui-dialog' );
-				
-				wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js', array( 'jquery'));
-			// }
-			$wp_ui_main = new wpUI();
-			
-			// $admin_deps = ( floatval( get_bloginfo( 'version' ) ) >= 3.3 ) ? array( 'jquery-ui' ) : array( 'jquery-ui-tabs', 'jquery-ui-dialog' );
-			$admin_deps = array( 'jquery-ui' );
+				wp_enqueue_script( 'jquery-ui-core' );
+				wp_enqueue_script( 'jquery-ui-tabs' );
+				wp_enqueue_script( 'jquery-ui-dialog' );
+				wp_enqueue_script( 'jquery-effects-pulsate' );
 
-			// if ( isset( $this->options[ 'bleeding_edge' ] ) && $this->options[ 'bleeding_edge' ] == 'on' ) {
-			// 	wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/wp-ui-old.js', $admin_deps, WPUI_VER );
-			// } else {
+				// wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', array( 'jquery'));
+
+			$admin_deps = array( 'jquery-ui-tabs', 'jquery-ui-dialog', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable' );
+
 				wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/select/tabs.js', $admin_deps, WPUI_VER );
-			// }
-			
+
 			wp_enqueue_script( 'admin-wpui-2' , $plugin_url . 'js/select/init.js', $admin_deps, WPUI_VER );
-			wp_localize_script( 'admin-wpui-1' , 'wpUIOpts' , $wp_ui_main->get_script_options() );
+			wp_localize_script( 'admin-wpui-1' , 'wpUIOpts' , array(
+				"enableTabs"	=>	"on",
+				"tabsEffect"	=>	"none",
+				"tabsEvent"		=>	"click",
+				"bottomNav"		=>	"on"
+			));
+
+
+
+			if ( function_exists( "wp_enqueue_media" ) ) {
+				wp_enqueue_media();
+			} else {
+				wp_enqueue_script( 'thickbox' );
+				// wp_enqueue_script( 'thickbox-tabs-fix', $plugin_url . 'js/fix_tb.js', $admin_deps, WPUI_VER );
+				wp_enqueue_style( 'thickbox' );
+			}
+
+
+
 			wp_enqueue_script( 'admin_wp_ui' , $plugin_url . 'js/admin.js', $admin_deps, WPUI_VER );
+
 			wp_localize_script('admin_wp_ui' , 'initOpts', array(
 				'wpUrl'				=>	site_url(),
 				'pluginUrl' 		=>	plugins_url('/wp-ui/'),
 				));
-			
+
 		wp_enqueue_script( 'admin_jq_ui' , $plugin_url . 'js/jqui-admin.js', $admin_deps, WPUI_VER);
 		wp_localize_script( 'admin_jq_ui' , 'jqui_admin', array(
 			'upNonce'	=>	wp_create_nonce( 'wpui-jqui-custom-themes' )
@@ -760,28 +885,18 @@ class wpUI_options extends quark_admin_options
 		 */
 		wp_deregister_script( 'colorbox' );
 		wp_enqueue_script( 'colorbox', $plugin_url . 'js/jquery.colorbox-min.js', array( 'jquery' ) );
-	
+
+		wp_enqueue_style('wp-tabs-admin-js', $plugin_url . 'css/admin.css');
+
 		} // end the $_GET page conditional.
 
 
-
-
-		
 	} // END method admin_scripts_styles
 
 
-	function admin_styles() {
-		$plugin_url = plugins_url('/wp-ui/');
-		
-		// Load the css on options page.
-		if ( isset( $_GET['page'] ) && $_GET['page'] == 'wpUI-options' ) {
-			wp_enqueue_style('wp-tabs-admin-js', $plugin_url . 'css/admin.css');
-			// wp_enqueue_style('wp-admin-jqui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/smoothness/jquery.ui.all.css');
-		}		
-	}
-	
-	
-	
+	/**
+	 * Validate the options.
+	 */
 	public function validate_options( $input ) {
 		$new_input = $input;
 		$db_options = get_option( 'wpUI_options' );
@@ -790,7 +905,7 @@ class wpUI_options extends quark_admin_options
 			$defaults = get_wpui_default_options();
 			return $defaults;
 		}
-		
+
 		$reset_tmpls = preg_grep_keys( '/^reset_post_template_[3-9]{1,2}$/', $input );
 		if( $reset_tmpls ) {
 			foreach( $reset_tmpls as $tmpls=>$data ) {
@@ -798,7 +913,7 @@ class wpUI_options extends quark_admin_options
 				unset( $new_input[ $template_num ] );
 			}
 		}
-		
+
 		if ( ! empty( $input[ 'script_conditionals' ] ) ) {
 			$cond = $input[ 'script_conditionals' ];
 			if (preg_match('/(x=x\s--|1=1|Or\s?1=1\s--|$_GET|SELECT|DROP\sTABLE|base64)/im', $cond ))
@@ -808,17 +923,15 @@ class wpUI_options extends quark_admin_options
 		foreach( $this->fields as $option=>$opt ) {
 			if ( $opt[ 'type' ] == 'checkbox' && ! isset($input[ $opt[ 'id' ] ]) ) {
 				$new_input[ $opt[ 'id' ] ] = 'off';
-			} 			
+			}
 		}
-		
+
 		$new_input[ 'version' ] = WPUI_VER;
-		
+
 /*		die();*/
 
+		return parent::validate_options( $new_input );
 
-/*		parent::validate_options( $input );*/
-
-		return $new_input;
 	}
 
 } // end class wpUI_options
@@ -833,7 +946,7 @@ $wpui_option_page = new wpUI_options();
 
 
 $wpui_admin_help_tabs = array(
-	
+
 	'main'	=>	array(
 		'id'		=>	'wpui_general',
 		'title'		=>	'General',
@@ -881,7 +994,7 @@ $wpui_admin_help_tabs = array(
 		<p>Need to modify some style rules, like fonts or color? Enter your custom CSS here. For some rules, particularly the jQuery ui themes, you might need to use &lt;code&gt;!important&lt;/code&gt;.</p>
 		<p><strong>Dialog Width</strong></p>
 		<p>Normal width of the dialog box.</p>
-		<blockquote>&nbsp;</blockquote> 
+		<blockquote>&nbsp;</blockquote>
 		<h4>IE gradients</h4> <p>Choose whether to enable Internet Explorer gradients support, using microsoft<code> filter: </code>. A seperate stylesheet is additionally served for IE.</p>"
 	),
 	'Effects'	=>	array(
@@ -910,7 +1023,7 @@ $wpui_admin_help_tabs = array(
 		'content'	=>	"<h3>WP UI - Text options</h3>
 		<h4>These options are pretty much self explanatory.</h4>
 		<p>Enter a different value to override the default text.</p>
-		<p><br /> 
+		<p><br />
 		  For tabs</p>
 		<ol>  <li>Button for switching to Previous tab</li>  <li>Button for switching to Next tab</li></ol>
 		<p>For spoilers.</p>
@@ -925,7 +1038,7 @@ $wpui_admin_help_tabs = array(
 	'Advanced'	=>	array(
 		'id'		=>	'wpui_advanced',
 		'title'		=>	'Advanced',
-		'content'	=>	'<h3>Advanced options</h3><p style="font-weight: bold; font-style : italic; text-align : center;"><strong>It\'s better to skip these options if you\'re new to wordpress or not sure of.</strong> </p><h4>Custom CSS</h4> Use this tab to output additional CSS. For example, this might be for a simple layout fix, or maybe your own skin. <h4>Alternative Shortcodes</h4> When enabled,  it is possible to use shorter codes , e.g <div><ul>	<li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] instead of [wptabcontent]</li><li>[<strong>wslider</strong>] instead of [wpspoiler]</li></ul></div><h4><span style="color: #F33;">Disable jQuery loading</span></h4><div>Please be careful about this option. When checked, jquery will not be loaded by wp-ui. Thereby widgets will not be rendered, when globally jQuery/UI is not available.</div> <h4 style="color: #F03">Conditional script loading</h4> 
+		'content'	=>	'<h3>Advanced options</h3><p style="font-weight: bold; font-style : italic; text-align : center;"><strong>It\'s better to skip these options if you\'re new to wordpress or not sure of.</strong> </p><h4>Custom CSS</h4> Use this tab to output additional CSS. For example, this might be for a simple layout fix, or maybe your own skin. <h4>Alternative Shortcodes</h4> When enabled,  it is possible to use shorter codes , e.g <div><ul>	<li>[<strong>tabs</strong>] instead of [wptabs]</li><li>[<strong>tabname</strong>] instead of [wptabtitle]</li><li>[<strong>tabcont</strong>] instead of [wptabcontent]</li><li>[<strong>wslider</strong>] instead of [wpspoiler]</li></ul></div><h4><span style="color: #F33;">Disable jQuery loading</span></h4><div>Please be careful about this option. When checked, jquery will not be loaded by wp-ui. Thereby widgets will not be rendered, when globally jQuery/UI is not available.</div> <h4 style="color: #F03">Conditional script loading</h4>
 		<p>Use the <a href="http://codex.wordpress.org/Conditional_Tags">conditional statements</a> to limit/prevent wp-ui loading on pages. For example :  <code>!is_home()</code> prevents wp-ui from loading scripts and styles on the index page. Like wise, <code>is_page(\'About\')</code> only loads the scripts and styles on the Page with the name About. </p> <h4 style="color: #F33">Demand load scripts!</h4>
 		<p>This is a new experimental option. When this is enabled, the necessity of each components are assessed from the current page and loaded only as necessary. To prevent unwanted requests and load on the server, the selected combination are stored and reused. </p>
 		<h4 style="color: #F33">Cookies!</h4>
@@ -935,12 +1048,90 @@ $wpui_admin_help_tabs = array(
 		<p>Enable this to fix the blank page issue that occurs with some external scripts, such as twitter profile and some ecommerce widgets. Almost all these scripts use <code>document.write</code> , that is the cause of this issue.</p>
 		<style type="text/css"> pre, code { background: #F4F2F4 !important; padding: 2px 5px; border-radius : 3px; box-shadow : 1px 1px 0 #FFF inset, -1px -1px 0 #FFF inset, 0 1px 0 #999; border : 1px solid #DDD; text-shadow : 0 1px 0 #FFF; } </style>'
 	)
-	
-	
+
+
 );
 
 
 $wpui_option_page->set_help_tabs( $wpui_admin_help_tabs );
+
+add_action('wpUI_below_options_tables', 'wpUI_add_credits');
+
+/**
+ *	wpUI : Roll credits
+ */
+function wpUI_add_credits()
+{
+?>
+<h3 class="wp-tab-title">
+	Credits
+</h3>
+<div class="wp-tab-content credits-box" style="">
+	<!-- .credits-wrapper -->
+	<div class="credits-wrapper" style="">
+		<h1>
+			Credits
+		</h1>
+		<p>
+			WP UI makes use of the following components that are copyrights of their respective authors. I sincerely thank all the Authors/Organizations for their hard work.
+		</p><!-- .credit-list -->
+		<h4>
+			Global
+		</h4>
+		<!-- /.credit-list -->
+		<ul class="credit-list">
+			<li>
+				<h4>
+					Base
+				</h4>
+				<ul>
+					<li>
+						<a target="_blank" href="http://wordpress.org/about">WordPress</a> | <a href="http://wordpress.org/about/gpl/">GPL License</a>
+					</li>
+					<li>
+						<a href="http://jquery.com" target="_blank">jQuery</a> and <a href="http://jqueryui.com" target="_blank">jQuery UI</a> | <a href="http://jquery.org/license/" target="_blank">MIT License</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h4>
+					Scripts
+				</h4>
+				<ul>
+					<li>WP UI base scripts, themes &amp; images &copy; <a href="http://kav.in/" target="_blank">Kavin Amuthan</a>
+					</li>
+					<li>jQuery Cookie plugin &copy; <a href="http://stilbuero.de" target="_blank">Klaus Hartl</a> | MIT and GPL License.
+					</li>
+					<li>jQuery BBQ Library, Hashchange and resize events &copy; <a href="http://benalman.com" target="_blank">Ben Alman</a>
+					</li>
+					<li>JSON Library by <a href="http://crockford.com" target="_blank">Douglas Crockford</a>
+					</li>
+					<li>jQuery Colorbox by <a href="http://jacklmoore.com" target="_blank">Jack Moore</a> | <a target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
+					</li>
+					<li>jQuery Mousewheel event <a href="http://brandonaaron.com" target="_blank">Brandon Aaron</a> | MIT and GPL License.
+					</li>
+					<li>CSS3PIE for IE &copy; <a href="http://twitter.com/lojjic" target="_blank">Jason Johnston</a> | <a target="_blank" href="https://raw.github.com/lojjic/PIE/master/LICENSE">License</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h4>Icons</h4>
+				<ul>
+					<li>
+						Icons on this page - <a target="_blank" href="http://www.glyphicons.com/"> GlyphIcons Halflings</a> by Jan Kovařík.
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<!-- /.credit-list -->
+	</div><!-- /.credits-wrapper -->
+</div><!-- end .wp-tab-content -->
+
+<?php
+} // END wpUI_add_credits
+
+
 
 // Insert content into the options page.
 add_action( 'wpUI_above_options_page', 'wpui_plugin_info_above' );
@@ -949,81 +1140,114 @@ add_action( 'wpUI_below_options_page', 'wpui_plugin_info_below' );
 
 function wpui_plugin_info_above() {
 	?>
-	<div class="click-for-help"></div>
-	<div class="info-above">
+	<div class="wpui-options-header">
 	<noscript>
 		<p style="background: pink; border:1px solid darkred; padding: 10px; color: #600"> <?php _e( 'Please enable the javascript in your browser.', 'wp-ui' ) ?></p>
 	</noscript>
-	
-	<div id="wpui-cap" style="position: relative">
-	<!-- <div class="cap-icon">
-		<img width="50px" src="<?php echo plugins_url( '/wp-ui/images/cap-badge.png' ) ?>" />
 
-	</div><!-- end div.cap-icon --> 
-	
-	<div class="wpui-desc">
-		<p> <b><?php _e( 'Help -', 'wp-ui' ); ?></b> <a style="color: green;" href="<?php echo admin_url( 'post-new.php?wpui-tour=show' ); ?>"><?php _e( 'Take a tour', 'wp-ui' ); ?></a> |  <a href="http://wordpress.org/support/plugin/wp-ui">WP.org support forum</a> |  <a class="wpui_forums_link" href="http://kav.in/forum"> Support forum</a>  |  <a class="wpui_options_help" href="#">Options Help </a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Plugin documentation, demo @ projects', 'wp-ui' ); ?></a>. </p>
-		<p> <b><?php _e( 'Documentation -', 'wp-ui' ); ?></b> <a class="wpui_options_help" href="#">Help on using options page</a> | <a target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Plugin documentation, demo @ projects', 'wp-ui' ); ?></a>. </p>
-		
-		<p> <b><?php _e( 'Help improve this plugin : ', 'wp-ui' ); ?></b> <a target="_blank" href="http://kav.in/forum" title="Improve the plugin by sharing your opinion"><?php _e( 'Suggestions? Ideas?', 'wp-ui' ); ?></a> | <?php _e( 'Report -', 'wp-ui' ); ?> <a target="_blank" title="Report the issues you find and improve the plugin!" href="http://kav.in/forum"><?php _e( 'Bugs / Issues / conflicts</a> on Support forums', 'wp-ui' ); ?></p>
-				<p> <b> <?php _e( 'Support this plugin :', 'wp-ui' ); ?> </b> <a href="http://kav.in/donation" style="color : magenta" title="Consider a donation to support the plugin development and site costs."> Donate!</a> |  <a href="http://www.facebook.com/pages/Capability/136970409692187" title="Facebook likes!" target="_blank"><?php _e( 'Like us on Facebook', 'wp-ui' ); ?></a> | <a title="Motivate and see us performing better!" href="http://twitter.com/kavingray" target="_blank"><?php _e( '@Follow us on Twitter', 'wp-ui' ); ?></a>. </p>
-	</div><!-- end div.wpui-desc -->
-	
-	<!-- <div style="  position: absolute;right: 0;top: 25%;width: 63px;">	
-		<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fwpuiplugin&amp;send=false&amp;layout=box_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font=lucida+grande&amp;height=90" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:90px;" allowTransparency="true"></iframe>	
-	</div> -->
+	<!-- .wpui-banner -->
+	<div id="wpui-banner-holder">
+		<!-- .wpui-banner -->
+		<h3 id="wpui-logo"><a target="_blank" href="http://kav.in/wp-ui-for-wordpress"> <img width="48px" style="display: inline" src="<?php echo plugins_url( "/wp-ui/images/cap-watermark.png" ) ?>" />WP UI</a></h3>
+		<ul class="wpui-banner">
+
+			<li class="donate"><a class="toolbar-donate" target="_blank" href="http://kav.in/donation"><?php _e( 'Donate', 'wp-ui' ); ?></a>
+				<!-- .wpui-submenu -->
+				<ul class="wpui-submenu">
+					<li class="no-hover">
+						<a href="http://kav.in/donation" target="_blank">
+						<img src="<?php echo plugins_url( "/wp-ui/images/paypal-donate.gif" ) ?>" alt="Securely Donate with Paypal, and Support the development of the plugin and site!" /></a><p>Love the plugin? Does it help in one or more ways to make your site more Awesome? I bet it does! Please donate and help with the plugin and server maintanence costs.<br /> <span class="glyphicon"></span>Thank you <span class="glyphicon"></span></p>
+
+					</li>
+				</ul>
+				<!-- /.wpui-submenu -->
+
+			</li>
+
+			<!-- .first -->
+			<li>
+				<a class="toolbar-help" title="<?php _e( 'Get Help - Immediate or through the forums!', 'wp-ui' ); ?>" href="#">Help</a>
+				<ul class="wpui-submenu">
+					<li><a class="wpui_options_help" href="#"><?php _e( 'Inline Help', 'wp-ui' ); ?></a></li>
+					<li><a class="menu-tour" href="<?php echo admin_url( 'post-new.php?wpui-tour=show' ); ?>"><?php _e( 'Take a tour', 'wp-ui' ); ?></a></li>
+					<li><a class="menu-support" target="_blank" href="http://wordpress.org/support/plugin/wp-ui"><?php _e( 'WP.org Support', 'wp-ui' ); ?></a></li>
+				</ul>
+			</li><li>
+				<a class="toolbar-docs" target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'DOCS', 'wp-ui' ); ?></a>
+			</li><li>
+				<a class="toolbar-forum" target="_blank" href="http://wordpress.org/support/plugin/wp-ui"><?php _e( 'Forum', 'wp-ui' ); ?></a>
+			</li>
+
+			<li><a class="toolbar-follow" target="_blank" href="http://twitter.com/kavingray"><?php _e( 'Follow', 'wp-ui' ); ?></a>
+				<ul class="wpui-submenu">
+					<li><a class="menu-twitter" target="_blank" href="http://twitter.com/kavingray"><?php _e( 'Twitter', 'wp-ui' ); ?></a></li>
+					<li><a class="menu-facebook" target="_blank" href="http://www.facebook.com/#!/pages/Capability/136970409692187"><?php _e( 'Like Us!', 'wp-ui' ); ?></a></li>
+					<li><a class="menu-vote" target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Vote on WP.org', 'wp-ui' ); ?></a></li>
+
+				</ul>
+			</li>
+			<li><a class="toolbar-git" target="_blank" href="https://github.com/kavingray/WP-UI"><?php _e( 'Fork', 'wp-ui' ); ?></a></li>
+
+
+
+		</ul>
+		<!-- /.wpui-banner -->
 	</div>
-	<div id="hidden-info">
-		
-		
-	</div>
+	<!-- /.wpui-banner -->
+	<h2></h2>
+
+
 </div><!-- end div.info-above -->
-	
+
 	<?php
-}	
+}
 
 
 function wpui_plugin_info_below() {
+	// include_once( ABSPATH . WPINC . '/feed.php' );
+
 	?>
 
-	<div class="info-below">
+	<div id="wpui-options-sidebar">
 
-	<div id="wpui-cap-below">
+		<!-- #wpui-options-sidebar-wrap -->
+		<div id="wpui-options-sidebar-wrap">
 
-	<div class="actions cols cols-1">
-		<h4><span></span><?php _e( 'Actions', 'wp-ui' ); ?></h4>
+
+
+
+
+
+
+
+	<!-- .acc-plus wpui-columns -->
+	<div class="acc-plus wpui-columns">
+		<h4><span class="glyphicon"></span><?php _e( 'Our Premium Plugins', 'wp-ui' ); ?></h4>
+			<div class="accplus-banner">
+				<a target="_blank"  href="http://codecanyon.net/item/accordions-plus-for-wordpress/full_screen_preview/3684077" title="Try Accordions Plus"><img src="http://kavin.dev/resources/plugins/wp-ui/images/accplus.jpg" width="245px height="106px"><span class="wpui-onhover-text">Accordions Plus</span></a>
+			</div>
+	</div>
+	<!-- /.acc-plus wpui-columns -->
+
+
+	<div class="support-plugin wpui-columns">
+		<h4><span class="glyphicon"></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
 		<ul>
 			<li>
-				<a href="#" class="wpui-clean-cache"><?php _e( 'Empty cache', 'wp-ui' ) ?></a>
-				<input type="hidden" value="<?php echo wp_create_nonce( 'wpui-cache-nonce' ); ?>" />
-			</li>			
-			<li>
-				<a class="wpui-clean-meta" href="#"><?php _e( 'Clean old post meta', 'wp-ui' ) ?>			</a>
-				<input type="hidden" value="<?php echo wp_create_nonce( 'wpui-clean-meta-nonce' ); ?>" />
-				
+				<a target="_blank" href="http://kav.in/wp-ui-changes-ahead-0-8-7/"><span style="color: red;"><?php _e( 'Important : Feature changes', 'wp-ui' ); ?></span></a>
 			</li>
-			<li>
-				<a class="wpui-no-bleeding" href="#"><?php _e( 'Toggle Bleeding Edge', 'wp-ui' ) ?></a>
-			</li>
-		</ul>		
-	</div><!--  end.actions -->
-
-
-	<div class="support-plugin cols">
-		<h4><span></span><?php _e( 'Support this plugin', 'wp-ui' ); ?></h4>
-		<ul>
 		<li>
-			<a target="_blank" href="http://kav.in/donation"><?php _e( 'Consider a donation.', 'wp-ui' ); ?></a>
+			<a target="_blank" href="http://kav.in/projects/blog/need-wpui-plugin-testers/"><?php _e( 'Beta Testers Needed', 'wp-ui' ); ?></a>
 		</li>
 		<li>
-			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 &#9733; rating at Wordpress.org', 'wp-ui' ); ?></a>
+			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/"><?php _e( 'Give it a 5 &#x2605; rating at Wordpress.org', 'wp-ui' ); ?></a>
 		</li>
 		<li>
 			<a target="_blank" href="http://wordpress.org/extend/plugins/wp-ui/" title="<?php _e( 'Please login and choosing It \'works\' at wordpress.org.', 'wp-ui' ); ?>"><?php _e( 'Tell others that it works!', 'wp-ui' ) ?></a>
 		</li>
-			
+
 		<li>
-			<a target="_blank" href="http://www.facebook.com/#!/pages/Capability/136970409692187" title="Encourage/Motivate me on making more plugins!"><?php _e( 'Like us on facebook!', 'wp-ui' ); ?></a>				
+			<a target="_blank" href="http://www.facebook.com/#!/pages/Capability/136970409692187" title="Encourage/Motivate me on making more plugins!"><?php _e( 'Like us on facebook!', 'wp-ui' ); ?></a>
 			</li>
 		<li>
 			<a href="http://twitter.com/kavingray" title="Follow Kavin on twitter."><?php _e( '@Kavingray on Twitter', 'wp-ui' ); ?></a>
@@ -1036,10 +1260,10 @@ function wpui_plugin_info_below() {
 		</li>
 			</ul>
 
-		</div>		
-		
-		<div class="help cols col-1">
-			<h4><span></span><?php _e( 'Get Support!', 'wp-ui' ); ?></h4>
+		</div>
+
+		<div class="help wpui-columns">
+			<h4><span class="glyphicon"></span><?php _e( 'Get Support!', 'wp-ui' ); ?></h4>
 			<ul>
     		<li>
 				<i><a target="_blank" href="http://wordpress.org/support/plugin/wp-ui" title="<?php _e( 'Wordpress.org Plugin support forum', 'wp-ui' ); ?>"><?php _e( 'Wp.org support forum', 'wp-ui' ); ?></a></i>
@@ -1053,29 +1277,19 @@ function wpui_plugin_info_below() {
 		<li class="last-li">
 			<a target="_blank" href="http://kav.in/forum/categories/suggestionsideas"><?php _e( 'Suggestions / Ideas', 'wp-ui' ); ?></a>
 		</li>
-		
+
 		</ul>
 
 	</div>
 
-	<div class="wpui-credits cols cols-1">
 
-		<h4><?php _e( 'Credits', 'wp-ui' ); ?></h4>
+</div>
+<!-- /#wpui-options-sidebar-wrap -->
 
-
-			<p><?php _e( 'Thanks to the WordPress team and jQuery (&amp;) UI team. Also thanks to the all people out there, who spend their invaluable time for the spirit of The Open Source - Sharing and helping everyone. Icons on this page -', 'wp-ui' ); ?> <a target="_blank" rel="nofollow" href="http://www.woothemes.com/2010/08/woocons1/"><?php _e( 'GPL licensed Woocons', 'wp-ui' ); ?></a>.
-
-			</p>	
-
-	</div>
-	
-	
-	</div><!-- end #wpui-cap-below -->
-</div><!-- end div.info-below -->
+</div><!-- end div.wpui-options-sidebar -->
 
 	<?php
 }
-
 
 
 
@@ -1140,11 +1354,11 @@ function get_wpui_default_options() {
 		<div class="wpui-post-meta">{$date} |  {$author}</div>
 		<div class="wpui-post-thumbnail">{$thumbnail}</div>
 		<div class="wpui-post-content">{$excerpt}</div>
-		<p class="wpui-readmore"><a class="ui-button ui-widget ui-corner-all" href="{$url}" title="Read more from {$title}">Read More...</a></p>',
+		<p class="wpui-readmore"><a class="wpui-button ui-button ui-widget ui-corner-all" href="{$url}" title="Read more from {$title}">Read More...</a></p>',
 		'post_template_2'			=>	'<div class="wpui-post-meta">{$date}</div>
 		<div class="wpui-post-thumbnail">{$thumbnail}</div>
 		<div class="wpui-post-content">{$excerpt}</div>
-		<p class="wpui-readmore"><a href="{$url}" title="Read more from {$title}">Read More...</a></p>',
+		<p class="wpui-readmore"><a class="wpui-button ui-button ui-widget ui-corner-all" href="{$url}" title="Read more from {$title}">Read More...</a></p>',
 		'excerpt_length'			=>	'more',
 		'post_widget'				=> array (
 			'title'		=>	'We recommend',
@@ -1157,12 +1371,15 @@ function get_wpui_default_options() {
 			'width'		=>	'100',
 			'height'	=>	'100'
 		),
-		'post_widget_number'		=>	'3',
-		'jquery_disabled'			=>	'off',
-		'docwrite_fix'				=>	'on',
-		'bleeding_edge'				=>	'off',
-		'misc_options'				=>	"hashing_method=1\ntinymce_icon_row=3",
-		'version'					=>	WPUI_VER
+		'post_widget_number' =>	'3',
+		'jquery_disabled'    =>	'on',
+		'cdn_jquery'         =>	'off',
+		'docwrite_fix'       =>	'on',
+		'alt_sc'             =>	'off',
+		'use_old_scripts'    =>	'off',
+		'use_old_widgets'    =>	'off',
+		'misc_options'       =>	"hashing_timeout=1000\ntinymce_icon_row=3",
+		'version'            =>	WPUI_VER
 	);
 	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';
 	return $defaults;

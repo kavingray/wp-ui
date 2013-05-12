@@ -17,9 +17,6 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 		
 		base.fileList = ( base.$el.val() != '' ) ? JSON.parse( base.$el.val()) : {};
 
-		base.ble = false;
-		if ( typeof( wpUIOpts ) == 'object' && wpUIOpts.bleeding == 'on' ) base.ble = true;
-
         base.$el.data("wpui.jquiThemeManage", base);
 
         base.init = function(){
@@ -71,7 +68,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 						value = base.fileList[ keyz ];
 						base.table
 							.append( '<tr />' )
-							.find( '<tr:last' )
+							.find( 'tr:last' )
 							.append( '<td>' + keyz + '</td><td><a target="_blank" href="' + value + '">' + value + '</a></td><td><a class="jqui_theme_delete" title="Remove this theme" href="#">Delete</a></td>');
 					}
 			
@@ -257,10 +254,10 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				return false;
 			});
 			
-			base.table.bind( 'adjust', function() {
-				if ( ! base.ble ) return false;
-				jQuery( '.ktabs' ).ktabs( 'fixheight' );
-			});
+			// base.table.bind( 'adjust', function() {
+			// 	// if ( ! base.ble ) return false;
+			// 	// jQuery( '.ktabs' ).ktabs( 'fixheight' );
+			// });
 			
 			
 			
@@ -316,7 +313,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			}, response;			
 			
 				jQuery.post( ajaxurl, data, function( response ) {
-					
+					// console.log( response ); 
 					var resp = JSON.parse( response );
  					if ( typeof( resp ) != 'object' ) return false;
 
@@ -612,7 +609,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				.append( '<form><fieldset /></form>' )
 				.find( 'form fieldset' )
 				.append( '<div class="theme_add_notes" />')
-				.append( '<div class="check_styles_lists">Uncheck the styles you don\'t want to load. Drag to reorder the styles. These are loaded only if <b>"Load Multiple Styles" is checked</b>.<ul id="wpui-sortable"></ul></div>')
+				.append( '<div class="check_styles_lists">Uncheck the styles you don\'t want to load. These are loaded only if <b>"Load Multiple Styles" is checked</b>.<ul id="wpui-sortable"></ul></div>')
 				.end()
 				.appendTo( 'body' );
 			
@@ -663,8 +660,10 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 			
 			
 			base.formBinders = function() {
-				jQuery( '#wpui-combine-css3-files' ).click(function() {
 
+				jQuery( '#wpui-combine-css3-files' ).click(function() {
+					
+					// console.log( base.selectForm ); 
 					base.selectForm
 						.attr( 'title' , 'Select multiple styles' )
 						.dialog({
@@ -692,7 +691,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 						});
 
 					return false;
-				});				
+				});			
 			};
 
 

@@ -18,12 +18,11 @@
 			template		: 	'<div class="wp-tab-content"><div class="wp-tab-content-wrapper">{$content}</div></div>'		
 		},
 		_create			: function() {
-			self = this;
+			baset = this;
 			$this = this.element;
 			this.o = this.options;
 			this.header = $this.find( this.o.header );
 			this.id = $this.attr( 'id' );
-			
 			
 			if ( this.o.wpuiautop ) {
 				$this.find('p, br')
@@ -37,12 +36,13 @@
 			
 			this.header.each( function() {
 				var elId = $( this ).text(),
-					toLoad = $( this ).children( self.o.ajaxClass ),
+					toLoad = $( this ).children( baset.o.ajaxClass ),
+					// toLoad = jQuery({}),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
 		
-				elId = $.wpui.getIds( elId, self.id );
+				elId = $.wpui.getIds( elId, baset.id );
 				
 				$( this )
 					// .next()
@@ -51,7 +51,7 @@
 				if ( toLoad.length ) {
 					$( '<div />' )
 					.load( toLoad.attr( 'href' ), function( data ) {
-						$( this ).html( self.o.template.replace( /\{\$content\}/, data ) );
+						$( this ).html( baset.o.template.replace( /\{\$content\}/, data ) );
 					})
 					.insertAfter( this );
 				}
@@ -72,11 +72,10 @@
 				options.active = false;
 			}
 			
-			if ( this.o.easing ) options.animated = this.o.easing;
+			if ( this.o.easing && this.o.easing !== 'false' ) options.animate = this.o.easing;
 			
 			options.event = this.o.accordEvent;
 			
-		
 			this.accordion = $this.children( '.accordion' ).accordion( options );
 			
 			accClass = $this.attr( 'class' );
@@ -85,7 +84,7 @@
 				this.accordion.accordion( 'activate', parseInt( activePanel[ 1 ], 10 ) );
 			}			
 			
-			if ( $this.hasClass( 'wpui-sortable' ) ) {
+			if ( $this.hasClass( 'wpui-skkkkortable' ) ) {
 				this.header.each(function() {
 					$( this ).wrap( '<div class="acc-group" />' );
 					$( this ).parent().next().insertAfter( this );
@@ -93,9 +92,9 @@
 
 				this.accordion
 				.accordion({
-					header: "> div.acc-group > " + self.o.header
+					header: "> div.acc-group > " + baset.o.header
 				}).sortable({
-					handle : self.o.header,
+					handle : baset.o.header,
 					axis	: 'y',
 					stop: function( event, ui ) {
 							ui.item.children( "h3" ).triggerHandler( "focusout" );
@@ -103,6 +102,16 @@
 				});
 				
 			}
+			
+			if ( $this.hasClass( 'wpui-collapsible' ) ) {
+				this.accordion
+					.accordion( 'option', {
+						collapsible : true,
+						active		: false
+					});
+			}
+			
+			// return !1;
 			
 			// Auto rotate the accordions
 			this.rotate();
@@ -130,7 +139,7 @@
 		},
 		rotate		: function() {
 			
-			var self = this, rSpeed = this.element.attr( 'class' ).match( /tab-rotate-(.*)/, "$1" ), aRot, rotac;
+			var baset = this, rSpeed = this.element.attr( 'class' ).match( /tab-rotate-(.*)/, "$1" ), aRot, rotac;
 			
 			if ( rSpeed ) {
 				rSpeed =  rSpeed[1];
@@ -139,10 +148,10 @@
 				tPanel = this.accordion.children().length / 2 -1;
 				
 				rotac = setInterval(function() {
-					self.accordion.accordion( 'activate', ( cPanel > tPanel ) ? 0 : cPanel++ );
+					baset.accordion.accordion( 'activate', ( cPanel > tPanel ) ? 0 : cPanel++ );
 				}, rSpeed );
 				
-				self.accordion.children(":nth-child(odd)").bind( 'click', function() {
+				baset.accordion.children(":nth-child(odd)").bind( 'click', function() {
 					clearInterval( rotac );
 				});
 			}

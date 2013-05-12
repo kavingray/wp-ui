@@ -14,13 +14,13 @@ function get_plgn_url() {
 		$plgn_url .= $_SERVER['SERVER_NAME'] . $script_url;
 	}
 	$plgn_url = str_ireplace( 'admin', '', $plgn_url );
-	return $plgn_url;	
+	return $plgn_url;
 } // END function get_page_url.
 
 function get_site_url() {
 	$plgn_url = get_plgn_url();
 	$plgn_url = str_ireplace( 'wp-content/plugins/wp-ui/', '', $plgn_url );
-	return $plgn_url;	
+	return $plgn_url;
 }
 
 // if ( isset( $_GET[ 'page' ] ) )
@@ -42,10 +42,10 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 <div id="wrapper">
 <h2 class="page-title">WP UI - Docs</h2>
 <div id="container">
-	
-<!-- change content as necessary -->	
-	
-	
+
+<!-- change content as necessary -->
+
+
 <p>Welcome to WP UI for wordpress. WP UI widgets can be implemented with shortcodes as well as templates. For getting the shortcodes work straight away without any trouble, please consider the following suggestions.</p>
 <p class="information" style="text-align: center;"><b><a href="http://kav.in/projects/blog/wp-ui-quick-start/" target="_blank" rel="nofollow">Click here</a> to read the WP UI Quick Start guide. </b></p>
 
@@ -76,11 +76,11 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 
 <div class="wp-tabs wpui-dark wpui-no-background">
 <h3 class="wp-tab-title">Visual</h3>
-<div class="wp-tab-content">	
+<div class="wp-tab-content">
 <div class="kav-caption dark" style="width:412px"> <img class="wp-kav-image" src="<?php echo get_plgn_url() ?>/images/editor/tinymce.png" width="400" height="250" alt="WP UI - TinyMCE buttons" />
 <p class="kav-caption-text" align="center"><strong>Image 1.1</strong> WP UI -Visual mode Editor Menu</p></div></div>
 
-	
+
 <h3 class="wp-tab-title">HTML Editor</h3>
 <div class="wp-tab-content">
 <div class="kav-caption dark" style="width:412px"><img class="wp-kav-image" style="border-right: 0px;" src="<?php echo get_plgn_url() ?>/images/editor/quicktags.png" width="400" height="250" alt="WPUI - HTML editor buttons" />
@@ -106,7 +106,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
     [wptabcontent] Contents of the Tab 2 [/wptabcontent]
   [wptabtitle]Tab 3[/wptabtitle]
     [wptabcontent] Contents of the Tab 3 [/wptabcontent]
-[/wptabs]	
+[/wptabs]
 </pre>
 </div>
 <h3 class="wp-tab-title">Accordion</h3>
@@ -120,8 +120,8 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
   [wptabcontent] Contents of the Tab 2 [/wptabcontent]
 [wptabtitle]Tab 3[/wptabtitle]
   [wptabcontent] Contents of the Tab 3 [/wptabcontent]
-[/wptabs]	
-</pre>	
+[/wptabs]
+</pre>
 </div>
 <h3 class="wp-tab-title">Spoilers</h3>
 <div class="wp-tab-content">
@@ -130,7 +130,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 </pre>	</div>
 <h3 class="wp-tab-title">Dialogs</h3>
 <div class="wp-tab-content">
-<pre class="light-pre">	
+<pre class="light-pre">
 [wpdialog title="The second dialog" hide="slide"] Text inside or what you want to show inside the dialog..  [/wpdialog]
 </pre>
 </div>
@@ -234,7 +234,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 				<td>This appears after the post</td>
 			</tr>
 		</tbody>
-	</table>		
+	</table>
 
 
 
@@ -247,11 +247,11 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 					</tr>
 				</thead>
 				<tbody>
-					<tr>		
+					<tr>
 			<!-- wptabcontent shortcode -->
 				<td>none yet</td>
 				<td>wptabcontent shortcode handles the tab's contents should follow [<span>wptabtitle</span>] shortcode, <em>except when the latter is used with post related arguments</em>, <code>post</code>, <code>page</code>, <code>cat</code>, <code>tag</code>.</td>
-			</tr>		
+			</tr>
 
 
 				</tbody>
@@ -280,7 +280,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 			<tr>
 				<td>mode</td>
 				<td>Define mode="vertical" for vertically oriented tabs.</td>
-			</tr>		
+			</tr>
 
 			<tr>
 				<td>effect</td>
@@ -301,9 +301,9 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 
 
 		</tbody>
-	</table>	
-	
-	
+	</table>
+
+
 </div>
 </div>
 <div class="wp-spoiler wpui-sevin">
@@ -345,15 +345,15 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 		<tr>
 			<td>style</td>
 			<td>Any of the accepted stylename values, given just below.<br /><code>[<span>wptabs style="wpui-achu"</span>]</code></td>
-		</tr>	
+		</tr>
 		<tr>
 			<td>fade</td>
 			<td>Fade(animate opacity) on open/close. <br /><code>[<span>wpspoiler fade="true"</span>]</code></td>
-		</tr>	
+		</tr>
 		<tr>
 			<td>slide</td>
 			<td>Slide on open/close. <br /><code>[<span>wpspoiler fade="true"</span>]</code></td>
-		</tr>	
+		</tr>
 		<tr>
 			<td>speed</td>
 			<td>Animation speed in milliseconds. Greater the value, slower the animation.</td>
@@ -361,7 +361,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 		<tr>
 			<td>closebtn</td>
 			<td>Inserts a close button at end of the spoiler, with value as the label.<br /> <code> [<span>wpspoiler closebtn="Click to close me"</span>]</code> </td>
-		</tr>	
+		</tr>
 		<tr>
 			<td>showText</td>
 			<td>Text or HTML show on the closed spoiler i.e when content is hidden. <br /> <code> [<span>wpspoiler showText="Click to show"</span>] </code></td>
@@ -388,7 +388,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 		</tr>
 
 		</tbody>
-	</table>	
+	</table>
 </div>
 </div>
 <div class="wp-spoiler wpui-sevin">
@@ -419,7 +419,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 		<tr>
 			<td>hide</td>
 			<td>Animation when dialog is closed. <br /> <code> [<span>wpdialog hide="explode"</span>] </code> <a href="http://docs.jquery.com/UI/Effects">Click here for the values</a>.</td>
-		</tr>		
+		</tr>
 
 		<tr>
 			<td>modal</td>
@@ -452,16 +452,16 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 		<tr>
 			<td>after_post</td>
 			<td>This appears after the post</td>
-		</tr>	
+		</tr>
 
 		</tbody>
-	</table>	
+	</table>
 </div>
 </div>
 <!-- <div class="wp-spoiler">
 <h3 class="ui-collapsible-header"></h3>
 <div class="ui-collapsible-content">
-	
+
 </div>
 </div> -->
 
@@ -478,7 +478,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 <p>If you wish to have nested tabs (tabs within a tab), you have to use the following markup. This is rather a limitation of the wordpress shortcodes and not of this plugin.</p>
 <pre>&lt;div class=&quot;wp-tabs wpui-quark&quot;&gt;<br />
 	&lt;h3 class=&quot;wp-tab-title&quot;&gt;First Nested Tab&lt;/h3&gt;&lt;br&gt;<br />		&lt;div class=&quot;wp-tab-content&quot;&gt; Contents of the nested first tab.
-		&lt;/div&gt;&lt;!-- end div.wp-tab-content --&gt;<br />	
+		&lt;/div&gt;&lt;!-- end div.wp-tab-content --&gt;<br />
 	&lt;h3 class=&quot;wp-tab-title&quot;&gt;Second Nested Tab&lt;/h3&gt;<br />		&lt;div class=&quot;wp-tab-content&quot;&gt;Content of the nested second tab. &lt;/div&gt;&lt;!-- end div.wp-tab-content --&gt;
 <br />&lt;/div&gt;</pre>
 <p>This enables the use of nested tabs.</p>
@@ -493,7 +493,7 @@ if ( isset( $_GET ) && isset( $_GET[ 'section' ] ) )
 
 </body>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.12/jquery-ui.min.js"></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
 var wpUIOpts = {
@@ -535,8 +535,8 @@ var initOpts = {
 /* ]]> */
 </script>
 
-<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/wp-ui.css" type="text/css">
-<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/css/wpui-all.css" type="text/css">
+<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/css/wp-ui.css" type="text/css">
+<link rel="stylesheet" href="<?php echo get_plgn_url() ?>/css/themes/wpui-all.css" type="text/css">
 
 <script type="text/javascript">
 
@@ -576,7 +576,7 @@ h3 {
 	background : -moz-linear-gradient( left, #A1216E, #D8164A, #F82913, #F98F17, #FBCC0C, #EEE810, #79C53E, #4BC574, #5FCDC2, #5B3C9C, #A8185F );
 	background : -o-linear-gradient( left, #A1216E, #D8164A, #F82913, #F98F17, #FBCC0C, #EEE810, #79C53E, #4BC574, #5FCDC2, #5B3C9C, #A8185F );*/
 	background : url("<?php echo get_plgn_url(); ?>/images/cpattern.png" );
-	border-bottom: 1px solid #FFF;	
+	border-bottom: 1px solid #FFF;
 	color: #000;
 	text-shadow : 1px 1px 0 #999;
 	padding: 10px;
@@ -591,12 +591,12 @@ h3 {
 }
 ul, ol {
 	padding-left: 1.5em;
-	margin-left : 1.5em;	
+	margin-left : 1.5em;
 }
 
 ul li, ol li {
 	margin-top: 5px;
-	margin-bottom: 5px;	
+	margin-bottom: 5px;
 }
 
 .kav-caption {
@@ -721,8 +721,8 @@ table thead tr td {
 
 table tbody tr td {
 	padding : 10px;
-	
-	
+
+
 }
 
 
@@ -749,28 +749,28 @@ function synHilite() {
 	argvals = document.getElementsByClassName('enclosers');
 	for ( i = 0; i < argvals.length; i++ ) {
 		argvals[i].innerHTML = argvals[i].innerHTML.replace(/(\s{1}[\w\d^=]{1,14})=["']([^"']*)["']/img, "<span class='arguments'>$1</span>=\"<span class='values'>$2</span>\"" );
-	}	
+	}
 } // END fn synHilite.
 
 jQuery('pre').each(function() {
 	jQuery(this).addClass('dark-pre');
 	jQuery(this).wrap('<div class="pre-tools" />');
 	jQuery(this).parent().prepend('<p><strong>Code</strong>').children('p').css({ margin: '5px', paddingTop : '15px'});
-	
+
 	// jQuery('.melort').each(function() {
-	// 	
+	//
 	// 	jQuery(this).click(function() {
 	// 		currentVal = jQuery(this).parent().parent().children('pre').attr('class');
 	// 		newVal =  (currentVal == 'dark-pre' ? 'light-pre' : 'dark-pre');
 	// 		newText = ( jQuery(this).text() == 'Light' ) ? 'Dark' : 'Light';
 	// 		jQuery(this).parent().parent().children('pre').switchClass(currentVal, newVal, 600);
 	// 		jQuery(this).text( newText );
-	// 	
+	//
 	// 	return false;
 	// 	});
-	// 	
+	//
 	// });
-	
+
 });
 
 // jQuery('.roguelist').css({ right : '-270px' });
@@ -782,11 +782,11 @@ jQuery('pre').each(function() {
 // }, function() {
 // 	jQuery(this).stop().animate({ right : '-270px'});
 // });
-	
+
 jQuery( 'table tbody' ).each(function() {
 	jQuery( this ).children('tr:odd').addClass( 'odd-table' );
 });
-	
+
 	/*
 	 *	animated Scroll to function. Gets Target from href attribute.
 	 *	@params elID(element ID), speed(scrolling Speed)
@@ -797,14 +797,14 @@ jQuery( 'table tbody' ).each(function() {
 			var getLink = jQuery(this).attr("href");
 			var getLoc = jQuery(getLink).offset().top;
 			jQuery("html:not(:animated), body:not(:animated)").animate({
-				scrollTop: getLoc-20			
+				scrollTop: getLoc-20
 			}, speed);
-			
+
 			jQuery(getLink).effect('highlight', {color: 'yellow'}, 'slow');
 			return false;
 		});
-	}	
-	
+	}
+
 	scrollIn('.slide-to-id', 500);
 
 
