@@ -165,6 +165,7 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 == Changelog ==
 
 = 0.8.7 =
+* Major changes : Please save the options after updating.
 * Important : [Feature Changes](http://kav.in/u/impr).
 * Updated for WP 3.5 and above.
 * Redone Widgets and Admin page. Backup your old widget data before updating.
@@ -359,12 +360,4 @@ Please **rate** the plugin if you find it useful.
 
 
 = Credits =
-Following scripts have been included with this plugin.
-
-Includes
-* jQuery cookie plugin by Klaus Hartl.
-* jQuery BBQ plugin by Ben Alman.
-* Mousewheel event plugin by Brandon Aaron.
-* Image resizer inspired from work by Jarrod Oberto.
-
-Thanks to respective authors for their great work.
+Complete list of Credits can be found on WP UI Options Page -> Credits. Thanks to all the authors for their incredible work.

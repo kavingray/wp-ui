@@ -556,11 +556,10 @@ function add_wpui_update_notification( $output )
 	echo '<div class="error update-nag"><p>';
 	
 	if ( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'wpUI-options' ) {
-		echo sprintf( __( 'Options need a manual save. Please click %1$sSave options%2$s to do so.', 'wp-ui' ), '<b>', '</b>' );
+		echo sprintf( __( 'Please click %1$sSave options%2$s button to manually save the options once.', 'wp-ui' ), '<b>', '</b>' );
 	} else {
-		echo sprintf( __( '%1$sImportant : WP UI Options%2$s tables structure has been changed and requires a manual save. Please take a moment to %3$sVisit Options page%4$s', 'wp-ui' ), '<b>', '</b>', '<a href="' . admin_url( 'options-general.php?page=wpUI-options' ) . '">', '</a>' );
+		echo sprintf( __( '%1$sImportant%2$s : WP UI Options tables structure has been changed and requires a manual save. Please take a moment to %3$sVisit Options page%4$s', 'wp-ui' ), '<b>', '</b>', '<a href="' . admin_url( 'options-general.php?page=wpUI-options' ) . '">', '</a>' );
 		
-/*	   echo '<p>Important : <b>WP UI</b> Option tables structure has been changed and requires a manual save. <a href="' . admin_url( 'options-general.php?page=wpUI-options' ) . '">Visit Options page</a></p>';*/
 	}
 	echo '</p></div>';
 } // END add_wpui_update_notification
