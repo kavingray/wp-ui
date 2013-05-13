@@ -20,3 +20,5 @@ config.rb
 *backup*
 .watchme
 .tm_properties
+.tm_properties
+.tm_properties

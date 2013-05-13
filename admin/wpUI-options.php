@@ -567,6 +567,13 @@ $wpui_options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
+	'jquery_effects_include'	=>	array(
+		'id'		=>	'jquery_fx',
+		'title'		=>	__('Load jQuery Effects', 'wp-ui'),
+		'desc'		=>	__( 'This is needed if you want to use effects for tabs and dialogs. Not valid if option above is selected.', 'wp-ui' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),	
 	'script_cond'		=>	array(
 		'id'		=>	'script_conditionals',
 		'title'		=>	__('Conditional script load logic', 'wp-ui'),
@@ -1374,6 +1381,7 @@ function get_wpui_default_options() {
 		'post_widget_number' =>	'3',
 		'jquery_disabled'    =>	'on',
 		'cdn_jquery'         =>	'off',
+		'jquery_fx'         =>	'off',
 		'docwrite_fix'       =>	'on',
 		'alt_sc'             =>	'off',
 		'use_old_scripts'    =>	'off',

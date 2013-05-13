@@ -196,6 +196,11 @@ class wpUI {
 		} else {
 			
 			array_push( $deps, "jquery-ui-core", "jquery-ui-tabs", "jquery-ui-accordion", "jquery-ui-dialog", "jquery-ui-sortable", "jquery-ui-draggable" );
+			if ( isset( $this->options[ 'jquery_fx' ] ) && $this->options[ 'jquery_fx' ] == 'on' ) {
+				array_push( $deps, "jquery-effects-core",'jquery-effects-blind', 'jquery-effects-bounce', 'jquery-effects-clip', 'jquery-effects-drop', 'jquery-effects-explode', 'jquery-effects-fade', 'jquery-effects-fold', 'jquery-effects-highlight', 'jquery-effects-pulsate', 'jquery-effects-scale', 'jquery-effects-shake', 'jquery-effects-slide', 'jquery-effects-transfer' );
+			}
+
+
 						
 		} // END check for cdn jquery need.
 
@@ -887,8 +892,8 @@ class wpUI {
 			'title'			=>	'Information',
 			'height'		=>	'auto',
 			'width'			=>	$this->options[ 'dialog_width' ],
-			'show'			=>	'slide',
-			'hide'			=>	'fade',
+			'show'			=>	null,
+			'hide'			=>	null,
 			'modal'			=>	'false',
 			'closeOnEscape'	=>	'true',
 			'resizable'		=>	'true',
