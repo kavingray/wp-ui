@@ -692,6 +692,7 @@ class wpUI {
 			'hclass'	=>	'wp-tab-title',
 			'label'		=>	'text',
 			'image_size'=>	'24,24',
+			'_id'		=>	false,
 			'load'		=>	'',
 			'post'		=>	'',
 			'page'		=>	'',
@@ -708,7 +709,6 @@ class wpUI {
 			'before_post'	=>	'',
 			'after_post'	=>	'',
 			'template'		=>	'1',
-			'title_template'=> false,
 			'icon'		=>	false
 		), $atts));
 
@@ -717,9 +717,19 @@ class wpUI {
 					$this->options[ 'post_template_' . $template ] :
 					$this->options[ 'post_template_1' ];
 
-		if ( ! $title_template ) {
-			$title_template = ( isset( $this->options[ 'title_template' ] ) && $this->options[ 'title_template' ] != '' ) ? $this->options[ 'title_template' ] : '<' . $header . ' class="' . $hclass . '">{$title}</' . $header . '>';
-		}
+		 if ( isset( $this->options[ 'title_template' ] ) && $this->options[ 'title_template' ] != '' ) {
+			 $title_template = $this->options[ 'title_template' ];
+	 		if ( $_id ) {
+	 			$title_template = str_ireplace( '>{$title}', 'id="' . $_id . '">{$title}', $title_template );
+	 		}
+		 } else {
+			 $title_template = '<' . $header;
+			 $title_template .= ' class="' . $hclass . '"';
+			 if ( $_id ) {
+				 $title_template .= ' id="' . $_id . '"';
+			 }
+			 $title_template .= '>{$title}</' . $header . '>'; 
+		 }
 
 		if ( $hide == "true" ) $hclass .= ' wpui-hidden-tab';
 
@@ -751,6 +761,7 @@ class wpUI {
 		if ( $load != '' ) {
 			$content = '<a class="wp-tab-load" href="' . $load . '">' . $content . '</a>';
 		}
+
 
 		$title_str = str_ireplace( '{$title}', $content, $title_template );
 

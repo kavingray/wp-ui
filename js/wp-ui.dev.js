@@ -86,11 +86,16 @@
 						
 			// Iterate through headers and add the styles.
 			this.header.each(function( index ) {
-				var elId = $( this ).text(),
+				var elId,
 					toLoad = $( this ).find( baset.o.ajaxClass ),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
+
+				elId = ( this.id ) ? this.id : $( this ).text();
+
+				if ( this.id )
+					$( this ).removeAttr( 'id' );
 
 				// Get this tabs's ID.
 				elId = $.wpui.getIds( elId, baset.id );
@@ -666,14 +671,18 @@ jQuery( function() {
 			$this.find( this.o.header + ',' + this.o.content ).wrapAll( '<div class="accordion" />' );
 			
 			this.header.each( function() {
-				var elId = $( this ).text(),
+				var elId,
 					toLoad = $( this ).children( baset.o.ajaxClass ),
 					// toLoad = jQuery({}),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
 		
-				elId = $.wpui.getIds( elId, baset.id );
+				elId = ( this.id ) ? this.id : $( this ).text();
+
+				if ( this.id )
+					$( this ).removeAttr( 'id' );
+
 				
 				$( this )
 					// .next()
@@ -1115,14 +1124,37 @@ if(typeof String.prototype.trim !== 'function') {
   }
 }
 
-if(!Array.indexOf){
-	Array.prototype.indexOf = function(obj){
-		for(var i=0; i<this.length; i++){
-			if(this[i]==obj){
-				return i;
-			}
-		}
-	}
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
+        "use strict";
+        if (this == null) {
+            throw new TypeError();
+        }
+        var t = Object(this);
+        var len = t.length >>> 0;
+        if (len === 0) {
+            return -1;
+        }
+        var n = 0;
+        if (arguments.length > 1) {
+            n = Number(arguments[1]);
+            if (n != n) { // shortcut for verifying if it's NaN
+                n = 0;
+            } else if (n != 0 && n != Infinity && n != -Infinity) {
+                n = (n > 0 || -1) * Math.floor(Math.abs(n));
+            }
+        }
+        if (n >= len) {
+            return -1;
+        }
+        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+        for (; k < len; k++) {
+            if (k in t && t[k] === searchElement) {
+                return k;
+            }
+        }
+        return -1;
+    }
 }
 
 
@@ -1400,13 +1432,28 @@ jQuery(document).ready(function( $ ) {
 	if ( typeof( $.wpui.getIds ) == 'undefined' ) {
 		$.wpui.getIds = function( str, par ) {
 			var num = $.wpui.tabsNo, dup;
-
 			if ( typeof($.wpui.ids[ par ] ) == 'undefined' )
 					$.wpui.ids[ par ] = [];
-
-			str = $.trim(str).replace(/\s{1,}/gm, '_')
-					.replace( /[^A-Za-z0-9\s_\-]/m, '')
+		
+			str = $.trim( str.replace( /[^A-Za-z0-9\s_\-]/gm, '' ) )
+					.replace(/\s{1,}/gm, '_')
 					.toLowerCase();
+					
+			if ( str == false ) {
+				if ( /wp-tabs/.test( par ) )
+					str = 'wpui-tab-panel';
+				if ( /wp-accordion/.test( par ) )
+					str = 'wpui-acc-title';
+				if ( /wp-spoiler/.test( par ) )
+					str = 'wpui-spoiler-title';			
+				// return;
+			}		
+		
+
+			// characters.
+			if ( /[^\x00-\x80]+/.test( str ) ) {
+				str = 'wpui-tabs-' + num;
+			}
 		
 			for ( dup in $.wpui.ids ) {
 				if ( $.inArray( str, $.wpui.ids[ dup ] ) != '-1' || $( '#' + str ).length ) {
@@ -1414,16 +1461,12 @@ jQuery(document).ready(function( $ ) {
 				}
 			}
 
-			// characters.
-			if ( str.match( /[^\x00-\x80]+/ ) ) {
-				str = 'wpui-tabs-' + num;
-			}
-	
 			$.wpui.ids[ par ].push( str );
 			$.wpui.tabsNo++;
 	
 			return str;
 		};
 	}
+
 
 })( jQuery );

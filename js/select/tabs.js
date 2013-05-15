@@ -70,11 +70,16 @@
 						
 			// Iterate through headers and add the styles.
 			this.header.each(function( index ) {
-				var elId = $( this ).text(),
+				var elId,
 					toLoad = $( this ).find( baset.o.ajaxClass ),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
+
+				elId = ( this.id ) ? this.id : $( this ).text();
+
+				if ( this.id )
+					$( this ).removeAttr( 'id' );
 
 				// Get this tabs's ID.
 				elId = $.wpui.getIds( elId, baset.id );

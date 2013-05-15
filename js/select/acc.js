@@ -35,14 +35,18 @@
 			$this.find( this.o.header + ',' + this.o.content ).wrapAll( '<div class="accordion" />' );
 			
 			this.header.each( function() {
-				var elId = $( this ).text(),
+				var elId,
 					toLoad = $( this ).children( baset.o.ajaxClass ),
 					// toLoad = jQuery({}),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
 		
-				elId = $.wpui.getIds( elId, baset.id );
+				elId = ( this.id ) ? this.id : $( this ).text();
+
+				if ( this.id )
+					$( this ).removeAttr( 'id' );
+
 				
 				$( this )
 					// .next()
