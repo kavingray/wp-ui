@@ -221,8 +221,8 @@
 		navigation		: function() {
 			var baset = this, $this = this.element;
 			
-			if ( this.o.topNav || this.o.bottomNav ) return false;
-
+			if ( ! this.o.topNav && ! this.o.bottomNav ) return false;
+			
 			$this.find( 'div.ui-tabs-panel' ).each( function(i) {
 				var navClass = ' ui-button ui-widget ui-state-default ui-corner-all',
 				navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>',
