@@ -58,16 +58,7 @@ function wpui_adjust_path( $path ) {
 }
 
 
-// function wpui_dir( $app='' ) {
-// 	$is_Windows = strtoupper( substr(php_uname('s'), 0, 3 )) == 'WIN';
-// 	$sep = $is_Windows ? '\\' : '/'; 
-// 	$path = WP_PLUGIN_DIR . $sep . basename( dirname( __FILE__ ) );
-// 	if ( $is_Windows && stristr( $app, '/' ) )
-// 	$app = str_replace('/', "\\", $app );
-// 	if ( $app != '' ) $path = $path . $sep . $app;
-// 	return $path;
-// }
-
+define( 'WPUI_DIR', preg_replace( '/' . basename(dirname( __FILE__ )) . '$/', '', dirname( __FILE__ )  ) );
 
 
 /**
@@ -75,7 +66,7 @@ function wpui_adjust_path( $path ) {
  * 	
  */
 function wpui_dir( $app='' ) {
-	$path = str_replace( basename(dirname( __FILE__ )), '', dirname( __FILE__ )  );
+	$path = WPUI_DIR;
 	if ( $app != '' ) $path = $path . $app;
 	if ( wpui_is_windows( ) ) 
 		$path = wpui_adjust_path( $path );
