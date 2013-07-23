@@ -4,7 +4,7 @@ Plugin Name: WP UI - Tabs, accordions and more.
 Plugin URI: http://kav.in/wp-ui-for-wordpress
 Description: Easily add Tabs, Accordion, Collapsibles to your posts. With 14 fresh Unique CSS3 styles and multiple jQuery UI custom themes.
 Author:	Kavin
-Version: 0.8.7
+Version: 0.8.8
 Author URI: http://kav.in
 
 Copyright (c) 2011 Kavin ( http://kav.in/contact )
@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 
-define( 'WPUI_VER', '0.8.7' );
+define( 'WPUI_VER', '0.8.8' );
 
 // $opts = get_option( 'wpUI_options');
 // echo '<pre>';
@@ -1106,7 +1106,7 @@ class wpUI {
 			header( 'Cache-Control: must-revalidate' );
 			$offset = 72000;
 			header( "Expires: " . gmdate( "D, d M Y H:i:s", time() + 72000) . " GMT");
-			$opts = get_option( 'wpUi_options' );
+			$opts = get_option( 'wpUI_options' );
 			echo $opts['custom_css'];
 			exit; // Dont remove.
 		}

@@ -191,7 +191,7 @@ jQuery(document).ready(function() {
 			 					header: 'h3',
 			 					effect: 'fade',
 			 					topNav: false,
-			 					botNav: false,
+			 					bottomNav: false,
 			 					cookies : false,
 								hashchange : false,
 								wpuiautop : false,

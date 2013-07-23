@@ -62,15 +62,15 @@
 					$.wpui.ids[ this.id ] = [];
 
 			
-			if ( this.o.wpuiautop ) {
-				
-				$this.children('p, br')
-					.not( 'div.wp-tab-content > br, div.wp-tab-content > p' )
-					.filter(function() {
-						return( $.trim( $(this).html() ) === '' );
-				}).remove();
-				
-			}
+			// if ( this.o.wpuiautop ) {
+			// 
+			// 	$this.children('p, br')
+			// 		.not( 'div.wp-tab-content > br, div.wp-tab-content > p' )
+			// 		.filter(function() {
+			// 			return( $.trim( $(this).html() ) === '' );
+			// 	}).remove();
+			// 	
+			// }
 								
 			this.wrap = this.header.wrap( '<div class="ui-tabs-panel" />' );
 			

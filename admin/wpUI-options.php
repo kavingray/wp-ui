@@ -573,7 +573,7 @@ $wpui_options_list = array(
 		'desc'		=>	__( 'This is needed if you want to use effects for tabs and dialogs. Not valid if option above is selected.', 'wp-ui' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
-	),	
+	),
 	'script_cond'		=>	array(
 		'id'		=>	'script_conditionals',
 		'title'		=>	__('Conditional script load logic', 'wp-ui'),
@@ -1163,7 +1163,7 @@ function wpui_plugin_info_above() {
 				<ul class="wpui-submenu">
 					<li class="no-hover">
 						<a href="http://kav.in/donation" target="_blank">
-						<img src="<?php echo plugins_url( "/wp-ui/images/paypal-donate.gif" ) ?>" alt="Securely Donate with Paypal, and Support the development of the plugin and site!" /></a><p>Love the plugin? Does it help in one or more ways to make your site more Awesome? I bet it does! Please donate and help with the plugin and server maintanence costs.<br /> <span class="glyphicon"></span>Thank you <span class="glyphicon"></span></p>
+						<img src="<?php echo plugins_url( "/wp-ui/images/paypal-donate.gif" ) ?>" alt="Securely Donate with Paypal, and Support the development of the plugin and site!" /></a><p>Love the plugin? Does it help in one or more ways to make your site more Awesome? Please donate and help with the plugin and server maintanence costs.<br /> <span class="glyphicon"></span>Thank you <span class="glyphicon"></span></p>
 
 					</li>
 				</ul>
@@ -1180,7 +1180,7 @@ function wpui_plugin_info_above() {
 					<li><a class="menu-support" target="_blank" href="http://wordpress.org/support/plugin/wp-ui"><?php _e( 'WP.org Support', 'wp-ui' ); ?></a></li>
 				</ul>
 			</li><li>
-				<a class="toolbar-docs" target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'DOCS', 'wp-ui' ); ?></a>
+				<a class="toolbar-docs" target="_blank" href="http://kav.in/projects/blog/tag/wp-ui/"><?php _e( 'Docs', 'wp-ui' ); ?></a>
 			</li><li>
 				<a class="toolbar-forum" target="_blank" href="http://wordpress.org/support/plugin/wp-ui"><?php _e( 'Forum', 'wp-ui' ); ?></a>
 			</li>
@@ -1231,7 +1231,7 @@ function wpui_plugin_info_below() {
 	<div class="acc-plus wpui-columns">
 		<h4><span class="glyphicon"></span><?php _e( 'Our Premium Plugins', 'wp-ui' ); ?></h4>
 			<div class="accplus-banner">
-				<a target="_blank"  href="http://codecanyon.net/item/accordions-plus-for-wordpress/full_screen_preview/3684077" title="Try Accordions Plus"><img src="http://kavin.dev/resources/plugins/wp-ui/images/accplus.jpg" width="245px height="106px"><span class="wpui-onhover-text">Accordions Plus</span></a>
+				<a target="_blank"  href="http://codecanyon.net/item/accordions-plus-for-wordpress/full_screen_preview/3684077" title="Try Accordions Plus"><img src="<?php echo wpui_url( "images/accplus.jpg" ) ?>" width="245px height="106px"><span class="wpui-onhover-text">Accordions Plus</span></a>
 			</div>
 	</div>
 	<!-- /.acc-plus wpui-columns -->
