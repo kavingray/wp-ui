@@ -76,7 +76,7 @@ var wpui_submit_form = function() {
 
 	<div class="wpui-demo-wrap wpui-demo-wrap-1 "><p></p>
 	<h2 id="wpui-styles-demo-tabs-title">Tabs</h2>
-	<p></p><div id="wp-tabs-1" class="wp-tabs wpui-light wpui-styles wpui-tabs-horizontal" data-style="wpui-light"><h3 class="wp-tab-title">Writing</h3> <div class="wp-tab-content"><div class="wp-tab-content-wrapper"><p></p>
+	<p></p><div id="wp-tabs-1" class="wp-tabs wpui-light wpui-styles wpui-tabs-horizontal tabs-single-line-false" data-style="wpui-light"><h3 class="wp-tab-title">Writing</h3> <div class="wp-tab-content"><div class="wp-tab-content-wrapper"><p></p>
 	<div class="wp-caption" style="width: 130px; float: right; clear: right;"><img alt="Image by Dr.Bala" src="http://kav.in/demo/ex3.jpg" width="120"><p></p>
 	<p class="wp-caption-text">The child by <a href="http://500px.com/photonforge" target="_blank">Photonforge</a></p>
 	</div>
@@ -257,6 +257,7 @@ div.wpui-demo-loading {
 	box-shadow: 6px 6px 0 rgba( 0, 0, 0, 0.02 );
 	margin: 15% auto;
 }
+
 div.wpui-demo-loading span {
 	background: url("http://kavin.dev/resources/plugins/wp-ui/images/wpspin_light.gif") no-repeat;
 	padding-left : 20px;
@@ -278,9 +279,17 @@ jQuery( window ).load( function() {
 
 	jQuery( '#wpui-styles-demo-select' ).change( function() {
 		jQuery( "#wpui_selected_style" ).val( jQuery( this ).val() );
-	})
-	.val( parent.jQuery( '#tab_scheme' ).val() )
-	.trigger( 'change' );
+	});
+
+	parVal = parent.jQuery( '#tab_scheme' ).val();
+
+	if ( typeof parVal != 'undefined' ) {
+		jQuery( '#wpui-styles-demo-select' )
+			.val( parent.jQuery( '#tab_scheme' ).val() )
+			.trigger( 'change' );
+	}
+
+
 
 });
 </script>
