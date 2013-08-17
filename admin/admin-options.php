@@ -9,11 +9,12 @@
  * @subpackage admin-options
 **/
 
+
 /**
 *	Plugin Options class.
 */
-if ( ! class_exists( 'quark_admin_options') ) {
-class quark_admin_options
+if ( ! class_exists( 'kav_admin_options') ) {
+class kav_admin_options
 {
 
 	public $sections,
@@ -26,9 +27,6 @@ class quark_admin_options
 		 $plugin_page_prefix,
 		 $help_tabs,
 		 $options;
-
-
-
 
 
 	function __construct( $plugin_details=array() )
@@ -54,12 +52,12 @@ class quark_admin_options
 
 		// wp_enqueue_script( 'iris' );
 
-		$this->quark_admin_options();
+		$this->kav_admin_options();
 
 	} // END __construct
 
 
-	public function quark_admin_options() {
+	public function kav_admin_options() {
 		add_action( 'admin_menu' , array(&$this, 'menu_admin'));
 		add_action( 'admin_init' , array(&$this, 'init_admin'), 1, 0 );
 		$this->set_page_id($this->page_id);
@@ -1183,7 +1181,7 @@ class quark_admin_options
 	}
 
 
-} // END class quark_admin_options.
+} // END class kav_admin_options.
 
-} // END if class_exists check for quark_admin_options.
+} // END if class_exists check for kav_admin_options.
 ?>

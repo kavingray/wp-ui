@@ -10,6 +10,7 @@
 			ajaxClass		: 	'a.wp-tab-load',
 			effect			: 	(typeof wpUIOpts != "undefined") ? wpUIOpts.accordEffect : '',
 			autoHeight		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? true : false,
+			// heightStyle		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? 'content' : '',
 			collapse		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordCollapsible == 'on' ) ? true : false,
 			easing			: 	(typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEasing : '',
 			accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : '',
@@ -37,7 +38,7 @@
 			this.header.each( function() {
 				var elId,
 					toLoad = $( this ).children( baset.o.ajaxClass ),
-					// toLoad = jQuery({}),
+
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
@@ -70,6 +71,9 @@
 			
 			options.autoHeight = this.o.autoHeight ? true : false;
 			
+			if ( ! options.autoHeight ) {
+				options.heightStyle = 'content';
+			}
 				
 			if ( this.o.collapsible ) {
 				options.collapsible = true;
@@ -179,4 +183,4 @@
 	
 	
 	
-})( jQuery );
+})( wpuiJQ );

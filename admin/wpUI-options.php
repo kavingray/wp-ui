@@ -7,7 +7,7 @@ $wpui_options = get_option( 'wpUI_options' );
 $wpui_skins_list_pre = wpui_get_skins_list();
 
 
-global $wpui_options_list;
+global $wpui_options_list, $wpui_new_features;
 
 // $wpui_option_page->set_sections($sects);
 $wpui_options_list = array(
@@ -46,24 +46,24 @@ $wpui_options_list = array(
 		'section'	=>	'general',
 		'type'		=>	'checkbox'
 	),
-	'topnav'	=>	array(
-		'id'		=>	'topnav',
-		'title'		=>	__('Top next/previous links', 'wp-ui'),
-		'desc'		=>	__('Enable top navigation on tabs.', 'wp-ui'),
+	'singleLine'	=>	array(
+		'id'		=>	'single_line_tabs',
+		'title'		=>	__('Single Line tabs', 'wp-ui'),
+		'desc'		=>	__('Tabs appear on single line, with Next/Previous buttons.', 'wp-ui'),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
 	'bottomnav'	=>	array(
 		'id'		=>	'bottomnav',
-		'title'		=>	__('Bottom next/previous links', 'wp-ui'),
-		'desc'		=>	__('Enable bottom navigation on tabs.', 'wp-ui'),
+		'title'		=>	__('Bottom Navigation', 'wp-ui'),
+		'desc'		=>	__('Show next/previous links on the bottom of all panels.', 'wp-ui' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'general',
 	),
 	'enable_tinymce_menu'	=>	array(
 		'id'		=>	'enable_tinymce_menu',
 		'title'		=>	__('TinyMCE menu', 'wp-ui'),
-		'desc'		=>	__('Enable.', 'wp-ui'),
+		'desc'		=>	__('Enable', 'wp-ui'),
 		'section'	=>	'general',
 		'type'		=>	'checkbox'
 	),
@@ -108,7 +108,7 @@ $wpui_options_list = array(
 		'type'		=>	'select',
 		'section'	=>	'style',
 		'choices'	=>	$wpui_skins_list_pre,
-		'extras'	=>	'' . __( 'Preview ', 'wp-ui' ) . '<a id="wpui_styles_preview" href="" class="button-secondary">' . __( 'WP UI CSS3 Styles', 'wp-ui' ) . '</a>  <a id="jqui_styles_preview" href="#" class="button-secondary">' . __( 'jQuery UI themes', 'wp-ui' ) . '</a>'
+		'extras'	=>	'  ' . __( '  Preview ', 'wp-ui' ) . '<a id="wpui_styles_preview" href="" class="button-secondary">' . __( 'Styles Demo', 'wp-ui' ) . ' </a> <br />'
 	),
 	'custom_styles_path'		=>	array(
 		'id'		=>	'styles_upload_dirs',
@@ -539,10 +539,17 @@ $wpui_options_list = array(
 	/**
 	 * Advanced options
 	 */
+	'jquery_include'	=>	array(
+		'id'		=>	'cdn_jquery',
+		'title'		=>	__('CDN jQuery / Compatibility mode', 'wp-ui'),
+		'desc'		=>	__( 'Wrap load jQuery and jQuery UI Library from Google CDN. Try this first to attempt solve conflicts.', 'wp-ui' ),
+		'type'		=>	'checkbox',
+		'section'	=>	'advanced'
+	),
 	'script_haz_compatz'	=> array(
 		'id'		=>	'use_old_scripts',
 		'title'		=>	__( 'Old version', 'wp-ui' ),
-		'desc'		=>	__( 'Use Old Scripts API. <em>Caution : Unsupported with latest versions of jQuery-UI and subsequently current WP UI</em>. <br />Clearing the Cache should make this option unnecessary, 100%.', 'wp-ui' ),
+		'desc'		=>	__( 'Use Old Scripts API. <b style="color : orange;">Caution : Not supported</b>', 'wp-ui' ),
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
@@ -560,13 +567,7 @@ $wpui_options_list = array(
 		'type'		=>	'checkbox',
 		'section'	=>	'advanced'
 	),
-	'jquery_include'	=>	array(
-		'id'		=>	'cdn_jquery',
-		'title'		=>	__('Load CDN jQuery', 'wp-ui'),
-		'desc'		=>	__( 'Check this box to load jQuery UI Library 1.10.2 from Google CDN. If you want assured compatibility with other plugins, Do <u>not</u> enable this.', 'wp-ui' ),
-		'type'		=>	'checkbox',
-		'section'	=>	'advanced'
-	),
+
 	'jquery_effects_include'	=>	array(
 		'id'		=>	'jquery_fx',
 		'title'		=>	__('Load jQuery Effects', 'wp-ui'),
@@ -688,6 +689,10 @@ $wpui_options_list[ 'wpui_tour' ] = array(
 );
 
 
+$wpui_new_features = array(
+	'single_line_tabs', 
+);
+
 
 add_filter('wpUI_options_title', 'wpUI_custom_options_title');
 /**
@@ -745,11 +750,11 @@ if ( isset( $wpui_options ) ) {
 
 
 
-if ( class_exists( 'quark_admin_options' ) ) {
+if ( class_exists( 'kav_admin_options' ) ) {
 /**
  *	WP UI options
  */
-class wpUI_options extends quark_admin_options
+class wpUI_options extends kav_admin_options
 {
 
 	function __construct() {
@@ -851,11 +856,12 @@ class wpUI_options extends quark_admin_options
 				// wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', array( 'jquery'));
 
 			$admin_deps = array( 'jquery-ui-tabs', 'jquery-ui-dialog', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable' );
+				
+				wp_register_script( 'wpui-script-before', site_url( '?wpui-script=before' ), $admin_deps );
+				wp_enqueue_script( 'admin-wpui-tabs' , $plugin_url . 'js/select/tabs.js', array( 'wpui-script-before' ), WPUI_VER );
 
-				wp_enqueue_script( 'admin-wpui-1' , $plugin_url . 'js/select/tabs.js', $admin_deps, WPUI_VER );
-
-			wp_enqueue_script( 'admin-wpui-2' , $plugin_url . 'js/select/init.js', $admin_deps, WPUI_VER );
-			wp_localize_script( 'admin-wpui-1' , 'wpUIOpts' , array(
+			wp_enqueue_script( 'admin-wpui-init' , $plugin_url . 'js/select/init.js', array( 'admin-wpui-tabs'), WPUI_VER );
+			wp_localize_script( 'admin-wpui-tabs' , 'wpUIOpts' , array(
 				"enableTabs"	=>	"on",
 				"tabsEffect"	=>	"none",
 				"tabsEvent"		=>	"click",
@@ -907,9 +913,12 @@ class wpUI_options extends quark_admin_options
 	public function validate_options( $input ) {
 		$new_input = $input;
 		$db_options = get_option( 'wpUI_options' );
+		// $input[ 'updated' ] = ( ! empty( $db_options[ 'updated' ] ) ) ? $db_options[ 'updated' ] : time();
+
 		$reset = ( ! empty( $input['reset'] )) ? true : false;
 		if ( $reset ) {
 			$defaults = get_wpui_default_options();
+			// $defaults[ 'updated' ] = $input[ 'updated' ];
 			return $defaults;
 		}
 
@@ -1300,97 +1309,6 @@ function wpui_plugin_info_below() {
 
 
 
-/**
- * Default options and like.
- */
 
-$wpui_default_post_template_1 = '<h2 class="wpui-post-title">{$title}</h2>
-<div class="wpui-post-meta">{$date} |  {$author}</div>
-<div class="wpui-post-thumbnail">{$thumbnail}</div>
-<div class="wpui-post-content">{$excerpt}</div>
-<p><a class="ui-button ui-widget ui-corner-all" href="{$url}" title="Read more of {$title}">Read More...</a></p>';
-
-$wpui_default_post_template_2 = '<div class="wpui-post-meta">{$date}</div>
-<div class="wpui-post-thumbnail">{$thumbnail}</div>
-<div class="wpui-post-content">{$excerpt}</div>
-<p><a href="{$url}" title="Read more of {$title}">Read More...</a></p>';
-
-
-function get_wpui_default_options() {
-	$defaults = array(
-	    "enable_tabs" 				=>	"on",
-	    "enable_accordion"			=>	"on",
-	    // "enable_pagination"			=>	"on",
-	    "enable_tinymce_menu"		=>	"on",
-	    "enable_quicktags_buttons"	=>	"on",
-	    "enable_widgets"			=>	"on",
-	    // "enable_post_widget"		=>	"off",
-		"topnav"					=>	"",
-	    "bottomnav"					=>	"on",
-		"enable_spoilers"			=>	"on",
-		"enable_dialogs"			=>	"on",
-		"load_all_styles"			=>	"on",
-		"selected_styles"			=>		'["wpui-light","wpui-blue","wpui-red","wpui-green","wpui-dark","wpui-quark","wpui-alma","wpui-macish","wpui-redmond","wpui-sevin"]',
-		"enable_ie_grad"			=>	"on",
-		"dialog_width"				=>	"300px",
-	    "tab_scheme" 				=>	"wpui-light",
-		"jqui_custom_themes"		=>	"{}",
-	    "tabsfx"					=>	"slide",
-		"fx_speed"					=>	"400",
-		"tabs_rotate"				=>	"stop",
-		"tabs_event"				=>	"click",
-		"collapsible_tabs"			=>	"off",
-		"accord_event"				=>	"click",
-		"accord_autoheight"			=>	"on",
-		"accord_collapsible"		=>	"off",
-		"accord_easing"				=>	'false',
-		"mouse_wheel_tabs"			=>	'false',
-		"tab_nav_prev_text"			=>	'Prev',
-		"tab_nav_next_text"			=>	"Next",
-		"spoiler_show_text"			=>	"Click to show",
-		"spoiler_hide_text"			=>	"Click to hide",
-		"relative_times"			=>	"off",
-		"custom_css"				=>	"",
-		"use_cookies"				=>	"on",
-		"script_conditionals"		=>	"",
-		"load_scripts_on_demand"	=>	"off",
-		"linking_history"			=>	"on",
-		"widget_rich_text"			=>	"off",
-		'title_template'			=>	'',
-		'post_template_1'			=>	'<h2 class="wpui-post-title">{$title}</h2>
-		<div class="wpui-post-meta">{$date} |  {$author}</div>
-		<div class="wpui-post-thumbnail">{$thumbnail}</div>
-		<div class="wpui-post-content">{$excerpt}</div>
-		<p class="wpui-readmore"><a class="wpui-button ui-button ui-widget ui-corner-all" href="{$url}" title="Read more from {$title}">Read More...</a></p>',
-		'post_template_2'			=>	'<div class="wpui-post-meta">{$date}</div>
-		<div class="wpui-post-thumbnail">{$thumbnail}</div>
-		<div class="wpui-post-content">{$excerpt}</div>
-		<p class="wpui-readmore"><a class="wpui-button ui-button ui-widget ui-corner-all" href="{$url}" title="Read more from {$title}">Read More...</a></p>',
-		'excerpt_length'			=>	'more',
-		'post_widget'				=> array (
-			'title'		=>	'We recommend',
-		    'type' => 'popular',
-		    'number' => '4',
-		    'per_row' => '4'
-		),
-		'post_default_thumbnail'	=>	array(
-			'url'		=>	wpui_url( 'images/wp-light.png' ),
-			'width'		=>	'100',
-			'height'	=>	'100'
-		),
-		'post_widget_number' =>	'3',
-		'jquery_disabled'    =>	'on',
-		'cdn_jquery'         =>	'off',
-		'jquery_fx'         =>	'off',
-		'docwrite_fix'       =>	'on',
-		'alt_sc'             =>	'off',
-		'use_old_scripts'    =>	'off',
-		'use_old_widgets'    =>	'off',
-		'misc_options'       =>	"hashing_timeout=1000\ntinymce_icon_row=3",
-		'version'            =>	WPUI_VER
-	);
-	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';
-	return $defaults;
-}
 
 ?>

@@ -39,7 +39,9 @@ jQuery(document).ready(function($) {
 	});
 
 
-	classList = [ 'wpui-light', 'wpui-blue', 'wpui-red', 'wpui-green', 'wpui-dark', 'wpui-achu', 'wpui-quark', 'wpui-cyaat9', 'wpui-redmond', 'wpui-sevin', 'wpui-alma', 'wpui-macish', 'wpui-android', 'wpui-safle' ];
+	// classList = [ 'wpui-light', 'wpui-blue', 'wpui-red', 'wpui-green', 'wpui-dark', 'wpui-achu', 'wpui-quark', 'wpui-cyaat9', 'wpui-redmond', 'wpui-sevin', 'wpui-alma', 'wpui-macish', 'wpui-android', 'wpui-safle' ];
+	classList = <?php echo json_encode( wpui_get_css3_styles_list() ) ?>;
+
 
 	jQuery('#chosentab').tabsThemeSwitcher( classList );
 
@@ -307,6 +309,7 @@ function submit_form() {
 </script>
 </head>
 <body class="options-noise">
+
 <h2 class="styler-title">WP UI CSS3 styles</h2>
 <div class="description">
 <p style="text-align: center; padding: 5px;">Preview and choose your wpui custom styles here. Select with the <span class="hilite-combo">combo</span> button, then the below button to select it.</p>

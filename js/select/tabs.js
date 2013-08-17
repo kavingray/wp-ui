@@ -5,7 +5,7 @@
 	var tabOpts = $.extend({}, window.wpuiOpts, {
 		header			:		'h3.wp-tab-title',
 		ajaxClass		:		'a.wp-tab-load',
-		topNav			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.topNav == 'on' ) ? true : false,
+		singleLineTabs	: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.singleLineTabs == 'on' ) ? true : false,
 		bottomNav		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.bottomNav == 'on' ) ? true : false,
 		position		: 		'top',
 		navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
@@ -46,15 +46,15 @@
 					$.wpui.ids[ this.id ] = [];
 
 			
-			// if ( this.o.wpuiautop ) {
-			// 
-			// 	$this.children('p, br')
-			// 		.not( 'div.wp-tab-content > br, div.wp-tab-content > p' )
-			// 		.filter(function() {
-			// 			return( $.trim( $(this).html() ) === '' );
-			// 	}).remove();
-			// 	
-			// }
+			if ( this.o.wpuiautop ) {
+			
+				$this.children('p, br')
+					.not( 'div.wp-tab-content > br, div.wp-tab-content > p' )
+					.filter(function() {
+						return( $.trim( $(this).html() ) === '' );
+				}).remove();
+				
+			}
 								
 			this.wrap = this.header.wrap( '<div class="ui-tabs-panel" />' );
 			
@@ -150,11 +150,12 @@
 			if ( this.o.collapsibleTabs ) {
 				options.collapsible = true;
 			}
+
+			this.navigation();
 			
 			this.$tabs = $this.children( '.ui-tabs' ).tabs( options );
 			
 			this.setClasses();
-			this.navigation();
 			
 			if ( this.isVertical ) {
 				this.$tabs
@@ -203,57 +204,148 @@
 	
 		},
 		navigation		: function() {
-			var baset = this, $this = this.element;
-			
-			if ( ! this.o.topNav && ! this.o.bottomNav ) return false;
-			
-			$this.find( 'div.ui-tabs-panel' ).each( function(i) {
-				var navClass = ' ui-button ui-widget ui-state-default ui-corner-all',
-				navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>',
-				navNextSpan = '<span class="ui-icon ui-icon-circle-triangle-e"></span>',
-				totalLength = $( this ).parent().children('.ui-tabs-panel').length -1;
-		
-				! baset.o.topNav || $( this )
-					.prepend( '<div class="tab-top-nav" />');
-
-				! baset.o.bottomNav || $( this )
-					.append( '<div class="tab-bottom-nav" />' );				
+			var baset = this,
+				$this = this.element,
+				ulWidth = 10000,
+				navFunc;
+						
+			if ( ( this.o.singleLineTabs || $this.hasClass( 'tabs-single-line' ) ) && !  $this.hasClass( 'tabs-single-line-false' ) && ! this.isVertical && ! $this.hasClass( 'wpui-alma' ) ) {
 				
-				if ( i != 0 ) {
-					! baset.o.topNav || $( this )
-						.children('.tab-top-nav')
-						.prepend('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan + baset.o.tabPrevText + '</a>' );
-					! baset.o.bottomNav || $( this )
-						.children('.tab-bottom-nav')
-						.append('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan  + baset.o.tabPrevText + '</a>');		
+				$this.addClass( 'wpui-navbar-scrolling' );
+				
+				baset.ul
+				.width( ulWidth )
+				.wrap( '<div class="ui-tabs-nav-wrapper" />' )
+				.css({
+					// width : '1000px',
+					// 'float' : 'left',
+					// paddingLeft : '25px'
+				})
+				.parent()
+				.css({
+					// overflowX : 'hidden'
+				})
+				.prepend( '<a href="#" class="wpui-nav wpui-nav-prev"><span class="ui-icon ui-icon-triangle-1-w"></span></a>' )
+				.append( '<a href="#" class="wpui-nav wpui-nav-next"><span class="ui-icon ui-icon-triangle-1-e"></span></a>' );
+				
+				try {
+					ulWidth = baset.ul.children().last().width() + baset.ul.children().last().position().left;
+				} catch( err ) {
+					console.error( err ); 
+					return false;
+				}
+				
+				baset.ul.parent()
+				.on( 'click.wpui', 'a.wpui-nav', function() {
+					if ( $( this ).hasClass( 'wpui-nav-next' ) ) {
+						baset.goTo( 'forward' );
+					} else {
+						baset.goTo( 'backward' );
+					}
+					return false;
+				});
+				
+				
+				navFunc = function( e, ui ) {
+					var tabb, tabbRight, parWidth, links, linkWidth, pos = 0;
+					
+					tabb = ( typeof ui.tab == 'undefined' ) ? ui.newTab : $( ui.tab );
+					tabbRight = tabb.position().left + tabb.outerWidth();
+					parWidth = tabb.parent().parent().width();
+					links = tabb.parent().siblings( 'a.wpui-nav' );
+					linkWidth = links.width() + links.eq( 0 ).position().left;
+			
+					if ( tabbRight > parWidth - linkWidth ) {
+						pos = ( tabbRight - ( parWidth - linkWidth ) ) * -1;
+						baset.ul.animate({
+							left : pos
+						}, 'fast' );
+					}
+
+					if ( tabb.position().left < ( -1 * tabb.parent().position().left ) + linkWidth ) {
+						baset.ul.animate({
+							left : (tabb.index() == 0 ) ? 0 : ( tabb.position().left - linkWidth ) * -1 
+						}, 'fast' );
+					}
+
+				};
+				
+				
+				// $this.children().bind( 'tabsselect', navFunc );
+				$this.children().on( 'tabsbeforeactivate', navFunc );
+
+				// $this.children().tabs( 'option', 'active', actv );
+				
+				
+				// console.log( $this.children().tabs( 'option' ).active ); 
+				if ( this.o.cookies ) {
+					$this.children( '.ui-tabs' ).on( 'tabscreate', function() {
+						actv = $this.children().tabs( 'option', 'active' );
+						if ( actv > 0 ) {
+							$this.children().tabs( 'option', 'active', actv - 1 );
+							$this.children().tabs( 'option', 'active', actv );
+						}
+					});
 				}
 
-				if ( i != totalLength ) {
-					! baset.o.topNav || $( this )
-						.children('.tab-top-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText + navNextSpan + '</a>');
-					! baset.o.bottomNav || $( this )
-						.children('.tab-bottom-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText +  navNextSpan + '</a>');			
-				}				
+				// console.log( 'tabsactivate' in $._data( $this.children().get( 0  ), "events" ) ); 
+
 				
-			});
+				// 
+				// baset.ul.parent()
+				// .on( 'click', 'a.wpui-nav', function() {
+				// 	var pos = parseInt(baset.ul.css( 'left' ), 10 );
+				// 	if ( $( this ).is( '.wpui-nav-next' ) ) {
+				// 		if ( ( ulWidth + pos ) < baset.ul.parent().innerWidth() )
+				// 		return false;
+				// 		pos -= 50; 
+				// 	} else {
+				// 		if ( pos >= 0 ) return false;
+				// 		pos += 50;
+				// 	}
+				// 	
+				// 	$( this ).siblings( 'ul.ui-tabs-nav' )
+				// 	.animate({
+				// 	 	left : pos
+				// 	}, 'fast' );
+				// 
+				// 	return false;
+				// });
+				
+			} 
 			
-			$this.find( 'a.next-tab, a.prev-tab' ).hover(function() {
-				$( this ).addClass( 'ui-state-hover' );
-			}, function() {
-				$( this ).removeClass( 'ui-state-hover' );
-			});
-			
-			$this.find( 'a.next-tab, a.prev-tab' ).click(function() {
-				if ( $( this ).is('a.next-tab') )
-					baset.goTo( "forward" );
-				else	
-					baset.goTo( "backward" );
-				return false;
-			});		
-						
-			
+			if ( this.o.bottomNav ) {
+
+				prevLink = $( '<a href="#" class="wpui-tabs-nav wpui-tabs-nav-prev ui-button ui-widget ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-w" />  ' + baset.o.tabPrevText + '</a>' );
+				nextLink = $( '<a href="#" class="wpui-tabs-nav wpui-tabs-nav-next ui-button ui-widget ui-corner-all">' + baset.o.tabNextText + '  <span class="ui-icon ui-icon-circle-triangle-e" /></a>' );
+				
+				$( '<div class="wpui-tabs-nav-holder" />' )
+				.append( prevLink )
+				.append( nextLink )
+				.appendTo( $this.find( '.ui-tabs-panel' ) );
+				
+				$this
+				.find( '.ui-tabs-panel' )
+				.eq( 0 )
+				.find( '.wpui-tabs-nav' )
+				.eq( 0 )
+				.remove();
+				
+				$this
+				.find( '.ui-tabs-panel' )
+				.last()
+				.find( '.wpui-tabs-nav' )
+				.last()
+				.remove();
+				
+				$this.on( 'click', '.wpui-tabs-nav' , function() {
+					baset.goTo( $( this ).hasClass( 'wpui-tabs-nav-next' ) ? 'forward' : 'backward' );
+					return false;
+				}).on( 'hover', '.wpui-tabs-nav' , function() {
+					$( this ).toggleClass( 'ui-state-hover' );
+				});
+
+			}		
 		},
 		goTo		: function( dir ) {
 			var baset = this, $this = this.element, mrel;
@@ -454,22 +546,22 @@
 
 	$.fn.wpuiScroller = function(options) {
 		var base = this;
-		base.$el = jQuery(this);
-		base.opts = jQuery.extend({},
-		jQuery.fn.wpuiScroller.defaults, options);
+		base.$el = $(this);
+		base.opts = $.extend({},
+		$.fn.wpuiScroller.defaults, options);
 		base.startTop = parseInt(base.$el.css('top'), 10);
 		if (base.opts.limiter) {
-			base.limiter = jQuery(base.opts.limiter);
+			base.limiter = $(base.opts.limiter);
 		} else {
 			base.limiter = base.$el.parent().parent();
 		}
 		base.startAt = parseInt(base.limiter.offset().top, 10);
-		jQuery(window).scroll(function() {
-			base.endAt = parseInt((base.limiter.height() + jQuery(window).height() / 2), 10);
+		$(window).scroll(function() {
+			base.endAt = parseInt((base.limiter.height() + $(window).height() / 2), 10);
 			base.moveTo = base.startTop;
-			if (jQuery(document).scrollTop() >= base.startAt) {
-				base.moveTo = base.startTop + (jQuery(window).scrollTop() - base.startAt);
-				if ((jQuery(window).scrollTop() + jQuery(window).height() / 2) >= (base.limiter.height() + base.limiter.offset().top - base.startTop)) {
+			if ($(document).scrollTop() >= base.startAt) {
+				base.moveTo = base.startTop + ($(window).scrollTop() - base.startAt);
+				if (($(window).scrollTop() + $(window).height() / 2) >= (base.limiter.height() + base.limiter.offset().top - base.startTop)) {
 					base.moveTo = base.limiter.height() - base.startTop;
 				}
 			}
@@ -477,7 +569,7 @@
 		});
 		return this;
 	};
-	jQuery.fn.wpuiScroller.defaults = {
+	$.fn.wpuiScroller.defaults = {
 		limiter: false,
 		adJust: 50
 	};
@@ -487,8 +579,8 @@
 	$.idQrk.hashWatch = function() {
 		if ( typeof( $.bbq ) == 'undefined' ) return false;
 		
-		if ( typeof( 'wpUIOpts' ) != 'undefined' 
-			&& typeof( 'wpUIOpts.linking_history' ) != 'undefined' 
+		if ( typeof wpUIOpts != 'undefined' 
+			&& typeof wpUIOpts.linking_history != 'undefined' 
 			&& wpUIOpts.linking_history == 'off' )
 				return false;
 		
@@ -507,7 +599,7 @@
 				if ( el.is( '.ui-tabs-panel' ) ) {
 					// el.parent().tabs( 'select', ( el.index() - 1 ) );
 					fn_name = 'tabs';
-					argu = [  'select', ( el.index() - 1 ) ];
+					argu = [  'option', 'active', ( el.index() - 1 ) ];
 				}
 				
 				// Tabs
@@ -548,11 +640,17 @@
 					argu = hsh[ su ].split( "::" );
 				}
 				
-				$.fn[ fn_name ].apply( aEl, argu );
+				try {
+					if ( typeof fn_name != 'undefined' )
+						$.fn[ fn_name ].apply( aEl, argu );					
+				} catch ( err ) {
+					console.log( "WP UI error: " + err );
+				} 
+
 				
 			};
-			
-			if ( typeof el == 'object' )
+
+			if ( typeof el == 'object' && el.length )
 			$.wpui.scrollTo( el.attr( 'id' ) );
 			
 		}).trigger( 'hashchange' );
@@ -561,7 +659,7 @@
 	};
 
 
-	jQuery( function() {
+	$( function() {
 		var tmout = 1000;
 		if ( typeof( wpUIOpts ) != 'undefined' && 
 		 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
@@ -599,7 +697,7 @@
 				stylez = [ 'wpui-achu', 'wpui-alma','wpui-android','wpui-blue','wpui-cyaat9','wpui-dark','wpui-gene','wpui-green','wpui-light','wpui-macish','wpui-narrow','wpui-quark','wpui-red','wpui-redmond','wpui-safle','wpui-sevin'],
 				clsRep = function() {
 					var cls = $( this ).attr( 'class' ).replace( /wpui\-[^\s]*\s/, $( this ).data( 'wpui-style' ) + " " ); 
-					jQuery( this ).attr( 'class', cls ); 		
+					$( this ).attr( 'class', cls ); 		
 				};
 				
 			for ( i=0; i < stylez.length; i++ ) {
@@ -614,7 +712,7 @@
 		});
 	};
 	
-})( jQuery );
-jQuery( function() {
-	jQuery( 'div#insert_styles' ).styleSwitcher();
+})( wpuiJQ );
+wpuiJQ( function() {
+	wpuiJQ( 'div#insert_styles' ).styleSwitcher();
 });

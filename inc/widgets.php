@@ -36,9 +36,11 @@ class Wpui_Base_Widget extends WP_Widget {
 
 	function wpui_widget_scripts() {
 		$deps = array( 'jquery', 'jquery-ui-core', 'jquery-ui-tabs' );
-		wp_enqueue_script( 'wpui-widgets-tabs', wpui_url( 'js/select/tabs.js' ), $deps, WPUI_VER );
-		wp_enqueue_script( 'wpui-widgets-tabs-init', wpui_url( 'js/select/init.js' ), $deps, WPUI_VER );
-		wp_enqueue_script( 'wpui-widgets-remix', wpui_url( 'js/widgets.js' ), $deps, WPUI_VER );
+		wp_register_script( 'wpui-script-before', site_url( '?wpui-script=before' ), $deps );
+		
+		wp_enqueue_script( 'wpui-widgets-tabs', wpui_url( 'js/select/tabs.js' ), array( 'wpui-script-before' ), WPUI_VER );
+		wp_enqueue_script( 'wpui-widgets-tabs-init', wpui_url( 'js/select/init.js' ), array( 'wpui-script-before' ), WPUI_VER );
+		wp_enqueue_script( 'wpui-widgets-remix', wpui_url( 'js/widgets.js' ), array( 'wpui-script-before' ), WPUI_VER );
 		wp_enqueue_style( 'wpui-widgets-remix-style', wpui_url( 'css/widgets.css' )  );
 	} // end wpui_widget_scripts
 

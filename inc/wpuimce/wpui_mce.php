@@ -14,7 +14,7 @@ class wpui_editor_buttons
 			// Do Tinymce
 			if ( isset( $options['enable_tinymce_menu'] ) && $options['enable_tinymce_menu'] == 'on' ) {
 				add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
-				$tmrow = wpui_misc_opt( 'tinymce_icon_row' ) ? '_' . wpui_misc_opt( 'tinymce_icon_row' ) : '';
+				$tmrow = wpui_misc_opts( 'tinymce_icon_row' ) ? '_' . wpui_misc_opts( 'tinymce_icon_row' ) : '';
 				add_filter( 'mce_buttons' . $tmrow, array( &$this, 'mce_buttons' ) );
 			}
 			

@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
 	 *	Colorbox windows.
 	 **/
 	jQuery( '#wpui_styles_preview' )
-	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles' )
+	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=wpui_styles_demo' )
 	.colorbox({
 		iframe : true,
 		innerWidth : "80%",
@@ -190,7 +190,7 @@ jQuery(document).ready(function() {
 							.wptabs({
 			 					header: 'h3',
 			 					effect: 'fade',
-			 					topNav: false,
+			 					sinngleLineTabs: false,
 			 					bottomNav: false,
 			 					cookies : false,
 								hashchange : false,

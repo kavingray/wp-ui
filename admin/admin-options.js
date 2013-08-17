@@ -1,5 +1,5 @@
 /**
- *	Quark Admin options supplementary JavaScript
+ *	Kav Admin options supplementary JavaScript
  *	http://kav.in
  *
  *	Copyright (c) 2011 "Kavin Gray"

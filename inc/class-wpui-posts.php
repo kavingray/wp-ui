@@ -486,8 +486,6 @@ class wpuiPosts
 	 * @return $img HTML tag string
 	 */
 	function get_thumbnail( $ID ) {
-		$cache = ( isset( $this->options ) && isset( $this->options[ 'enable_cache' ] ) && $this->options[ 'enable_cache' ] == true ) ? true : false;
-		
 		$width = ( isset( $this->options['post_default_thumbnail' ] ) &&
 		 	( $this->options[ 'post_default_thumbnail' ][ 'width' ] != '' ) ) ?
 		 $this->options[ 'post_default_thumbnail']['width'] : get_option( 'thumbnail_size_w' );
