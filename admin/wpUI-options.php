@@ -7,7 +7,7 @@ $wpui_options = get_option( 'wpUI_options' );
 $wpui_skins_list_pre = wpui_get_skins_list();
 
 
-global $wpui_options_list, $wpui_new_features;
+global $wpui_options_list;
 
 // $wpui_option_page->set_sections($sects);
 $wpui_options_list = array(
@@ -688,10 +688,6 @@ $wpui_options_list[ 'wpui_tour' ] = array(
 		'type'		=>	'checkbox'
 );
 
-
-$wpui_new_features = array(
-	'single_line_tabs', 
-);
 
 
 add_filter('wpUI_options_title', 'wpUI_custom_options_title');

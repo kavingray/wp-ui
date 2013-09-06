@@ -57,7 +57,9 @@ var wpui_submit_form = function() {
 </head>
 <body <?php body_class(); ?>>
 <div id="page" class="page-plain">
-	<div class="wpui-demo-loading"><span>Loading WP UI - Styles Demo</span></div>
+	<div class="wpui-demo-overlay">
+		<div class="wpui-demo-loading"><span>Loading WP UI - Styles Demo</span></div>
+	</div>
 	<!-- content -->
 		<article>
 			<header class="entry-header">
@@ -239,14 +241,28 @@ var wpui_submit_form = function() {
 /*		padding : 0px;*/
 	}
 }
-article {
+/*article {
 	position : relative;
 	top : -10000em;
-}
+}*/
 body, html {
-/*  height: 100%;*/
   background : #e6e6e6;
   background : url( <?php echo wpui_url(); ?>images/pattern-gray.png ) repeat #FFFEFF;
+}
+
+div.wpui-demo-overlay {
+	display : none;
+}
+
+/*
+div.wpui-demo-overlay {
+	position: fixed;
+	background: url( <?php echo wpui_url(); ?>images/pattern-gray.png ) rgba(0,0,0,0.4);
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index : 10002;
 }
 
 div.wpui-demo-loading {
@@ -255,16 +271,16 @@ div.wpui-demo-loading {
 	text-align: center;
 	margin-top: 15%;
 	width: 300px;
-	box-shadow: 6px 6px 0 rgba( 0, 0, 0, 0.02 );
+	box-shadow: 6px 6px 0 rgba( 0, 0, 0, 0.15 );
 	margin: 15% auto;
 }
 
 div.wpui-demo-loading span {
 	background: url( "<?php echo wpui_url(); ?>images/wpspin_light.gif") no-repeat;
 	padding-left : 20px;
-	color : #999;
-	text-shadow : 0 1px 0 #FFF;
-}
+	color : #555;
+	text-shadow : 0 1px 0 #EEE;
+}*/
 input[type="submit"].wpui-style-demo-submit {
 	font-size : 14px;
 	padding : 0.4em;
@@ -273,14 +289,7 @@ input[type="submit"].wpui-style-demo-submit {
 <script type="text/javascript">
 jQuery( window ).load( function() {
 
-	jQuery( '.wpui-demo-loading' ).slideUp( function() {
-		jQuery( 'article' ).animate({
-			top : 0,
-		}, 'slow', function() {
-			jQuery( this ).css( 'position', 'static' );
-		});
-
-	});
+	// jQuery( '.wpui-demo-overlay' ).slideUp();
 
 	jQuery( '#wpui-styles-demo-select' ).change( function() {
 		jQuery( "#wpui_selected_style" ).val( jQuery( this ).val() );

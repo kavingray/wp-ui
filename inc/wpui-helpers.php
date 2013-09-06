@@ -130,15 +130,6 @@ function choose_wpui_style() {
 }
 
 
-add_action('wp_ajax_JQUIstyles', 'choose_jqui_style');
-
-function choose_jqui_style() {
-	// echo wpui_get_file( wpui_url( 'js/wpui-choose-jquistyles.php' ) );
-	@include( wpui_dir( 'js/wpui-choose-jquistyles.php' ) );
-	die();
-}
-
-
 add_action('wp_ajax_editorButtonsHelp', 'editor_buttons_help');
 
 function editor_buttons_help() {

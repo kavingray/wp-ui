@@ -66,8 +66,8 @@
 				rClass = 'wpui-styles';
 				wLink.attr( 'disabled', 'disabled' );
 				jLink.removeAttr( 'disabled' );
-				tLink.attr( 'href', "http://kavin.dev/themes/" + newVal + "/jquery-ui.css" );
-				// tLink.attr( 'href', "http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/" + newVal + "/jquery-ui.css" );
+				// tLink.attr( 'href', "http://kavin.dev/themes/" + newVal + "/jquery-ui.css" );
+				tLink.attr( 'href', "http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/" + newVal + "/jquery-ui.css" );
 			}
 		
 			$('.wp-tabs, .wp-accordion, .wp-spoiler, .wp-dialog, .wpui-button' ).each(function() {

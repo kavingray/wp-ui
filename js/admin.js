@@ -23,17 +23,6 @@ jQuery(document).ready(function() {
 		innerHeight : "80%",
 		title : false
 	});
-			
-	jQuery( '#jqui_styles_preview' )
-	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=JQUIstyles' )
-	.colorbox({
-		iframe : true,
-		innerWidth : "80%",
-		innerHeight : "80%",
-		fastIframe : false,
-		title : false
-		
-	});
 
 	jQuery('#wpui_styles_preview, #jqui_styles_preview').bind('cbox_open', function(){ 
 	    jQuery('body').css({overflow:'hidden'}); 
