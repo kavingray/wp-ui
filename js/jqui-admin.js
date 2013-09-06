@@ -620,7 +620,7 @@ if (typeof console == "undefined" || typeof console.log == "undefined") var cons
 				try {
 					base.stylesList = JSON.parse(response);
 				} catch ( err ) {
-					base.stylesList = response || ["wpui-gene", "wpui-light", "wpui-blue", "wpui-red", "wpui-green", "wpui-dark", "wpui-quark", "wpui-cyaat9", "wpui-android", "wpui-safle", "wpui-alma", "wpui-macish", "wpui-achu", "wpui-redmond", "wpui-sevin"];					
+					base.stylesList = response || [];					
 				}
 
 				

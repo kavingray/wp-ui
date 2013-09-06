@@ -21,7 +21,7 @@
 	var tabOpts = $.extend({}, window.wpuiOpts, {
 		header			:		'h3.wp-tab-title',
 		ajaxClass		:		'a.wp-tab-load',
-		topNav			: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.topNav == 'on' ) ? true : false,
+		singleLineTabs	: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.singleLineTabs == 'on' ) ? true : false,
 		bottomNav		: 		(typeof wpUIOpts != "undefined"  && wpUIOpts.bottomNav == 'on' ) ? true : false,
 		position		: 		'top',
 		navStyle		: 		(typeof wpUIOpts != "undefined") ? wpUIOpts.tabsLinkClass : '',
@@ -63,7 +63,7 @@
 
 			
 			if ( this.o.wpuiautop ) {
-				
+			
 				$this.children('p, br')
 					.not( 'div.wp-tab-content > br, div.wp-tab-content > p' )
 					.filter(function() {
@@ -86,11 +86,16 @@
 						
 			// Iterate through headers and add the styles.
 			this.header.each(function( index ) {
-				var elId = $( this ).text(),
+				var elId,
 					toLoad = $( this ).find( baset.o.ajaxClass ),
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
+
+				elId = ( this.id ) ? this.id : $( this ).text();
+
+				if ( this.id )
+					$( this ).removeAttr( 'id' );
 
 				// Get this tabs's ID.
 				elId = $.wpui.getIds( elId, baset.id );
@@ -161,11 +166,12 @@
 			if ( this.o.collapsibleTabs ) {
 				options.collapsible = true;
 			}
+
+			this.navigation();
 			
 			this.$tabs = $this.children( '.ui-tabs' ).tabs( options );
 			
 			this.setClasses();
-			this.navigation();
 			
 			if ( this.isVertical ) {
 				this.$tabs
@@ -214,57 +220,148 @@
 	
 		},
 		navigation		: function() {
-			var baset = this, $this = this.element;
-			
-			if ( this.o.topNav || this.o.bottomNav ) return false;
-
-			$this.find( 'div.ui-tabs-panel' ).each( function(i) {
-				var navClass = ' ui-button ui-widget ui-state-default ui-corner-all',
-				navPrevSpan = '<span class="ui-icon ui-icon-circle-triangle-w"></span>',
-				navNextSpan = '<span class="ui-icon ui-icon-circle-triangle-e"></span>',
-				totalLength = $( this ).parent().children('.ui-tabs-panel').length -1;
-		
-				! baset.o.topNav || $( this )
-					.prepend( '<div class="tab-top-nav" />');
-
-				! baset.o.bottomNav || $( this )
-					.append( '<div class="tab-bottom-nav" />' );				
+			var baset = this,
+				$this = this.element,
+				ulWidth = 10000,
+				navFunc;
+						
+			if ( ( this.o.singleLineTabs || $this.hasClass( 'tabs-single-line' ) ) && !  $this.hasClass( 'tabs-single-line-false' ) && ! this.isVertical && ! $this.hasClass( 'wpui-alma' ) ) {
 				
-				if ( i != 0 ) {
-					! baset.o.topNav || $( this )
-						.children('.tab-top-nav')
-						.prepend('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan + baset.o.tabPrevText + '</a>' );
-					! baset.o.bottomNav || $( this )
-						.children('.tab-bottom-nav')
-						.append('<a href="#" class="backward prev-tab ' + navClass + '">' + navPrevSpan  + baset.o.tabPrevText + '</a>');		
+				$this.addClass( 'wpui-navbar-scrolling' );
+				
+				baset.ul
+				.width( ulWidth )
+				.wrap( '<div class="ui-tabs-nav-wrapper" />' )
+				.css({
+					// width : '1000px',
+					// 'float' : 'left',
+					// paddingLeft : '25px'
+				})
+				.parent()
+				.css({
+					// overflowX : 'hidden'
+				})
+				.prepend( '<a href="#" class="wpui-nav wpui-nav-prev"><span class="ui-icon ui-icon-triangle-1-w"></span></a>' )
+				.append( '<a href="#" class="wpui-nav wpui-nav-next"><span class="ui-icon ui-icon-triangle-1-e"></span></a>' );
+				
+				try {
+					ulWidth = baset.ul.children().last().width() + baset.ul.children().last().position().left;
+				} catch( err ) {
+					console.error( err ); 
+					return false;
+				}
+				
+				baset.ul.parent()
+				.on( 'click.wpui', 'a.wpui-nav', function() {
+					if ( $( this ).hasClass( 'wpui-nav-next' ) ) {
+						baset.goTo( 'forward' );
+					} else {
+						baset.goTo( 'backward' );
+					}
+					return false;
+				});
+				
+				
+				navFunc = function( e, ui ) {
+					var tabb, tabbRight, parWidth, links, linkWidth, pos = 0;
+					
+					tabb = ( typeof ui.tab == 'undefined' ) ? ui.newTab : $( ui.tab );
+					tabbRight = tabb.position().left + tabb.outerWidth();
+					parWidth = tabb.parent().parent().width();
+					links = tabb.parent().siblings( 'a.wpui-nav' );
+					linkWidth = links.width() + links.eq( 0 ).position().left;
+			
+					if ( tabbRight > parWidth - linkWidth ) {
+						pos = ( tabbRight - ( parWidth - linkWidth ) ) * -1;
+						baset.ul.animate({
+							left : pos
+						}, 'fast' );
+					}
+
+					if ( tabb.position().left < ( -1 * tabb.parent().position().left ) + linkWidth ) {
+						baset.ul.animate({
+							left : (tabb.index() == 0 ) ? 0 : ( tabb.position().left - linkWidth ) * -1 
+						}, 'fast' );
+					}
+
+				};
+				
+				
+				// $this.children().bind( 'tabsselect', navFunc );
+				$this.children().on( 'tabsbeforeactivate', navFunc );
+
+				// $this.children().tabs( 'option', 'active', actv );
+				
+				
+				// console.log( $this.children().tabs( 'option' ).active ); 
+				if ( this.o.cookies ) {
+					$this.children( '.ui-tabs' ).on( 'tabscreate', function() {
+						actv = $this.children().tabs( 'option', 'active' );
+						if ( actv > 0 ) {
+							$this.children().tabs( 'option', 'active', actv - 1 );
+							$this.children().tabs( 'option', 'active', actv );
+						}
+					});
 				}
 
-				if ( i != totalLength ) {
-					! baset.o.topNav || $( this )
-						.children('.tab-top-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText + navNextSpan + '</a>');
-					! baset.o.bottomNav || $( this )
-						.children('.tab-bottom-nav')
-						.append('<a href="#" class="forward next-tab ' + navClass + '">' + baset.o.tabNextText +  navNextSpan + '</a>');			
-				}				
+				// console.log( 'tabsactivate' in $._data( $this.children().get( 0  ), "events" ) ); 
+
 				
-			});
+				// 
+				// baset.ul.parent()
+				// .on( 'click', 'a.wpui-nav', function() {
+				// 	var pos = parseInt(baset.ul.css( 'left' ), 10 );
+				// 	if ( $( this ).is( '.wpui-nav-next' ) ) {
+				// 		if ( ( ulWidth + pos ) < baset.ul.parent().innerWidth() )
+				// 		return false;
+				// 		pos -= 50; 
+				// 	} else {
+				// 		if ( pos >= 0 ) return false;
+				// 		pos += 50;
+				// 	}
+				// 	
+				// 	$( this ).siblings( 'ul.ui-tabs-nav' )
+				// 	.animate({
+				// 	 	left : pos
+				// 	}, 'fast' );
+				// 
+				// 	return false;
+				// });
+				
+			} 
 			
-			$this.find( 'a.next-tab, a.prev-tab' ).hover(function() {
-				$( this ).addClass( 'ui-state-hover' );
-			}, function() {
-				$( this ).removeClass( 'ui-state-hover' );
-			});
-			
-			$this.find( 'a.next-tab, a.prev-tab' ).click(function() {
-				if ( $( this ).is('a.next-tab') )
-					baset.goTo( "forward" );
-				else	
-					baset.goTo( "backward" );
-				return false;
-			});		
-						
-			
+			if ( this.o.bottomNav ) {
+
+				prevLink = $( '<a href="#" class="wpui-tabs-nav wpui-tabs-nav-prev ui-button ui-widget ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-w" />  ' + baset.o.tabPrevText + '</a>' );
+				nextLink = $( '<a href="#" class="wpui-tabs-nav wpui-tabs-nav-next ui-button ui-widget ui-corner-all">' + baset.o.tabNextText + '  <span class="ui-icon ui-icon-circle-triangle-e" /></a>' );
+				
+				$( '<div class="wpui-tabs-nav-holder" />' )
+				.append( prevLink )
+				.append( nextLink )
+				.appendTo( $this.find( '.ui-tabs-panel' ) );
+				
+				$this
+				.find( '.ui-tabs-panel' )
+				.eq( 0 )
+				.find( '.wpui-tabs-nav' )
+				.eq( 0 )
+				.remove();
+				
+				$this
+				.find( '.ui-tabs-panel' )
+				.last()
+				.find( '.wpui-tabs-nav' )
+				.last()
+				.remove();
+				
+				$this.on( 'click', '.wpui-tabs-nav' , function() {
+					baset.goTo( $( this ).hasClass( 'wpui-tabs-nav-next' ) ? 'forward' : 'backward' );
+					return false;
+				}).on( 'hover', '.wpui-tabs-nav' , function() {
+					$( this ).toggleClass( 'ui-state-hover' );
+				});
+
+			}		
 		},
 		goTo		: function( dir ) {
 			var baset = this, $this = this.element, mrel;
@@ -465,22 +562,22 @@
 
 	$.fn.wpuiScroller = function(options) {
 		var base = this;
-		base.$el = jQuery(this);
-		base.opts = jQuery.extend({},
-		jQuery.fn.wpuiScroller.defaults, options);
+		base.$el = $(this);
+		base.opts = $.extend({},
+		$.fn.wpuiScroller.defaults, options);
 		base.startTop = parseInt(base.$el.css('top'), 10);
 		if (base.opts.limiter) {
-			base.limiter = jQuery(base.opts.limiter);
+			base.limiter = $(base.opts.limiter);
 		} else {
 			base.limiter = base.$el.parent().parent();
 		}
 		base.startAt = parseInt(base.limiter.offset().top, 10);
-		jQuery(window).scroll(function() {
-			base.endAt = parseInt((base.limiter.height() + jQuery(window).height() / 2), 10);
+		$(window).scroll(function() {
+			base.endAt = parseInt((base.limiter.height() + $(window).height() / 2), 10);
 			base.moveTo = base.startTop;
-			if (jQuery(document).scrollTop() >= base.startAt) {
-				base.moveTo = base.startTop + (jQuery(window).scrollTop() - base.startAt);
-				if ((jQuery(window).scrollTop() + jQuery(window).height() / 2) >= (base.limiter.height() + base.limiter.offset().top - base.startTop)) {
+			if ($(document).scrollTop() >= base.startAt) {
+				base.moveTo = base.startTop + ($(window).scrollTop() - base.startAt);
+				if (($(window).scrollTop() + $(window).height() / 2) >= (base.limiter.height() + base.limiter.offset().top - base.startTop)) {
 					base.moveTo = base.limiter.height() - base.startTop;
 				}
 			}
@@ -488,7 +585,7 @@
 		});
 		return this;
 	};
-	jQuery.fn.wpuiScroller.defaults = {
+	$.fn.wpuiScroller.defaults = {
 		limiter: false,
 		adJust: 50
 	};
@@ -498,8 +595,8 @@
 	$.idQrk.hashWatch = function() {
 		if ( typeof( $.bbq ) == 'undefined' ) return false;
 		
-		if ( typeof( 'wpUIOpts' ) != 'undefined' 
-			&& typeof( 'wpUIOpts.linking_history' ) != 'undefined' 
+		if ( typeof wpUIOpts != 'undefined' 
+			&& typeof wpUIOpts.linking_history != 'undefined' 
 			&& wpUIOpts.linking_history == 'off' )
 				return false;
 		
@@ -518,7 +615,7 @@
 				if ( el.is( '.ui-tabs-panel' ) ) {
 					// el.parent().tabs( 'select', ( el.index() - 1 ) );
 					fn_name = 'tabs';
-					argu = [  'select', ( el.index() - 1 ) ];
+					argu = [  'option', 'active', ( el.index() - 1 ) ];
 				}
 				
 				// Tabs
@@ -559,11 +656,17 @@
 					argu = hsh[ su ].split( "::" );
 				}
 				
-				$.fn[ fn_name ].apply( aEl, argu );
+				try {
+					if ( typeof fn_name != 'undefined' )
+						$.fn[ fn_name ].apply( aEl, argu );					
+				} catch ( err ) {
+					console.log( "WP UI error: " + err );
+				} 
+
 				
 			};
-			
-			if ( typeof el == 'object' )
+
+			if ( typeof el == 'object' && el.length )
 			$.wpui.scrollTo( el.attr( 'id' ) );
 			
 		}).trigger( 'hashchange' );
@@ -572,7 +675,7 @@
 	};
 
 
-	jQuery( function() {
+	$( function() {
 		var tmout = 1000;
 		if ( typeof( wpUIOpts ) != 'undefined' && 
 		 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
@@ -610,7 +713,7 @@
 				stylez = [ 'wpui-achu', 'wpui-alma','wpui-android','wpui-blue','wpui-cyaat9','wpui-dark','wpui-gene','wpui-green','wpui-light','wpui-macish','wpui-narrow','wpui-quark','wpui-red','wpui-redmond','wpui-safle','wpui-sevin'],
 				clsRep = function() {
 					var cls = $( this ).attr( 'class' ).replace( /wpui\-[^\s]*\s/, $( this ).data( 'wpui-style' ) + " " ); 
-					jQuery( this ).attr( 'class', cls ); 		
+					$( this ).attr( 'class', cls ); 		
 				};
 				
 			for ( i=0; i < stylez.length; i++ ) {
@@ -625,9 +728,9 @@
 		});
 	};
 	
-})( jQuery );
-jQuery( function() {
-	jQuery( 'div#insert_styles' ).styleSwitcher();
+})( wpuiJQ );
+wpuiJQ( function() {
+	wpuiJQ( 'div#insert_styles' ).styleSwitcher();
 });
 (function( $ ) {
 
@@ -641,6 +744,7 @@ jQuery( function() {
 			ajaxClass		: 	'a.wp-tab-load',
 			effect			: 	(typeof wpUIOpts != "undefined") ? wpUIOpts.accordEffect : '',
 			autoHeight		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? true : false,
+			// heightStyle		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordAutoHeight == 'on' ) ? 'content' : '',
 			collapse		: 	(typeof wpUIOpts != "undefined"  && wpUIOpts.accordCollapsible == 'on' ) ? true : false,
 			easing			: 	(typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEasing : '',
 			accordEvent		:   ( typeof wpUIOpts != "undefined" ) ? wpUIOpts.accordEvent : '',
@@ -666,14 +770,18 @@ jQuery( function() {
 			$this.find( this.o.header + ',' + this.o.content ).wrapAll( '<div class="accordion" />' );
 			
 			this.header.each( function() {
-				var elId = $( this ).text(),
+				var elId,
 					toLoad = $( this ).children( baset.o.ajaxClass ),
-					// toLoad = jQuery({}),
+
 					img = $( this ).find( 'img' ),
 					linkStr = '';
 					
 		
-				elId = $.wpui.getIds( elId, baset.id );
+				elId = ( this.id ) ? this.id : $( this ).text();
+
+				if ( this.id )
+					$( this ).removeAttr( 'id' );
+
 				
 				$( this )
 					// .next()
@@ -697,6 +805,9 @@ jQuery( function() {
 			
 			options.autoHeight = this.o.autoHeight ? true : false;
 			
+			if ( ! options.autoHeight ) {
+				options.heightStyle = 'content';
+			}
 				
 			if ( this.o.collapsible ) {
 				options.collapsible = true;
@@ -806,7 +917,7 @@ jQuery( function() {
 	
 	
 	
-})( jQuery );
+})( wpuiJQ );
 (function( $ ) {
 	
 	////////////////////////////////////////////////////
@@ -850,17 +961,23 @@ jQuery( function() {
 		},
 		
 		_spoil : function( init ) {
-			var self = this;
+			var self = this, hID;
 			self.o = this.options;
 			this._trigger( 'init' );
 			self.element.addClass( 'ui-widget ui-collapsible ui-helper-reset' );
 			
 			this.header = this.element.children( 'h3' ).first();
 			this.content = this.header.next( 'div' );
+
+			hID = ( this.header.attr( 'id' ) ) ? this.header.attr( 'id' ) : this.header.text();
 			
-			this.header.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
-					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
-								
+			hID = $.wpui.getIds( hID, self.id );
+			
+			this.header
+			.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
+			.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />')
+			.attr( 'id', hID );
+							
 			// this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
 			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-all' )
 					.children( self.o.spanClass )
@@ -909,8 +1026,8 @@ jQuery( function() {
 			return str.replace( /^(\.|#)/, '' );
 		},		
 		toggle : function() {
-			var TxT = ( ! this.isOpen() ) ? this.options.showText : this.options.hideText;
-			
+			var TxT = ( this.isOpen() ) ? this.options.showText : this.options.hideText;
+
 			this.header
 				.toggleClass( 'ui-corner-top ui-corner-all ui-state-active' )
 				.children( '.ui-icon' )
@@ -1083,10 +1200,26 @@ jQuery( function() {
 	
 	
 	
-})( jQuery );
-jQuery( document ).ready(function() {
-		jQuery( '.wpui-click-reveal' ).wpuiClickReveal();
+})( wpuiJQ );
+wpuiJQ( document ).ready(function( $ ) {
+		$( '.wpui-click-reveal' ).wpuiClickReveal();
+		
 });
+/*!
+ *	WP UI version 0.8.7
+ *	
+ *	Copyright (c) 2011, Kavin ( http://kav.in )
+ *	@license - Dual licensed under the MIT and GPL licenses.
+ *	
+ *	Below components Copyright and License as per the respective authors. 
+ *	
+ *	Includes jQuery cookie plugin by Klaus Hartl.
+ *	Includes jQuery BBQ plugin by Ben Alman.
+ *	Includes Mousewheel event plugin by Brandon Aaron.
+ *	
+ *	
+ *	Requires : jQuery v1.4.2, jQuery UI v1.8 or later.
+!*/
 
 /*!
  *	WP UI version 0.8.7
@@ -1104,7 +1237,6 @@ jQuery( document ).ready(function() {
  *	Requires : jQuery v1.4.2, jQuery UI v1.8 or later.
 !*/
 
-
 /**
  *	The included files and init below. 
  */
@@ -1112,20 +1244,58 @@ jQuery( document ).ready(function() {
 if(typeof String.prototype.trim !== 'function') {
   String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g, ''); 
-  }
+  };
 }
 
-if(!Array.indexOf){
-	Array.prototype.indexOf = function(obj){
-		for(var i=0; i<this.length; i++){
-			if(this[i]==obj){
-				return i;
-			}
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
+        "use strict";
+        if (this == null) {
+            throw new TypeError();
+        }
+        var t = Object(this);
+        var len = t.length >>> 0;
+        if (len === 0) {
+            return -1;
+        }
+        var n = 0;
+        if (arguments.length > 1) {
+            n = Number(arguments[1]);
+            if (n != n) { // shortcut for verifying if it's NaN
+                n = 0;
+            } else if (n != 0 && n != Infinity && n != -Infinity) {
+                n = (n > 0 || -1) * Math.floor(Math.abs(n));
+            }
+        }
+        if (n >= len) {
+            return -1;
+        }
+        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+        for (; k < len; k++) {
+            if (k in t && t[k] === searchElement) {
+                return k;
+            }
+        }
+        return -1;
+    }
+}
+
+
+
+(function( $ ) {
+	var msieTemp;
+	if ( typeof $.browser == 'undefined' ) {
+		$.browser = {};
+		msieTemp = /msie ([^\.])./.exec( navigator.userAgent.toLowerCase() );
+		if ( $.isArray( msieTemp ) && msieTemp.length > 1 ) {
+			$.browser = {
+				msie : true,
+				version : parseInt( msieTemp[ 1 ], 10 )
+			};
 		}
 	}
-}
 
-
+	
 /**
  * jQuery Cookie plugin
  *
@@ -1143,7 +1313,7 @@ if(!Array.indexOf){
  *
  * @example $.cookie('the_cookie', 'the_value');
  * @desc Set the value of a cookie.
- * @example $.cookie('the_cookie', 'the_value', { expires: 7, path: '/', domain: 'jquery.com', secure: true });
+ * @example $.cookie('the_cookie', 'the_value', { expires: 7, path: '/', domain: '$.com', secure: true });
  * @desc Create a cookie with all available options.
  * @example $.cookie('the_cookie', 'the_value');
  * @desc Create a session cookie.
@@ -1183,11 +1353,11 @@ if(!Array.indexOf){
  * @cat Plugins/Cookie
  * @author Klaus Hartl/klaus.hartl@stilbuero.de
  */
-jQuery.cookie = function (key, value, options) {
+$.cookie = function (key, value, options) {
 
     // key and value given, set cookie...
     if (arguments.length > 1 && (value === null || typeof value !== "object")) {
-        options = jQuery.extend({}, options);
+        options = $.extend({}, options);
 
         if (value === null) {
             options.expires = -1;
@@ -1218,17 +1388,14 @@ jQuery.cookie = function (key, value, options) {
 
 
 if ( typeof wpUIOpts == 'object' && wpUIOpts.docWriteFix == 'on' ) {
-var docWriteTxt = "";
-
-jQuery(function() {
+  var docWriteTxt = "";
   document.write = function( dWT ) {
     docWriteTxt += dWT;
   };
   
   // document.write("");
-  jQuery( docWriteTxt ).appendTo( 'body' );
+  $( docWriteTxt ).appendTo( 'body' );
 
-});
 } // END doc write fix.
 
 
@@ -1241,7 +1408,7 @@ jQuery(function() {
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
-(function($,r){var h,n=Array.prototype.slice,t=decodeURIComponent,a=$.param,j,c,m,y,b=$.bbq=$.bbq||{},s,x,k,e=$.event.special,d="hashchange",B="querystring",F="fragment",z="elemUrlAttr",l="href",w="src",p=/^.*\?|#.*$/g,u,H,g,i,C,E={};function G(I){return typeof I==="string"}function D(J){var I=n.call(arguments,1);return function(){return J.apply(this,I.concat(n.call(arguments)))}}function o(I){return I.replace(H,"$2")}function q(I){return I.replace(/(?:^[^?#]*\?([^#]*).*$)?.*/,"$1")}function f(K,P,I,L,J){var R,O,N,Q,M;if(L!==h){N=I.match(K?H:/^([^#?]*)\??([^#]*)(#?.*)/);M=N[3]||"";if(J===2&&G(L)){O=L.replace(K?u:p,"")}else{Q=m(N[2]);L=G(L)?m[K?F:B](L):L;O=J===2?L:J===1?$.extend({},L,Q):$.extend({},Q,L);O=j(O);if(K){O=O.replace(g,t)}}R=N[1]+(K?C:O||!N[1]?"?":"")+O+M}else{R=P(I!==h?I:location.href)}return R}a[B]=D(f,0,q);a[F]=c=D(f,1,o);a.sorted=j=function(J,K){var I=[],L={};$.each(a(J,K).split("&"),function(P,M){var O=M.replace(/(?:%5B|=).*$/,""),N=L[O];if(!N){N=L[O]=[];I.push(O)}N.push(M)});return $.map(I.sort(),function(M){return L[M]}).join("&")};c.noEscape=function(J){J=J||"";var I=$.map(J.split(""),encodeURIComponent);g=new RegExp(I.join("|"),"g")};c.noEscape(",/");c.ajaxCrawlable=function(I){if(I!==h){if(I){u=/^.*(?:#!|#)/;H=/^([^#]*)(?:#!|#)?(.*)$/;C="#!"}else{u=/^.*#/;H=/^([^#]*)#?(.*)$/;C="#"}i=!!I}return i};c.ajaxCrawlable(0);$.deparam=m=function(L,I){var K={},J={"true":!0,"false":!1,"null":null};$.each(L.replace(/\+/g," ").split("&"),function(O,T){var N=T.split("="),S=t(N[0]),M,R=K,P=0,U=S.split("]["),Q=U.length-1;if(/\[/.test(U[0])&&/\]$/.test(U[Q])){U[Q]=U[Q].replace(/\]$/,"");U=U.shift().split("[").concat(U);Q=U.length-1}else{Q=0}if(N.length===2){M=t(N[1]);if(I){M=M&&!isNaN(M)?+M:M==="undefined"?h:J[M]!==h?J[M]:M}if(Q){for(;P<=Q;P++){S=U[P]===""?R.length:U[P];R=R[S]=P<Q?R[S]||(U[P+1]&&isNaN(U[P+1])?{}:[]):M}}else{if($.isArray(K[S])){K[S].push(M)}else{if(K[S]!==h){K[S]=[K[S],M]}else{K[S]=M}}}}else{if(S){K[S]=I?h:""}}});return K};function A(K,I,J){if(I===h||typeof I==="boolean"){J=I;I=a[K?F:B]()}else{I=G(I)?I.replace(K?u:p,""):I}return m(I,J)}m[B]=D(A,0);m[F]=y=D(A,1);$[z]||($[z]=function(I){return $.extend(E,I)})({a:l,base:l,iframe:w,img:w,input:w,form:"action",link:l,script:w});k=$[z];function v(L,J,K,I){if(!G(K)&&typeof K!=="object"){I=K;K=J;J=h}return this.each(function(){var O=$(this),M=J||k()[(this.nodeName||"").toLowerCase()]||"",N=M&&O.attr(M)||"";O.attr(M,a[L](N,K,I))})}$.fn[B]=D(v,B);$.fn[F]=D(v,F);b.pushState=s=function(L,I){if(G(L)&&/^#/.test(L)&&I===h){I=2}var K=L!==h,J=c(location.href,K?L:{},K?I:2);location.href=J};b.getState=x=function(I,J){return I===h||typeof I==="boolean"?y(I):y(J)[I]};b.removeState=function(I){var J={};if(I!==h){J=x();$.each($.isArray(I)?I:arguments,function(L,K){delete J[K]})}s(J,2)};e[d]=$.extend(e[d],{add:function(I){var K;function J(M){var L=M[F]=c();M.getState=function(N,O){return N===h||typeof N==="boolean"?m(L,N):m(L,O)[N]};K.apply(this,arguments)}if($.isFunction(I)){K=I;return J}else{K=I.handler;I.handler=J}}})})(jQuery,this);
+(function($,r){var h,n=Array.prototype.slice,t=decodeURIComponent,a=$.param,j,c,m,y,b=$.bbq=$.bbq||{},s,x,k,e=$.event.special,d="hashchange",B="querystring",F="fragment",z="elemUrlAttr",l="href",w="src",p=/^.*\?|#.*$/g,u,H,g,i,C,E={};function G(I){return typeof I==="string"}function D(J){var I=n.call(arguments,1);return function(){return J.apply(this,I.concat(n.call(arguments)))}}function o(I){return I.replace(H,"$2")}function q(I){return I.replace(/(?:^[^?#]*\?([^#]*).*$)?.*/,"$1")}function f(K,P,I,L,J){var R,O,N,Q,M;if(L!==h){N=I.match(K?H:/^([^#?]*)\??([^#]*)(#?.*)/);M=N[3]||"";if(J===2&&G(L)){O=L.replace(K?u:p,"")}else{Q=m(N[2]);L=G(L)?m[K?F:B](L):L;O=J===2?L:J===1?$.extend({},L,Q):$.extend({},Q,L);O=j(O);if(K){O=O.replace(g,t)}}R=N[1]+(K?C:O||!N[1]?"?":"")+O+M}else{R=P(I!==h?I:location.href)}return R}a[B]=D(f,0,q);a[F]=c=D(f,1,o);a.sorted=j=function(J,K){var I=[],L={};$.each(a(J,K).split("&"),function(P,M){var O=M.replace(/(?:%5B|=).*$/,""),N=L[O];if(!N){N=L[O]=[];I.push(O)}N.push(M)});return $.map(I.sort(),function(M){return L[M]}).join("&")};c.noEscape=function(J){J=J||"";var I=$.map(J.split(""),encodeURIComponent);g=new RegExp(I.join("|"),"g")};c.noEscape(",/");c.ajaxCrawlable=function(I){if(I!==h){if(I){u=/^.*(?:#!|#)/;H=/^([^#]*)(?:#!|#)?(.*)$/;C="#!"}else{u=/^.*#/;H=/^([^#]*)#?(.*)$/;C="#"}i=!!I}return i};c.ajaxCrawlable(0);$.deparam=m=function(L,I){var K={},J={"true":!0,"false":!1,"null":null};$.each(L.replace(/\+/g," ").split("&"),function(O,T){var N=T.split("="),S=t(N[0]),M,R=K,P=0,U=S.split("]["),Q=U.length-1;if(/\[/.test(U[0])&&/\]$/.test(U[Q])){U[Q]=U[Q].replace(/\]$/,"");U=U.shift().split("[").concat(U);Q=U.length-1}else{Q=0}if(N.length===2){M=t(N[1]);if(I){M=M&&!isNaN(M)?+M:M==="undefined"?h:J[M]!==h?J[M]:M}if(Q){for(;P<=Q;P++){S=U[P]===""?R.length:U[P];R=R[S]=P<Q?R[S]||(U[P+1]&&isNaN(U[P+1])?{}:[]):M}}else{if($.isArray(K[S])){K[S].push(M)}else{if(K[S]!==h){K[S]=[K[S],M]}else{K[S]=M}}}}else{if(S){K[S]=I?h:""}}});return K};function A(K,I,J){if(I===h||typeof I==="boolean"){J=I;I=a[K?F:B]()}else{I=G(I)?I.replace(K?u:p,""):I}return m(I,J)}m[B]=D(A,0);m[F]=y=D(A,1);$[z]||($[z]=function(I){return $.extend(E,I)})({a:l,base:l,iframe:w,img:w,input:w,form:"action",link:l,script:w});k=$[z];function v(L,J,K,I){if(!G(K)&&typeof K!=="object"){I=K;K=J;J=h}return this.each(function(){var O=$(this),M=J||k()[(this.nodeName||"").toLowerCase()]||"",N=M&&O.attr(M)||"";O.attr(M,a[L](N,K,I))})}$.fn[B]=D(v,B);$.fn[F]=D(v,F);b.pushState=s=function(L,I){if(G(L)&&/^#/.test(L)&&I===h){I=2}var K=L!==h,J=c(location.href,K?L:{},K?I:2);location.href=J};b.getState=x=function(I,J){return I===h||typeof I==="boolean"?y(I):y(J)[I]};b.removeState=function(I){var J={};if(I!==h){J=x();$.each($.isArray(I)?I:arguments,function(L,K){delete J[K]})}s(J,2)};e[d]=$.extend(e[d],{add:function(I){var K;function J(M){var L=M[F]=c();M.getState=function(N,O){return N===h||typeof N==="boolean"?m(L,N):m(L,O)[N]};K.apply(this,arguments)}if($.isFunction(I)){K=I;return J}else{K=I.handler;I.handler=J}}})})($,this);
 /*
  * jQuery hashchange event - v1.3 - 7/21/2010
  * http://benalman.com/projects/jquery-hashchange-plugin/
@@ -1252,7 +1419,7 @@ jQuery(function() {
  */
 (function($,e,b){var c="hashchange",h=document,f,g=$.event.special,i=h.documentMode,d="on"+c in e&&(i===b||i>7);function a(j){j=j||location.href;return"#"+j.replace(/^[^#]*#?(.*)$/,"$1")}$.fn[c]=function(j){return j?this.bind(c,j):this.trigger(c)};$.fn[c].delay=50;g[c]=$.extend(g[c],{setup:function(){if(d){return false}$(f.start)},teardown:function(){if(d){return false}$(f.stop)}});f=(function(){var j={},p,m=a(),k=function(q){return q},l=k,o=k;j.start=function(){p||n()};j.stop=function(){p&&clearTimeout(p);p=b};function n(){var r=a(),q=o(m);if(r!==m){l(m=r,q);$(e).trigger(c)}else{if(q!==m){location.href=location.href.replace(/#.*/,"")+q}}p=setTimeout(n,$.fn[c].delay)}$.browser.msie&&!d&&(function(){var q,r;j.start=function(){if(!q){r=$.fn[c].src;r=r&&r+a();q=$('<iframe tabindex="-1" title="empty"/>').hide().one("load",function(){r||l(a());n()}).attr("src",r||"javascript:0").insertAfter("body")[0].contentWindow;h.onpropertychange=function(){try{if(event.propertyName==="title"){q.document.title=h.title}}catch(s){}}}};j.stop=k;o=function(){return a(q.location.href)};l=function(v,s){var u=q.document,t=$.fn[c].domain;if(v!==s){u.title=h.title;u.open();t&&u.write('<script>document.domain="'+t+'"<\/script>');u.close();q.location.hash=v}}})();return j})()})(jQuery,this);
 
-jQuery.fn.extend({
+$.fn.extend({
     hashchange : function(fn) {
         return fn ? this.bind("hashchange", fn) : this.trigger("hashchange");
     }
@@ -1299,7 +1466,7 @@ throw new SyntaxError('JSON.parse');};}}());
  * 
  * Requires: 1.2.2+
  */
-(function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(f){var d=[].slice.call(arguments,1),g=0,e=true;f=c.event.fix(f||window.event);f.type="mousewheel";if(f.wheelDelta){g=f.wheelDelta/120}if(f.detail){g=-f.detail/3}d.unshift(f,g);return c.event.handle.apply(this,d)}})(jQuery);
+(function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(f){var d=[].slice.call(arguments,1),g=0,e=true;f=c.event.fix(f||window.event);f.type="mousewheel";if(f.wheelDelta){g=f.wheelDelta/120}if(f.detail){g=-f.detail/3}d.unshift(f,g);return c.event.handle.apply(this,d)}})($);
 
 /*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
@@ -1344,39 +1511,9 @@ throw new SyntaxError('JSON.parse');};}}());
  * OF THE POSSIBILITY OF SUCH DAMAGE. 
  *
 */
-jQuery.easing.jswing=jQuery.easing.swing;jQuery.extend(jQuery.easing,{def:"easeOutQuad",swing:function(e,f,a,h,g){return jQuery.easing[jQuery.easing.def](e,f,a,h,g)},easeInQuad:function(e,f,a,h,g){return h*(f/=g)*f+a},easeOutQuad:function(e,f,a,h,g){return -h*(f/=g)*(f-2)+a},easeInOutQuad:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f+a}return -h/2*((--f)*(f-2)-1)+a},easeInCubic:function(e,f,a,h,g){return h*(f/=g)*f*f+a},easeOutCubic:function(e,f,a,h,g){return h*((f=f/g-1)*f*f+1)+a},easeInOutCubic:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f+a}return h/2*((f-=2)*f*f+2)+a},easeInQuart:function(e,f,a,h,g){return h*(f/=g)*f*f*f+a},easeOutQuart:function(e,f,a,h,g){return -h*((f=f/g-1)*f*f*f-1)+a},easeInOutQuart:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f+a}return -h/2*((f-=2)*f*f*f-2)+a},easeInQuint:function(e,f,a,h,g){return h*(f/=g)*f*f*f*f+a},easeOutQuint:function(e,f,a,h,g){return h*((f=f/g-1)*f*f*f*f+1)+a},easeInOutQuint:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f*f+a}return h/2*((f-=2)*f*f*f*f+2)+a},easeInSine:function(e,f,a,h,g){return -h*Math.cos(f/g*(Math.PI/2))+h+a},easeOutSine:function(e,f,a,h,g){return h*Math.sin(f/g*(Math.PI/2))+a},easeInOutSine:function(e,f,a,h,g){return -h/2*(Math.cos(Math.PI*f/g)-1)+a},easeInExpo:function(e,f,a,h,g){return(f==0)?a:h*Math.pow(2,10*(f/g-1))+a},easeOutExpo:function(e,f,a,h,g){return(f==g)?a+h:h*(-Math.pow(2,-10*f/g)+1)+a},easeInOutExpo:function(e,f,a,h,g){if(f==0){return a}if(f==g){return a+h}if((f/=g/2)<1){return h/2*Math.pow(2,10*(f-1))+a}return h/2*(-Math.pow(2,-10*--f)+2)+a},easeInCirc:function(e,f,a,h,g){return -h*(Math.sqrt(1-(f/=g)*f)-1)+a},easeOutCirc:function(e,f,a,h,g){return h*Math.sqrt(1-(f=f/g-1)*f)+a},easeInOutCirc:function(e,f,a,h,g){if((f/=g/2)<1){return -h/2*(Math.sqrt(1-f*f)-1)+a}return h/2*(Math.sqrt(1-(f-=2)*f)+1)+a},easeInElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return -(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e},easeOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return g*Math.pow(2,-10*h)*Math.sin((h*k-i)*(2*Math.PI)/j)+l+e},easeInOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k/2)==2){return e+l}if(!j){j=k*(0.3*1.5)}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}if(h<1){return -0.5*(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e}return g*Math.pow(2,-10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j)*0.5+l+e},easeInBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*(f/=h)*f*((g+1)*f-g)+a},easeOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*((f=f/h-1)*f*((g+1)*f+g)+1)+a},easeInOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}if((f/=h/2)<1){return i/2*(f*f*(((g*=(1.525))+1)*f-g))+a}return i/2*((f-=2)*f*(((g*=(1.525))+1)*f+g)+2)+a},easeInBounce:function(e,f,a,h,g){return h-jQuery.easing.easeOutBounce(e,g-f,0,h,g)+a},easeOutBounce:function(e,f,a,h,g){if((f/=g)<(1/2.75)){return h*(7.5625*f*f)+a}else{if(f<(2/2.75)){return h*(7.5625*(f-=(1.5/2.75))*f+0.75)+a}else{if(f<(2.5/2.75)){return h*(7.5625*(f-=(2.25/2.75))*f+0.9375)+a}else{return h*(7.5625*(f-=(2.625/2.75))*f+0.984375)+a}}}},easeInOutBounce:function(e,f,a,h,g){if(f<g/2){return jQuery.easing.easeInBounce(e,f*2,0,h,g)*0.5+a}return jQuery.easing.easeOutBounce(e,f*2-g,0,h,g)*0.5+h*0.5+a}});
+$.easing.jswing=$.easing.swing;$.extend($.easing,{def:"easeOutQuad",swing:function(e,f,a,h,g){return $.easing[$.easing.def](e,f,a,h,g)},easeInQuad:function(e,f,a,h,g){return h*(f/=g)*f+a},easeOutQuad:function(e,f,a,h,g){return -h*(f/=g)*(f-2)+a},easeInOutQuad:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f+a}return -h/2*((--f)*(f-2)-1)+a},easeInCubic:function(e,f,a,h,g){return h*(f/=g)*f*f+a},easeOutCubic:function(e,f,a,h,g){return h*((f=f/g-1)*f*f+1)+a},easeInOutCubic:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f+a}return h/2*((f-=2)*f*f+2)+a},easeInQuart:function(e,f,a,h,g){return h*(f/=g)*f*f*f+a},easeOutQuart:function(e,f,a,h,g){return -h*((f=f/g-1)*f*f*f-1)+a},easeInOutQuart:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f+a}return -h/2*((f-=2)*f*f*f-2)+a},easeInQuint:function(e,f,a,h,g){return h*(f/=g)*f*f*f*f+a},easeOutQuint:function(e,f,a,h,g){return h*((f=f/g-1)*f*f*f*f+1)+a},easeInOutQuint:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f*f+a}return h/2*((f-=2)*f*f*f*f+2)+a},easeInSine:function(e,f,a,h,g){return -h*Math.cos(f/g*(Math.PI/2))+h+a},easeOutSine:function(e,f,a,h,g){return h*Math.sin(f/g*(Math.PI/2))+a},easeInOutSine:function(e,f,a,h,g){return -h/2*(Math.cos(Math.PI*f/g)-1)+a},easeInExpo:function(e,f,a,h,g){return(f==0)?a:h*Math.pow(2,10*(f/g-1))+a},easeOutExpo:function(e,f,a,h,g){return(f==g)?a+h:h*(-Math.pow(2,-10*f/g)+1)+a},easeInOutExpo:function(e,f,a,h,g){if(f==0){return a}if(f==g){return a+h}if((f/=g/2)<1){return h/2*Math.pow(2,10*(f-1))+a}return h/2*(-Math.pow(2,-10*--f)+2)+a},easeInCirc:function(e,f,a,h,g){return -h*(Math.sqrt(1-(f/=g)*f)-1)+a},easeOutCirc:function(e,f,a,h,g){return h*Math.sqrt(1-(f=f/g-1)*f)+a},easeInOutCirc:function(e,f,a,h,g){if((f/=g/2)<1){return -h/2*(Math.sqrt(1-f*f)-1)+a}return h/2*(Math.sqrt(1-(f-=2)*f)+1)+a},easeInElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return -(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e},easeOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return g*Math.pow(2,-10*h)*Math.sin((h*k-i)*(2*Math.PI)/j)+l+e},easeInOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k/2)==2){return e+l}if(!j){j=k*(0.3*1.5)}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}if(h<1){return -0.5*(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e}return g*Math.pow(2,-10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j)*0.5+l+e},easeInBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*(f/=h)*f*((g+1)*f-g)+a},easeOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*((f=f/h-1)*f*((g+1)*f+g)+1)+a},easeInOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}if((f/=h/2)<1){return i/2*(f*f*(((g*=(1.525))+1)*f-g))+a}return i/2*((f-=2)*f*(((g*=(1.525))+1)*f+g)+2)+a},easeInBounce:function(e,f,a,h,g){return h-$.easing.easeOutBounce(e,g-f,0,h,g)+a},easeOutBounce:function(e,f,a,h,g){if((f/=g)<(1/2.75)){return h*(7.5625*f*f)+a}else{if(f<(2/2.75)){return h*(7.5625*(f-=(1.5/2.75))*f+0.75)+a}else{if(f<(2.5/2.75)){return h*(7.5625*(f-=(2.25/2.75))*f+0.9375)+a}else{return h*(7.5625*(f-=(2.625/2.75))*f+0.984375)+a}}}},easeInOutBounce:function(e,f,a,h,g){if(f<g/2){return $.easing.easeInBounce(e,f*2,0,h,g)*0.5+a}return $.easing.easeOutBounce(e,f*2-g,0,h,g)*0.5+h*0.5+a}});
 
 
-
-/**
- *	Init the scripts.
- */
-jQuery(document).ready(function( $ ) {
-
-	if ( typeof wpUIOpts == 'object' ) {	
-		if ( wpUIOpts.enablePagination == 'on' &&
-		 	typeof jQuery.fn.wpuiPager == 'function' )
-			jQuery( 'div.wpui-pages-holder' ).wpuiPager();
-	
-		if ( wpUIOpts.enableTabs == 'on' &&
-			 	typeof jQuery.fn.wptabs == 'function')
-			jQuery('div.wp-tabs').wptabs();
-	
-		if ( wpUIOpts.enableSpoilers == 'on' &&
-			 	typeof jQuery.fn.wpspoiler == 'function')
-			jQuery('.wp-spoiler').wpspoiler();
-	
-		if ( wpUIOpts.enableAccordion == 'on' &&
-			 	typeof jQuery.fn.wpaccord == 'function')
-			jQuery('.wp-accordion').wpaccord();
-	}
-
-});
-
-
-
-
-(function( $ ) {
 
 
 	if ( ! $.wpui ) $.wpui = {};
@@ -1400,13 +1537,28 @@ jQuery(document).ready(function( $ ) {
 	if ( typeof( $.wpui.getIds ) == 'undefined' ) {
 		$.wpui.getIds = function( str, par ) {
 			var num = $.wpui.tabsNo, dup;
-
 			if ( typeof($.wpui.ids[ par ] ) == 'undefined' )
 					$.wpui.ids[ par ] = [];
-
-			str = $.trim(str).replace(/\s{1,}/gm, '_')
-					.replace( /[^A-Za-z0-9\s_\-]/m, '')
+		
+			str = $.trim( str.replace( /[^A-Za-z0-9\s_\-]/gm, '' ) )
+					.replace(/\s{1,}/gm, '_')
 					.toLowerCase();
+					
+			if ( str == false ) {
+				if ( /wp-tabs/.test( par ) )
+					str = 'wpui-tab-panel';
+				if ( /wp-accordion/.test( par ) )
+					str = 'wpui-acc-title';
+				if ( /wp-spoiler/.test( par ) )
+					str = 'wpui-spoiler-title';			
+				// return;
+			}		
+		
+
+			// characters.
+			if ( /[^\x00-\x80]+/.test( str ) ) {
+				str = 'wpui-tabs-' + num;
+			}
 		
 			for ( dup in $.wpui.ids ) {
 				if ( $.inArray( str, $.wpui.ids[ dup ] ) != '-1' || $( '#' + str ).length ) {
@@ -1414,11 +1566,6 @@ jQuery(document).ready(function( $ ) {
 				}
 			}
 
-			// characters.
-			if ( str.match( /[^\x00-\x80]+/ ) ) {
-				str = 'wpui-tabs-' + num;
-			}
-	
 			$.wpui.ids[ par ].push( str );
 			$.wpui.tabsNo++;
 	
@@ -1426,4 +1573,29 @@ jQuery(document).ready(function( $ ) {
 		};
 	}
 
-})( jQuery );
+
+})( wpuiJQ );
+/**
+ *	Init the scripts.
+ */
+wpuiJQ(document).ready(function( $ ) {
+	
+	if ( typeof wpUIOpts == 'object' ) {	
+		if ( wpUIOpts.enablePagination == 'on' &&
+		 	typeof $.fn.wpuiPager == 'function' )
+			$( 'div.wpui-pages-holder' ).wpuiPager();
+	
+		if ( wpUIOpts.enableTabs == 'on' &&
+			 	typeof $.fn.wptabs == 'function')
+			$('div.wp-tabs').wptabs();
+	
+		if ( wpUIOpts.enableSpoilers == 'on' &&
+			 	typeof $.fn.wpspoiler == 'function')
+			$('.wp-spoiler').wpspoiler();
+	
+		if ( wpUIOpts.enableAccordion == 'on' &&
+			 	typeof $.fn.wpaccord == 'function')
+			$('.wp-accordion').wpaccord();
+	}
+
+});

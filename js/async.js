@@ -37,6 +37,11 @@ jQuery(function() {
 	scr_nee.ktabs = false;
 	// scr_nee.dialog = false;
 	
+	jQuery.wpuiGetScript( wpUIOpts.wpUrl + '?wpui-script=before', function() {
+		
+	});
+	
+	
 	jQuery.wpuiGetScript( wpUIOpts.pluginUrl + 'js/select/init.js', function() {
 		if ( scr_nee.tabs != false ) jQuery( '.wp-tabs' ).wptabs();
 		if ( scr_nee.acc != false ) jQuery( '.wp-accordion' ).wpaccord();
@@ -57,11 +62,6 @@ jQuery(function() {
 		});
 	}
 
-	// if ( jQuery( '.wp-dialog' ).length > 0 ) {
-	// 	jQuery.wpuiGetScript( wpUIOpts.pluginUrl + 'js/select/dialog.js', function() {
-	// 		scr_nee.dialog = true;
-	// 	});
-	// }
 	
 	if ( jQuery( '.wp-spoiler' ).length > 0 ) {
 		jQuery.wpuiGetScript( wpUIOpts.pluginUrl + 'js/select/spoiler.js', function() {

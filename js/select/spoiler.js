@@ -41,17 +41,23 @@
 		},
 		
 		_spoil : function( init ) {
-			var self = this;
+			var self = this, hID;
 			self.o = this.options;
 			this._trigger( 'init' );
 			self.element.addClass( 'ui-widget ui-collapsible ui-helper-reset' );
 			
 			this.header = this.element.children( 'h3' ).first();
 			this.content = this.header.next( 'div' );
+
+			hID = ( this.header.attr( 'id' ) ) ? this.header.attr( 'id' ) : this.header.text();
 			
-			this.header.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
-					.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />');	
-								
+			hID = $.wpui.getIds( hID, self.id );
+			
+			this.header
+			.prepend( '<span class="ui-icon ' + self.o.closeIconClass + '" />' )
+			.append( '<span class="' + this._stripPre( self.o.spanClass )   + '" />')
+			.attr( 'id', hID );
+							
 			// this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-top ui-state-active' )
 			this.header.addClass( 'ui-collapsible-header ui-state-default ui-widget-header ui-helper-reset ui-corner-all' )
 					.children( self.o.spanClass )
@@ -100,8 +106,8 @@
 			return str.replace( /^(\.|#)/, '' );
 		},		
 		toggle : function() {
-			var TxT = ( ! this.isOpen() ) ? this.options.showText : this.options.hideText;
-			
+			var TxT = ( this.isOpen() ) ? this.options.showText : this.options.hideText;
+
 			this.header
 				.toggleClass( 'ui-corner-top ui-corner-all ui-state-active' )
 				.children( '.ui-icon' )
@@ -274,8 +280,8 @@
 	
 	
 	
-})( jQuery );
-jQuery( document ).ready(function() {
-		jQuery( '.wpui-click-reveal' ).wpuiClickReveal();
+})( wpuiJQ );
+wpuiJQ( document ).ready(function( $ ) {
+		$( '.wpui-click-reveal' ).wpuiClickReveal();
+		
 });
-

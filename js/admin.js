@@ -16,23 +16,12 @@ jQuery(document).ready(function() {
 	 *	Colorbox windows.
 	 **/
 	jQuery( '#wpui_styles_preview' )
-	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=WPUIstyles' )
+	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=wpui_styles_demo' )
 	.colorbox({
 		iframe : true,
 		innerWidth : "80%",
 		innerHeight : "80%",
 		title : false
-	});
-			
-	jQuery( '#jqui_styles_preview' )
-	.attr( 'href', initOpts.wpUrl + '/wp-admin/admin-ajax.php?action=JQUIstyles' )
-	.colorbox({
-		iframe : true,
-		innerWidth : "80%",
-		innerHeight : "80%",
-		fastIframe : false,
-		title : false
-		
 	});
 
 	jQuery('#wpui_styles_preview, #jqui_styles_preview').bind('cbox_open', function(){ 
@@ -190,8 +179,8 @@ jQuery(document).ready(function() {
 							.wptabs({
 			 					header: 'h3',
 			 					effect: 'fade',
-			 					topNav: false,
-			 					botNav: false,
+			 					sinngleLineTabs: false,
+			 					bottomNav: false,
 			 					cookies : false,
 								hashchange : false,
 								wpuiautop : false,

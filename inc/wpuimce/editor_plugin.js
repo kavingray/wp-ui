@@ -10,7 +10,7 @@
 				title	: "WP UI widgets",
 				image	: pluginVars.pluginUrl + "/images/wpui_editor.png",
 				 onclick: function() {
-					// tinyMCE.activeEditor.windowManager.alert( 'Button was clicked!' );					
+					// tinyMCE.activeEditor.windowManager.alert( 'Use 1a to create tab sections' );					
 				}				
 			});
 			
