@@ -729,7 +729,7 @@ class kav_admin_options
 		$args[ 'class' ] = 'media-uploader media-uploader-input';
 
 
-		$args[ 'extra' ] = '<input id="' . $id . '_button" class="button-secondary media-uploader-button" value="Upload or Choose" type="button" />';
+		$args[ 'extra' ] = '<input id="' . $id . '_button" class="button-secondary media-uploader-button" value="Choose" type="button" />';
 
 		$this->text( $args );
 

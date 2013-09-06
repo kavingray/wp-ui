@@ -159,7 +159,7 @@ $wpui_options_list = array(
 		'type'		=>	'textarea',
 		'section'	=>	'style',
 		'textarea_size'	=>	array(
-			'cols'	=>	'60',
+			'cols'	=>	'',
 			'rows'	=>	'10'
 		)
 	),
@@ -341,7 +341,7 @@ $wpui_options_list = array(
 		'section'	=>	'text',
 		'type'		=>	'textarea',
 		'textarea_size'	=>	array(
-			'cols'	=>	'60',
+			'cols'	=>	'',
 			'rows'	=>	'2'
 		)
 	),
@@ -353,7 +353,7 @@ $wpui_options_list = array(
 		'section'	=>	'text',
 		'type'		=>	'textarea',
 		'textarea_size'	=>	array(
-			'cols'	=>	'60',
+			'cols'	=>	'',
 			'rows'	=>	'2'
 		)
 	),
