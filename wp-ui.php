@@ -191,7 +191,7 @@ class wpUI {
 				
 
 		/**
-		 * On demand loading. New feature, use with caution.
+		 * On demand loading. Highly recommended.
 		 */
 		if ( isset( $this->options[ 'load_scripts_on_demand' ] ) &&
 		 	$this->options[ 'load_scripts_on_demand' ] == 'on' ) {
@@ -1259,7 +1259,8 @@ function get_wpui_default_options() {
 		'alt_sc'             =>	'off',
 		'use_old_scripts'    =>	'off',
 		'use_old_widgets'    =>	'off',
-		'misc_options'       =>	"hashing_timeout=1000\ntinymce_icon_row=3",
+		// 'misc_options'       =>	"hashing_timeout=1000\ntinymce_icon_row=2",
+		'misc_options'       =>	"hashing_timeout=1000",
 		'version'            =>	WPUI_VER
 	);
 	if ( ! wpui_less_33() ) $defaults[ 'tour' ] = 'on';

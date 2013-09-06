@@ -240,7 +240,8 @@ var wpui_submit_form = function() {
 	}
 }
 article {
-	display : none;
+	position : relative;
+	top : -10000em;
 }
 body, html {
 /*  height: 100%;*/
@@ -259,7 +260,7 @@ div.wpui-demo-loading {
 }
 
 div.wpui-demo-loading span {
-	background: url("http://kavin.dev/resources/plugins/wp-ui/images/wpspin_light.gif") no-repeat;
+	background: url( "<?php echo wpui_url(); ?>images/wpspin_light.gif") no-repeat;
 	padding-left : 20px;
 	color : #999;
 	text-shadow : 0 1px 0 #FFF;
@@ -273,7 +274,11 @@ input[type="submit"].wpui-style-demo-submit {
 jQuery( window ).load( function() {
 
 	jQuery( '.wpui-demo-loading' ).slideUp( function() {
-		jQuery( 'article' ).slideDown();
+		jQuery( 'article' ).animate({
+			top : 0,
+		}, 'slow', function() {
+			jQuery( this ).css( 'position', 'static' );
+		});
 
 	});
 

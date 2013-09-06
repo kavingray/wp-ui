@@ -164,6 +164,18 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 == Changelog ==
 
+= 0.8.8 =
+* Single line tabs.
+* Compatibility mode to deal with conflicts automatically.
+* Better non-English characters support with HTML IDs
+* Ability to customize your own ID attr, thus desired URL hash.
+* 6 Styles removed, Can be re added through styles upload.
+* BugFixes : Changes to play along well with jQuery > 1.10 & 2.0.
+* BugFix : Accordion autoheight fix
+* Bugfix : Styles demo in options page.
+* Bugfix : spoilers cutoff show/hide text, speed fix.
+* Bugfix : Vertical tabs not showing with jQuery UI themes.
+
 = 0.8.7 =
 * Major changes : Please save the options after updating.
 * Important : [Feature Changes](http://kav.in/u/impr).
@@ -302,6 +314,10 @@ I'd love to hear about it. Please drop me a mail [here](http://kav.in/contact).
 
 
 == Upgrade Notice ==
+
+= 0.8.8 =
+Now Compatible with 3.6 and above. Usual - Save the options, Clear cache. Keep watching GIT for quick updates. http://kav.in/u/wpuigit
+
 
 = 0.8.7 =
 Visit - kav.in/u/impr. Save the options after update, Clear the caches( WP side if using Cache plugins). Thanks.

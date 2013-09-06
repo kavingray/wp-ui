@@ -590,7 +590,7 @@ jQuery( document ).ready(function() {
 	jQuery( '#wpui-editor-dialog' ).wpuiEditor({
 		store	: '#_wpui-editor-dialog'
 	});
-	jQuery( '#wpui-editor-dialog .wpui-reveal' ).live('click', function() {  
+	jQuery( '#wpui-editor-dialog .wpui-reveal' ).on('click', function() {  
 		jQuery( this ).next('div').slideToggle( 'fast' );
 		jQuery( this ).toggleClass( 'toggle-arrow-active' );
 		jQuery( this )

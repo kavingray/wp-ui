@@ -22,7 +22,7 @@
 if(typeof String.prototype.trim !== 'function') {
   String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g, ''); 
-  }
+  };
 }
 
 if (!Array.prototype.indexOf) {
@@ -61,6 +61,18 @@ if (!Array.prototype.indexOf) {
 
 
 (function( $ ) {
+	var msieTemp;
+	if ( typeof $.browser == 'undefined' ) {
+		$.browser = {};
+		msieTemp = /msie ([^\.])./.exec( navigator.userAgent.toLowerCase() );
+		if ( $.isArray( msieTemp ) && msieTemp.length > 1 ) {
+			$.browser = {
+				msie : true,
+				version : parseInt( msieTemp[ 1 ], 10 )
+			};
+		}
+	}
+
 	
 /**
  * jQuery Cookie plugin

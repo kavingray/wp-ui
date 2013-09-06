@@ -106,8 +106,8 @@
 			return str.replace( /^(\.|#)/, '' );
 		},		
 		toggle : function() {
-			var TxT = ( ! this.isOpen() ) ? this.options.showText : this.options.hideText;
-			
+			var TxT = ( this.isOpen() ) ? this.options.showText : this.options.hideText;
+
 			this.header
 				.toggleClass( 'ui-corner-top ui-corner-all ui-state-active' )
 				.children( '.ui-icon' )
