@@ -15,6 +15,10 @@ Easily add Tabs, Accordion, dialogs and spoilers to your posts. With 14 fresh & 
 
 WordPress is a great platform suitable for almost every case of websites out there, ranging from a personal blog to a complex CMS. This plugin started out as a snippet when i needed a way to shorten my posts and make them look more presentable. WP UI plugin for WordPress, right from its first release, is all about user experience and presentation. It takes care of all the not-needed background stuff and makes it ultimately easy to implement wp ui widgets - Tabs, accordions, spoilers, dialogs.  Real power of this plugin lies in the handy functions and shortcodes that deal with posts and feeds.
 
+Please watch [GitHub](http://kav.in/u/wpuigit) repository for quick updates. If you have an issue, Try the version on Git first.
+
+>  New Premium Plugin - [Accordions Plus](http://codecanyon.net/item/accordions-plus-for-wordpress/full_screen_preview/3684077)
+
 >[Documentation](http://kav.in/projects/)  |  [Plugin page](http://kav.in/wp-ui-for-wordpress/)
 
 = Base =
