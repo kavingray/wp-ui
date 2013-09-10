@@ -193,7 +193,7 @@
 				this.$tabs.find( 'ul.ui-tabs-nav' ).sortable({ axis : 'x' });
 			}
 			
-			// this.rotate();
+			this.rotate();
 			
 			if ( $this.hasClass( 'tabs-bottom' ) ) {
 				this.ul.appendTo( this.ul.parent() );
@@ -206,16 +206,45 @@
 			this.ul.children().eq(0).addClass( 'first-li' );
 			this.ul.children().last().addClass( 'last-li' );
 		},
-		rotate			: function() {
+		rotate	: function() {
+			if ( ! ( /tab\-rotate/ ).test( this.element.attr( 'class' ) ) ) return; 
+
+			var baset = this, rSpeed, aRot, hNum, wpuiRotate;
+		
+			rSpeed = this.element.attr( 'class' ).replace( /.*tab\-rotate\-(\d{1,5})s?\s?.*/, "$1" );
+		
+			rSpeed = parseInt( rSpeed, 10 );			
 			
-			var rSpeed = this.element.attr( 'class' ).match( /tab-rotate-(.*)/, "$1" ), aRot;
+			if ( rSpeed < 99 ) rSpeed = rSpeed * 1000;
 			
-			if ( rSpeed ) {
-				rSpeed =  rSpeed[1];
-				if ( rSpeed.match(/(\d){1,2}s/, "$1") ) rSpeed = rSpeed.replace(/s$/, '') * 1000;
+			if ( ! isNaN( rSpeed ) ) {
 				aRot = ( this.o.alwaysRotate == "always" ) ? true : false;
-				this.$tabs.tabs( 'rotate', rSpeed, aRot );
+				// console.log( rSpeed ); 
+				try {
+					this.$tabs.tabs( 'rotate', rSpeed, aRot );
+				} catch (err) {
+					hNum = this.header.length; // Number of tabs.
+					wpuiRotate = setInterval(function () { 
+						var ft = baset.$tabs.tabs( 'option', 'active' ), 
+							tt = ( ++ft == hNum ) ? 0 : ft; 
+							
+						baset.$tabs.tabs( 'option', 'active', tt );
+					}, rSpeed);
+					
+					if ( ! aRot ) { // Stop on click check
+						this.ul.find( 'li a' ).click( function() {
+							clearInterval( wpuiRotate );
+						});
+					} // End stop on click.
+			
+				}
+			
+			
+			
 			}
+			
+			
+			
 	
 	
 		},

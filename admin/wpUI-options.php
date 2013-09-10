@@ -852,8 +852,8 @@ class wpUI_options extends kav_admin_options
 				// wp_enqueue_script('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', array( 'jquery'));
 
 			$admin_deps = array( 'jquery-ui-tabs', 'jquery-ui-dialog', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable' );
-				
-				wp_register_script( 'wpui-script-before', site_url( '?wpui-script=before' ), $admin_deps );
+
+				wp_register_script( 'wpui-script-before', home_url( '?wpui-script=before' ), $admin_deps );
 				wp_enqueue_script( 'admin-wpui-tabs' , $plugin_url . 'js/select/tabs.js', array( 'wpui-script-before' ), WPUI_VER );
 
 			wp_enqueue_script( 'admin-wpui-init' , $plugin_url . 'js/select/init.js', array( 'admin-wpui-tabs'), WPUI_VER );

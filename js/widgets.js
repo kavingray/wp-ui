@@ -1,9 +1,10 @@
-jQuery( function( $ ) {
+wpuiJQ( function( $ ) {
 	
 	$( '.widgets-sortables .wpui-editors' ).wptabs();
 	
 	// $( '.widgets-sortables p.wpui-widget-warning' ).remove();
 	
+	// Selector for manual widget.	
 	var $wpuiMan = $('.widgets-sortables').find('div.widget[id*=wpui-manual-]');
 
 	
@@ -11,14 +12,12 @@ jQuery( function( $ ) {
 		if ( /wpui\-\manual/.test( ui.item.attr( 'id' ) ) ) {
 			el = $( this ).find( '.ui-draggable' );
 
-		 // $wpuiMan = $wpuiMan.add( el );
-			
 			setTimeout(function() {
-	   	   		 proAct = jQuery( el ).data('wpui_activetab');
-	   		    		 	 
-	   	   		 jQuery( el ).find( '.wpui-editors' ).wptabs();
+	   	   		 proAct = $( el ).data('wpui_activetab');
+
+	   	   		 $( el ).find( '.wpui-editors' ).wptabs();
 	   		    		 	
-	   	   		 jQuery( el ).find( '.wpui-editors .ui-tabs' ).tabs( 'option', 'active', proAct || 0 );
+	   	   		 $( el ).find( '.wpui-editors .ui-tabs' ).tabs( 'option', 'active', proAct || 0 );
 				 
 			}, 400);
 		
@@ -26,100 +25,58 @@ jQuery( function( $ ) {
 	
 	});
 
-	 $( '.wpui-search-submit', '.widgets-sortables' ).widgetGetPosts();
+	$( '.wpui-search-submit', '.widgets-sortables' ).widgetGetPosts();
 
 
-	$( '.widgets-sortables' )
-	.not( '#wp_inactive_widgets')
+
+	// Bind the Ajax complete to document. We need the data( third argument : f ) 
+	// That returns undefined when bound to other element.
+	$( document )
 	.ajaxComplete( function( d, e, f ) {
-		dAta = $.deparam( f.data );
+		fdata = $.deparam( f.data );
 		
+		// console.log( fdata ); 
+		if ( fdata[ 'action' ] != 'save-widget' ) return;
 		
-		// if ( dAta[ 'action' ] == 'save-widget')
-		// 	return;
+		$( '.widgets-sortables' )
+		.not( '#wp_inactive_widgets')
+		.each( function() {
+				
+			// Manual Widget
+			if ( fdata[ 'id_base' ] == 'wpui-manual' ) {
+				$( this ).find( 'div.widget[id*=wpui-manual-]' )
+				.each( function() {
+					 $( '.wpui-editors' ).wptabs();
+					 $( '.wpui-editors .ui-tabs' ).tabs( 'option', 'active', $( this ).data('wpui_activetab') || 0 );
+				})
+				.off( 'tabsactivate' )
+				.on( 'tabsactivate', function( e, ui ) {
+						 $( this ).data( 'wpui_activetab', ui.newPanel.index() - 1 ); 
+				});
+			}
 		
-
-		if ( dAta[ 'id_base' ] == 'wpui-manual' ) {
-			$( this )
-			.find( 'div.widget[id*=wpui-manual-]' )
-			.each( function() {
+			// Posts widget
+			if ( fdata[ 'id_base' ] == 'wpui-posts' ) {
+				$( this )
+				.find( 'div.widget[id*=wpui-posts-]' )
+				.each( function() {
+					var re = new RegExp( fdata[ 'widget-id' ], "g" );
+					if ( re.exec( this.id ) ) {
+				   	 	$( this )
+						.find( '.wpui-search-submit' )
+						.widgetGetPosts();						
+					}
 			
-				 proAct = jQuery( this ).data('wpui_activetab');
-			 	 
-				 jQuery( '.wpui-editors' ).wptabs();
-			 	
-				 jQuery( '.wpui-editors .ui-tabs' ).tabs( 'option', 'active', proAct || 0 );
-			 	
+				});			
+			}
 		
-			})
-			.off( 'tabsactivate' )
-			.on( 'tabsactivate', function( e, ui ) {
-					 jQuery( this ).data( 'wpui_activetab', ui.newPanel.index() - 1 ); 
+		
 			
-			});
-		}
-
-
-
-		if ( dAta[ 'id_base' ] == 'wpui-posts' ) {
-
-			$( this )
-			.find( 'div.widget[id*=wpui-posts-]' )
-			.each( function() {
-				var re = new RegExp( dAta[ 'widget-id' ], "g" );
-				if ( re.exec( this.id ) ) {
-			   	 	$( this )
-					.find( '.wpui-search-submit' )
-					.widgetGetPosts();						
-				}
-			
-			});			
-		}
-
-
-
+		});	
+		
 	});
 
 
-
-	// $wpuiMan
-	// .ajaxComplete( function() {
-	// 	 proAct = jQuery( this ).data('wpui_activetab');
-	// 	 	 
-	// 	 jQuery( '.wpui-editors' ).wptabs();
-	// 	 	
-	// 	 jQuery( '.wpui-editors .ui-tabs' ).tabs( 'option', 'active', proAct || 0 );
-	// 	 	
-	// 
-	//  })
-	//  .bind( 'tabsactivate', function( e, ui ) {
-	// 	 jQuery( this ).data( 'wpui_activetab', ui.newPanel.index() - 1 ); 
-	//  });
-
-	
-	
-	
-	// $('.widgets-sortables')
-	// .find( 'div.widget[id*=wpui-posts-]' )
-	// .ajaxStart( function( d, e, f ) {
-	// 
-	// 	console.log( this ); 
-	// 	// re = /wpui\-posts\-/g;
-	// 	// if ( ! re.test( d.target.id ) )
-	// 	// 	return;
-	// 	console.log( d ); 
-	// 	// if ( d.currentTarget.id.match( /wpui\-posts/ ) == null )
-	// 	// return;
-	// 	// 
-	// 	// if ( $.deparam( f.data )[ 'action' ] == 'save-widget' ) {
-	// 	// 	   	 	$( this )
-	// 	// 	.find( '.wpui-search-submit' ).widgetGetPosts();			
-	// 	// } 
-	// 
-	// });
-	// 
-	
-	
 });
 
 (function( $, window, undefined ) {
@@ -310,4 +267,4 @@ jQuery( function( $ ) {
 	
 	
 	
-})( jQuery, window );
+})( wpuiJQ, window );
