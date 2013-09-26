@@ -1,6 +1,6 @@
 var wpui_jqui_custom_theme_warning = false;
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function( $ ) {
 	jQuery( 'div.actions h4' ).next('ul').hide();
 	jQuery( 'div.actions h4' ).click(function() {
 		jQuery( this ).next( 'ul' ).slideToggle(); 
@@ -38,6 +38,46 @@ jQuery(document).ready(function() {
 	});
 
 		
+	$( '.wpui-install-updater' ).on( 'click', function() {
+		var base = this;
+		$( base ).find( 'span.status' ).show();
+		
+		data = {
+			action : 'wpui_activate_updater',
+			nonce : $( base ).next( 'input[type="hidden"]' ).val() 
+		};
+		
+		$.post( ajaxurl, data, function( resp ) {
+			console.log( resp ); 
+			resp = JSON.parse( resp );
+
+			$.colorbox({
+				title : '<span>' + resp.status + '</span>',
+				html : '<div style="background : #DEDEDE; padding:20px;">' + resp.message + '</div>'
+			});
+			
+			setTimeout(function () {
+				$.colorbox.close();
+			}, 3000);
+			
+			
+			$( base )
+			.attr( 'href', ajaxurl.replace( 'admin-ajax.php', 'index.php?page=wpui_updates' ) )
+			.toggleClass( 'wpui-updater-link wpui-open-updater' )
+			.find( 'span.message' )
+			.text( 'Open Updater' )
+			.end()		
+			.find( 'span.status' )
+			.hide();
+			
+		});
+		
+		
+		
+		return false;
+	});
+	
+			
 		window.ste_skins = function(skin_name) {
 			jQuery('#tab_scheme option').each(function() {
 				if ( jQuery(this).attr("value") == skin_name )

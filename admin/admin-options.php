@@ -78,13 +78,11 @@ class kav_admin_options
 
 	function script_action() {
 		do_action( 'plugin_' . $this->page_prefix . '_load_scripts' );
-
 		if ( file_exists( str_ireplace( ".php", ".js", __FILE__ ) ) ) {
-			$HOST = ( is_ssl() ? 'https' : 'http' ) . '://' .  $_SERVER[ 'HTTP_HOST' ];
-			$js_file = $HOST . str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', str_ireplace( '.php', '.js', __FILE__ ) );
-
-			wp_enqueue_script( $this->page_prefix . "_option_js", $js_file );
-		}
+			$filename =  str_ireplace( ".php", ".js", basename( __FILE__ ) );
+			$js_url = trailingslashit( plugin_dir_url( __FILE__ ) ) . $filename;
+			wp_enqueue_script( $this->page_prefix . "_option_js", $js_url );
+		}		
 	}
 
 

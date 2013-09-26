@@ -782,4 +782,123 @@ function wpui_get_html_attrs( $attr ) {
 	return implode( " ",  preg_replace('/^(.*)$/e', ' "$1=\"". $attr["$1"]."\"" ', array_flip( $attr) ) );
 } // END function wpui_get_html_attrs
 
+
+define( 'IDQ_DEBUG', false );
+
+/**
+ * Spew out Debug messages.
+ *
+ * @return void
+ * @author Kavin Gray
+ **/
+if ( ! function_exists( 'idq_debug' ) ) {
+	function idq_debug( $rtn=true, $msg=false ) {
+		if ( ! IDQ_DEBUG ) return;
+		echo "<pre>";
+		var_export( $msg ? $msg : error_get_last() );
+		echo '</pre>';
+		return $rtn;
+	} // END function idq_debug
+}
+
+/**
+ * Delete a file/directory
+ *
+ * @return boolean
+ * @author Kavin Gray
+ **/
+if ( ! function_exists( 'idq_delete' ) ) {
+	function idq_delete( $target ) {
+		if ( ! file_exists( $target ) ) return idq_debug( false );
+		if ( ! is_dir( $target ) ) {
+			return unlink( $target );
+		} else {
+			foreach ( scandir( $target ) as $item ) {
+				if ( $item == '.' || $item == '..' ) continue;
+				if ( ! idq_delete( $target . DIRECTORY_SEPARATOR . $item ) ) {
+					return idq_debug( false );
+				}
+			}
+			@rmdir( $target );
+		}
+		return true;	
+	} // END function idq_delete
+}
+
+
+/**
+ * Copy a file or directory to another location
+ *
+ * @return boolean : True for success.
+ * @author Kavin Gray
+ **/
+if ( ! function_exists( 'idq_copy' ) ) {
+	function idq_copy( $source, $destination, $overwrite=true, $debug=true ) {
+		if ( ! file_exists( $source ) ) idq_debug( false );;
+		if ( file_exists( $destination ) ) {
+			if ( ! $overwrite ) idq_debug( false, array( 'type' => 2, 'message' => 'File exists, But overwrite is not turned on.' ) );
+			else idq_delete( $destination );
+		}
+		// Copying a file.
+		if ( ! is_dir( $source ) ) {
+			copy( $source, $destination );
+		} else {
+			if ( $overwrite ) idq_delete( $destination );
+			if ( ! mkdir( $destination ) ) idq_debug( false );
+			foreach ( scandir( $source ) as $item ) {
+				if ($item == '.' || $item == '..') continue;
+				if ( ! idq_copy( $source . DIRECTORY_SEPARATOR . $item, $destination . DIRECTORY_SEPARATOR . $item ) ) {
+					idq_debug( false );
+				}
+			}
+		}
+	
+		return true;	
+	} // END function idq_copy
+}
+
+// idq_copy( wpui_dir( 'inc/wpui-updater' ), WP_CONTENT_DIR  );
+
+
+// idq_copy( wpui_dir( 'inc/' ), WP_CONTENT_DIR . '/inc' );
+
+
+// idq_delete( WP_CONTENT_DIR . '/inc' );
+// include_once ABSPATH.'/wp-admin/includes/plugin.php';
+
+
+
+add_action( 'wp_ajax_wpui_activate_updater', 'wpui_install_updater' );
+
+/**
+ * Install & Activate the updater plugin.
+ *
+ * @return void
+ * @author Kavin Gray
+ **/
+function wpui_install_updater() {
+
+	// include_once( ABSPATH . 'wp-admin/includes/file.php' );
+
+	// WP_Filesystem();
+	// global $wp_filesystem;
+
+	$copy_plugin = idq_copy( wpui_dir( 'inc/wpui-updater/' ), WP_CONTENT_DIR . '/plugins/wpui-updater' );
+	
+	if ( ! $copy_plugin ) {
+		echo json_encode( array(
+			'status' => 'error',
+			'message' => 'Copying the plugin <code>wpui-updater</code> to Plugins directory failed. Please copy manually.'
+		));
+		die( -1 );
+	}
+	
+	$activate = activate_plugin( WP_PLUGIN_DIR . '/wpui-updater/wpui-updater.php' );
+	
+	echo json_encode( is_wp_error( $activate ) ? array( 'status' => 'error', 'message' => 'Failed to activate plugin. Please Activate the plugin "WP UI Updater" from plugins page' ) : array( 'status' => 'success', 'message' => 'Plugin <code>WP UI Updater</code> was Successfully installed and activated!' ) ); 
+
+	die( 0 );
+} // END function wpui_install_updater
+
+
 ?>

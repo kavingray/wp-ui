@@ -1224,11 +1224,22 @@ function wpui_plugin_info_below() {
 
 		<!-- #wpui-options-sidebar-wrap -->
 		<div id="wpui-options-sidebar-wrap">
-
-
-
-
-
+			<?php $upclassd = class_exists( 'WPUI_Git_Updater' );
+			if ( ! $upclassd ) { ?>
+				<a href="#" class="wpui-updater-link wpui-install-updater">
+				<span class="status"><img src="<?php echo wpui_url( "images/ajax-loader.gif" ); ?>" /></span>
+				<span class="message">Install Updater</span>
+				<span class="status"><img src="<?php echo wpui_url( "images/ajax-loader.gif" ); ?>" /></span>
+			<?php } else { ?>
+				<a href="<?php echo admin_url( 'index.php?page=wpui_updates' ); ?>" class="wpui-updater-link">
+				<span class="message">Launch Updater</span>
+			<?php } ?>
+				<span class="byline">Install/update/version toggle WP UI.</span>
+			</a>
+			
+			<?php if ( ! $upclassd ) { ?>
+			<input type="hidden" id="wpui_updater_nonce" value="<?php echo wp_create_nonce( 'wpui_updater_nonce' ); ?>">
+			<?php } ?>
 
 
 
