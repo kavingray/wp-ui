@@ -621,102 +621,6 @@
 
 
 
-	$.idQrk.hashWatch = function() {
-		if ( typeof( $.bbq ) == 'undefined' ) return false;
-		
-		if ( typeof wpUIOpts != 'undefined' 
-			&& typeof wpUIOpts.linking_history != 'undefined' 
-			&& wpUIOpts.linking_history == 'off' )
-				return false;
-		
-				
-		$( window ).bind( 'hashchange', function() {
-			var hsh = $.bbq.getState(), el;
-			
-			for ( su in hsh ) {
-				var argu = [], fn_name;
-				
-				el = $( '#' + su ); 
-				aEl = el.parent();
-
-
-				// Tabs panel
-				if ( el.is( '.ui-tabs-panel' ) ) {
-					// el.parent().tabs( 'select', ( el.index() - 1 ) );
-					fn_name = 'tabs';
-					argu = [  'option', 'active', ( el.index() - 1 ) ];
-				}
-				
-				// Tabs
-				if ( el.is( ".wp-tabs" ) ) {
-					aEl = el.children( '.ui-tabs' );
-					fn_name = 'tabs';
-				}
-				
-				// Accordion header.
-				if ( el.is( 'h3.wp-tab-title.ui-accordion-header' ) ) {
-					// el.parent().accordion( 'activate', ( el.index() - 1 ) );
-					fn_name = 'accordion';
-					argu = [ 'activate', ( el.index() - 1 ) ];
-				}
-				
-				// Accordions
-				if ( el.is( '.wp-accordion' ) ) {
-					fn_name = 'accordion';
-					aEl = el.children( '.ui-accordion' );
-				}
-				
-				// Spoiler
-				if ( el.parent().is( '.wp-spoiler' ) ) {
-					// el.parent().wpspoiler( 'toggle' );
-					fn_name = 'wpspoiler';
-					argu = [ 'toggle' ];
-				}
-				
-				// Dialog		
-				if ( el.is( '.wp-dialog' ) ) {
-					aEl = el;
-					fn_name = 'dialog';
-					// el.dialog( 'close' );
-					argu = [ ( el.dialog( "isOpen" ) ) ? "close" : 'open' ];
-				}
-				
-				if ( hsh[su] != false ) {
-					argu = hsh[ su ].split( "::" );
-				}
-				
-				try {
-					if ( typeof fn_name != 'undefined' )
-						$.fn[ fn_name ].apply( aEl, argu );					
-				} catch ( err ) {
-					console.log( "WP UI error: " + err );
-				} 
-
-				
-			};
-
-			if ( typeof el == 'object' && el.length )
-			$.wpui.scrollTo( el.attr( 'id' ) );
-			
-		}).trigger( 'hashchange' );
-
-		
-	};
-
-
-	$( function() {
-		var tmout = 1000;
-		if ( typeof( wpUIOpts ) != 'undefined' && 
-		 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
-		 		typeof( wpUIOpts.misc_opts.hashing_timeout ) != 'undefined' ) {
-					tmout = wpUIOpts.misc_opts.hashing_method;
-		}
-		setTimeout(function() {
-			$.idQrk.hashWatch();
-		}, tmout);
-	
-	});
-
 
 	$.wpui.scrollTo = function( id, callback ) {
 		callback = callback || false;
@@ -1431,13 +1335,113 @@ if ( typeof wpUIOpts == 'object' && wpUIOpts.docWriteFix == 'on' ) {
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
-(function($,e,b){var c="hashchange",h=document,f,g=$.event.special,i=h.documentMode,d="on"+c in e&&(i===b||i>7);function a(j){j=j||location.href;return"#"+j.replace(/^[^#]*#?(.*)$/,"$1")}$.fn[c]=function(j){return j?this.bind(c,j):this.trigger(c)};$.fn[c].delay=50;g[c]=$.extend(g[c],{setup:function(){if(d){return false}$(f.start)},teardown:function(){if(d){return false}$(f.stop)}});f=(function(){var j={},p,m=a(),k=function(q){return q},l=k,o=k;j.start=function(){p||n()};j.stop=function(){p&&clearTimeout(p);p=b};function n(){var r=a(),q=o(m);if(r!==m){l(m=r,q);$(e).trigger(c)}else{if(q!==m){location.href=location.href.replace(/#.*/,"")+q}}p=setTimeout(n,$.fn[c].delay)}$.browser.msie&&!d&&(function(){var q,r;j.start=function(){if(!q){r=$.fn[c].src;r=r&&r+a();q=$('<iframe tabindex="-1" title="empty"/>').hide().one("load",function(){r||l(a());n()}).attr("src",r||"javascript:0").insertAfter("body")[0].contentWindow;h.onpropertychange=function(){try{if(event.propertyName==="title"){q.document.title=h.title}}catch(s){}}}};j.stop=k;o=function(){return a(q.location.href)};l=function(v,s){var u=q.document,t=$.fn[c].domain;if(v!==s){u.title=h.title;u.open();t&&u.write('<script>document.domain="'+t+'"<\/script>');u.close();q.location.hash=v}}})();return j})()})(jQuery,this);
+(function($,e,b){var c="hashchange",h=document,f,g=$.event.special,i=h.documentMode,d="on"+c in e&&(i===b||i>7);function a(j){j=j||location.href;return"#"+j.replace(/^[^#]*#?(.*)$/,"$1")}$.fn[c]=function(j){return j?this.bind(c,j):this.trigger(c)};$.fn[c].delay=50;g[c]=$.extend(g[c],{setup:function(){if(d){return false}$(f.start)},teardown:function(){if(d){return false}$(f.stop)}});f=(function(){var j={},p,m=a(),k=function(q){return q},l=k,o=k;j.start=function(){p||n()};j.stop=function(){p&&clearTimeout(p);p=b};function n(){var r=a(),q=o(m);if(r!==m){l(m=r,q);$(e).trigger(c)}else{if(q!==m){location.href=location.href.replace(/#.*/,"")+q}}p=setTimeout(n,$.fn[c].delay)}$.browser.msie&&!d&&(function(){var q,r;j.start=function(){if(!q){r=$.fn[c].src;r=r&&r+a();q=$('<iframe tabindex="-1" title="empty"/>').hide().one("load",function(){r||l(a());n()}).attr("src",r||"javascript:0").insertAfter("body")[0].contentWindow;h.onpropertychange=function(){try{if(event.propertyName==="title"){q.document.title=h.title}}catch(s){}}}};j.stop=k;o=function(){return a(q.location.href)};l=function(v,s){var u=q.document,t=$.fn[c].domain;if(v!==s){u.title=h.title;u.open();t&&u.write('<script>document.domain="'+t+'"<\/script>');u.close();q.location.hash=v}}})();return j})()})($,this);
 
 $.fn.extend({
     hashchange : function(fn) {
         return fn ? this.bind("hashchange", fn) : this.trigger("hashchange");
     }
 });
+
+
+
+$.idQrk.hashWatch = function() {
+	if ( typeof( $.bbq ) == 'undefined' ) return false;
+	
+	if ( typeof wpUIOpts != 'undefined' 
+		&& typeof wpUIOpts.linking_history != 'undefined' 
+		&& wpUIOpts.linking_history == 'off' )
+			return false;
+	
+			
+	$( window ).bind( 'hashchange', function() {
+		var hsh = $.bbq.getState(), el;
+		
+		for ( su in hsh ) {
+			var argu = [], fn_name;
+			
+			el = $( '#' + su ); 
+			aEl = el.parent();
+
+
+			// Tabs panel
+			if ( el.is( '.ui-tabs-panel' ) ) {
+				// el.parent().tabs( 'select', ( el.index() - 1 ) );
+				fn_name = 'tabs';
+				argu = [  'option', 'active', ( el.index() - 1 ) ];
+			}
+			
+			// Tabs
+			if ( el.is( ".wp-tabs" ) ) {
+				aEl = el.children( '.ui-tabs' );
+				fn_name = 'tabs';
+			}
+			
+			// Accordion header.
+			if ( el.is( 'h3.wp-tab-title.ui-accordion-header' ) ) {
+				// el.parent().accordion( 'activate', ( el.index() - 1 ) );
+				fn_name = 'accordion';
+				argu = [ 'option', 'active', el.index( 'h3.wp-tab-title.ui-accordion-header' ) ];
+			}
+			
+			// Accordions
+			if ( el.is( '.wp-accordion' ) ) {
+				fn_name = 'accordion';
+				aEl = el.children( '.ui-accordion' );
+			}
+			
+			// Spoiler
+			if ( el.parent().is( '.wp-spoiler' ) ) {
+				// el.parent().wpspoiler( 'toggle' );
+				fn_name = 'wpspoiler';
+				argu = [ 'toggle' ];
+			}
+			
+			// Dialog		
+			if ( el.is( '.wp-dialog' ) ) {
+				aEl = el;
+				fn_name = 'dialog';
+				// el.dialog( 'close' );
+				argu = [ ( el.dialog( "isOpen" ) ) ? "close" : 'open' ];
+			}
+			
+			if ( hsh[su] != false ) {
+				argu = hsh[ su ].split( "::" );
+			}
+			
+			try {
+				if ( typeof fn_name != 'undefined' )
+					$.fn[ fn_name ].apply( aEl, argu );					
+			} catch ( err ) {
+				console.log( "WP UI error: " + err );
+			} 
+
+			
+		};
+
+		if ( typeof el == 'object' && el.length )
+		$.wpui.scrollTo( el.attr( 'id' ) );
+		
+	}).trigger( 'hashchange' );
+
+	
+};
+
+
+$( function() {
+	var tmout = 1000;
+	if ( typeof( wpUIOpts ) != 'undefined' && 
+	 		typeof( wpUIOpts.misc_opts ) != 'undefined' &&
+	 		typeof( wpUIOpts.misc_opts.hashing_timeout ) != 'undefined' ) {
+				tmout = wpUIOpts.misc_opts.hashing_method;
+	}
+	setTimeout(function() {
+		$.idQrk.hashWatch();
+	}, tmout);
+
+});
+
+
 
 /*
  *	JSON Library
