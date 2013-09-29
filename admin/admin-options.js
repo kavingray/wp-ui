@@ -7,7 +7,6 @@
  */
 
 
-alert('sdssdsds');
 /**
  *	Section 1 : Colorpicker
  */
