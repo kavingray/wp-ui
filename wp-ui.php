@@ -88,7 +88,7 @@ class wpUI {
 		include_once( ABSPATH . WPINC . '/feed.php' );
 
 		global $pagenow;
-		$load_demo_page = ( $pagenow == 'admin-ajax.php' && ! empty( $_GET ) && $_GET[ 'action' ] == 'wpui_styles_demo' );
+		$load_demo_page = ( $pagenow == 'admin-ajax.php' && ! empty( $_GET ) && isset($_GET[ 'action' ]) && $_GET[ 'action' ] == 'wpui_styles_demo' );
 		/**
 		 * Load scripts and styles.
 		 */
